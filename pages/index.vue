@@ -30,7 +30,7 @@
             <span class="h-2 w-2 rounded-full bg-amber-300"></span>
             Dounia Market — Diaspora
           </p>
-          <h1 class="mt-6 text-4xl font-black leading-tight sm:text-5xl md:text-6xl">
+          <h1 class="mt-6 text-4xl font-black leading-tight text-white sm:text-5xl md:text-6xl">
             {{ heroSlides[currentSlide].titleText }}
           </h1>
           <p class="mt-5 max-w-2xl text-base text-white/80 md:text-lg">
@@ -143,7 +143,7 @@
         <div class="flex flex-col items-start justify-between gap-8 md:flex-row md:items-center">
           <div class="max-w-2xl">
             <p class="text-xs font-semibold uppercase tracking-[0.16em] text-amber-300">Prêt à commander</p>
-            <h2 class="mt-3 text-3xl font-extrabold leading-tight md:text-4xl">Offrez le meilleur à ceux que vous aimez</h2>
+            <h2 class="mt-3 text-3xl font-extrabold leading-tight text-white md:text-4xl">Offrez le meilleur à ceux que vous aimez</h2>
             <p class="mt-3 text-white/70">Passez à une logistique moderne, fiable et chaleureuse avec Dounia Market.</p>
           </div>
           <NuxtLink to="/catalogue" class="btn-primary">
