@@ -26,99 +26,102 @@
         >
           <div 
             v-if="modelValue" 
-            class="absolute inset-y-0 left-0 w-4/5 max-w-sm bg-white shadow-2xl flex flex-col h-full overflow-hidden"
+            class="absolute inset-y-0 left-0 w-4/5 max-w-sm bg-white shadow-2xl flex flex-col h-full overflow-hidden border-r border-gray-100"
           >
-            <!-- Header -->
-            <div class="px-5 py-6 bg-[var(--color-primary)] text-white flex items-center justify-between">
+            <!-- Header with Premium Gradient -->
+            <div class="px-6 pt-10 pb-8 bg-slate-900 text-white relative overflow-hidden">
+              <div class="absolute top-0 right-0 w-32 h-32 bg-[var(--color-accent)] opacity-10 blur-3xl rounded-full -translate-y-1/2 translate-x-1/2"></div>
+              
+              <div class="relative z-10 flex items-center justify-between mb-8">
+                <img src="/logo.png" alt="Logo" class="h-8 w-auto brightness-0 invert" />
+                <button @click="close" class="w-10 h-10 rounded-2xl bg-white/10 flex items-center justify-center hover:bg-white/20 transition-all active:scale-90">
+                  <X class="w-5 h-5 text-white" />
+                </button>
+              </div>
+ 
               <template v-if="authStore.isAuthenticated">
-                <div class="flex items-center gap-3">
-                  <div class="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center font-bold text-lg">
+                <div class="relative z-10 flex items-center gap-4">
+                  <div class="w-14 h-14 rounded-2xl bg-[var(--color-accent)] flex items-center justify-center font-black text-xl shadow-lg shadow-amber-500/20">
                     {{ authStore.initials }}
                   </div>
                   <div>
-                    <p class="font-bold pr-2 leading-tight">{{ authStore.fullName }}</p>
-                    <p class="text-xs text-slate-300">Bienvenue sur TchadBox</p>
+                    <p class="text-xs font-black text-white/50 uppercase tracking-[0.2em] mb-1">Votre Espace</p>
+                    <p class="text-xl font-black text-white leading-tight tracking-tight">{{ authStore.fullName }}</p>
                   </div>
                 </div>
               </template>
               <template v-else>
-                <div>
-                  <h2 class="text-lg font-bold">Mon Compte</h2>
-                  <p class="text-xs text-slate-300">Connectez-vous pour continuer</p>
+                <div class="relative z-10">
+                  <p class="text-xs font-black text-white/50 uppercase tracking-[0.2em] mb-2">Bienvenue sur</p>
+                  <h2 class="text-2xl font-black text-white tracking-tighter italic">DOUNIA MARKET</h2>
                 </div>
               </template>
-              <button @click="close" class="p-2 -mr-2 text-white/70 hover:text-white bg-white/10 rounded-full">
-                <X class="w-5 h-5" />
-              </button>
             </div>
-
+ 
             <!-- Body Scrollable -->
-            <div class="flex-1 overflow-y-auto w-full">
+            <div class="flex-1 overflow-y-auto w-full custom-scrollbar">
               
-              <div v-if="!authStore.isAuthenticated" class="p-5 border-b border-gray-100">
-                <NuxtLink to="/auth/login" @click="close" class="btn-primary w-full shadow-md text-sm text-center block">
+              <div v-if="!authStore.isAuthenticated" class="p-6">
+                <NuxtLink 
+                  to="/auth/login" 
+                  @click="close" 
+                  class="flex items-center justify-center gap-3 w-full py-4 bg-gray-900 text-white font-black rounded-2xl shadow-xl hover:bg-gray-800 transition-all uppercase tracking-widest text-[10px]"
+                >
+                  <User class="w-4 h-4" />
                   Se connecter
                 </NuxtLink>
               </div>
               
-              <!-- Compte -->
-              <div class="py-2 border-b border-gray-100" v-if="authStore.isAuthenticated">
-                <h3 class="px-5 py-2 text-xs font-bold text-gray-400 uppercase tracking-wider">Mon Profil</h3>
-                <NuxtLink to="/compte" @click="close" class="flex items-center gap-4 px-5 py-3 hover:bg-gray-50 text-gray-700">
-                  <LayoutDashboard class="w-5 h-5 text-gray-400" /> 
-                  <span class="font-medium">Tableau de bord</span>
+              <!-- Navigation Principale -->
+              <div class="py-4 px-3">
+                <NuxtLink to="/" @click="close" class="flex items-center gap-4 px-4 py-3.5 rounded-2xl hover:bg-slate-50 text-gray-900 transition-all group">
+                  <div class="w-10 h-10 rounded-xl bg-slate-50 flex items-center justify-center group-hover:bg-white group-hover:shadow-sm transition-all">
+                    <Home class="w-5 h-5 text-slate-400 group-hover:text-gray-900" />
+                  </div>
+                  <span class="font-black text-xs uppercase tracking-widest">Accueil</span>
                 </NuxtLink>
-                <NuxtLink to="/compte/commandes" @click="close" class="flex items-center gap-4 px-5 py-3 hover:bg-gray-50 text-gray-700">
-                  <Package class="w-5 h-5 text-gray-400" /> 
-                  <span class="font-medium">Mes Commandes</span>
+                <NuxtLink to="/catalogue" @click="close" class="flex items-center gap-4 px-4 py-3.5 rounded-2xl hover:bg-slate-50 text-gray-900 transition-all group">
+                  <div class="w-10 h-10 rounded-xl bg-slate-50 flex items-center justify-center group-hover:bg-white group-hover:shadow-sm transition-all">
+                    <Package class="w-5 h-5 text-slate-400 group-hover:text-gray-900" />
+                  </div>
+                  <span class="font-black text-xs uppercase tracking-widest">Catalogue</span>
                 </NuxtLink>
-                <NuxtLink to="/favoris" @click="close" class="flex items-center gap-4 px-5 py-3 hover:bg-gray-50 text-gray-700">
-                  <Heart class="w-5 h-5 text-gray-400" /> 
-                  <span class="font-medium">Mes Favoris</span>
+              </div>
+ 
+              <!-- Compte & Favoris -->
+              <div class="py-4 px-3 border-t border-gray-50" v-if="authStore.isAuthenticated">
+                <p class="px-4 mb-2 text-[10px] font-black text-gray-400 uppercase tracking-[0.2em]">Espace Client</p>
+                <NuxtLink to="/compte" @click="close" class="flex items-center gap-4 px-4 py-3.5 rounded-2xl hover:bg-slate-50 text-gray-900 transition-all group">
+                  <LayoutDashboard class="w-5 h-5 text-slate-400 group-hover:text-gray-900" /> 
+                  <span class="font-bold text-sm">Tableau de bord</span>
                 </NuxtLink>
-                <button @click="handleLogout" class="w-full flex items-center gap-4 px-5 py-3 hover:bg-red-50 text-red-600 outline-none">
-                  <LogOut class="w-5 h-5" /> 
-                  <span class="font-medium">Déconnexion</span>
+                <NuxtLink to="/favoris" @click="close" class="flex items-center gap-4 px-4 py-3.5 rounded-2xl hover:bg-slate-50 text-gray-900 transition-all group">
+                  <Heart class="w-5 h-5 text-slate-400 group-hover:text-gray-900" /> 
+                  <span class="font-bold text-sm">Ma liste d'envies</span>
+                </NuxtLink>
+              </div>
+ 
+              <!-- Aide & Support -->
+              <div class="py-4 px-3 border-t border-gray-50">
+                <p class="px-4 mb-2 text-[10px] font-black text-gray-400 uppercase tracking-[0.2em]">Assistance</p>
+                <NuxtLink to="/suivi" @click="close" class="flex items-center gap-4 px-4 py-3.5 rounded-2xl hover:bg-slate-50 text-gray-900 transition-all group">
+                  <MapPinned class="w-5 h-5 text-slate-400 group-hover:text-gray-900" /> 
+                  <span class="font-bold text-sm">Suivre un colis</span>
+                </NuxtLink>
+                <NuxtLink to="/contact" @click="close" class="flex items-center gap-4 px-4 py-3.5 rounded-2xl hover:bg-slate-50 text-gray-900 transition-all group">
+                  <HelpCircle class="w-5 h-5 text-slate-400 group-hover:text-gray-900" /> 
+                  <span class="font-bold text-sm">Nous contacter</span>
+                </NuxtLink>
+              </div>
+ 
+              <!-- Logout -->
+              <div v-if="authStore.isAuthenticated" class="p-6">
+                <button @click="handleLogout" class="flex items-center justify-center gap-3 w-full py-4 bg-red-50 text-red-600 font-black rounded-2xl hover:bg-red-100 transition-all uppercase tracking-widest text-[10px]">
+                  <LogOut class="w-4 h-4" /> 
+                  Déconnexion
                 </button>
               </div>
-
-              <!-- Aide & Assistance -->
-              <div class="py-2 border-b border-gray-100">
-                <h3 class="px-5 py-2 text-xs font-bold text-gray-400 uppercase tracking-wider">Assistance & Aide</h3>
-                <NuxtLink to="/suivi" @click="close" class="flex items-center gap-4 px-5 py-3 hover:bg-gray-50 text-gray-700">
-                  <MapPinned class="w-5 h-5 text-gray-400" /> 
-                  <span class="font-medium">Suivre ma commande</span>
-                </NuxtLink>
-                <NuxtLink to="/comment-ca-marche" @click="close" class="flex items-center gap-4 px-5 py-3 hover:bg-gray-50 text-gray-700">
-                  <HelpCircle class="w-5 h-5 text-gray-400" /> 
-                  <span class="font-medium">Centre d'aide (FAQ)</span>
-                </NuxtLink>
-                <NuxtLink to="/conditions" @click="close" class="flex items-center gap-4 px-5 py-3 hover:bg-gray-50 text-gray-700">
-                  <Shield class="w-5 h-5 text-gray-400" /> 
-                  <span class="font-medium">Politique de retour</span>
-                </NuxtLink>
-              </div>
-
-              <!-- Nos Catégories -->
-              <div class="py-2 bg-gray-50">
-                <h3 class="px-5 py-3 text-xs font-bold text-gray-400 uppercase tracking-wider flex justify-between items-center">
-                  <span>Nos Catégories</span>
-                  <NuxtLink to="/catalogue" @click="close" class="text-[var(--color-accent-dark)] lowercase text-[10px]">Voir tout</NuxtLink>
-                </h3>
-                <NuxtLink to="/catalogue" @click="close" class="flex items-center gap-4 px-5 py-3 hover:bg-white text-gray-700 border-b border-gray-100/50">
-                  <ShoppingCart class="w-5 h-5 text-gray-400" /> 
-                  <span class="font-medium">Supermarché & Alimentaire</span>
-                </NuxtLink>
-                <NuxtLink to="/catalogue" @click="close" class="flex items-center gap-4 px-5 py-3 hover:bg-white text-gray-700 border-b border-gray-100/50">
-                  <Zap class="w-5 h-5 text-gray-400" /> 
-                  <span class="font-medium">Électroménager</span>
-                </NuxtLink>
-                <NuxtLink to="/catalogue" @click="close" class="flex items-center gap-4 px-5 py-3 hover:bg-white text-gray-700 border-b border-gray-100/50">
-                  <Hammer class="w-5 h-5 text-gray-400" /> 
-                  <span class="font-medium">BTP & Construction</span>
-                </NuxtLink>
-              </div>
-
+ 
             </div>
           </div>
         </Transition>
