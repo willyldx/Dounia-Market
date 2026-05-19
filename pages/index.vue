@@ -72,7 +72,7 @@
             <p class="mt-2 text-sm font-bold text-slate-500 uppercase tracking-widest">{{ item.label }}</p>
           </div>
         </div>
-      </div></div>
+      </div>
     </section>
 
     <section class="py-20">

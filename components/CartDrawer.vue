@@ -173,7 +173,7 @@
 </template>
 
 <script setup lang="ts">
-import { ShoppingBag, X, Package, Trash2, Minus, Plus, Truck, Check, Lock } from 'lucide-vue-next'
+import { ShoppingBag, X, Package, Trash2, Minus, Plus, Truck, Check, Lock, ArrowRight } from 'lucide-vue-next'
 import { useCartStore } from '~/stores/cart'
 
 const cartStore = useCartStore()

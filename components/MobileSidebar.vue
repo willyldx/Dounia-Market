@@ -133,7 +133,7 @@
 <script setup lang="ts">
 import { 
   X, User, LayoutDashboard, Package, Heart, LogOut, 
-  MapPinned, HelpCircle, Shield, ShoppingCart, Zap, Hammer 
+  MapPinned, HelpCircle, Shield, ShoppingCart, Zap, Hammer, Home 
 } from 'lucide-vue-next'
 import { useAuthStore } from '~/stores/auth'
 
