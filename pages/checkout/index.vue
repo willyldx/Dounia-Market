@@ -47,12 +47,12 @@
             </div>
             
             <div class="relative">
-              <input v-model="form.email" type="email" id="email" :class="['peer checkout-input', { 'checkout-input--error': errors.email }]" placeholder=" " required @blur="validateStep1" />
+              <input v-model="form.email" type="email" id="email" class="peer checkout-input" placeholder=" " required />
               <label for="email" class="checkout-label">Adresse e-mail sécurisée</label>
             </div>
             
             <div class="relative">
-              <input v-model="form.phone" type="tel" id="phone" :class="['peer checkout-input', { 'checkout-input--error': errors.phone }]" placeholder=" " required @blur="validateStep1" />
+              <input v-model="form.phone" type="tel" id="phone" class="peer checkout-input" placeholder=" " required />
               <label for="phone" class="checkout-label">Téléphone (avec indicatif)</label>
             </div>
           </div>
@@ -74,7 +74,7 @@
                 <label for="rn" class="checkout-label bg-transparent">Nom du bénéficiaire</label>
               </div>
               <div class="relative">
-                <input v-model="form.recipientPhone" type="tel" id="rp" :class="['peer checkout-input bg-gray-50 border-transparent focus:bg-white', { 'checkout-input--error': errors.recipientPhone }]" placeholder=" " />
+                <input v-model="form.recipientPhone" type="tel" id="rp" class="peer checkout-input bg-gray-50 border-transparent focus:bg-white" placeholder=" " />
                 <label for="rp" class="checkout-label bg-transparent">Portable du bénéficiaire</label>
               </div>
             </div>
@@ -571,16 +571,8 @@ async function submitOrder() {
   @apply block w-full px-5 pt-7 pb-2.5 text-sm font-bold text-gray-900 bg-white border border-gray-200 rounded-[1rem] appearance-none focus:outline-none focus:ring-2 focus:ring-gray-900 focus:border-transparent transition-all;
 }
 
-.checkout-input--error {
-  @apply border-red-300 focus:ring-red-500 bg-red-50/30;
-}
-
 .checkout-label {
   @apply absolute text-gray-400 font-medium text-sm duration-200 transform -translate-y-3.5 scale-[0.8] top-4 z-10 origin-[0] left-5 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-placeholder-shown:text-gray-500 peer-focus:scale-[0.8] peer-focus:-translate-y-3.5 peer-focus:text-gray-900 pointer-events-none;
-}
-
-.checkout-input--error ~ .checkout-label {
-  @apply text-red-500;
 }
 
 /* Custom Scrollbar for Cart sidebar */

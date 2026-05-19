@@ -197,6 +197,32 @@ const fetchDeliveries = async () => {
 }
 
 
+// Map order from database (legacy, préférer normalizeOrder)
+const mapOrder = (o: any): Order => ({
+  id: o.id,
+  displayId: o.display_id || o.id?.slice(0, 8).toUpperCase(),
+  status: o.status,
+  paymentStatus: o.payment_status,
+  fulfillmentStatus: o.fulfillment_status,
+  items: [],
+  shippingAddress: o.shipping_address,
+  subtotal: Number(o.subtotal) || 0,
+  shippingTotal: Number(o.shipping_total) || 0,
+  total: Number(o.total) || 0,
+  currency: o.currency || 'EUR',
+  createdAt: o.created_at,
+  updatedAt: o.updated_at,
+  email: o.email,
+  customerFirstName: o.customer_first_name,
+  customerLastName: o.customer_last_name,
+  recipientName: o.recipient_name || 'Non spécifié',
+  recipientPhone: o.recipient_phone || '-',
+  assignedTo: o.assigned_to,
+  assignedAt: o.assigned_at,
+  deliveredAt: o.delivered_at,
+  deliveryPhoto: o.delivery_photo
+})
+
 // Helpers
 const formatPrice = (amount: number) => {
   return useCartStore().formatPrice(amount || 0)

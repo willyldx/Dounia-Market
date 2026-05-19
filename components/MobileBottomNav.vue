@@ -1,36 +1,36 @@
 <template>
-  <nav class="fixed bottom-4 left-4 right-4 bg-white/80 backdrop-blur-xl border border-white/20 shadow-[0_8px_32px_rgba(0,0,0,0.1)] z-[90] lg:hidden rounded-2xl overflow-hidden ring-1 ring-black/5">
+  <nav class="fixed bottom-0 left-0 w-full bg-white border-t border-gray-100 shadow-[0_-4px_20px_rgba(0,0,0,0.05)] z-[90] lg:hidden pb-safe">
     <div class="flex items-center justify-between px-2 h-16">
       <!-- Accueil -->
-      <NuxtLink to="/" class="flex-1 flex flex-col items-center justify-center gap-1 h-full transition-colors nav-item" :class="route.path === '/' ? 'text-gray-900' : 'text-gray-400'">
-        <Home class="w-5 h-5 nav-icon" :class="{ 'fill-gray-900': route.path === '/' }" />
-        <span class="text-[9px] font-black uppercase tracking-widest">Accueil</span>
+      <NuxtLink to="/" class="flex-1 flex flex-col items-center justify-center gap-1 h-full text-gray-500 hover:text-[var(--color-accent)] nav-item">
+        <Home class="w-6 h-6 nav-icon" :class="{ 'text-[var(--color-primary)] fill-[var(--color-primary)]': route.path === '/' }" />
+        <span class="text-[10px] font-medium" :class="{ 'text-[var(--color-primary)] font-bold': route.path === '/' }">Accueil</span>
       </NuxtLink>
- 
+
       <!-- Catégories (Menu Sidebar) -->
-      <button @click="emit('openSidebar')" class="flex-1 flex flex-col items-center justify-center gap-1 h-full text-gray-400 transition-colors nav-item">
-        <LayoutList class="w-5 h-5 nav-icon" />
-        <span class="text-[9px] font-black uppercase tracking-widest">Menu</span>
+      <button @click="emit('openSidebar')" class="flex-1 flex flex-col items-center justify-center gap-1 h-full text-gray-500 hover:text-[var(--color-accent)] nav-item">
+        <LayoutList class="w-6 h-6 nav-icon" />
+        <span class="text-[10px] font-medium">Explorer</span>
       </button>
- 
+
       <!-- Panier (avec nombre dynamique) -->
-      <button @click="cartStore.toggleCart" class="flex-1 relative flex flex-col items-center justify-center gap-1 h-full text-gray-400 transition-colors nav-item group">
+      <button @click="cartStore.toggleCart" class="flex-1 relative flex flex-col items-center justify-center gap-1 h-full text-gray-500 hover:text-[var(--color-accent)] nav-item group">
         <div class="relative">
-          <ShoppingBag class="w-5 h-5 nav-icon" />
+          <ShoppingBag class="w-6 h-6 nav-icon" />
           <ClientOnly>
-            <span v-if="cartStore.itemCount > 0" class="absolute -top-1.5 -right-2 min-w-[16px] h-4 px-1 bg-gray-900 text-white text-[8px] font-black rounded-full flex items-center justify-center ring-2 ring-white animate-scale-in">
+            <span v-if="cartStore.itemCount > 0" class="absolute -top-1.5 -right-2 w-4 h-4 bg-red-500 text-white text-[9px] font-bold rounded-full flex items-center justify-center ring-2 ring-white">
               {{ cartStore.itemCount }}
             </span>
           </ClientOnly>
         </div>
-        <span class="text-[9px] font-black uppercase tracking-widest">Panier</span>
+        <span class="text-[10px] font-medium">Panier</span>
       </button>
- 
+
       <!-- Compte -->
-      <NuxtLink to="/compte" class="flex-1 flex flex-col items-center justify-center gap-1 h-full transition-colors nav-item" :class="route.path.startsWith('/compte') ? 'text-gray-900' : 'text-gray-400'">
-        <User class="w-5 h-5 nav-icon" :class="{ 'fill-gray-900': route.path.startsWith('/compte') }" />
-        <span class="text-[9px] font-black uppercase tracking-widest">
-          {{ authStore.isAuthenticated ? 'Compte' : 'Login' }}
+      <NuxtLink to="/compte" class="flex-1 flex flex-col items-center justify-center gap-1 h-full text-gray-500 hover:text-[var(--color-accent)] nav-item">
+        <User class="w-6 h-6 nav-icon" :class="{ 'text-[var(--color-primary)] fill-[var(--color-primary)]': route.path.startsWith('/compte') }" />
+        <span class="text-[10px] font-medium" :class="{ 'text-[var(--color-primary)] font-bold': route.path.startsWith('/compte') }">
+          {{ authStore.isAuthenticated ? 'Compte' : 'Connexion' }}
         </span>
       </NuxtLink>
     </div>

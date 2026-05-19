@@ -282,14 +282,7 @@
 
     <!-- Main -->
     <main class="flex-grow">
-      <div class="container-main">
-        <NuxtErrorBoundary>
-          <slot />
-          <template #error="{ error }">
-            <ErrorBoundary :error="error" @recover="error.value = null" />
-          </template>
-        </NuxtErrorBoundary>
-      </div>
+      <slot />
     </main>
 
     <!-- Pre-Footer Trust Section -->

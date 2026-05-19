@@ -16,8 +16,7 @@
               :src="slide.image"
               :alt="slide.titleText"
               class="h-full w-full object-cover"
-              :loading="i === 0 ? 'eager' : 'lazy'"
-              :preload="i === 0"
+              loading="eager"
               format="webp"
             />
           </Transition>
@@ -27,49 +26,43 @@
 
       <div class="container-main relative z-10 flex min-h-[84vh] items-center">
         <div class="max-w-3xl text-white">
-          <p class="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-4 py-2 text-[10px] font-extrabold uppercase tracking-[0.2em] backdrop-blur-md">
-            <span class="h-1.5 w-1.5 rounded-full bg-amber-400 animate-pulse"></span>
+          <p class="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-4 py-2 text-xs font-semibold uppercase tracking-[0.16em] backdrop-blur">
+            <span class="h-2 w-2 rounded-full bg-amber-300"></span>
             Dounia Market — Diaspora
           </p>
-          <h1 class="mt-8 text-5xl font-black leading-[1.1] text-white sm:text-6xl md:text-7xl text-premium">
+          <h1 class="mt-6 text-4xl font-black leading-tight text-white sm:text-5xl md:text-6xl">
             {{ heroSlides[currentSlide].titleText }}
           </h1>
-          <p class="mt-6 max-w-2xl text-lg text-white/70 md:text-xl font-medium leading-relaxed">
-            Commandez les meilleurs produits pour vos proches au Tchad. Livraison sécurisée, suivi en temps réel, qualité garantie par la diaspora.
+          <p class="mt-5 max-w-2xl text-base text-white/80 md:text-lg">
+            Commandez les meilleurs produits pour vos proches au Tchad. Livraison sécurisée, suivi clair, qualité garantie.
           </p>
-          <div class="mt-10 flex flex-wrap gap-4">
-            <NuxtLink 
-              to="/catalogue" 
-              v-motion
-              :hover="{ scale: 1.02, y: -2 }"
-              :tap="{ scale: 0.98 }"
-              class="inline-flex items-center rounded-2xl bg-[var(--color-accent)] px-8 py-4 text-base font-black text-white shadow-xl transition-all hover:bg-[var(--color-accent-hover)] hover:shadow-[0_20px_50px_rgba(212,135,44,0.3)]"
-            >
+          <div class="mt-8 flex flex-wrap gap-4">
+            <NuxtLink to="/catalogue" class="inline-flex items-center rounded-xl bg-[var(--color-accent)] px-6 py-3 text-sm font-bold text-white shadow-lg transition hover:bg-[var(--color-accent-hover)] hover:shadow-xl">
               Explorer le catalogue
-              <ArrowRight class="ml-2 h-5 w-5" />
+              <ArrowRight class="ml-2 h-4 w-4" />
             </NuxtLink>
-            <NuxtLink to="/comment-ca-marche" class="inline-flex items-center rounded-2xl border border-white/30 bg-white/5 px-8 py-4 text-base font-bold text-white backdrop-blur-sm transition hover:bg-white/10">
+            <NuxtLink to="/comment-ca-marche" class="inline-flex items-center rounded-xl border border-white/40 px-6 py-3 text-sm font-semibold text-white transition hover:bg-white/10">
               Voir comment ça marche
             </NuxtLink>
           </div>
-          <div class="mt-10 flex items-center gap-3">
+          <div class="mt-7 flex items-center gap-3">
             <button
               v-for="(slide, i) in heroSlides"
               :key="`dot-${i}`"
               :aria-label="`Aller au slide ${i + 1}`"
-              class="h-1.5 rounded-full transition-all duration-500"
-              :class="currentSlide === i ? 'w-12 bg-white' : 'w-3 bg-white/30 hover:bg-white/60'"
+              class="h-2 rounded-full transition-all duration-300"
+              :class="currentSlide === i ? 'w-10 bg-white' : 'w-2 bg-white/40 hover:bg-white/70'"
               @click="goToSlide(i)"
             />
           </div>
         </div>
       </div>
- 
-      <div class="relative z-10 -mt-20 px-4 pb-12">
-        <div class="container-main grid grid-cols-1 gap-6 rounded-[2.5rem] border border-white/20 bg-white/80 p-6 shadow-2xl backdrop-blur-2xl md:grid-cols-3">
-          <div v-for="item in highlightStats" :key="item.label" class="flex flex-col rounded-3xl border border-white/50 bg-white/50 p-6 transition-all duration-300 hover:bg-white hover:shadow-xl group">
-            <p class="text-3xl font-black text-slate-900 tracking-tight group-hover:text-[var(--color-accent)] transition-colors">{{ item.value }}</p>
-            <p class="mt-2 text-sm font-bold text-slate-500 uppercase tracking-widest">{{ item.label }}</p>
+
+      <div class="relative z-10 -mt-16 px-4 pb-8">
+        <div class="container-main grid grid-cols-1 gap-4 rounded-3xl border border-white/20 bg-white/95 p-5 shadow-2xl backdrop-blur md:grid-cols-3">
+          <div v-for="item in highlightStats" :key="item.label" class="rounded-2xl border border-slate-100 bg-white p-4">
+            <p class="text-2xl font-extrabold text-slate-900">{{ item.value }}</p>
+            <p class="mt-1 text-sm text-slate-600">{{ item.label }}</p>
           </div>
         </div>
       </div>

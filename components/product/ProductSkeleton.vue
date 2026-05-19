@@ -1,7 +1,7 @@
 <template>
-  <div class="group relative flex flex-col h-full bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden animate-pulse">
+  <div class="group relative flex flex-col h-full bg-white rounded-[2rem] border border-[var(--color-border)] shadow-sm overflow-hidden animate-pulse">
     <!-- Image Skeleton -->
-    <div class="relative w-full aspect-[4/3] bg-gray-100 flex items-center justify-center">
+    <div class="relative w-full aspect-[4/5] bg-gray-100 flex items-center justify-center">
       <div class="w-16 h-16 bg-gray-200 rounded-2xl"></div>
     </div>
     
