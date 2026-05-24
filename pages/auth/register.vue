@@ -1,5 +1,5 @@
 <template>
-  <div class="min-h-screen flex items-center justify-center relative overflow-hidden bg-[var(--color-primary)]">
+  <div class="min-h-screen flex items-center justify-center relative overflow-hidden bg-brand">
     <!-- Cinematic Full-screen Photo Background -->
     <div class="absolute inset-0 w-full h-full bg-cover bg-center bg-no-repeat transition-transform duration-[10s] hover:scale-105" style="background-image: url('/auth-bg.png');"></div>
     
@@ -14,7 +14,7 @@
         <ArrowLeft class="w-4 h-4" /> Retour à l'accueil
       </NuxtLink>
 
-      <div class="bg-[var(--color-primary)]/80 backdrop-blur-[40px] rounded-[2rem] border border-white/10 shadow-[0_20px_80px_-15px_rgba(0,0,0,0.8)] overflow-hidden text-center">
+      <div class="bg-brand/80 backdrop-blur-[40px] rounded-[2rem] border border-white/10 shadow-[0_20px_80px_-15px_rgba(0,0,0,0.8)] overflow-hidden text-center">
         
         <!-- Logo -->
         <div class="pt-10 pb-2 flex justify-center">
@@ -22,8 +22,8 @@
         </div>
 
         <div class="px-8 sm:px-10 pb-12 pt-6">
-          <div class="w-16 h-16 mx-auto mb-6 rounded-2xl bg-[var(--color-accent)]/10 flex items-center justify-center border border-[var(--color-accent)]/20 shadow-[0_0_30px_rgba(245,158,11,0.2)]">
-            <UserPlus class="w-8 h-8 text-[var(--color-accent)]" />
+          <div class="w-16 h-16 mx-auto mb-6 rounded-2xl bg-accent/10 flex items-center justify-center border border-accent/20 shadow-[0_0_30px_rgba(245,158,11,0.2)]">
+            <UserPlus class="w-8 h-8 text-accent" />
           </div>
 
           <h1 class="text-2xl font-extrabold text-white mb-4 tracking-tight">Créer un compte</h1>
@@ -31,9 +31,9 @@
             Chez Dounia Market, la simplicité est reine. Votre compte est créé <strong class="text-white font-bold">automatiquement</strong> lors de votre première connexion. Aucun formulaire complexe !
           </p>
 
-          <NuxtLink to="/auth/login" class="w-full relative group overflow-hidden rounded-xl p-[2px] transition-all shadow-[0_4px_20px_rgba(245,158,11,0.2)] block border border-[var(--color-accent)]/50">
-            <span class="absolute inset-0 bg-gradient-to-r from-[var(--color-accent)] via-yellow-400 to-[var(--color-accent)] group-hover:scale-105 transition-transform duration-500"></span>
-            <div class="relative flex items-center justify-center gap-2 px-6 py-4 bg-black/20 rounded-[10px] text-white font-bold text-lg transition-colors group-hover:bg-transparent">
+          <NuxtLink to="/auth/login" class="w-full relative group overflow-hidden rounded-xl p-[2px] transition-all shadow-[0_4px_20px_rgba(245,158,11,0.2)] block border border-accent/50">
+            <span class="absolute inset-0 bg-gradient-to-r from-accent via-yellow-400 to-accent group-hover:scale-105 transition-transform duration-500"></span>
+            <div class="relative flex items-center justify-center gap-2 px-6 py-4 bg-brand/50 rounded-[10px] text-white font-bold text-lg transition-colors group-hover:bg-transparent">
               <Mail class="w-5 h-5" /> Se connecter
             </div>
           </NuxtLink>

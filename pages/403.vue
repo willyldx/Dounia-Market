@@ -1,13 +1,13 @@
 <template>
-  <div class="min-h-screen bg-gray-50 flex items-center justify-center px-4">
+  <div class="min-h-screen bg-background flex items-center justify-center px-4">
     <div class="text-center">
-      <div class="w-24 h-24 mx-auto mb-6 bg-red-100 rounded-full flex items-center justify-center">
-        <Icon name="lucide:shield-x" class="w-12 h-12 text-red-600" />
+      <div class="w-24 h-24 mx-auto mb-6 bg-red-500/10 rounded-full flex items-center justify-center">
+        <Icon name="lucide:shield-x" class="w-12 h-12 text-red-500" />
       </div>
       
-      <h1 class="text-4xl font-bold text-gray-900 mb-2">403</h1>
-      <h2 class="text-xl font-semibold text-gray-700 mb-4">Accès refusé</h2>
-      <p class="text-gray-500 mb-8 max-w-md mx-auto">
+      <h1 class="text-4xl font-bold text-foreground mb-2">403</h1>
+      <h2 class="text-xl font-semibold text-muted-foreground/90 mb-4">Accès refusé</h2>
+      <p class="text-muted-foreground mb-8 max-w-md mx-auto">
         Vous n'avez pas les permissions nécessaires pour accéder à cette page.
       </p>
       

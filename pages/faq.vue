@@ -1,17 +1,17 @@
 <template>
-  <div class="bg-white min-h-screen pt-32 pb-24">
+  <div class="bg-background min-h-screen pt-32 pb-24">
     <!-- Header -->
     <section class="max-w-3xl mx-auto px-6 mb-16 text-center">
-      <nav class="flex items-center justify-center gap-2 text-sm font-medium text-gray-500 mb-8">
-        <NuxtLink to="/" class="hover:text-gray-900 transition-colors">Accueil</NuxtLink>
+      <nav class="flex items-center justify-center gap-2 text-sm font-medium text-muted-foreground mb-8">
+        <NuxtLink to="/" class="hover:text-foreground transition-colors">Accueil</NuxtLink>
         <ChevronRightIcon class="w-4 h-4" />
-        <span class="text-gray-900">Assistance</span>
+        <span class="text-foreground">Assistance</span>
       </nav>
       
-      <h1 class="text-4xl md:text-6xl font-black text-gray-900 tracking-tight mb-6">
+      <h1 class="text-4xl md:text-6xl font-black text-foreground tracking-tight mb-6">
         Foire aux questions
       </h1>
-      <p class="text-lg md:text-xl text-gray-500 font-medium">
+      <p class="text-lg md:text-xl text-muted-foreground font-medium">
         Toutes les réponses pour expédier sereinement vers N'Djamena.
       </p>
     </section>
@@ -21,13 +21,13 @@
       <div class="space-y-4">
         <div 
           v-for="(faq, i) in faqs" :key="i" 
-          class="bg-white rounded-2xl overflow-hidden transition-all duration-300 border border-gray-100 shadow-[0_8px_30px_rgb(0,0,0,0.02)]"
-          :class="openFaq === i ? 'border-gray-300 shadow-md transform -translate-y-1' : 'hover:border-gray-200'"
+          class="bg-card rounded-2xl overflow-hidden transition-all duration-300 border border-border shadow-sm"
+          :class="openFaq === i ? 'border-border/80 shadow-md transform -translate-y-1 glass-strong' : 'hover:border-border/80 hover:shadow-premium'"
         >
           <button @click="openFaq = openFaq === i ? null : i" class="w-full p-6 text-left flex justify-between items-center gap-4 group">
-            <span class="font-bold text-lg text-gray-900 group-hover:text-gray-600 transition-colors">{{ faq.question }}</span>
-            <div class="w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0 transition-all border border-gray-200"
-              :class="openFaq === i ? 'bg-gray-900 text-white border-gray-900 rotate-180' : 'bg-gray-50 text-gray-500'"
+            <span class="font-bold text-lg text-foreground group-hover:text-muted-foreground transition-colors">{{ faq.question }}</span>
+            <div class="w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0 transition-all border border-border"
+              :class="openFaq === i ? 'bg-brand text-brand-foreground border-brand rotate-180' : 'bg-muted/30 text-muted-foreground'"
             >
               <ChevronDown class="w-5 h-5 transition-transform" />
             </div>
@@ -40,7 +40,7 @@
             leave-from-class="opacity-100 max-h-40"
             leave-to-class="opacity-0 max-h-0"
           >
-            <div v-if="openFaq === i" class="px-6 pb-8 text-gray-500 font-medium leading-relaxed overflow-hidden">
+            <div v-if="openFaq === i" class="px-6 pb-8 text-muted-foreground font-medium leading-relaxed overflow-hidden">
               {{ faq.answer }}
             </div>
           </Transition>
@@ -50,10 +50,10 @@
 
     <!-- Contact Support CTA -->
     <section class="max-w-4xl mx-auto px-6 text-center">
-      <div class="bg-gray-50 rounded-[3rem] p-12 border border-gray-100">
-        <h2 class="text-3xl font-black text-gray-900 mb-4">Vous ne trouvez pas votre réponse ?</h2>
-        <p class="text-gray-500 font-medium mb-8">Notre équipe basée entre l'Europe et le Tchad est disponible pour vous accompagner.</p>
-        <NuxtLink to="/contact" class="inline-flex items-center gap-2 px-8 py-4 bg-gray-900 text-white font-bold rounded-2xl hover:bg-gray-800 transition-all shadow-md">
+      <div class="bg-card rounded-[3rem] p-12 border border-border shadow-premium glass-strong">
+        <h2 class="text-3xl font-black text-foreground mb-4">Vous ne trouvez pas votre réponse ?</h2>
+        <p class="text-muted-foreground font-medium mb-8">Notre équipe basée entre l'Europe et le Tchad est disponible pour vous accompagner.</p>
+        <NuxtLink to="/contact" class="inline-flex items-center gap-2 px-8 py-4 bg-brand text-brand-foreground font-bold rounded-2xl hover:bg-brand/90 transition-all shadow-premium glow-accent">
           <MessageCircleIcon class="w-5 h-5" /> Contacter l'assistance
         </NuxtLink>
       </div>

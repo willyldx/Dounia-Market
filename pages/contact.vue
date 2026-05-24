@@ -1,5 +1,5 @@
 <template>
-  <div class="bg-white min-h-screen">
+  <div class="bg-background min-h-screen">
     <!-- Hero (Cinematic) -->
     <section class="relative pt-32 pb-40 overflow-hidden text-center flex flex-col items-center justify-center">
       <!-- Background Image with Heavy Cinematic Overlay for perfect text contrast -->
@@ -15,7 +15,7 @@
           v-motion :initial="{ opacity: 0, y: 20 }" :enter="{ opacity: 1, y: 0, transition: { delay: 100 } }"
           class="text-5xl md:text-7xl font-black text-white mb-6 tracking-tight drop-shadow-2xl"
         >
-          Contactez-<span class="text-[var(--color-accent)]">nous</span>
+          Contactez-<span class="text-accent">nous</span>
         </h1>
         <p 
           v-motion :initial="{ opacity: 0, y: 20 }" :enter="{ opacity: 1, y: 0, transition: { delay: 200 } }"
@@ -32,25 +32,25 @@
         
         <!-- Contact Form — 3/5 width -->
         <div class="lg:col-span-3">
-          <div class="bg-white p-10 md:p-14 rounded-[2rem] border border-gray-100 shadow-[0_8px_30px_rgb(0,0,0,0.04)]">
-            <h2 class="text-3xl font-black text-gray-900 tracking-tight mb-3">Écrivez-nous</h2>
-            <p class="text-gray-500 font-medium mb-10">Notre équipe logistique s'engage à vous répondre sous 24 heures.</p>
+          <div class="bg-card p-10 md:p-14 rounded-[2rem] border border-border shadow-premium glass-strong">
+            <h2 class="text-3xl font-black text-foreground tracking-tight mb-3">Écrivez-nous</h2>
+            <p class="text-muted-foreground font-medium mb-10">Notre équipe logistique s'engage à vous répondre sous 24 heures.</p>
             
             <form @submit.prevent="submitForm" class="space-y-6">
               <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
                 <div class="space-y-2">
-                  <label class="block text-sm font-bold text-gray-700">Nom complet</label>
-                  <input v-model="form.name" type="text" placeholder="Ex: Jean Dupont" class="w-full bg-gray-50 border border-gray-200 text-gray-900 rounded-xl px-4 py-3.5 focus:ring-2 focus:ring-[var(--color-accent)] focus:border-[var(--color-accent)] transition-all" required />
+                  <label class="block text-sm font-bold text-muted-foreground/90">Nom complet</label>
+                  <input v-model="form.name" type="text" placeholder="Ex: Jean Dupont" class="w-full bg-muted/30 border border-border text-foreground rounded-xl px-4 py-3.5 focus:ring-2 focus:ring-brand focus:border-brand transition-all shadow-sm" required />
                 </div>
                 <div class="space-y-2">
-                  <label class="block text-sm font-bold text-gray-700">Email</label>
-                  <input v-model="form.email" type="email" placeholder="votre@email.com" class="w-full bg-gray-50 border border-gray-200 text-gray-900 rounded-xl px-4 py-3.5 focus:ring-2 focus:ring-[var(--color-accent)] focus:border-[var(--color-accent)] transition-all" required />
+                  <label class="block text-sm font-bold text-muted-foreground/90">Email</label>
+                  <input v-model="form.email" type="email" placeholder="votre@email.com" class="w-full bg-muted/30 border border-border text-foreground rounded-xl px-4 py-3.5 focus:ring-2 focus:ring-brand focus:border-brand transition-all shadow-sm" required />
                 </div>
               </div>
               
               <div class="space-y-2">
-                <label class="block text-sm font-bold text-gray-700">Sujet</label>
-                <select v-model="form.subject" class="w-full bg-gray-50 border border-gray-200 text-gray-900 rounded-xl px-4 py-3.5 focus:ring-2 focus:ring-[var(--color-accent)] focus:border-[var(--color-accent)] transition-all" required>
+                <label class="block text-sm font-bold text-muted-foreground/90">Sujet</label>
+                <select v-model="form.subject" class="w-full bg-muted/30 border border-border text-foreground rounded-xl px-4 py-3.5 focus:ring-2 focus:ring-brand focus:border-brand transition-all shadow-sm" required>
                   <option value="" disabled>Que concerne votre demande ?</option>
                   <option value="commande">Suivi de ma commande</option>
                   <option value="livraison">Détails de livraison / Douane</option>
@@ -60,12 +60,12 @@
               </div>
               
               <div class="space-y-2">
-                <label class="block text-sm font-bold text-gray-700">Message</label>
+                <label class="block text-sm font-bold text-muted-foreground/90">Message</label>
                 <textarea 
                   v-model="form.message" 
                   rows="5" 
                   placeholder="Décrivez votre question en détail..."
-                  class="w-full bg-gray-50 border border-gray-200 text-gray-900 rounded-xl px-4 py-3.5 focus:ring-2 focus:ring-[var(--color-accent)] focus:border-[var(--color-accent)] transition-all resize-none" 
+                  class="w-full bg-muted/30 border border-border text-foreground rounded-xl px-4 py-3.5 focus:ring-2 focus:ring-brand focus:border-brand transition-all shadow-sm resize-none" 
                   required
                 ></textarea>
               </div>
@@ -73,7 +73,7 @@
               <button 
                 type="submit" 
                 :disabled="isSubmitting"
-                class="w-full flex items-center justify-center gap-2 py-4 bg-gray-900 text-white font-bold rounded-xl hover:bg-gray-800 transition-all shadow-md disabled:opacity-70 disabled:cursor-not-allowed mt-4"
+                class="w-full flex items-center justify-center gap-2 py-4 bg-brand text-brand-foreground font-bold rounded-xl hover:bg-brand/90 transition-all shadow-premium glow-accent disabled:opacity-70 disabled:cursor-not-allowed mt-4"
               >
                 <Loader v-if="isSubmitting" class="w-5 h-5 animate-spin" />
                 <Send v-else class="w-5 h-5" />
@@ -87,49 +87,49 @@
         <div class="lg:col-span-2 space-y-6">
           
           <!-- Quick response badge -->
-          <div class="bg-[var(--color-accent)]/10 border border-[var(--color-accent)]/20 rounded-2xl p-6 flex items-start gap-4 mb-2">
-            <div class="w-12 h-12 rounded-full bg-[var(--color-accent)]/20 flex items-center justify-center shrink-0">
-              <Zap class="w-6 h-6 text-[var(--color-accent)]" />
+          <div class="bg-accent/10 border border-accent/20 rounded-2xl p-6 flex items-start gap-4 mb-2">
+            <div class="w-12 h-12 rounded-full bg-accent/20 flex items-center justify-center shrink-0">
+              <Zap class="w-6 h-6 text-accent" />
             </div>
             <div>
-              <p class="font-black text-[var(--color-accent)] text-sm uppercase tracking-wider mb-1">Assistance Prioritaire</p>
-              <p class="text-sm text-gray-700 font-medium leading-relaxed">Notre équipe commerciale garantit une prise en charge de votre dossier en moins de 24h ouvrées.</p>
+              <p class="font-black text-accent text-sm uppercase tracking-wider mb-1">Assistance Prioritaire</p>
+              <p class="text-sm text-foreground/80 font-medium leading-relaxed">Notre équipe commerciale garantit une prise en charge de votre dossier en moins de 24h ouvrées.</p>
             </div>
           </div>
 
           <!-- Contact cards -->
-          <div class="bg-white rounded-2xl border border-gray-100 shadow-[0_4px_20px_rgb(0,0,0,0.03)] p-2">
+          <div class="bg-card rounded-2xl border border-border shadow-sm p-2 glass-strong">
             <div 
               v-for="(info, i) in contactInfo" :key="info.label"
-              class="p-4 flex items-center gap-4 hover:bg-gray-50 rounded-xl transition-colors group"
+              class="p-4 flex items-center gap-4 hover:bg-muted/30 rounded-xl transition-colors group"
             >
-              <div class="w-12 h-12 rounded-full bg-gray-100 flex items-center justify-center transition-all duration-300 group-hover:bg-gray-900 group-hover:text-white text-gray-600">
+              <div class="w-12 h-12 rounded-full bg-muted flex items-center justify-center transition-all duration-300 group-hover:bg-brand group-hover:text-brand-foreground text-muted-foreground">
                 <component :is="info.icon" class="w-5 h-5" />
               </div>
               <div>
-                <h3 class="font-bold text-gray-900 text-sm">{{ info.label }}</h3>
-                <a v-if="info.href" :href="info.href" class="text-gray-500 font-medium text-sm hover:text-[var(--color-accent)] transition-colors">
+                <h3 class="font-bold text-foreground text-sm">{{ info.label }}</h3>
+                <a v-if="info.href" :href="info.href" class="text-muted-foreground font-medium text-sm hover:text-brand transition-colors">
                   {{ info.value }}
                 </a>
-                <p v-else class="text-gray-500 font-medium text-sm">{{ info.value }}</p>
+                <p v-else class="text-muted-foreground font-medium text-sm">{{ info.value }}</p>
               </div>
             </div>
           </div>
 
           <!-- Hours card -->
-          <div class="bg-white rounded-2xl border border-gray-100 shadow-[0_4px_20px_rgb(0,0,0,0.03)] p-6">
+          <div class="bg-card rounded-2xl border border-border shadow-sm p-6 glass-strong">
             <div class="flex items-center gap-3 mb-6">
-              <div class="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center">
-                <Clock class="w-5 h-5 text-gray-900" />
+              <div class="w-10 h-10 rounded-full bg-muted flex items-center justify-center">
+                <Clock class="w-5 h-5 text-foreground" />
               </div>
-              <h3 class="font-black text-gray-900">Horaires d'ouverture</h3>
+              <h3 class="font-black text-foreground">Horaires d'ouverture</h3>
             </div>
             <div class="space-y-4">
-              <div v-for="h in hours" :key="h.day" class="flex justify-between items-center border-b border-gray-50 pb-2 last:border-0 last:pb-0">
-                <span class="text-gray-600 font-medium">{{ h.day }}</span>
+              <div v-for="h in hours" :key="h.day" class="flex justify-between items-center border-b border-border/50 pb-2 last:border-0 last:pb-0">
+                <span class="text-muted-foreground font-medium">{{ h.day }}</span>
                 <span 
                   class="text-xs font-bold px-3 py-1.5 rounded-md uppercase tracking-wider"
-                  :class="h.closed ? 'bg-gray-100 text-gray-500' : 'bg-green-50 text-green-700'"
+                  :class="h.closed ? 'bg-muted text-muted-foreground' : 'bg-green-500/10 text-green-500'"
                 >
                   {{ h.closed ? 'Fermé' : h.time }}
                 </span>

@@ -1,36 +1,36 @@
 <template>
-  <div class="min-h-screen flex flex-col pb-16 lg:pb-0 bg-[radial-gradient(circle_at_top,var(--color-accent-light),transparent_40%)]">
+  <div class="min-h-screen flex flex-col pb-16 lg:pb-0 bg-background">
     <!-- Announcement Bar -->
     <div
-      class="text-white py-2.5 transition-all duration-500"
+      class="text-brand-foreground py-2.5 transition-all duration-500 border-b border-white/10"
       :class="isScrolled ? 'bg-brand/90 backdrop-blur-md' : 'bg-brand'"
     >
       <div class="container-main">
         <div class="flex items-center gap-4 text-sm whitespace-nowrap overflow-hidden">
           <div class="flex items-center gap-4 animate-marquee">
             <div class="flex items-center gap-2">
-              <Truck class="w-4 h-4 text-[var(--color-accent)]" />
+              <Truck class="w-4 h-4 text-accent" />
               <span>Livraison à N'Djamena sous 3-5 jours — Preuve photo incluse</span>
             </div>
-            <span class="text-[var(--color-accent)]">•</span>
+            <span class="text-accent">•</span>
               <span>Paiement 100% sécurisé</span>
-            <span class="text-[var(--color-accent)]">•</span>
+            <span class="text-accent">•</span>
             <div class="flex items-center gap-2">
-              <Truck class="w-4 h-4 text-[var(--color-accent)]" />
+              <Truck class="w-4 h-4 text-accent" />
               <span>Dounia Market — Le meilleur pour vos proches</span>
             </div>
           </div>
           <!-- Repeat for infinite smooth scrolling effect -->
           <div class="flex items-center gap-4 animate-marquee" aria-hidden="true">
             <div class="flex items-center gap-2">
-              <Truck class="w-4 h-4 text-[var(--color-accent)]" />
+              <Truck class="w-4 h-4 text-accent" />
               <span>Livraison à N'Djamena sous 3-5 jours — Preuve photo incluse</span>
             </div>
-            <span class="text-[var(--color-accent)]">•</span>
+            <span class="text-accent">•</span>
             <span>Paiement 100% sécurisé</span>
-            <span class="text-[var(--color-accent)]">•</span>
+            <span class="text-accent">•</span>
             <div class="flex items-center gap-2">
-              <Truck class="w-4 h-4 text-[var(--color-accent)]" />
+              <Truck class="w-4 h-4 text-accent" />
               <span>Dounia Market — Le meilleur pour vos proches</span>
             </div>
           </div>
@@ -60,7 +60,7 @@
               <input 
                 type="text"
                 placeholder="Rechercher un produit, une marque, une catégorie..."
-                class="w-full h-11 pl-4 pr-12 rounded-xl border border-slate-200 focus:border-[var(--color-accent)] outline-none transition-all text-sm bg-white/90 focus:bg-white shadow-sm backdrop-blur-md"
+                class="w-full h-11 pl-4 pr-12 rounded-xl border border-border focus:border-brand outline-none transition-all text-sm bg-card/90 focus:bg-card text-foreground shadow-sm backdrop-blur-md"
                 @click="isSearchOpen = true"
                 readonly
               />
@@ -79,44 +79,44 @@
             <nav class="hidden xl:flex items-center gap-6 mr-4">
               <!-- MegaMenu Categories -->
               <div class="relative group" @mouseenter="isCategoryMenuOpen = true" @mouseleave="isCategoryMenuOpen = false">
-                <button class="nav-link text-sm font-medium flex items-center gap-2 py-2">
+                <button class="relative font-medium text-muted-foreground transition-colors duration-300 hover:text-brand flex items-center gap-2 py-2 after:content-[''] after:absolute after:-bottom-1 after:left-0 after:w-0 after:h-0.5 after:rounded-full after:bg-brand after:transition-all after:duration-300 hover:after:w-full">
                   <LayoutList class="w-4 h-4" /> Catégories <ChevronDown class="w-3 h-3 group-hover:rotate-180 transition-transform" />
                 </button>
                 <div 
                   v-show="isCategoryMenuOpen"
-                  class="absolute top-full left-0 w-[400px] mt-2 bg-white rounded-2xl shadow-xl border border-gray-100 overflow-hidden z-[100] transition-opacity duration-200"
+                  class="absolute top-full left-0 w-[400px] mt-2 bg-card rounded-2xl shadow-premium border border-border overflow-hidden z-[100] transition-opacity duration-200 glass-strong"
                 >
                   <div class="p-6 grid grid-cols-2 gap-4">
-                    <NuxtLink to="/catalogue?categorie=alimentaire" class="flex flex-col gap-1 p-3 rounded-xl hover:bg-green-50 transition-colors group/link" @click="isCategoryMenuOpen = false">
-                      <div class="w-8 h-8 rounded-lg bg-green-100 text-green-600 flex items-center justify-center mb-1 group-hover/link:scale-110 transition-transform"><Wheat class="w-4 h-4"/></div>
-                      <span class="font-bold text-sm text-gray-800">Alimentaire</span>
-                      <span class="text-[10px] text-gray-500">Marché & Supermarché</span>
+                    <NuxtLink to="/catalogue?categorie=alimentaire" class="flex flex-col gap-1 p-3 rounded-xl hover:bg-muted/50 transition-colors group/link" @click="isCategoryMenuOpen = false">
+                      <div class="w-8 h-8 rounded-lg bg-green-500/10 text-green-500 flex items-center justify-center mb-1 group-hover/link:scale-110 transition-transform"><Wheat class="w-4 h-4"/></div>
+                      <span class="font-bold text-sm text-foreground">Alimentaire</span>
+                      <span class="text-[10px] text-muted-foreground/80">Marché & Supermarché</span>
                     </NuxtLink>
-                    <NuxtLink to="/catalogue?categorie=scolarite" class="flex flex-col gap-1 p-3 rounded-xl hover:bg-blue-50 transition-colors group/link" @click="isCategoryMenuOpen = false">
-                      <div class="w-8 h-8 rounded-lg bg-blue-100 text-blue-600 flex items-center justify-center mb-1 group-hover/link:scale-110 transition-transform"><BookOpen class="w-4 h-4"/></div>
-                      <span class="font-bold text-sm text-gray-800">Scolarité</span>
-                      <span class="text-[10px] text-gray-500">Kits & Fournitures</span>
+                    <NuxtLink to="/catalogue?categorie=scolarite" class="flex flex-col gap-1 p-3 rounded-xl hover:bg-muted/50 transition-colors group/link" @click="isCategoryMenuOpen = false">
+                      <div class="w-8 h-8 rounded-lg bg-blue-500/10 text-blue-500 flex items-center justify-center mb-1 group-hover/link:scale-110 transition-transform"><BookOpen class="w-4 h-4"/></div>
+                      <span class="font-bold text-sm text-foreground">Scolarité</span>
+                      <span class="text-[10px] text-muted-foreground/80">Kits & Fournitures</span>
                     </NuxtLink>
-                    <NuxtLink to="/catalogue?categorie=sante" class="flex flex-col gap-1 p-3 rounded-xl hover:bg-pink-50 transition-colors group/link" @click="isCategoryMenuOpen = false">
-                      <div class="w-8 h-8 rounded-lg bg-pink-100 text-pink-600 flex items-center justify-center mb-1 group-hover/link:scale-110 transition-transform"><Heart class="w-4 h-4"/></div>
-                      <span class="font-bold text-sm text-gray-800">Santé & Bébé</span>
-                      <span class="text-[10px] text-gray-500">Pharmacie & Soins</span>
+                    <NuxtLink to="/catalogue?categorie=sante" class="flex flex-col gap-1 p-3 rounded-xl hover:bg-muted/50 transition-colors group/link" @click="isCategoryMenuOpen = false">
+                      <div class="w-8 h-8 rounded-lg bg-pink-500/10 text-pink-500 flex items-center justify-center mb-1 group-hover/link:scale-110 transition-transform"><Heart class="w-4 h-4"/></div>
+                      <span class="font-bold text-sm text-foreground">Santé & Bébé</span>
+                      <span class="text-[10px] text-muted-foreground/80">Pharmacie & Soins</span>
                     </NuxtLink>
-                    <NuxtLink to="/catalogue?categorie=btp" class="flex flex-col gap-1 p-3 rounded-xl hover:bg-orange-50 transition-colors group/link" @click="isCategoryMenuOpen = false">
-                      <div class="w-8 h-8 rounded-lg bg-orange-100 text-orange-600 flex items-center justify-center mb-1 group-hover/link:scale-110 transition-transform"><Hammer class="w-4 h-4"/></div>
-                      <span class="font-bold text-sm text-gray-800">Construction</span>
-                      <span class="text-[10px] text-gray-500">Matériaux BTP</span>
+                    <NuxtLink to="/catalogue?categorie=btp" class="flex flex-col gap-1 p-3 rounded-xl hover:bg-muted/50 transition-colors group/link" @click="isCategoryMenuOpen = false">
+                      <div class="w-8 h-8 rounded-lg bg-orange-500/10 text-orange-500 flex items-center justify-center mb-1 group-hover/link:scale-110 transition-transform"><Hammer class="w-4 h-4"/></div>
+                      <span class="font-bold text-sm text-foreground">Construction</span>
+                      <span class="text-[10px] text-muted-foreground/80">Matériaux BTP</span>
                     </NuxtLink>
                   </div>
-                  <div class="bg-gray-50 p-4 border-t border-gray-100">
-                    <NuxtLink to="/catalogue" class="text-sm text-[var(--color-accent-dark)] font-medium flex items-center justify-center gap-2 hover:underline" @click="isCategoryMenuOpen = false">
+                  <div class="bg-muted/30 p-4 border-t border-border/50">
+                    <NuxtLink to="/catalogue" class="text-sm text-brand font-medium flex items-center justify-center gap-2 hover:underline" @click="isCategoryMenuOpen = false">
                       Voir tout le catalogue <ArrowRight class="w-4 h-4"/>
                     </NuxtLink>
                   </div>
                 </div>
               </div>
 
-              <NuxtLink to="/catalogue" class="nav-link text-sm font-medium flex items-center gap-2">
+              <NuxtLink to="/catalogue" class="relative font-medium text-muted-foreground transition-colors duration-300 hover:text-brand flex items-center gap-2 py-2 after:content-[''] after:absolute after:-bottom-1 after:left-0 after:w-0 after:h-0.5 after:rounded-full after:bg-brand after:transition-all after:duration-300 hover:after:w-full" active-class="text-brand after:w-full">
                 <Package class="w-4 h-4" /> Catalogue
               </NuxtLink>
             </nav>
@@ -124,9 +124,9 @@
             <!-- Favorites -->
             <NuxtLink
               to="/favoris"
-              class="hidden md:flex relative p-2.5 rounded-xl hover:bg-gray-100 transition-colors group border border-transparent hover:border-slate-200"
+              class="hidden md:flex relative p-2.5 rounded-xl hover:bg-muted transition-colors group border border-transparent hover:border-border/50"
             >
-              <Heart class="w-5 h-5 text-gray-600 group-hover:text-red-500 transition-colors" />
+              <Heart class="w-5 h-5 text-muted-foreground group-hover:text-red-500 transition-colors" />
               <ClientOnly>
                 <span 
                   v-if="favoritesStore.count > 0"
@@ -139,10 +139,10 @@
 
             <!-- Help Dropdown -->
             <div class="hidden md:block relative" ref="helpMenuRef" @mouseenter="isHelpMenuOpen = true" @mouseleave="isHelpMenuOpen = false">
-              <button class="flex items-center gap-1.5 px-3 py-2 rounded-xl hover:bg-gray-100 transition-colors text-gray-700 font-medium text-sm border border-transparent hover:border-slate-200">
-                <HelpCircle class="w-5 h-5 text-gray-500" />
+              <button class="flex items-center gap-1.5 px-3 py-2 rounded-xl hover:bg-muted transition-colors text-foreground font-medium text-sm border border-transparent hover:border-border/50">
+                <HelpCircle class="w-5 h-5 text-muted-foreground/80" />
                 <span>Aide</span>
-                <ChevronDown class="w-4 h-4 text-gray-400" :class="{ 'rotate-180': isHelpMenuOpen }" />
+                <ChevronDown class="w-4 h-4 text-muted-foreground/60" :class="{ 'rotate-180': isHelpMenuOpen }" />
               </button>
               
               <Transition
@@ -153,24 +153,24 @@
                 leave-from-class="opacity-100"
                 leave-to-class="opacity-0"
               >
-                <div v-show="isHelpMenuOpen" class="absolute right-0 mt-1 w-64 bg-white rounded-xl shadow-xl border border-gray-100 overflow-hidden z-50 pt-2">
+                <div v-show="isHelpMenuOpen" class="absolute right-0 mt-1 w-64 bg-card rounded-xl shadow-premium border border-border overflow-hidden z-50 pt-2 glass-strong">
                   <div class="flex flex-col">
-                    <NuxtLink to="/comment-ca-marche" class="flex flex-col px-5 py-3 hover:bg-gray-50 transition-colors border-b border-gray-50">
-                      <span class="text-sm font-medium text-gray-800">Centre d'aide</span>
-                      <span class="text-xs text-gray-500">Guides et questions fréquentes</span>
+                    <NuxtLink to="/comment-ca-marche" class="flex flex-col px-5 py-3 hover:bg-muted/50 transition-colors border-b border-border/50">
+                      <span class="text-sm font-medium text-foreground">Centre d'aide</span>
+                      <span class="text-xs text-muted-foreground/80">Guides et questions fréquentes</span>
                     </NuxtLink>
-                    <NuxtLink to="/suivi" class="flex flex-col px-5 py-3 hover:bg-gray-50 transition-colors border-b border-gray-50">
-                      <span class="text-sm font-medium text-gray-800">Suivre une commande</span>
-                      <span class="text-xs text-gray-500">Où se trouve mon colis ?</span>
+                    <NuxtLink to="/suivi" class="flex flex-col px-5 py-3 hover:bg-muted/50 transition-colors border-b border-border/50">
+                      <span class="text-sm font-medium text-foreground">Suivre une commande</span>
+                      <span class="text-xs text-muted-foreground/80">Où se trouve mon colis ?</span>
                     </NuxtLink>
-                    <NuxtLink to="/conditions" class="px-5 py-3 text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors border-b border-gray-50">
+                    <NuxtLink to="/conditions" class="px-5 py-3 text-sm font-medium text-muted-foreground/90 hover:bg-muted/50 transition-colors border-b border-border/50">
                       Politique de retour & Remboursement
                     </NuxtLink>
-                    <div class="px-5 py-4 bg-gray-50 flex gap-2">
-                      <NuxtLink to="https://wa.me/235xxxxxxx" target="_blank" class="flex-1 btn-primary text-xs py-2 px-0 bg-green-500 text-white hover:bg-green-600 shadow-none border-none justify-center">
+                    <div class="px-5 py-4 bg-muted/30 flex gap-2">
+                      <NuxtLink to="https://wa.me/235xxxxxxx" target="_blank" class="flex-1 btn-primary text-xs py-2 px-0 bg-green-500 text-white hover:bg-green-600 shadow-none border-none justify-center rounded-lg">
                         WhatsApp
                       </NuxtLink>
-                      <NuxtLink to="/contact" class="flex-1 btn-outline text-xs py-2 px-0 shadow-none border-gray-200 justify-center">
+                      <NuxtLink to="/contact" class="flex-1 btn-outline text-xs py-2 px-0 shadow-none border-border justify-center rounded-lg">
                         Email
                       </NuxtLink>
                     </div>
@@ -182,17 +182,17 @@
             <!-- User Menu Dropdown -->
             <div class="hidden md:block relative" ref="userMenuRef" @mouseenter="isUserMenuOpen = true" @mouseleave="isUserMenuOpen = false">
               <ClientOnly>
-                <button class="flex items-center gap-2 px-3 py-2 rounded-xl hover:bg-gray-100 transition-colors text-gray-700 font-medium text-sm border border-transparent hover:border-slate-200">
+                <button class="flex items-center gap-2 px-3 py-2 rounded-xl hover:bg-muted transition-colors text-foreground font-medium text-sm border border-transparent hover:border-border/50">
                   <template v-if="authStore.isAuthenticated">
-                    <div class="w-7 h-7 bg-[var(--color-accent)] rounded-md flex items-center justify-center text-white text-xs font-bold shadow-sm">
+                    <div class="w-7 h-7 bg-brand rounded-md flex items-center justify-center text-brand-foreground text-xs font-bold shadow-sm glow-accent">
                       {{ authStore.initials }}
                     </div>
                   </template>
                   <template v-else>
-                    <User class="w-5 h-5 text-gray-500" />
+                    <User class="w-5 h-5 text-muted-foreground/80" />
                   </template>
                   <span>Compte</span>
-                  <ChevronDown class="w-4 h-4 text-gray-400" :class="{ 'rotate-180': isUserMenuOpen }" />
+                  <ChevronDown class="w-4 h-4 text-muted-foreground/60" :class="{ 'rotate-180': isUserMenuOpen }" />
                 </button>
 
                 <Transition
@@ -203,36 +203,36 @@
                   leave-from-class="opacity-100"
                   leave-to-class="opacity-0"
                 >
-                  <div v-show="isUserMenuOpen" class="absolute right-0 mt-1 w-64 bg-white rounded-xl shadow-xl border border-gray-100 overflow-hidden z-50 pt-2">
+                  <div v-show="isUserMenuOpen" class="absolute right-0 mt-1 w-64 bg-card rounded-xl shadow-premium border border-border overflow-hidden z-50 pt-2 glass-strong">
                     
                     <!-- Not Logged In State -->
-                    <div v-if="!authStore.isAuthenticated" class="p-4 border-b border-gray-100">
-                      <NuxtLink to="/auth/login" class="btn-primary w-full flex justify-center py-2.5 text-sm shadow-md mb-2">
+                    <div v-if="!authStore.isAuthenticated" class="p-4 border-b border-border/50">
+                      <NuxtLink to="/auth/login" class="flex justify-center py-2.5 text-sm mb-2 px-4 bg-brand text-brand-foreground font-bold rounded-xl hover:bg-brand/90 transition-all shadow-premium glow-accent">
                         Se connecter
                       </NuxtLink>
-                      <p class="text-xs text-center text-gray-500">Nouveau client ? <NuxtLink to="/auth/login" class="font-bold text-[var(--color-primary)] hover:underline">Créer un compte</NuxtLink></p>
+                      <p class="text-xs text-center text-muted-foreground">Nouveau client ? <NuxtLink to="/auth/login" class="font-bold text-accent hover:underline">Créer un compte</NuxtLink></p>
                     </div>
 
                     <!-- Logged In State -->
-                    <div v-else class="px-4 py-3 border-b border-gray-100">
-                      <p class="font-bold text-gray-800 truncate">{{ authStore.fullName }}</p>
-                      <p class="text-xs text-gray-500 truncate">{{ authStore.user?.email }}</p>
+                    <div v-else class="px-4 py-3 border-b border-border/50">
+                      <p class="font-bold text-foreground truncate">{{ authStore.fullName }}</p>
+                      <p class="text-xs text-muted-foreground/80 truncate">{{ authStore.user?.email }}</p>
                     </div>
 
                     <!-- Links -->
                     <div class="py-2">
-                      <NuxtLink to="/compte" class="flex items-center gap-3 px-5 py-2.5 text-sm font-medium text-gray-700 hover:bg-gray-50 hover:text-[var(--color-accent-dark)] transition-colors">
+                      <NuxtLink to="/compte" class="flex items-center gap-3 px-5 py-2.5 text-sm font-medium text-foreground hover:bg-muted hover:text-brand transition-colors">
                         <LayoutDashboard class="w-4 h-4" /> Mon Compte
                       </NuxtLink>
-                      <NuxtLink to="/compte/commandes" class="flex items-center gap-3 px-5 py-2.5 text-sm font-medium text-gray-700 hover:bg-gray-50 hover:text-[var(--color-accent-dark)] transition-colors">
+                      <NuxtLink to="/compte/commandes" class="flex items-center gap-3 px-5 py-2.5 text-sm font-medium text-foreground hover:bg-muted hover:text-brand transition-colors">
                         <Package class="w-4 h-4" /> Vos Commandes
                       </NuxtLink>
-                      <NuxtLink to="/favoris" class="flex items-center gap-3 px-5 py-2.5 text-sm font-medium text-gray-700 hover:bg-gray-50 hover:text-[var(--color-accent-dark)] transition-colors">
+                      <NuxtLink to="/favoris" class="flex items-center gap-3 px-5 py-2.5 text-sm font-medium text-foreground hover:bg-muted hover:text-brand transition-colors">
                         <Heart class="w-4 h-4" /> Votre Liste d'envies
                       </NuxtLink>
                       
-                      <div v-if="authStore.isAuthenticated" class="border-t border-gray-100 mt-1 pt-1">
-                        <button @click="handleLogout" class="flex items-center gap-3 px-5 py-2.5 text-sm font-medium text-red-600 hover:bg-red-50 transition-colors w-full">
+                      <div v-if="authStore.isAuthenticated" class="border-t border-border/50 mt-1 pt-1">
+                        <button @click="handleLogout" class="flex items-center gap-3 px-5 py-2.5 text-sm font-medium text-red-500 hover:bg-red-500/10 transition-colors w-full">
                           <LogOut class="w-4 h-4" /> Déconnexion
                         </button>
                       </div>
@@ -250,13 +250,13 @@
             <!-- Cart -->
               <button
                 @click="cartStore.toggleCart"
-                class="relative p-2.5 rounded-xl hover:bg-slate-100 transition-colors group border border-transparent hover:border-slate-200"
+                class="relative p-2.5 rounded-xl hover:bg-muted transition-colors group border border-transparent hover:border-border/50"
               >
-                <ShoppingBag class="w-5 h-5 text-gray-600 group-hover:text-[var(--color-primary)] transition-colors" />
+                <ShoppingBag class="w-5 h-5 text-muted-foreground group-hover:text-brand transition-colors" />
               <ClientOnly>
                 <span 
                   v-if="cartStore.itemCount > 0"
-                  class="absolute -top-1 -right-1 w-5 h-5 bg-brand text-white text-xs font-bold rounded-full flex items-center justify-center animate-scale-in"
+                  class="absolute -top-1 -right-1 w-5 h-5 bg-brand text-brand-foreground text-xs font-bold rounded-full flex items-center justify-center animate-scale-in shadow-sm glow-accent"
                 >
                   {{ cartStore.itemCount }}
                 </span>
@@ -265,7 +265,7 @@
 
               <NuxtLink
                 to="/compte"
-                class="p-2 sm:px-4 sm:py-2.5 rounded-xl bg-[var(--color-accent)] text-[var(--color-accent-foreground)] font-semibold hover:bg-[var(--color-accent-dark)] transition-colors flex items-center gap-2"
+                class="p-2 sm:px-4 sm:py-2.5 rounded-xl bg-accent text-brand-foreground font-bold hover:bg-accent/90 transition-all flex items-center gap-2 shadow-premium glow-accent"
               >
                 <User class="w-5 h-5" />
                 <span class="hidden sm:inline">Mon compte</span>
@@ -274,9 +274,9 @@
             <!-- Mobile Menu -->
             <button 
               @click="isMobileMenuOpen = !isMobileMenuOpen"
-              class="lg:hidden p-2.5 rounded-xl hover:bg-gray-100 transition-colors"
+              class="lg:hidden p-2.5 rounded-xl hover:bg-muted transition-colors"
             >
-              <component :is="isMobileMenuOpen ? X : Menu" class="w-5 h-5 text-gray-600" />
+              <component :is="isMobileMenuOpen ? X : Menu" class="w-5 h-5 text-foreground" />
             </button>
           </div>
         </div>
@@ -294,29 +294,29 @@
     </main>
 
     <!-- Pre-Footer Trust Section -->
-    <div class="bg-gradient-to-b from-slate-50 to-white mt-20 border-t border-slate-200">
+    <div class="bg-muted/10 mt-20 border-t border-border/50">
       <div class="container-main py-12">
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 text-center divide-y md:divide-y-0 md:divide-x divide-slate-200">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 text-center divide-y md:divide-y-0 md:divide-x divide-border/50">
           <div class="flex flex-col items-center px-4 pt-4 md:pt-0">
-            <div class="w-12 h-12 bg-white rounded-full flex items-center justify-center text-[var(--color-accent-dark)] shadow-sm mb-4">
+            <div class="w-12 h-12 bg-card rounded-full flex items-center justify-center text-brand shadow-sm mb-4 border border-border/50">
               <Truck class="w-6 h-6" />
             </div>
-            <h4 class="font-bold text-slate-900 mb-2">Livraison Rapide</h4>
-            <p class="text-sm text-slate-600">Sous 3 à 5 jours ouvrés à N'Djamena, directement chez vous.</p>
+            <h4 class="font-bold text-foreground mb-2">Livraison Rapide</h4>
+            <p class="text-sm text-muted-foreground/90">Sous 3 à 5 jours ouvrés à N'Djamena, directement chez vous.</p>
           </div>
           <div class="flex flex-col items-center px-4 pt-8 md:pt-0">
-            <div class="w-12 h-12 bg-white rounded-full flex items-center justify-center text-[var(--color-accent-dark)] shadow-sm mb-4">
+            <div class="w-12 h-12 bg-card rounded-full flex items-center justify-center text-brand shadow-sm mb-4 border border-border/50">
               <Shield class="w-6 h-6" />
             </div>
-            <h4 class="font-bold text-slate-900 mb-2">Paiement Sécurisé</h4>
-            <p class="text-sm text-slate-600">Transactions chiffrées. Nous acceptons Cartes et Mobile Money.</p>
+            <h4 class="font-bold text-foreground mb-2">Paiement Sécurisé</h4>
+            <p class="text-sm text-muted-foreground/90">Transactions chiffrées. Nous acceptons Cartes et Mobile Money.</p>
           </div>
           <div class="flex flex-col items-center px-4 pt-8 md:pt-0">
-            <div class="w-12 h-12 bg-white rounded-full flex items-center justify-center text-[var(--color-accent-dark)] shadow-sm mb-4">
+            <div class="w-12 h-12 bg-card rounded-full flex items-center justify-center text-brand shadow-sm mb-4 border border-border/50">
               <Camera class="w-6 h-6" />
             </div>
-            <h4 class="font-bold text-slate-900 mb-2">Preuve de Livraison</h4>
-            <p class="text-sm text-slate-600">Photo de remise envoyée pour garantir la réception de vos proches.</p>
+            <h4 class="font-bold text-foreground mb-2">Preuve de Livraison</h4>
+            <p class="text-sm text-muted-foreground/90">Photo de remise envoyée pour garantir la réception de vos proches.</p>
           </div>
         </div>
       </div>
@@ -329,11 +329,11 @@
           <!-- Brand (Visible on Mobile & Desktop) -->
           <div class="rounded-2xl border border-white/10 bg-white/[0.03] p-6">
             <img src="/logo.png" alt="Dounia Market" class="h-10 md:h-14 w-auto mb-6" />
-            <p class="text-slate-400 text-sm leading-relaxed mb-6">
+            <p class="text-brand-foreground/70 text-sm leading-relaxed mb-6 font-medium">
               Dounia Market relie la diaspora tchadienne à ses proches. Envoyez l'essentiel avec confiance et amour.
             </p>
             <div class="flex gap-3">
-              <a v-for="s in socials" :key="s.name" :href="s.url" class="w-10 h-10 rounded-xl bg-white/5 hover:bg-[var(--color-accent)] hover:text-white flex items-center justify-center transition-all duration-300">
+              <a v-for="s in socials" :key="s.name" :href="s.url" class="w-10 h-10 rounded-xl bg-white/5 hover:bg-accent hover:text-brand-foreground flex items-center justify-center transition-all duration-300">
                 <component :is="s.icon" class="w-5 h-5" />
               </a>
             </div>
@@ -341,45 +341,45 @@
 
           <!-- A PROPOS (Hidden on Mobile) -->
           <div class="hidden md:block">
-            <h4 class="font-bold mb-6 text-white tracking-wide uppercase text-xs opacity-50">Dounia Market</h4>
+            <h4 class="font-bold mb-6 text-brand-foreground tracking-wide uppercase text-xs opacity-50">Dounia Market</h4>
             <ul class="space-y-3">
-              <li><NuxtLink to="/a-propos" class="text-slate-400 hover:text-[var(--color-accent)] text-sm font-medium transition-colors">Qui sommes-nous ?</NuxtLink></li>
-              <li><NuxtLink to="/comment-ca-marche" class="text-slate-400 hover:text-[var(--color-accent)] text-sm font-medium transition-colors">Comment ça marche</NuxtLink></li>
-              <li><NuxtLink to="/conditions" class="text-slate-400 hover:text-[var(--color-accent)] text-sm font-medium transition-colors">Conditions Générales (CGV)</NuxtLink></li>
-              <li><NuxtLink to="/mentions-legales" class="text-slate-400 hover:text-[var(--color-accent)] text-sm font-medium transition-colors">Mentions Légales</NuxtLink></li>
-              <li><NuxtLink to="/confidentialite" class="text-slate-400 hover:text-[var(--color-accent)] text-sm font-medium transition-colors">Confidentialité</NuxtLink></li>
+              <li><NuxtLink to="/a-propos" class="text-brand-foreground/70 hover:text-accent text-sm font-medium transition-colors">Qui sommes-nous ?</NuxtLink></li>
+              <li><NuxtLink to="/comment-ca-marche" class="text-brand-foreground/70 hover:text-accent text-sm font-medium transition-colors">Comment ça marche</NuxtLink></li>
+              <li><NuxtLink to="/conditions" class="text-brand-foreground/70 hover:text-accent text-sm font-medium transition-colors">Conditions Générales (CGV)</NuxtLink></li>
+              <li><NuxtLink to="/mentions-legales" class="text-brand-foreground/70 hover:text-accent text-sm font-medium transition-colors">Mentions Légales</NuxtLink></li>
+              <li><NuxtLink to="/confidentialite" class="text-brand-foreground/70 hover:text-accent text-sm font-medium transition-colors">Confidentialité</NuxtLink></li>
             </ul>
           </div>
 
           <!-- ASSISTANCE (Hidden on Mobile) -->
           <div class="hidden md:block">
-            <h4 class="font-bold mb-6 text-white tracking-wide uppercase text-xs opacity-50">Besoin d'aide ?</h4>
+            <h4 class="font-bold mb-6 text-brand-foreground tracking-wide uppercase text-xs opacity-50">Besoin d'aide ?</h4>
             <ul class="space-y-4">
-              <li><NuxtLink to="/faq" class="text-slate-400 hover:text-[var(--color-accent)] text-sm font-medium transition-colors">Foire aux questions</NuxtLink></li>
-              <li><NuxtLink to="/contact" class="text-slate-400 hover:text-[var(--color-accent)] text-sm font-medium transition-colors">Contactez-nous</NuxtLink></li>
-              <li><NuxtLink to="/suivi" class="text-slate-400 hover:text-[var(--color-accent)] text-sm font-medium transition-colors">Suivre ma commande</NuxtLink></li>
-              <li><NuxtLink to="/conditions#remboursement" class="text-slate-400 hover:text-[var(--color-accent)] text-sm font-medium transition-colors">Remboursement & Retours</NuxtLink></li>
+              <li><NuxtLink to="/faq" class="text-brand-foreground/70 hover:text-accent text-sm font-medium transition-colors">Foire aux questions</NuxtLink></li>
+              <li><NuxtLink to="/contact" class="text-brand-foreground/70 hover:text-accent text-sm font-medium transition-colors">Contactez-nous</NuxtLink></li>
+              <li><NuxtLink to="/suivi" class="text-brand-foreground/70 hover:text-accent text-sm font-medium transition-colors">Suivre ma commande</NuxtLink></li>
+              <li><NuxtLink to="/conditions#remboursement" class="text-brand-foreground/70 hover:text-accent text-sm font-medium transition-colors">Remboursement & Retours</NuxtLink></li>
             </ul>
           </div>
 
           <!-- PAIEMENT & CONTACT (Visible on Desktop) -->
           <div class="hidden md:block">
-            <h4 class="font-bold mb-6 text-white tracking-wide uppercase text-xs opacity-50">Paiement & Contact</h4>
+            <h4 class="font-bold mb-6 text-brand-foreground tracking-wide uppercase text-xs opacity-50">Paiement & Contact</h4>
             <ul class="space-y-4 mb-6">
               <li>
-                <a href="mailto:contact@tchadbox.com" class="group flex items-center gap-3 text-slate-400 hover:text-white transition-colors">
-                  <div class="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center group-hover:bg-amber-500/20 group-hover:text-amber-400 transition-all">
+                <a href="mailto:contact@douniamarket.com" class="group flex items-center gap-3 text-brand-foreground/70 hover:text-brand-foreground transition-colors">
+                  <div class="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center group-hover:bg-accent/20 group-hover:text-accent transition-all">
                     <Mail class="w-4 h-4" />
                   </div>
-                  <span class="text-sm">contact@douniamarket.com</span>
+                  <span class="text-sm font-medium">contact@douniamarket.com</span>
                 </a>
               </li>
               <li>
-                <a href="https://wa.me/235xxxxxxx" target="_blank" class="group flex items-center gap-3 text-slate-400 hover:text-white transition-colors">
+                <a href="https://wa.me/235xxxxxxx" target="_blank" class="group flex items-center gap-3 text-brand-foreground/70 hover:text-brand-foreground transition-colors">
                   <div class="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center group-hover:bg-green-500/20 group-hover:text-green-400 transition-all">
                     <MessageCircle class="w-4 h-4" />
                   </div>
-                  <span class="text-sm">WhatsApp Assistance</span>
+                  <span class="text-sm font-medium">WhatsApp Assistance</span>
                 </a>
               </li>
             </ul>
@@ -390,13 +390,13 @@
       <!-- Bottom Bar -->
       <div class="border-t border-white/10 bg-black/30">
         <div class="container-main py-6 flex flex-col md:flex-row justify-between items-center gap-4">
-          <p class="text-slate-500 text-xs text-center md:text-left">© {{ new Date().getFullYear() }} Dounia Market. Tous droits réservés.</p>
+          <p class="text-brand-foreground/50 text-xs text-center md:text-left font-medium">© {{ new Date().getFullYear() }} Dounia Market. Tous droits réservés.</p>
           <div class="flex items-center gap-4">
-            <span class="text-xs text-slate-500 font-bold tracking-widest uppercase">Paiements Sécurisés</span>
+            <span class="text-xs text-brand-foreground/50 font-bold tracking-widest uppercase">Paiements Sécurisés</span>
             <div class="flex gap-2">
-              <div class="w-10 h-6 bg-white/10 rounded flex items-center justify-center text-[10px] font-bold text-white">VISA</div>
-              <div class="w-10 h-6 bg-white/10 rounded flex items-center justify-center text-[10px] font-bold text-white">MC</div>
-              <div class="w-10 h-6 bg-white/10 rounded flex items-center justify-center text-[10px] font-bold text-white">MM</div>
+              <div class="w-10 h-6 bg-white/10 rounded flex items-center justify-center text-[10px] font-bold text-brand-foreground">VISA</div>
+              <div class="w-10 h-6 bg-white/10 rounded flex items-center justify-center text-[10px] font-bold text-brand-foreground">MC</div>
+              <div class="w-10 h-6 bg-white/10 rounded flex items-center justify-center text-[10px] font-bold text-brand-foreground">MM</div>
             </div>
           </div>
         </div>
@@ -502,42 +502,16 @@ watch(() => route.path, () => {
 }
 
 .header-glass--top {
-  background: rgba(255, 255, 255, 0.6);
+  background: rgba(var(--color-card), 0.6);
   backdrop-filter: blur(8px) saturate(120%);
   -webkit-backdrop-filter: blur(8px) saturate(120%);
 }
 
 .header-glass--scrolled {
-  background: rgba(255, 251, 245, 0.78);
+  background: rgba(var(--color-card), 0.85);
   backdrop-filter: blur(20px) saturate(180%);
   -webkit-backdrop-filter: blur(20px) saturate(180%);
-  border-bottom: 1px solid rgba(212, 135, 44, 0.15);
-  box-shadow:
-    0 4px 24px -2px rgba(0, 0, 0, 0.08),
-    inset 0 1px 0 0 rgba(255, 255, 255, 0.7);
-}
-
-/* Nav Links */
-.nav-link {
-  @apply relative font-medium text-gray-600 transition-colors duration-300;
-}
-
-.nav-link:hover {
-  color: var(--color-accent-dark);
-}
-
-.nav-link::after {
-  content: '';
-  @apply absolute -bottom-1 left-0 w-0 h-0.5 rounded-full transition-all duration-300;
-  background: var(--color-accent);
-}
-
-.nav-link:hover::after,
-.nav-link-active::after {
-  @apply w-full;
-}
-
-.nav-link-active {
-  color: var(--color-accent-dark);
+  border-bottom: 1px solid rgba(var(--color-border), 0.5);
+  box-shadow: 0 4px 24px -2px rgba(0, 0, 0, 0.08);
 }
 </style>

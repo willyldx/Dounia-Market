@@ -1,25 +1,25 @@
 <template>
-  <div class="bg-white min-h-screen pt-32 pb-24">
+  <div class="bg-background min-h-screen pt-32 pb-24">
     <!-- Clean Minimalist Header -->
     <section class="max-w-4xl mx-auto px-6 mb-16 text-center">
-      <nav class="flex items-center justify-center gap-2 text-sm font-medium text-gray-500 mb-8">
-        <NuxtLink to="/" class="hover:text-gray-900 transition-colors">Accueil</NuxtLink>
+      <nav class="flex items-center justify-center gap-2 text-sm font-medium text-muted-foreground mb-8">
+        <NuxtLink to="/" class="hover:text-foreground transition-colors">Accueil</NuxtLink>
         <ChevronRightIcon class="w-4 h-4" />
-        <span class="text-gray-900">Juridique</span>
+        <span class="text-foreground">Juridique</span>
       </nav>
       
-      <h1 class="text-4xl md:text-5xl font-black text-gray-900 tracking-tight mb-6">
+      <h1 class="text-4xl md:text-5xl font-black text-foreground tracking-tight mb-6">
         Mentions Légales
       </h1>
-      <p class="text-lg text-gray-500 font-medium">
+      <p class="text-lg text-muted-foreground/80 font-medium">
         Informations légales relatives à la plateforme Dounia Market.com
       </p>
     </section>
 
     <!-- Content -->
     <div class="container-main max-w-4xl mx-auto px-6">
-      <div class="bg-white border border-gray-100 shadow-[0_8px_30px_rgb(0,0,0,0.04)] rounded-[2rem] p-8 md:p-16">
-        <div class="prose prose-lg max-w-none prose-headings:font-black prose-headings:text-gray-900 prose-heading:tracking-tight prose-p:text-gray-600 prose-p:leading-relaxed prose-a:text-[var(--color-accent)] hover:prose-a:text-[var(--color-accent-hover)] prose-strong:text-gray-900 prose-ul:font-medium prose-ul:text-gray-600">
+      <div class="bg-card border border-border shadow-premium rounded-[2rem] p-8 md:p-16 glass-strong">
+        <div class="prose prose-lg max-w-none prose-headings:font-black prose-headings:text-foreground prose-heading:tracking-tight prose-p:text-muted-foreground/90 prose-p:leading-relaxed prose-a:text-accent hover:prose-a:text-brand prose-strong:text-foreground prose-ul:font-medium prose-ul:text-muted-foreground/90">
           
           <h2>1. Éditeur du Site</h2>
           <p>La plateforme Dounia Market.com est éditée et gérée de manière exclusive par :</p>

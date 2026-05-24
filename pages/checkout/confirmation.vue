@@ -1,5 +1,5 @@
 <template>
-  <div class="min-h-screen bg-gray-50/50 flex items-center justify-center p-6 py-24">
+  <div class="min-h-screen bg-background flex items-center justify-center p-6 py-24">
     <div class="max-w-lg w-full">
       <!-- Premium Success / Waiting Animation -->
       <div class="text-center mb-10">
@@ -8,17 +8,17 @@
                 :class="isPaid ? 'bg-[var(--color-accent)]' : (isMobileMoney ? 'bg-orange-500' : 'bg-[var(--color-accent)]')"></div>
            
           <!-- Paid State -->
-          <div v-if="isPaid" class="w-28 h-28 bg-gray-900 rounded-full flex items-center justify-center mx-auto shadow-2xl relative z-10 border-4 border-white animate-bounce-once">
-            <CheckIcon class="w-12 h-12 text-[var(--color-accent)]" />
+          <div v-if="isPaid" class="w-28 h-28 bg-brand rounded-full flex items-center justify-center mx-auto shadow-2xl relative z-10 border-4 border-card animate-bounce-once">
+            <CheckIcon class="w-12 h-12 text-accent" />
           </div>
           <!-- Awaiting State (Mobile Money) -->
-          <div v-else-if="isMobileMoney" class="w-28 h-28 bg-gray-900 rounded-full flex items-center justify-center mx-auto shadow-2xl relative z-10 border-4 border-white">
+          <div v-else-if="isMobileMoney" class="w-28 h-28 bg-brand rounded-full flex items-center justify-center mx-auto shadow-2xl relative z-10 border-4 border-card">
              <div class="absolute inset-0 rounded-full border-2 border-orange-500/50 animate-ping"></div>
-             <Smartphone class="w-12 h-12 text-white animate-pulse" />
+             <Smartphone class="w-12 h-12 text-brand-foreground animate-pulse" />
           </div>
           <!-- Default Success -->
-          <div v-else class="w-28 h-28 bg-gray-900 rounded-full flex items-center justify-center mx-auto shadow-2xl relative z-10 border-4 border-white animate-bounce-once">
-            <CheckIcon class="w-12 h-12 text-[var(--color-accent)]" />
+          <div v-else class="w-28 h-28 bg-brand rounded-full flex items-center justify-center mx-auto shadow-2xl relative z-10 border-4 border-card animate-bounce-once">
+            <CheckIcon class="w-12 h-12 text-accent" />
           </div>
           
           <!-- Subtle Sparkles effect instead of tacky confetti -->
@@ -32,105 +32,105 @@
       </div>
 
       <!-- Confirmation Receipt Card -->
-      <div class="bg-white rounded-[2rem] shadow-[0_8px_40px_rgb(0,0,0,0.06)] overflow-hidden border border-gray-100">
-        <div class="p-10 text-center pb-8 border-b border-gray-50">
-          <h1 class="text-3xl font-black text-gray-900 mb-3 tracking-tight">
+      <div class="bg-card rounded-[2rem] shadow-premium-lg overflow-hidden border border-border glass-strong">
+        <div class="p-10 text-center pb-8 border-b border-border/50">
+          <h1 class="text-3xl font-black text-foreground mb-3 tracking-tight">
             {{ isPaid ? 'Paiement sécurisé !' : (isMobileMoney ? 'Attente du transfert' : 'Commande confirmée !') }}
           </h1>
-          <p class="text-gray-500 font-medium leading-relaxed">
+          <p class="text-muted-foreground font-medium leading-relaxed">
             {{ isPaid ? "La logistique prend le relais. Merci de votre confiance." : (isMobileMoney ? 'Finalisez votre paiement pour valider' : "Votre commande a bien été enregistrée.") }}
           </p>
         </div>
 
-        <div class="p-10 space-y-8 bg-gray-50/30">
+        <div class="p-10 space-y-8 bg-muted/20">
           <!-- Order Number -->
-          <div class="bg-white border border-gray-200 rounded-2xl p-6 text-center shadow-sm">
-            <p class="text-xs font-bold uppercase tracking-widest text-gray-400 mb-2">Référence Commande</p>
-            <p class="text-3xl font-black text-gray-900 font-mono tracking-wider">{{ orderId }}</p>
+          <div class="bg-card border border-border rounded-2xl p-6 text-center shadow-sm">
+            <p class="text-xs font-bold uppercase tracking-widest text-muted-foreground mb-2">Référence Commande</p>
+            <p class="text-3xl font-black text-foreground font-mono tracking-wider">{{ orderId }}</p>
           </div>
 
           <!-- Mobile Money Instructions (Pending) -->
-          <div v-if="isMobileMoney && !isPaid" class="bg-white border-2 border-orange-100 rounded-2xl p-6 shadow-sm relative overflow-hidden">
-             <div class="absolute top-0 left-0 w-1.5 h-full bg-orange-400"></div>
+          <div v-if="isMobileMoney && !isPaid" class="bg-card border-2 border-orange-500/20 rounded-2xl p-6 shadow-sm relative overflow-hidden">
+             <div class="absolute top-0 left-0 w-1.5 h-full bg-orange-500"></div>
             <div class="flex items-center gap-3 text-orange-600 font-black tracking-tight mb-4 text-lg">
-               <div class="w-8 h-8 rounded-full bg-orange-50 flex items-center justify-center shrink-0">
+               <div class="w-8 h-8 rounded-full bg-orange-500/10 flex items-center justify-center shrink-0">
                  <Smartphone class="w-4 h-4" />
                </div>
                Action requise
             </div>
-            <div class="text-sm font-medium text-gray-600 space-y-4">
-              <p>Veuillez effectuer le transfert exact de <b class="text-black bg-orange-50 px-1 rounded">{{ amount }}</b> :</p>
-              <div class="bg-gray-50 p-4 rounded-xl border border-gray-100">
-                 <p class="text-xs font-bold text-gray-400 uppercase tracking-widest mb-1">Guichet Airtel Tchad</p>
-                 <p class="text-xl font-mono font-black text-gray-900 tracking-wider">+235 85 96 25 92</p>
+            <div class="text-sm font-medium text-muted-foreground space-y-4">
+              <p>Veuillez effectuer le transfert exact de <b class="text-foreground bg-orange-500/10 px-1 rounded">{{ amount }}</b> :</p>
+              <div class="bg-muted p-4 rounded-xl border border-border">
+                 <p class="text-xs font-bold text-muted-foreground/70 uppercase tracking-widest mb-1">Guichet Airtel Tchad</p>
+                 <p class="text-xl font-mono font-black text-foreground tracking-wider">+235 85 96 25 92</p>
               </div>
             </div>
             
             <!-- Polling indicator -->
-            <div class="flex items-center justify-center gap-3 pt-6 mt-4 border-t border-gray-100">
-              <LoaderIcon class="w-4 h-4 text-orange-400 animate-spin" />
-              <span class="text-xs font-bold uppercase tracking-widest text-gray-400">
+            <div class="flex items-center justify-center gap-3 pt-6 mt-4 border-t border-border">
+              <LoaderIcon class="w-4 h-4 text-orange-500 animate-spin" />
+              <span class="text-xs font-bold uppercase tracking-widest text-muted-foreground">
                 Scrutation en cours ({{ pollCountdown }}s)
               </span>
             </div>
           </div>
 
           <!-- Payment Confirmed (Mobile Money Success) -->
-          <div v-if="isMobileMoney && isPaid" class="bg-gray-900 rounded-2xl p-6 text-white shadow-xl">
+          <div v-if="isMobileMoney && isPaid" class="bg-brand rounded-2xl p-6 text-brand-foreground shadow-xl">
             <div class="flex items-center gap-3 font-black text-lg mb-2">
                <div class="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center shrink-0">
-                 <CheckIcon class="w-5 h-5 text-[var(--color-accent)]" />
+                 <CheckIcon class="w-5 h-5 text-accent" />
                </div>
                Transfert Validé
             </div>
-            <p class="text-sm text-gray-400 font-medium">
+            <p class="text-sm text-brand-foreground/80 font-medium">
               Nos systèmes ont bien identifié votre paiement. L'ordre de préparation vient d'être envoyé à l'équipe.
             </p>
           </div>
 
           <!-- What's Next Tracker -->
           <div class="space-y-6 pt-4">
-            <h3 class="font-black text-gray-900 text-lg">Suivi de l'opération</h3>
+            <h3 class="font-black text-foreground text-lg">Suivi de l'opération</h3>
             
-            <div class="relative pl-4 space-y-8 border-l-2 border-gray-100 ml-4">
-               <div class="absolute -left-[11px] top-0 w-5 h-5 rounded-full border-4 border-white"
-                    :class="isPaid || !isMobileMoney ? 'bg-gray-900' : 'bg-gray-300'"></div>
+            <div class="relative pl-4 space-y-8 border-l-2 border-border ml-4">
+               <div class="absolute -left-[11px] top-0 w-5 h-5 rounded-full border-4 border-card"
+                    :class="isPaid || !isMobileMoney ? 'bg-brand' : 'bg-muted-foreground/30'"></div>
                
                <div class="-mt-1.5">
-                  <p class="font-bold text-gray-900">{{ isMobileMoney && !isPaid ? 'Attente d\'autorisation' : 'Paiement crypté validé' }}</p>
-                  <p class="text-sm font-medium text-gray-500 mt-1">{{ isMobileMoney && !isPaid ? 'Transfert local en cours de vérification par API' : 'Les fonds ont bien été sécurisés.' }}</p>
+                  <p class="font-bold text-foreground">{{ isMobileMoney && !isPaid ? 'Attente d\'autorisation' : 'Paiement crypté validé' }}</p>
+                  <p class="text-sm font-medium text-muted-foreground mt-1">{{ isMobileMoney && !isPaid ? 'Transfert local en cours de vérification par API' : 'Les fonds ont bien été sécurisés.' }}</p>
                </div>
 
-               <div class="absolute -left-[11px] top-[70px] w-5 h-5 rounded-full border-4 border-white"
-                    :class="isPaid || !isMobileMoney ? 'bg-[var(--color-accent)] animate-pulse' : 'bg-gray-200'"></div>
+               <div class="absolute -left-[11px] top-[70px] w-5 h-5 rounded-full border-4 border-card"
+                    :class="isPaid || !isMobileMoney ? 'bg-accent animate-pulse' : 'bg-muted-foreground/20'"></div>
                
                <div class="pt-2">
-                  <p class="font-bold text-gray-900">Logistique N'Djamena</p>
-                  <p class="text-sm font-medium text-gray-500 mt-1">Préparation du colis pour la livraison finale.</p>
+                  <p class="font-bold text-foreground">Logistique N'Djamena</p>
+                  <p class="text-sm font-medium text-muted-foreground mt-1">Préparation du colis pour la livraison finale.</p>
                </div>
             </div>
           </div>
 
           <!-- Actions -->
-          <div class="space-y-4 pt-8 border-t border-gray-100 mt-8">
+          <div class="space-y-4 pt-8 border-t border-border mt-8">
             <NuxtLink
               v-if="authStore.isAuthenticated"
               :to="`/compte/commandes`"
-              class="flex items-center justify-center gap-2 w-full py-4.5 bg-gray-900 text-white font-bold rounded-xl hover:bg-gray-800 transition-all shadow-lg hover:shadow-xl active:scale-[0.98]"
+              class="flex items-center justify-center gap-2 w-full py-4.5 bg-brand text-brand-foreground font-bold rounded-xl hover:bg-brand/90 transition-all shadow-premium glow-accent active:scale-[0.98]"
             >
-              <PackageIcon class="w-4 h-4 text-gray-400" /> Mon Espace Logistique
+              <PackageIcon class="w-4 h-4 text-brand-foreground/70" /> Mon Espace Logistique
             </NuxtLink>
             
             <div class="grid grid-cols-2 gap-4">
               <NuxtLink
                 to="/suivi"
-                class="flex items-center justify-center w-full py-4 bg-white border border-gray-200 text-gray-900 font-bold rounded-xl hover:bg-gray-50 transition-all shadow-sm"
+                class="flex items-center justify-center w-full py-4 bg-card border border-border text-foreground font-bold rounded-xl hover:bg-muted transition-all shadow-sm"
               >
                 Suivre en ligne
               </NuxtLink>
               <NuxtLink
                 to="/"
-                class="flex items-center justify-center w-full py-4 text-gray-500 bg-transparent font-bold hover:text-gray-900 transition-colors"
+                class="flex items-center justify-center w-full py-4 text-muted-foreground bg-transparent font-bold hover:text-foreground transition-colors"
               >
                 Accueil
               </NuxtLink>
@@ -141,7 +141,7 @@
 
       <!-- Support -->
       <div class="text-center mt-10">
-         <p class="text-sm font-bold uppercase tracking-widest text-gray-400 inline-flex items-center gap-2">
+         <p class="text-sm font-bold uppercase tracking-widest text-muted-foreground inline-flex items-center gap-2">
            <ShieldCheckIcon class="w-4 h-4" /> Plateforme sécurisée Dounia Market
          </p>
       </div>

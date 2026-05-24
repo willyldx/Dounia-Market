@@ -1,22 +1,22 @@
 <template>
-  <div class="min-h-screen bg-gray-50/50 pt-32 pb-24">
+  <div class="min-h-screen bg-background pt-32 pb-24">
     <div class="max-w-4xl mx-auto px-6 lg:px-8">
       <!-- Breadcrumb -->
-      <nav class="flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-gray-400 mb-8">
-        <NuxtLink to="/compte" class="hover:text-gray-900 transition-colors">Conciergerie</NuxtLink>
-        <ChevronRightIcon class="w-3 h-3 text-gray-300" />
-        <span class="text-gray-900">Carnet d'Adresses</span>
+      <nav class="flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-muted-foreground mb-8">
+        <NuxtLink to="/compte" class="hover:text-foreground transition-colors">Conciergerie</NuxtLink>
+        <ChevronRightIcon class="w-3 h-3 text-muted-foreground/40" />
+        <span class="text-foreground">Carnet d'Adresses</span>
       </nav>
 
       <!-- Premium Header -->
-      <div class="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-6 mb-12 border-b border-gray-100 pb-8">
+      <div class="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-6 mb-12 border-b border-border pb-8">
         <div>
-          <h1 class="text-4xl font-black text-gray-900 tracking-tight">Destinataires VIP</h1>
-          <p class="text-gray-500 font-medium mt-2">Gérez vos points de livraison privilégiés au Tchad.</p>
+          <h1 class="text-4xl font-black text-foreground tracking-tight">Destinataires VIP</h1>
+          <p class="text-muted-foreground font-medium mt-2">Gérez vos points de livraison privilégiés au Tchad.</p>
         </div>
         <button
           @click="openAddModal"
-          class="flex items-center justify-center gap-3 px-8 py-4 bg-gray-900 text-white font-bold rounded-2xl hover:bg-gray-800 transition-all shadow-md active:scale-95 shrink-0"
+          class="flex items-center justify-center gap-3 px-8 py-4 bg-brand text-brand-foreground font-bold rounded-2xl hover:bg-brand/90 transition-all shadow-premium glow-accent active:scale-95 shrink-0"
         >
           <PlusIcon class="w-5 h-5" />
           Nouveau Contact
@@ -25,24 +25,24 @@
 
       <!-- Addresses Grid -->
       <div v-if="isLoading" class="grid md:grid-cols-2 gap-6">
-        <div v-for="i in 2" :key="i" class="bg-white rounded-[2rem] border border-gray-100 p-8 shadow-sm animate-pulse">
-          <div class="h-5 bg-gray-100 rounded-md w-32 mb-4"></div>
-          <div class="h-4 bg-gray-50 rounded-md w-48 mb-3"></div>
-          <div class="h-4 bg-gray-50 rounded-md w-40"></div>
+        <div v-for="i in 2" :key="i" class="bg-card rounded-[2rem] border border-border p-8 shadow-sm animate-pulse glass-strong">
+          <div class="h-5 bg-muted rounded-md w-32 mb-4"></div>
+          <div class="h-4 bg-muted/50 rounded-md w-48 mb-3"></div>
+          <div class="h-4 bg-muted/50 rounded-md w-40"></div>
         </div>
       </div>
 
-      <div v-else-if="addresses.length === 0" class="bg-white rounded-[2rem] border border-gray-100 p-16 text-center shadow-[0_4px_20px_rgb(0,0,0,0.02)]">
-        <div class="w-24 h-24 bg-gray-50 rounded-full flex items-center justify-center mx-auto mb-6">
-          <MapPinIcon class="w-10 h-10 text-gray-300" />
+      <div v-else-if="addresses.length === 0" class="bg-card rounded-[2rem] border border-border p-16 text-center shadow-premium glass-strong">
+        <div class="w-24 h-24 bg-muted rounded-full flex items-center justify-center mx-auto mb-6">
+          <MapPinIcon class="w-10 h-10 text-muted-foreground/30" />
         </div>
-        <h3 class="text-2xl font-black text-gray-900 mb-3 tracking-tight">Carnet vide</h3>
-        <p class="text-gray-500 font-medium mb-10 max-w-sm mx-auto">
+        <h3 class="text-2xl font-black text-foreground mb-3 tracking-tight">Carnet vide</h3>
+        <p class="text-muted-foreground font-medium mb-10 max-w-sm mx-auto">
           Aucune coordonnée logistique n'a été pré-enregistrée.
         </p>
         <button
           @click="openAddModal"
-          class="inline-flex items-center justify-center gap-3 px-8 py-4 bg-gray-900 text-white font-bold rounded-xl hover:bg-gray-800 transition-all shadow-md"
+          class="inline-flex items-center justify-center gap-3 px-8 py-4 bg-brand text-brand-foreground font-bold rounded-xl hover:bg-brand/90 transition-all shadow-premium glow-accent"
         >
           <PlusIcon class="w-5 h-5" />
           Ajouter un destinataire
@@ -53,58 +53,58 @@
         <div
           v-for="address in addresses"
           :key="address.id"
-          class="bg-white rounded-[2rem] border overflow-hidden p-8 relative flex flex-col hover:shadow-xl hover:border-gray-300 transition-all duration-300 group"
-          :class="address.isDefault ? 'border-gray-300 shadow-[0_4px_20px_rgb(0,0,0,0.04)]' : 'border-gray-100 shadow-sm'"
+          class="bg-card rounded-[2rem] border overflow-hidden p-8 relative flex flex-col hover:shadow-premium hover:border-border/80 transition-all duration-300 group glass-strong"
+          :class="address.isDefault ? 'border-brand/30 shadow-premium' : 'border-border shadow-sm'"
         >
-           <div v-if="address.isDefault" class="absolute top-0 left-0 right-0 h-1.5 bg-gray-900"></div>
+           <div v-if="address.isDefault" class="absolute top-0 left-0 right-0 h-1.5 bg-brand"></div>
 
           <!-- Address Content -->
           <div class="flex items-start justify-between mb-2">
-             <div class="w-12 h-12 bg-gray-50 rounded-2xl flex items-center justify-center shrink-0 border border-gray-100">
-               <MapPinIcon class="w-5 h-5 text-gray-900" />
+             <div class="w-12 h-12 bg-muted rounded-2xl flex items-center justify-center shrink-0 border border-border">
+               <MapPinIcon class="w-5 h-5 text-foreground" />
              </div>
              <!-- Default Badge -->
              <span
                v-if="address.isDefault"
-               class="text-[10px] uppercase font-black tracking-widest bg-gray-900 text-white px-3 py-1.5 rounded-lg shadow-sm"
+               class="text-[10px] uppercase font-black tracking-widest bg-brand text-brand-foreground px-3 py-1.5 rounded-lg shadow-sm"
              >
                Principal
              </span>
           </div>
 
           <div class="mt-4 flex-1">
-            <p class="text-xl font-black text-gray-900 tracking-tight mb-2">
+            <p class="text-xl font-black text-foreground tracking-tight mb-2">
               {{ address.firstName }} {{ address.lastName }}
             </p>
-            <p class="text-sm font-medium text-gray-500 leading-relaxed mb-4">
+            <p class="text-sm font-medium text-muted-foreground leading-relaxed mb-4">
               {{ address.address1 }}
               <span v-if="address.address2"><br />{{ address.address2 }}</span><br/>
-              <span class="text-gray-900 font-bold mt-1 block">{{ address.city }}, {{ address.country }}</span>
+              <span class="text-foreground font-bold mt-1 block">{{ address.city }}, {{ address.country }}</span>
             </p>
-            <p v-if="address.phone" class="inline-flex items-center gap-2 bg-gray-50 px-3 py-2 rounded-xl border border-gray-100 mt-2">
-              <PhoneIcon class="w-4 h-4 text-gray-400" />
-              <span class="text-xs font-bold font-mono tracking-widest text-gray-900">{{ address.phone }}</span>
+            <p v-if="address.phone" class="inline-flex items-center gap-2 bg-muted px-3 py-2 rounded-xl border border-border mt-2">
+              <PhoneIcon class="w-4 h-4 text-muted-foreground/60" />
+              <span class="text-xs font-bold font-mono tracking-widest text-foreground">{{ address.phone }}</span>
             </p>
           </div>
 
           <!-- Actions -->
-          <div class="flex items-center gap-2 mt-8 pt-6 border-t border-gray-50 flex-wrap">
+          <div class="flex items-center gap-2 mt-8 pt-6 border-t border-border/50 flex-wrap">
             <button
               @click="editAddress(address)"
-              class="flex items-center gap-2 px-4 py-2 text-xs font-bold uppercase tracking-widest text-gray-500 hover:text-gray-900 hover:bg-gray-100 rounded-xl transition-all"
+              class="flex items-center gap-2 px-4 py-2 text-xs font-bold uppercase tracking-widest text-muted-foreground hover:text-foreground hover:bg-muted rounded-xl transition-all"
             >
               <EditIcon class="w-4 h-4" /> Éditer
             </button>
             <button
               v-if="!address.isDefault"
               @click="setAsDefault(address.id)"
-              class="flex items-center gap-2 px-4 py-2 text-xs font-bold uppercase tracking-widest text-gray-500 hover:text-gray-900 hover:bg-gray-100 rounded-xl transition-all"
+              class="flex items-center gap-2 px-4 py-2 text-xs font-bold uppercase tracking-widest text-muted-foreground hover:text-foreground hover:bg-muted rounded-xl transition-all"
             >
               <StarIcon class="w-4 h-4" /> Rendre Principal
             </button>
             <button
               @click="confirmDelete(address)"
-              class="flex items-center gap-2 px-4 py-2 text-xs font-bold uppercase tracking-widest text-red-500 hover:bg-red-50 hover:text-red-600 rounded-xl transition-all ml-auto"
+              class="flex items-center gap-2 px-4 py-2 text-xs font-bold uppercase tracking-widest text-red-500 hover:bg-red-500/10 hover:text-red-600 rounded-xl transition-all ml-auto"
             >
                Supprimer
             </button>
@@ -113,15 +113,15 @@
       </div>
 
       <!-- Info Note -->
-      <div class="mt-12 bg-white rounded-[2rem] border border-gray-100 p-8 flex items-start gap-5 shadow-sm relative overflow-hidden">
-        <div class="absolute top-0 left-0 w-1.5 h-full bg-[var(--color-accent)] pointer-events-none"></div>
-        <div class="w-12 h-12 bg-gray-50 border border-gray-100 rounded-2xl flex items-center justify-center shrink-0">
-          <InfoIcon class="w-5 h-5 text-[var(--color-accent)]" />
+      <div class="mt-12 bg-card rounded-[2rem] border border-border p-8 flex items-start gap-5 shadow-premium relative overflow-hidden glass-strong">
+        <div class="absolute top-0 left-0 w-1.5 h-full bg-accent pointer-events-none"></div>
+        <div class="w-12 h-12 bg-muted border border-border rounded-2xl flex items-center justify-center shrink-0">
+          <InfoIcon class="w-5 h-5 text-accent" />
         </div>
         <div>
-          <p class="text-sm font-black uppercase tracking-widest text-gray-900 mb-2">Notice Logistique Tchad</p>
-          <p class="text-sm font-medium text-gray-500 leading-relaxed max-w-2xl">
-            Toutes nos opérations de livraison VIP se concentrent exclusivement sur la métropole de <b class="text-gray-900">N'Djamena</b>. Pour vos expéditions vers d'autres provinces, merci de requérir une assistance spéciale en amont.
+          <p class="text-sm font-black uppercase tracking-widest text-foreground mb-2">Notice Logistique Tchad</p>
+          <p class="text-sm font-medium text-muted-foreground leading-relaxed max-w-2xl">
+            Toutes nos opérations de livraison VIP se concentrent exclusivement sur la métropole de <b class="text-foreground">N'Djamena</b>. Pour vos expéditions vers d'autres provinces, merci de requérir une assistance spéciale en amont.
           </p>
         </div>
       </div>
@@ -137,7 +137,7 @@
         leave-from-class="opacity-100 backdrop-blur-md"
         leave-to-class="opacity-0 backdrop-blur-none"
       >
-        <div v-if="showModal" class="fixed inset-0 bg-gray-900/60 z-[100] flex items-center justify-center p-4">
+        <div v-if="showModal" class="fixed inset-0 bg-background/80 z-[100] flex items-center justify-center p-4">
           <Transition
             enter-active-class="transition-all duration-400 ease-out"
             enter-from-class="opacity-0 scale-95 translate-y-4"
@@ -146,14 +146,14 @@
             leave-from-class="opacity-100 scale-100 translate-y-0"
             leave-to-class="opacity-0 scale-95 translate-y-4"
           >
-            <div v-if="showModal" class="bg-white rounded-[2rem] max-w-2xl w-full max-h-[90vh] overflow-y-auto shadow-2xl relative">
+            <div v-if="showModal" class="bg-card rounded-[2rem] max-w-2xl w-full max-h-[90vh] overflow-y-auto shadow-premium-lg relative glass-strong">
               <!-- Modal Header -->
-              <div class="flex items-center justify-between p-8 sm:p-10 border-b border-gray-50 bg-gray-50/50">
-                <h3 class="text-2xl font-black text-gray-900 tracking-tight">
+              <div class="flex items-center justify-between p-8 sm:p-10 border-b border-border/50 bg-muted/30">
+                <h3 class="text-2xl font-black text-foreground tracking-tight">
                   {{ editingAddress ? 'Modifier le contact' : 'Nouveau destinataire' }}
                 </h3>
-                <button @click="closeModal" class="w-10 h-10 flex items-center justify-center bg-white border border-gray-200 rounded-full hover:bg-gray-100 hover:scale-105 transition-all shadow-sm">
-                  <XIcon class="w-5 h-5 text-gray-500" />
+                <button @click="closeModal" class="w-10 h-10 flex items-center justify-center bg-card border border-border rounded-full hover:bg-muted hover:scale-105 transition-all shadow-sm">
+                  <XIcon class="w-5 h-5 text-muted-foreground" />
                 </button>
               </div>
 
@@ -229,7 +229,7 @@
                       type="text"
                       disabled
                       placeholder=" "
-                      class="peer checkout-input bg-gray-50 border-transparent text-gray-400 cursor-not-allowed"
+                      class="peer checkout-input bg-muted border-transparent text-muted-foreground/50 cursor-not-allowed"
                     />
                     <label for="mCountry" class="checkout-label bg-transparent">Zone / Pays</label>
                   </div>
@@ -247,12 +247,12 @@
                   <label for="mPhone" class="checkout-label">Téléphone (obligatoire pour le livreur)</label>
                 </div>
 
-                <div class="pt-4 border-t border-gray-50 flex items-center gap-4 cursor-pointer group" @click="form.isDefault = !form.isDefault">
+                <div class="pt-4 border-t border-border/50 flex items-center gap-4 cursor-pointer group" @click="form.isDefault = !form.isDefault">
                   <div class="w-6 h-6 rounded-lg border-2 flex items-center justify-center transition-colors"
-                       :class="form.isDefault ? 'bg-gray-900 border-gray-900' : 'border-gray-300 bg-white group-hover:border-gray-400'">
-                     <CheckIcon v-if="form.isDefault" class="w-4 h-4 text-white" />
+                       :class="form.isDefault ? 'bg-brand border-brand' : 'border-border bg-card group-hover:border-border/80'">
+                     <CheckIcon v-if="form.isDefault" class="w-4 h-4 text-brand-foreground" />
                   </div>
-                  <span class="text-sm font-bold text-gray-600 group-hover:text-gray-900 transition-colors">
+                  <span class="text-sm font-bold text-muted-foreground group-hover:text-foreground transition-colors">
                     Imposer comme point de logistique prioritaire
                   </span>
                 </div>
@@ -262,16 +262,16 @@
                   <button
                     type="button"
                     @click="closeModal"
-                    class="flex-1 py-4 border-2 border-gray-200 text-gray-900 font-bold rounded-2xl hover:bg-gray-50 hover:border-gray-300 transition-colors shadow-sm"
+                    class="flex-1 py-4 border-2 border-border text-foreground font-bold rounded-2xl hover:bg-muted hover:border-foreground transition-colors shadow-sm"
                   >
                     Annuler
                   </button>
                   <button
                     type="submit"
                     :disabled="isSaving"
-                    class="flex-1 py-4 bg-gray-900 text-white font-bold rounded-2xl disabled:opacity-50 flex items-center justify-center gap-3 hover:bg-gray-800 transition-colors shadow-lg active:scale-95"
+                    class="flex-1 py-4 bg-brand text-brand-foreground font-bold rounded-2xl disabled:opacity-50 flex items-center justify-center gap-3 hover:bg-brand/90 transition-colors shadow-premium glow-accent active:scale-95"
                   >
-                    <LoaderIcon v-if="isSaving" class="w-5 h-5 animate-spin text-gray-400" />
+                    <LoaderIcon v-if="isSaving" class="w-5 h-5 animate-spin text-brand-foreground/60" />
                     {{ isSaving ? 'Synchronisation...' : (editingAddress ? 'Sauvegarder' : 'Approuver la création') }}
                   </button>
                 </div>
@@ -292,14 +292,14 @@
         leave-from-class="opacity-100"
         leave-to-class="opacity-0"
       >
-        <div v-if="showDeleteModal" class="fixed inset-0 bg-gray-900/60 backdrop-blur-md z-[110] flex items-center justify-center p-6">
-          <div class="bg-white rounded-[2rem] max-w-sm w-full p-10 relative overflow-hidden shadow-2xl">
+        <div v-if="showDeleteModal" class="fixed inset-0 bg-background/80 backdrop-blur-md z-[110] flex items-center justify-center p-6">
+          <div class="bg-card rounded-[2rem] max-w-sm w-full p-10 relative overflow-hidden shadow-premium-lg border border-border glass-strong">
              <div class="absolute top-0 left-0 w-full h-1.5 bg-red-500"></div>
-            <div class="w-20 h-20 bg-red-50 rounded-full flex items-center justify-center mx-auto mb-6">
+            <div class="w-20 h-20 bg-red-500/10 rounded-full flex items-center justify-center mx-auto mb-6">
               <TrashIcon class="w-10 h-10 text-red-500" />
             </div>
-            <h3 class="text-2xl font-black text-gray-900 text-center mb-3 tracking-tight">Supprimer ?</h3>
-            <p class="text-gray-500 font-medium text-center mb-8">
+            <h3 class="text-2xl font-black text-foreground text-center mb-3 tracking-tight">Supprimer ?</h3>
+            <p class="text-muted-foreground font-medium text-center mb-8">
               Ce contact sera rayé définitivement de votre carnet d'adresses.
             </p>
             <div class="flex flex-col gap-3">
@@ -313,7 +313,7 @@
               </button>
               <button
                 @click="showDeleteModal = false"
-                class="w-full py-4 border-2 border-transparent text-gray-500 font-bold hover:text-gray-900 hover:bg-gray-50 rounded-xl transition-all"
+                class="w-full py-4 border-2 border-transparent text-muted-foreground font-bold hover:text-foreground hover:bg-muted rounded-xl transition-all"
               >
                 Annuler
               </button>
@@ -486,10 +486,10 @@ async function setAsDefault(addressId: string) {
 <style scoped>
 /* Ultra Premium Stripe-like Inputs for Modals */
 .checkout-input {
-  @apply block w-full px-5 pt-8 pb-3 text-sm font-bold text-gray-900 bg-white border border-gray-200 rounded-2xl appearance-none focus:outline-none focus:ring-2 focus:ring-gray-900 focus:border-transparent transition-all shadow-sm;
+  @apply block w-full px-5 pt-8 pb-3 text-sm font-bold text-foreground bg-card border border-border rounded-2xl appearance-none focus:outline-none focus:ring-2 focus:ring-brand focus:border-transparent transition-all shadow-sm;
 }
 
 .checkout-label {
-  @apply absolute text-gray-400 font-bold uppercase tracking-widest text-xs duration-200 transform -translate-y-3 scale-[0.8] top-5 z-10 origin-[0] left-5 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-placeholder-shown:text-gray-500 peer-placeholder-shown:normal-case peer-placeholder-shown:font-medium peer-focus:scale-[0.8] peer-focus:-translate-y-3 peer-focus:text-gray-900 peer-focus:uppercase peer-focus:font-bold pointer-events-none;
+  @apply absolute text-muted-foreground/80 font-bold uppercase tracking-widest text-xs duration-200 transform -translate-y-3 scale-[0.8] top-5 z-10 origin-[0] left-5 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-placeholder-shown:text-muted-foreground/60 peer-placeholder-shown:normal-case peer-placeholder-shown:font-medium peer-focus:scale-[0.8] peer-focus:-translate-y-3 peer-focus:text-foreground peer-focus:uppercase peer-focus:font-bold pointer-events-none;
 }
 </style>

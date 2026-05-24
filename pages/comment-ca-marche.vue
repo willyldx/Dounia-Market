@@ -1,5 +1,5 @@
 <template>
-  <div class="bg-white min-h-screen">
+  <div class="bg-background min-h-screen">
     <!-- Hero (Cinematic) -->
     <section class="relative pt-32 pb-40 overflow-hidden text-center flex flex-col items-center justify-center">
       <!-- Background Image with Heavy Cinematic Overlay for perfect text contrast -->
@@ -15,7 +15,7 @@
           v-motion :initial="{ opacity: 0, y: 20 }" :enter="{ opacity: 1, y: 0, transition: { delay: 100 } }"
           class="text-5xl md:text-7xl font-black text-white mb-6 tracking-tight drop-shadow-2xl"
         >
-          Comment ça <span class="text-[var(--color-accent)]">marche</span> ?
+          Comment ça <span class="text-accent">marche</span> ?
         </h1>
         <p 
           v-motion :initial="{ opacity: 0, y: 20 }" :enter="{ opacity: 1, y: 0, transition: { delay: 200 } }"
@@ -27,10 +27,10 @@
     </section>
 
     <!-- Steps — Sleek E-Commerce Timeline -->
-    <section class="py-32 relative bg-gray-50 border-t border-gray-200">
+    <section class="py-32 relative bg-muted/10 border-t border-border/50">
       <div class="container-main max-w-5xl relative">
         <!-- LA LIGNE VERTICALE RÉPARÉE : Parent désormais en position relative ! -->
-        <div class="hidden md:block absolute left-1/2 top-10 bottom-10 w-px bg-gray-200 -translate-x-1/2" />
+        <div class="hidden md:block absolute left-1/2 top-10 bottom-10 w-px bg-border -translate-x-1/2" />
         
         <div class="space-y-32">
           <div 
@@ -41,26 +41,26 @@
             :visibleOnce="{ opacity: 1, y: 0, transition: { delay: i * 100, duration: 600 } }"
           >
             <!-- Timeline Center Node (Desktop) -->
-            <div class="hidden md:flex absolute left-1/2 top-1/2 -translate-y-1/2 -translate-x-1/2 w-16 h-16 bg-white border-[6px] border-gray-50 rounded-full items-center justify-center shadow-sm z-10 text-gray-900 font-black text-xl">
+            <div class="hidden md:flex absolute left-1/2 top-1/2 -translate-y-1/2 -translate-x-1/2 w-16 h-16 bg-card border-[6px] border-muted/50 rounded-full items-center justify-center shadow-sm z-10 text-foreground font-black text-xl">
               {{ i + 1 }}
             </div>
 
             <!-- Text side -->
             <div :class="{ 'md:order-2 md:pl-10': i % 2 === 1, 'md:pr-10 text-left md:text-right': i % 2 === 0 }">
               <div class="flex items-center gap-4 mb-6" :class="{'md:flex-row-reverse': i % 2 === 0, 'flex-row': true}">
-                <span class="md:hidden w-12 h-12 rounded-full bg-gray-900 text-white flex items-center justify-center font-bold text-lg shadow-md shrink-0">
+                <span class="md:hidden w-12 h-12 rounded-full bg-brand text-brand-foreground flex items-center justify-center font-bold text-lg shadow-md shrink-0">
                   {{ i + 1 }}
                 </span>
-                <h2 class="text-3xl font-black text-gray-900 tracking-tight">{{ step.title }}</h2>
+                <h2 class="text-3xl font-black text-foreground tracking-tight">{{ step.title }}</h2>
               </div>
-              <p class="text-lg text-gray-500 font-medium leading-relaxed mb-8">{{ step.description }}</p>
+              <p class="text-lg text-muted-foreground font-medium leading-relaxed mb-8">{{ step.description }}</p>
               
               <!-- Feature bullets -->
               <div class="inline-block" :class="{'text-left': true}">
                 <ul class="space-y-4">
                   <li v-for="feature in step.features" :key="feature" class="flex items-center gap-3">
-                    <div class="w-1.5 h-1.5 rounded-full bg-[var(--color-accent)] shrink-0"></div>
-                    <span class="text-gray-700 font-medium text-base">{{ feature }}</span>
+                    <div class="w-1.5 h-1.5 rounded-full bg-accent shrink-0"></div>
+                    <span class="text-muted-foreground/90 font-medium text-base">{{ feature }}</span>
                   </li>
                 </ul>
               </div>
@@ -68,11 +68,11 @@
             
             <!-- Visual side (Sleek monochrome cards) -->
             <div :class="{ 'md:order-1': i % 2 === 1 }">
-              <div class="bg-white rounded-[2rem] p-12 text-center border border-gray-100 shadow-[0_8px_30px_rgb(0,0,0,0.04)] hover:shadow-[0_8px_30px_rgb(0,0,0,0.08)] hover:border-gray-200 transition-all duration-300 group">
-                <div class="w-24 h-24 mx-auto rounded-full bg-gray-50 flex items-center justify-center mb-6 border border-gray-100 group-hover:scale-110 group-hover:bg-gray-100 transition-all duration-500">
-                   <component :is="step.icon" class="w-10 h-10 text-gray-900" />
+              <div class="bg-card rounded-[2rem] p-12 text-center border border-border shadow-sm hover:shadow-premium hover:border-border/80 transition-all duration-300 group glass-strong">
+                <div class="w-24 h-24 mx-auto rounded-full bg-muted/50 flex items-center justify-center mb-6 border border-border group-hover:scale-110 group-hover:bg-muted transition-all duration-500">
+                   <component :is="step.icon" class="w-10 h-10 text-foreground" />
                 </div>
-                <p class="text-xl font-bold text-gray-900">{{ step.subtitle }}</p>
+                <p class="text-xl font-bold text-foreground">{{ step.subtitle }}</p>
               </div>
             </div>
           </div>
@@ -81,22 +81,22 @@
     </section>
 
     <!-- Nouveau Design FAQ -->
-    <section class="py-32 bg-white">
+    <section class="py-32 bg-background">
       <div class="container-main max-w-4xl">
         <div class="text-center mb-20">
-          <h2 class="text-4xl md:text-5xl font-black tracking-tight text-gray-900 mb-6">Des questions ?</h2>
-          <p class="text-xl text-gray-500 font-medium">Tout ce que vous devez savoir sur le processus d'expédition.</p>
+          <h2 class="text-4xl md:text-5xl font-black tracking-tight text-foreground mb-6">Des questions ?</h2>
+          <p class="text-xl text-muted-foreground font-medium">Tout ce que vous devez savoir sur le processus d'expédition.</p>
         </div>
         <div class="space-y-4">
           <div 
             v-for="(faq, i) in faqs" :key="i" 
-            class="bg-gray-50 rounded-2xl overflow-hidden transition-all duration-300 border border-gray-100"
-            :class="openFaq === i ? 'border-gray-300 shadow-sm' : ''"
+            class="bg-muted/30 rounded-2xl overflow-hidden transition-all duration-300 border border-border"
+            :class="openFaq === i ? 'border-border/80 shadow-sm' : ''"
           >
             <button @click="openFaq = openFaq === i ? null : i" class="w-full p-6 text-left flex justify-between items-center gap-4 group">
-              <span class="font-bold text-lg text-gray-900 group-hover:text-gray-600 transition-colors">{{ faq.question }}</span>
-              <div class="w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0 transition-all border border-gray-200"
-                :class="openFaq === i ? 'bg-gray-900 text-white rotate-180 border-gray-900' : 'bg-white text-gray-500'"
+              <span class="font-bold text-lg text-foreground group-hover:text-muted-foreground transition-colors">{{ faq.question }}</span>
+              <div class="w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0 transition-all border border-border"
+                :class="openFaq === i ? 'bg-brand text-brand-foreground rotate-180 border-brand' : 'bg-card text-muted-foreground'"
               >
                 <ChevronDown class="w-5 h-5 transition-transform" />
               </div>
@@ -109,7 +109,7 @@
               leave-from-class="opacity-100 max-h-40"
               leave-to-class="opacity-0 max-h-0"
             >
-              <div v-if="openFaq === i" class="px-6 pb-8 text-gray-500 font-medium leading-relaxed overflow-hidden">
+              <div v-if="openFaq === i" class="px-6 pb-8 text-muted-foreground font-medium leading-relaxed overflow-hidden">
                 {{ faq.answer }}
               </div>
             </Transition>
@@ -123,19 +123,19 @@
       <div class="container-main max-w-5xl">
         <div 
           v-motion :initial="{ opacity: 0, y: 20 }" :visibleOnce="{ opacity: 1, y: 0 }"
-          class="bg-gray-900 rounded-[3rem] p-12 md:p-24 relative overflow-hidden"
+          class="bg-brand rounded-[3rem] p-12 md:p-24 relative overflow-hidden"
         >
           <div class="absolute inset-0 opacity-10 bg-[url('https://api.spencerai.tech/storage/textures/noise.png')]"></div>
           <div class="relative z-10">
-            <h2 class="text-4xl md:text-5xl font-black text-white mb-6 tracking-tight">Prêt à envoyer un sourire ?</h2>
-            <p class="text-xl text-gray-400 mb-12 max-w-2xl mx-auto font-medium">
+            <h2 class="text-4xl md:text-5xl font-black text-brand-foreground mb-6 tracking-tight">Prêt à envoyer un sourire ?</h2>
+            <p class="text-xl text-brand-foreground/70 mb-12 max-w-2xl mx-auto font-medium">
               Rejoignez des centaines de familles qui font déjà confiance à Dounia Market pour le lien avec leurs proches.
             </p>
             <div class="flex flex-col sm:flex-row gap-4 justify-center">
-              <NuxtLink to="/catalogue" class="inline-flex flex-col items-center justify-center px-10 py-5 bg-[var(--color-accent)] text-white font-bold rounded-2xl hover:bg-[var(--color-accent-hover)] transition-all shadow-[0_8px_30px_rgb(16,185,129,0.3)]">
+              <NuxtLink to="/catalogue" class="inline-flex flex-col items-center justify-center px-10 py-5 bg-accent text-brand-foreground font-bold rounded-2xl hover:bg-accent/90 transition-all shadow-premium glow-accent">
                 Voir le catalogue premium
               </NuxtLink>
-              <NuxtLink to="/contact" class="inline-flex flex-col items-center justify-center px-10 py-5 bg-white/10 text-white font-bold rounded-2xl hover:bg-white/20 transition-all backdrop-blur-sm border border-white/10">
+              <NuxtLink to="/contact" class="inline-flex flex-col items-center justify-center px-10 py-5 bg-white/10 text-brand-foreground font-bold rounded-2xl hover:bg-white/20 transition-all backdrop-blur-sm border border-white/10">
                 Nous contacter
               </NuxtLink>
             </div>
