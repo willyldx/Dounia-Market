@@ -30,5 +30,8 @@
   },
   "overrides": {
     "tailwindcss": "3.4.17"
+  },
+  "resolutions": {
+    "tailwindcss": "3.4.17"
   }
 }
