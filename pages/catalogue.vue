@@ -32,11 +32,11 @@
         
         <!-- Category Chips -->
         <div class="flex items-center gap-2 overflow-x-auto w-full sm:w-auto pb-2 sm:pb-0 scrollbar-hide snap-x">
-          <button @click="selectedCategory = ''" class="chip" :class="{ active: !selectedCategory }">
+          <button @click="selectedCategory = ''" class="chip" :class="{ 'active shadow-premium': !selectedCategory }">
             <span class="whitespace-nowrap">Toutes les catégories</span>
             <span class="chip-count">{{ products.length }}</span>
           </button>
-          <button v-for="cat in categories" :key="cat.handle" @click="selectedCategory = cat.handle" class="chip snap-start" :class="{ active: selectedCategory === cat.handle }">
+          <button v-for="cat in categories" :key="cat.handle" @click="selectedCategory = cat.handle" class="chip snap-start" :class="{ 'active shadow-premium': selectedCategory === cat.handle }">
             <component :is="cat.icon" class="w-4 h-4" />
             <span class="whitespace-nowrap">{{ cat.name }}</span>
             <span class="chip-count" v-if="getCount(cat.handle) > 0">{{ getCount(cat.handle) }}</span>
@@ -333,7 +333,7 @@ useHead({ title: 'Catalogue' })
   @apply flex items-center gap-1.5 px-4 py-2 rounded-full bg-card border border-border text-sm font-medium text-muted-foreground hover:border-muted-foreground/30 transition-all shadow-sm;
 }
 .chip.active {
-  @apply bg-brand border-brand text-brand-foreground shadow-premium;
+  @apply bg-brand border-brand text-brand-foreground;
 }
 .chip-count {
   @apply ml-1 bg-muted text-muted-foreground text-[10px] font-bold px-1.5 py-0.5 rounded-full;
