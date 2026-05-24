@@ -1,5 +1,5 @@
 <template>
-  <div class="min-h-screen flex flex-col pb-16 lg:pb-0 bg-[radial-gradient(circle_at_top,rgba(212,135,44,0.06),transparent_40%)]">
+  <div class="min-h-screen flex flex-col pb-16 lg:pb-0 bg-[radial-gradient(circle_at_top,var(--color-accent-light),transparent_40%)]">
     <!-- Announcement Bar -->
     <div
       class="text-white py-2.5 transition-all duration-500"
@@ -256,7 +256,7 @@
               <ClientOnly>
                 <span 
                   v-if="cartStore.itemCount > 0"
-                  class="absolute -top-1 -right-1 w-5 h-5 bg-[var(--color-primary)] text-white text-xs font-bold rounded-full flex items-center justify-center animate-scale-in"
+                  class="absolute -top-1 -right-1 w-5 h-5 bg-brand text-white text-xs font-bold rounded-full flex items-center justify-center animate-scale-in"
                 >
                   {{ cartStore.itemCount }}
                 </span>
@@ -265,7 +265,7 @@
 
               <NuxtLink
                 to="/compte"
-                class="p-2 sm:px-4 sm:py-2.5 rounded-xl bg-accent text-accent-foreground font-semibold hover:bg-accent/90 transition-colors flex items-center gap-2"
+                class="p-2 sm:px-4 sm:py-2.5 rounded-xl bg-[var(--color-accent)] text-[var(--color-accent-foreground)] font-semibold hover:bg-[var(--color-accent-dark)] transition-colors flex items-center gap-2"
               >
                 <User class="w-5 h-5" />
                 <span class="hidden sm:inline">Mon compte</span>

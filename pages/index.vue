@@ -1,262 +1,153 @@
 <template>
-  <div class="bg-background text-foreground">
-    <section class="relative min-h-[84vh] overflow-hidden">
-      <div class="absolute inset-0">
-        <div v-for="(slide, i) in heroSlides" :key="`bg-${i}`" class="absolute inset-0">
-          <Transition
-            enter-active-class="transition-opacity duration-700 ease-out"
-            enter-from-class="opacity-0"
-            enter-to-class="opacity-100"
-            leave-active-class="transition-opacity duration-700 ease-in"
-            leave-from-class="opacity-100"
-            leave-to-class="opacity-0"
-          >
-            <NuxtImg
-              v-show="currentSlide === i"
-              :src="slide.image"
-              :alt="slide.titleText"
-              class="h-full w-full object-cover"
-              loading="eager"
-              format="webp"
-            />
-          </Transition>
-        </div>
-        <div class="absolute inset-0 bg-[radial-gradient(circle_at_10%_20%,rgba(212,135,44,0.15),transparent_45%),radial-gradient(circle_at_90%_10%,rgba(15,23,42,0.45),transparent_40%),linear-gradient(to_bottom,rgba(2,6,23,0.55),rgba(2,6,23,0.65))]"></div>
-      </div>
+  <div class="min-h-screen bg-background">
+    <main class="container mx-auto px-4 py-12">
+      <!-- Hero Section from v0 -->
+      <section class="text-center mb-20 relative">
+        <!-- Deco -->
+        <div class="absolute top-0 right-10 w-64 h-64 bg-accent/10 rounded-full blur-3xl -z-10" />
+        <div class="absolute bottom-0 left-10 w-48 h-48 bg-primary/10 rounded-full blur-2xl -z-10" />
 
-      <div class="container-main relative z-10 flex min-h-[84vh] items-center">
-        <div class="max-w-3xl text-white">
-          <p class="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-4 py-2 text-xs font-semibold uppercase tracking-[0.16em] backdrop-blur">
-            <span class="h-2 w-2 rounded-full bg-amber-300"></span>
-            Dounia Market — Diaspora
-          </p>
-          <h1 class="mt-6 text-4xl font-black leading-tight text-white sm:text-5xl md:text-6xl">
-            {{ heroSlides[currentSlide].titleText }}
-          </h1>
-          <p class="mt-5 max-w-2xl text-base text-white/80 md:text-lg">
-            Commandez les meilleurs produits pour vos proches au Tchad. Livraison sécurisée, suivi clair, qualité garantie.
-          </p>
-          <div class="mt-8 flex flex-wrap gap-4">
-            <NuxtLink to="/catalogue" class="inline-flex items-center justify-center rounded-xl bg-accent px-6 py-3 text-sm font-bold text-accent-foreground shadow-premium glow-accent transition hover:bg-accent/90 active:scale-95">
+        <UiBadge class="mb-4 bg-accent/10 text-accent border-accent/20 hover:bg-accent/20">
+          Dounia Market — Diaspora
+        </UiBadge>
+        <h1 class="font-serif text-4xl md:text-5xl lg:text-7xl font-bold mb-6 text-foreground max-w-4xl mx-auto leading-tight">
+          Le meilleur pour votre famille,
+          <span class="block text-accent">sans compromis.</span>
+        </h1>
+        <p class="text-lg text-muted-foreground max-w-2xl mx-auto leading-relaxed">
+          Commandez les meilleurs produits pour vos proches au Tchad. 
+          Livraison sécurisée, suivi clair, qualité garantie. Une logistique pensée pour la diaspora.
+        </p>
+        <div class="mt-8 flex justify-center gap-4">
+          <NuxtLink to="/catalogue">
+            <UiButton size="lg" class="bg-accent text-accent-foreground hover:bg-accent/90 glow-accent rounded-xl text-lg px-8">
               Explorer le catalogue
-              <ArrowRight class="ml-2 h-4 w-4" />
-            </NuxtLink>
-            <NuxtLink to="/comment-ca-marche" class="inline-flex items-center justify-center rounded-xl border border-white/20 px-6 py-3 text-sm font-semibold text-white transition hover:bg-white/10 glass">
-              Voir comment ça marche
-            </NuxtLink>
-          </div>
-          <div class="mt-7 flex items-center gap-3">
-            <button
-              v-for="(slide, i) in heroSlides"
-              :key="`dot-${i}`"
-              :aria-label="`Aller au slide ${i + 1}`"
-              class="h-2 rounded-full transition-all duration-300"
-              :class="currentSlide === i ? 'w-10 bg-white' : 'w-2 bg-white/40 hover:bg-white/70'"
-              @click="goToSlide(i)"
-            />
-          </div>
-        </div>
-      </div>
-
-      <div class="relative z-10 -mt-16 px-4 pb-8">
-        <div class="container-main grid grid-cols-1 gap-4 rounded-2xl glass-strong p-4 shadow-premium-lg md:grid-cols-3">
-          <div v-for="item in highlightStats" :key="item.label" class="rounded-xl border border-border bg-card p-5 shadow-premium transition-all hover:-translate-y-1">
-            <p class="text-3xl font-serif font-extrabold text-foreground">{{ item.value }}</p>
-            <p class="mt-1 text-sm font-medium text-muted-foreground">{{ item.label }}</p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section class="py-20">
-      <div class="container-main">
-        <div class="mb-10 flex flex-col justify-between gap-5 md:flex-row md:items-end">
-          <div>
-            <span class="trust-badge mb-2 inline-flex">Univers clés</span>
-            <h2 class="font-serif text-3xl font-bold text-foreground mt-2">Trouver rapidement l’essentiel</h2>
-          </div>
-        </div>
-        <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
-          <NuxtLink
-            v-for="cat in quickCategories"
-            :key="cat.title"
-            :to="cat.to"
-            class="group rounded-2xl border border-border bg-card p-6 shadow-premium transition-all duration-300 hover:-translate-y-1 hover:shadow-premium-lg"
-          >
-            <div class="w-12 h-12 rounded-xl bg-accent/10 flex items-center justify-center mb-4 group-hover:bg-accent/20 transition-colors">
-              <component :is="cat.icon" class="h-6 w-6 text-accent" />
-            </div>
-            <h3 class="text-lg font-semibold text-foreground">{{ cat.title }}</h3>
-            <p class="mt-2 text-sm text-muted-foreground">{{ cat.description }}</p>
+              <ArrowRight class="ml-2 h-5 w-5" />
+            </UiButton>
           </NuxtLink>
         </div>
-      </div>
-    </section>
+      </section>
 
-    <section v-if="recommendedProducts.length > 0" class="py-20 bg-white">
-      <div class="container-main">
-        <div class="mb-10">
-          <p class="label">Sélection intelligente</p>
-          <h2 class="heading-section mt-2">Recommandé pour vous</h2>
+      <!-- Trust Badges (v0 style) -->
+      <section class="mb-20 flex justify-center">
+        <div class="glass-strong rounded-2xl p-6 shadow-premium-lg flex flex-wrap justify-center gap-6 md:gap-12 w-full max-w-4xl">
+          <div class="flex items-center gap-3">
+            <div class="w-10 h-10 rounded-full bg-success/10 flex items-center justify-center">
+              <ShieldCheck class="w-5 h-5 text-success" />
+            </div>
+            <div class="text-left">
+              <p class="font-bold text-foreground">Paiement Sécurisé</p>
+              <p class="text-xs text-muted-foreground">Visa, Mastercard, Mobile Money</p>
+            </div>
+          </div>
+          <div class="flex items-center gap-3">
+            <div class="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">
+              <Truck class="w-5 h-5 text-brand" />
+            </div>
+            <div class="text-left">
+              <p class="font-bold text-foreground">Livraison 3-5 jours</p>
+              <p class="text-xs text-muted-foreground">Directement à N'Djamena</p>
+            </div>
+          </div>
+          <div class="flex items-center gap-3">
+            <div class="w-10 h-10 rounded-full bg-accent/10 flex items-center justify-center">
+              <Camera class="w-5 h-5 text-accent" />
+            </div>
+            <div class="text-left">
+              <p class="font-bold text-foreground">Preuve Photo</p>
+              <p class="text-xs text-muted-foreground">À la réception de la commande</p>
+            </div>
+          </div>
         </div>
-        <div class="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4">
-          <ProductCard v-for="(product, i) in recommendedProducts" :key="`rec-${product.id}`" :product="product" :delay="i * 100" />
-        </div>
-      </div>
-    </section>
+      </section>
 
-    <section v-if="loading || featuredProducts.length > 0" class="py-20">
-      <div class="container-main">
-        <div class="mb-10 flex items-center justify-between">
-          <h2 class="heading-section">Top tendances</h2>
-          <NuxtLink to="/catalogue" class="hidden items-center gap-2 text-sm font-semibold text-slate-700 hover:text-[var(--color-accent-dark)] md:inline-flex">
-            Voir tout
+      <!-- Feature Showcase (v0 Style) -->
+      <section id="features" class="mb-20">
+        <div class="mb-8 text-center">
+          <h2 class="font-serif text-3xl font-bold mb-2 text-foreground">Pourquoi choisir Dounia Market ?</h2>
+          <p class="text-muted-foreground">Une expérience premium pour la diaspora.</p>
+        </div>
+
+        <div class="grid md:grid-cols-3 gap-6 max-w-6xl mx-auto">
+          <UiCard class="shadow-premium-lg border-0 bg-gradient-to-br from-card to-secondary/30">
+            <div class="p-6">
+              <div class="w-14 h-14 rounded-2xl bg-accent/10 flex items-center justify-center mb-4">
+                <Globe class="h-7 w-7 text-accent" />
+              </div>
+              <h3 class="font-serif text-xl font-bold mb-2">Connexion Globale</h3>
+              <p class="text-muted-foreground leading-relaxed">
+                Envoyez l'essentiel à votre famille depuis n'importe où dans le monde. Nous gérons la logistique locale.
+              </p>
+            </div>
+          </UiCard>
+
+          <UiCard class="shadow-premium-lg border-0 bg-gradient-to-br from-card to-secondary/30">
+            <div class="p-6">
+              <div class="w-14 h-14 rounded-2xl bg-success/10 flex items-center justify-center mb-4">
+                <ShieldCheck class="h-7 w-7 text-success" />
+              </div>
+              <h3 class="font-serif text-xl font-bold mb-2">Livraison Vérifiée</h3>
+              <p class="text-muted-foreground leading-relaxed">
+                Preuve photo à chaque livraison. Suivez votre colis en temps réel pour une tranquillité d'esprit totale.
+              </p>
+            </div>
+          </UiCard>
+
+          <UiCard class="shadow-premium-lg border-0 bg-gradient-to-br from-card to-secondary/30">
+            <div class="p-6">
+              <div class="w-14 h-14 rounded-2xl bg-primary/10 flex items-center justify-center mb-4">
+                <Users class="h-7 w-7 text-brand" />
+              </div>
+              <h3 class="font-serif text-xl font-bold mb-2">La Famille d'Abord</h3>
+              <p class="text-muted-foreground leading-relaxed">
+                Construit par la diaspora, pour la diaspora. Nous comprenons exactement ce dont votre famille a besoin.
+              </p>
+            </div>
+          </UiCard>
+        </div>
+      </section>
+
+      <!-- Products Section (Keeping real logic but v0 style) -->
+      <section v-if="featuredProducts.length > 0" class="mb-20">
+        <div class="mb-8 flex items-center justify-between max-w-6xl mx-auto">
+          <div>
+            <h2 class="font-serif text-3xl font-bold text-foreground">Top tendances</h2>
+            <p class="text-muted-foreground mt-1">Sélectionnés pour vos proches</p>
+          </div>
+          <NuxtLink to="/catalogue" class="hidden items-center gap-2 text-sm font-semibold text-brand hover:text-brand/80 md:flex">
+            Voir tout le catalogue
             <ArrowRight class="h-4 w-4" />
           </NuxtLink>
         </div>
-        <div v-if="loading" class="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4">
-          <ProductSkeleton v-for="i in 4" :key="`sk-${i}`" />
-        </div>
-        <div v-else class="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4">
+        
+        <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4 max-w-6xl mx-auto">
           <ProductCard v-for="(product, i) in featuredProducts" :key="product.id" :product="product" :delay="i * 100" />
         </div>
-      </div>
-    </section>
-
-    <section class="bg-white py-24">
-      <div class="container-main">
-        <div class="mx-auto mb-16 max-w-3xl text-center">
-          <p class="label">Processus</p>
-          <h2 class="heading-section mt-2">Simple, transparent, rassurant</h2>
-          <p class="mt-4 text-[var(--color-text-muted)]">Chaque étape est pensée pour inspirer confiance à la diaspora et à leurs familles.</p>
-        </div>
-        <div class="grid grid-cols-1 gap-6 md:grid-cols-4">
-          <div v-for="step in steps" :key="step.title" class="rounded-3xl border border-slate-100 bg-slate-50 p-6">
-            <component :is="step.icon" class="h-8 w-8 text-[var(--color-accent-dark)]" />
-            <h3 class="mt-4 text-lg font-bold text-slate-900">{{ step.title }}</h3>
-            <p class="mt-2 text-sm text-slate-600">{{ step.description }}</p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section class="px-4 py-20">
-      <div class="container-main overflow-hidden rounded-[2rem] bg-slate-900 p-10 text-white md:p-14">
-        <div class="flex flex-col items-start justify-between gap-8 md:flex-row md:items-center">
-          <div class="max-w-2xl">
-            <p class="text-xs font-semibold uppercase tracking-[0.16em] text-amber-300">Prêt à commander</p>
-            <h2 class="mt-3 text-3xl font-extrabold leading-tight text-white md:text-4xl">Offrez le meilleur à ceux que vous aimez</h2>
-            <p class="mt-3 text-white/70">Passez à une logistique moderne, fiable et chaleureuse avec Dounia Market.</p>
-          </div>
-          <NuxtLink to="/catalogue" class="btn-primary">
-            Découvrir le catalogue
-            <ArrowRight class="ml-2 h-4 w-4" />
-          </NuxtLink>
-        </div>
-      </div>
-    </section>
+      </section>
+    </main>
   </div>
 </template>
 
 <script setup lang="ts">
 import {
   ArrowRight,
-  Package,
-  CreditCard,
+  ShieldCheck,
   Truck,
   Camera,
-  Wheat,
-  HeartPulse,
-  GraduationCap,
-  Hammer,
+  Globe,
+  Users
 } from 'lucide-vue-next'
+import UiButton from '~/components/ui/Button.vue'
+import UiBadge from '~/components/ui/Badge.vue'
+import UiCard from '~/components/ui/Card.vue'
 import ProductCard from '~/components/product/ProductCard.vue'
-import ProductSkeleton from '~/components/product/ProductSkeleton.vue'
-
-const heroSlides = [
-  {
-    image: '/hero-bg.png',
-    titleText: 'Le meilleur pour votre famille, sans compromis.',
-  },
-  {
-    image: '/hero-slide2.png',
-    titleText: 'Transformez chaque commande en moment de joie.',
-  },
-  {
-    image: '/hero-slide3.png',
-    titleText: 'Une livraison premium pensée pour la diaspora.',
-  },
-]
-
-const currentSlide = ref(0)
-const slideDuration = 6000
-let slideInterval: ReturnType<typeof setInterval> | null = null
-
-const startAutoPlay = () => {
-  slideInterval = setInterval(() => {
-    currentSlide.value = (currentSlide.value + 1) % heroSlides.length
-  }, slideDuration)
-}
-
-const goToSlide = (index: number) => {
-  currentSlide.value = index
-  if (slideInterval) clearInterval(slideInterval)
-  startAutoPlay()
-}
-
-onMounted(() => {
-  startAutoPlay()
-  fetchFeaturedProducts()
-  fetchRecommendedProducts()
-})
-onUnmounted(() => { if (slideInterval) clearInterval(slideInterval) })
-
-const recommendedProducts = ref<any[]>([])
-
-const fetchRecommendedProducts = async () => {
-  const { pulseContext } = usePulse()
-  const { viewed_ids, viewed_categories } = pulseContext.value
-
-  if (viewed_ids.length > 0 || viewed_categories.length > 0) {
-    try {
-      const config = useRuntimeConfig()
-      const aiResponse = await $fetch<{ recommendations: number[] }>(`${config.public.aiApiUrl}/recommend`, {
-        method: 'POST',
-        body: {
-          viewed_product_ids: viewed_ids,
-          viewed_categories: viewed_categories,
-          limit: 4
-        }
-      }).catch(() => null)
-      
-      let idsToFetch = aiResponse?.recommendations
-
-      if (!idsToFetch || idsToFetch.length === 0) {
-        return
-      }
-
-      const { getProducts } = useProducts()
-      const laravelResponse = await getProducts({ ids: idsToFetch.join(',') })
-      
-      recommendedProducts.value = laravelResponse.products.map((p: any) => ({
-        id: p.id.toString(),
-        title: p.title,
-        handle: p.slug,
-        subtitle: p.subtitle || '',
-        price: p.price || 0,
-        thumbnail: p.thumbnail || '',
-        category: p.category || '',
-        categoryHandle: p.category_handle || '',
-        inStock: p.in_stock,
-      }))
-    } catch (e) {
-      console.warn("Recommendation AI non disponible", e)
-    }
-  }
-}
 
 const featuredProducts = ref<any[]>([])
 const loading = ref(true)
+
+onMounted(() => {
+  fetchFeaturedProducts()
+})
 
 const fetchFeaturedProducts = async () => {
   loading.value = true
@@ -281,39 +172,10 @@ const fetchFeaturedProducts = async () => {
   }
 }
 
-const highlightStats = [
-  { value: '3-5 jours', label: 'Livraison moyenne à N’Djamena' },
-  { value: '98%', label: 'Clients satisfaits sur le support' },
-  { value: '100%', label: 'Commandes avec suivi transparent' },
-]
-
-const quickCategories = [
-  { title: 'Alimentaire', description: 'Produits du quotidien et courses familiales.', to: '/catalogue?categorie=alimentaire', icon: Wheat },
-  { title: 'Santé', description: 'Soins essentiels pour adultes et enfants.', to: '/catalogue?categorie=sante', icon: HeartPulse },
-  { title: 'Scolarité', description: 'Kits, fournitures et besoins académiques.', to: '/catalogue?categorie=scolarite', icon: GraduationCap },
-  { title: 'Construction', description: 'Matériaux et équipements BTP.', to: '/catalogue?categorie=btp', icon: Hammer },
-]
-
-const steps = [
-  { title: 'Découverte', description: 'Parcourez un catalogue structuré par besoins.', icon: Package },
-  { title: 'Paiement Sécurisé', description: 'Réglez par Carte ou Mobile Money.', icon: CreditCard },
-  { title: 'Logistique locale', description: 'Livraison rapide en 3 à 5 jours.', icon: Truck },
-  { title: 'Confirmation', description: 'Preuve photo envoyée après réception.', icon: Camera },
-]
-
 useHead({ 
   title: 'Dounia Market — Le marché de la diaspora tchadienne',
   meta: [
-    { name: 'description', content: 'Dounia Market, le marché de référence pour la diaspora tchadienne. Envoyez des biens de qualité (alimentaire, santé, scolarité) à vos proches au Tchad avec preuve de livraison.' },
-    { property: 'og:title', content: 'Dounia Market — Le marché de la diaspora tchadienne' },
-    { property: 'og:description', content: 'Envoyez l\'essentiel à votre famille au Tchad. Livraison rapide, paiement sécurisé et preuve de livraison.' },
-    { property: 'og:type', content: 'website' }
+    { name: 'description', content: 'Dounia Market, le marché de référence pour la diaspora tchadienne.' },
   ]
 })
 </script>
-
-<style scoped>
-.label {
-  @apply text-xs font-semibold uppercase tracking-[0.16em] text-[var(--color-accent-dark)];
-}
-</style>
