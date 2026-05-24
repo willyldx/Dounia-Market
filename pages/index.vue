@@ -1,5 +1,5 @@
 <template>
-  <div class="bg-[var(--color-bg)]">
+  <div class="bg-background text-foreground">
     <section class="relative min-h-[84vh] overflow-hidden">
       <div class="absolute inset-0">
         <div v-for="(slide, i) in heroSlides" :key="`bg-${i}`" class="absolute inset-0">
@@ -37,11 +37,11 @@
             Commandez les meilleurs produits pour vos proches au Tchad. Livraison sécurisée, suivi clair, qualité garantie.
           </p>
           <div class="mt-8 flex flex-wrap gap-4">
-            <NuxtLink to="/catalogue" class="inline-flex items-center rounded-xl bg-[var(--color-accent)] px-6 py-3 text-sm font-bold text-white shadow-lg transition hover:bg-[var(--color-accent-hover)] hover:shadow-xl">
+            <NuxtLink to="/catalogue" class="inline-flex items-center justify-center rounded-xl bg-accent px-6 py-3 text-sm font-bold text-accent-foreground shadow-premium glow-accent transition hover:bg-accent/90 active:scale-95">
               Explorer le catalogue
               <ArrowRight class="ml-2 h-4 w-4" />
             </NuxtLink>
-            <NuxtLink to="/comment-ca-marche" class="inline-flex items-center rounded-xl border border-white/40 px-6 py-3 text-sm font-semibold text-white transition hover:bg-white/10">
+            <NuxtLink to="/comment-ca-marche" class="inline-flex items-center justify-center rounded-xl border border-white/20 px-6 py-3 text-sm font-semibold text-white transition hover:bg-white/10 glass">
               Voir comment ça marche
             </NuxtLink>
           </div>
@@ -59,10 +59,10 @@
       </div>
 
       <div class="relative z-10 -mt-16 px-4 pb-8">
-        <div class="container-main grid grid-cols-1 gap-4 rounded-3xl border border-white/20 bg-white/95 p-5 shadow-2xl backdrop-blur md:grid-cols-3">
-          <div v-for="item in highlightStats" :key="item.label" class="rounded-2xl border border-slate-100 bg-white p-4">
-            <p class="text-2xl font-extrabold text-slate-900">{{ item.value }}</p>
-            <p class="mt-1 text-sm text-slate-600">{{ item.label }}</p>
+        <div class="container-main grid grid-cols-1 gap-4 rounded-2xl glass-strong p-4 shadow-premium-lg md:grid-cols-3">
+          <div v-for="item in highlightStats" :key="item.label" class="rounded-xl border border-border bg-card p-5 shadow-premium transition-all hover:-translate-y-1">
+            <p class="text-3xl font-serif font-extrabold text-foreground">{{ item.value }}</p>
+            <p class="mt-1 text-sm font-medium text-muted-foreground">{{ item.label }}</p>
           </div>
         </div>
       </div>
@@ -72,8 +72,8 @@
       <div class="container-main">
         <div class="mb-10 flex flex-col justify-between gap-5 md:flex-row md:items-end">
           <div>
-            <p class="label">Univers clés</p>
-            <h2 class="heading-section mt-2">Trouver rapidement l’essentiel</h2>
+            <span class="trust-badge mb-2 inline-flex">Univers clés</span>
+            <h2 class="font-serif text-3xl font-bold text-foreground mt-2">Trouver rapidement l’essentiel</h2>
           </div>
         </div>
         <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
@@ -81,11 +81,13 @@
             v-for="cat in quickCategories"
             :key="cat.title"
             :to="cat.to"
-            class="group rounded-3xl border border-slate-200 bg-white p-6 transition-all duration-300 hover:-translate-y-1 hover:border-slate-300 hover:shadow-lg"
+            class="group rounded-2xl border border-border bg-card p-6 shadow-premium transition-all duration-300 hover:-translate-y-1 hover:shadow-premium-lg"
           >
-            <component :is="cat.icon" class="h-6 w-6 text-[var(--color-accent-dark)]" />
-            <h3 class="mt-4 text-lg font-bold text-slate-900">{{ cat.title }}</h3>
-            <p class="mt-2 text-sm text-slate-600">{{ cat.description }}</p>
+            <div class="w-12 h-12 rounded-xl bg-accent/10 flex items-center justify-center mb-4 group-hover:bg-accent/20 transition-colors">
+              <component :is="cat.icon" class="h-6 w-6 text-accent" />
+            </div>
+            <h3 class="text-lg font-semibold text-foreground">{{ cat.title }}</h3>
+            <p class="mt-2 text-sm text-muted-foreground">{{ cat.description }}</p>
           </NuxtLink>
         </div>
       </div>
