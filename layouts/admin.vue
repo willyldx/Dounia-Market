@@ -7,7 +7,7 @@
           <Icon name="lucide:menu" class="w-6 h-6" />
         </button>
         <NuxtLink to="/admin" class="flex items-center gap-2">
-          <img src="/logo.png" alt="TchadBox" class="h-8 w-auto" />
+          <img src="/logo-full.svg" alt="TchadBox" class="h-8 w-auto" />
           <span class="font-bold text-amber-600">Admin</span>
         </NuxtLink>
       </div>
@@ -42,7 +42,7 @@
       <!-- Logo -->
       <div class="h-16 flex items-center justify-between px-4 border-b border-white/10">
         <NuxtLink to="/admin" class="flex items-center gap-2">
-          <img src="/logo.png" alt="TchadBox" class="h-10 w-auto" />
+          <img src="/logo-full.svg" alt="TchadBox" class="h-10 w-auto" />
           <div>
             <span class="font-bold text-white">TchadBox</span>
             <span class="block text-xs text-amber-400 font-medium">Admin Panel</span>
