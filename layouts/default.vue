@@ -50,7 +50,7 @@
             <img 
               src="/logo-full.svg" 
               alt="Dounia Market" 
-              class="h-10 sm:h-12 w-auto transition-transform duration-300 group-hover:scale-105"
+              class="h-6 sm:h-8 lg:h-9 w-auto transition-transform duration-300 group-hover:scale-105"
             />
           </NuxtLink>
 
@@ -60,7 +60,7 @@
               <input 
                 type="text"
                 placeholder="Rechercher un produit, une marque, une catégorie..."
-                class="w-full h-11 pl-4 pr-12 rounded-xl border border-border focus:border-brand outline-none transition-all text-sm bg-card/90 focus:bg-card text-foreground shadow-sm backdrop-blur-md"
+                class="w-full min-w-[200px] h-11 pl-4 pr-12 rounded-xl border border-border focus:border-primary outline-none transition-all text-sm bg-card/90 focus:bg-card text-foreground shadow-sm backdrop-blur-md"
                 @click="isSearchOpen = true"
                 readonly
               />
