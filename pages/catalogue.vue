@@ -1,7 +1,7 @@
 <template>
-  <div class="bg-gray-50 min-h-screen pb-16">
+  <div class="bg-background min-h-screen pb-16">
     <!-- Slim Hero Header -->
-    <section class="bg-[var(--color-primary)] text-white pt-24 pb-12 px-4 relative overflow-hidden reveal-up">
+    <section class="bg-brand text-brand-foreground pt-24 pb-12 px-4 relative overflow-hidden reveal-up">
       <div class="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI4NiIgaGVpZ2h0PSI4NiIgPjxyZWN0IHdpZHRoPSI4NiIgaGVpZ2h0PSI4NiIgZmlsbD0ibm9uZSI+PC9yZWN0PjxjaXJjbGUgY3g9IjQzIiBjeT0iNDMiIHI9IjEiIGZpbGw9InJnYmEoMjU1LCAyNTUsIDI1NSwgMC4xKSI+PC9jaXJjbGU+PC9zdmc+')] opacity-30 pointer-events-none" />
       <div class="container-main relative z-10">
         <div class="flex flex-col md:flex-row md:items-end justify-between gap-6">
@@ -17,9 +17,9 @@
             </p>
           </div>
           <div class="w-full md:w-96 text-right">
-             <div class="relative w-full shadow-lg group">
-                <Search class="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400 group-focus-within:text-[var(--color-accent)] transition-colors" />
-                <input v-model="searchQuery" type="text" placeholder="Rechercher (ex: Lait, Sucre)..." class="w-full bg-white/10 hover:bg-white/15 focus:bg-white backdrop-blur text-white focus:text-gray-900 border border-white/20 focus:border-white py-3.5 pl-12 pr-4 rounded-xl font-medium placeholder-white/50 focus:outline-none transition-all shadow-sm" />
+             <div class="relative w-full shadow-premium group">
+                <Search class="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-brand-foreground/50 group-focus-within:text-accent transition-colors" />
+                <input v-model="searchQuery" type="text" placeholder="Rechercher (ex: Lait, Sucre)..." class="w-full bg-brand-foreground/10 hover:bg-brand-foreground/15 focus:bg-background backdrop-blur text-brand-foreground focus:text-foreground border border-brand-foreground/20 focus:border-brand-foreground py-3.5 pl-12 pr-4 rounded-xl font-medium placeholder-brand-foreground/50 focus:outline-none transition-all shadow-sm" />
              </div>
           </div>
         </div>
@@ -27,7 +27,7 @@
     </section>
 
     <!-- Horizontal Tools Bar -->
-    <div class="sticky top-[72px] z-30 bg-white/80 backdrop-blur-md border-b border-gray-100 shadow-sm transition-all duration-300">
+    <div class="sticky top-[72px] z-30 glass border-b transition-all duration-300">
       <div class="container-main py-4 flex flex-col sm:flex-row gap-4 justify-between items-center">
         
         <!-- Category Chips -->
@@ -46,7 +46,7 @@
         <!-- Price Drops & Reset -->
         <div class="flex items-center gap-3 w-full sm:w-auto shrink-0 justify-between sm:justify-end">
           <div class="relative group">
-            <select v-model="selectedPrice" class="appearance-none bg-gray-50 border border-gray-200 text-gray-700 font-medium py-2 pl-4 pr-10 rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--color-accent)] cursor-pointer hover:bg-gray-100 transition-colors text-sm">
+            <select v-model="selectedPrice" class="appearance-none bg-card border border-border text-foreground font-medium py-2 pl-4 pr-10 rounded-lg focus:outline-none focus:ring-2 focus:ring-accent cursor-pointer hover:bg-muted transition-colors text-sm shadow-sm">
               <optgroup label="Budget">
                 <option v-for="r in priceRanges" :key="r.value" :value="r.value">{{ r.label }}</option>
               </optgroup>
@@ -66,9 +66,9 @@
       
       <!-- Top info line -->
       <div class="flex items-center justify-between mb-6">
-        <div class="text-sm font-bold text-gray-500 flex items-center gap-2">
+        <div class="text-sm font-bold text-muted-foreground flex items-center gap-2">
            <LayoutGrid class="w-4 h-4" />
-           <span class="text-[var(--color-primary)]">{{ filteredProducts.length }}</span> résultats trouvés
+           <span class="text-brand">{{ filteredProducts.length }}</span> résultats trouvés
         </div>
       </div>
 
@@ -330,16 +330,16 @@ useHead({ title: 'Catalogue' })
 
 <style scoped>
 .chip {
-  @apply flex items-center gap-1.5 px-4 py-2 rounded-full bg-white border border-gray-200 text-sm font-medium text-gray-600 hover:border-gray-300 transition-all shadow-sm;
+  @apply flex items-center gap-1.5 px-4 py-2 rounded-full bg-card border border-border text-sm font-medium text-muted-foreground hover:border-muted-foreground/30 transition-all shadow-sm;
 }
 .chip.active {
-  @apply bg-[var(--color-primary)] border-[var(--color-primary)] text-white shadow-md;
+  @apply bg-brand border-brand text-brand-foreground shadow-premium;
 }
 .chip-count {
-  @apply ml-1 bg-gray-100 text-gray-500 text-[10px] font-bold px-1.5 py-0.5 rounded-full;
+  @apply ml-1 bg-muted text-muted-foreground text-[10px] font-bold px-1.5 py-0.5 rounded-full;
 }
 .chip.active .chip-count {
-  @apply bg-white/20 text-white;
+  @apply bg-brand-foreground/20 text-brand-foreground;
 }
 
 /* Hide scrollbar for chips */

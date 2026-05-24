@@ -1,85 +1,84 @@
 <template>
-  <article
-    class="card-product group relative flex h-full flex-col overflow-hidden rounded-2xl border border-gray-100 bg-white transition-all duration-500 hover:-translate-y-1 hover:shadow-[0_16px_40px_rgb(0,0,0,0.08)] hover:border-gray-200"
-  >
+  <article class="card-product group relative flex h-full flex-col overflow-hidden rounded-2xl border border-border bg-card shadow-premium transition-all duration-500 hover:-translate-y-1 hover:shadow-premium-lg">
     <!-- Image Section -->
-    <NuxtLink :to="`/produit/${product.handle || product.id}`" class="block relative aspect-[4/3] overflow-hidden bg-[#f8f7f4] p-6 flex items-center justify-center">
-      <NuxtImg 
-        v-if="product.thumbnail || product.images?.[0]"
-        :src="product.thumbnail || product.images[0]"
-        :alt="product.title"
-        class="w-full h-full object-contain transition-transform duration-700 group-hover:scale-105 mix-blend-multiply"
-        loading="lazy"
-        format="webp"
-        quality="90"
-      />
-      <div v-else class="w-full h-full flex items-center justify-center">
-        <component :is="getCategoryIcon" class="w-16 h-16 text-gray-200" />
+    <div class="relative aspect-square bg-muted overflow-hidden">
+      <!-- Status Badges -->
+      <div class="absolute top-3 left-3 flex flex-col gap-1.5 z-10 pointer-events-none">
+        <span
+          v-if="product.category"
+          class="pointer-events-auto rounded-lg bg-card/90 px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider text-foreground shadow-sm backdrop-blur-md border border-border"
+        >
+          {{ categoryName }}
+        </span>
+        <span 
+          v-if="product.inStock !== false"
+          class="pointer-events-auto rounded-lg bg-success/10 px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider text-success border border-success/20 flex items-center gap-1"
+        >
+          <span class="w-1.5 h-1.5 rounded-full bg-success"></span>
+          Disponible
+        </span>
+        <span 
+          v-else
+          class="pointer-events-auto rounded-lg bg-destructive/10 px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider text-destructive border border-destructive/20"
+        >
+          Rupture
+        </span>
       </div>
-    </NuxtLink>
 
-    <!-- Status Badges -->
-    <div class="absolute top-3 left-3 flex flex-col gap-1.5 pointer-events-none">
-      <span
-        v-if="product.category"
-        class="pointer-events-auto rounded-lg bg-white/90 px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider text-gray-700 shadow-sm backdrop-blur-md border border-gray-100"
+      <!-- Wishlist Button -->
+      <button 
+        @click.prevent="toggleFavorite"
+        class="absolute top-3 right-3 z-10 flex h-9 w-9 cursor-pointer items-center justify-center rounded-xl border border-border bg-card/80 backdrop-blur-sm shadow-sm transition-all duration-300 hover:bg-card hover:text-accent"
+        :class="isFavorite ? 'text-destructive bg-destructive/10 border-destructive/20' : 'text-muted-foreground opacity-0 group-hover:opacity-100'"
       >
-        {{ categoryName }}
-      </span>
-      <span 
-        v-if="product.inStock !== false"
-        class="pointer-events-auto rounded-lg bg-emerald-50 px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider text-emerald-700 border border-emerald-100 flex items-center gap-1"
-      >
-        <span class="w-1 h-1 rounded-full bg-emerald-500"></span>
-        Disponible
-      </span>
-      <span 
-        v-else
-        class="pointer-events-auto rounded-lg bg-red-50 px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider text-red-600 border border-red-100"
-      >
-        Rupture
-      </span>
+        <Heart class="w-4 h-4" :class="isFavorite ? 'fill-destructive' : ''" />
+      </button>
+
+      <NuxtLink :to="`/produit/${product.handle || product.id}`" class="block w-full h-full flex items-center justify-center p-4">
+        <NuxtImg 
+          v-if="product.thumbnail || product.images?.[0]"
+          :src="product.thumbnail || product.images[0]"
+          :alt="product.title"
+          class="w-full h-full object-contain transition-transform duration-700 group-hover:scale-105 mix-blend-multiply"
+          loading="lazy"
+          format="webp"
+          quality="90"
+        />
+        <div v-else class="w-full h-full flex items-center justify-center">
+          <component :is="getCategoryIcon" class="w-16 h-16 text-muted-foreground/30" />
+        </div>
+      </NuxtLink>
     </div>
 
-    <!-- Wishlist Button -->
-    <button 
-      @click.prevent="toggleFavorite"
-      class="absolute top-3 right-3 z-10 flex h-9 w-9 cursor-pointer items-center justify-center rounded-xl border border-gray-100 bg-white/90 backdrop-blur-sm shadow-sm transition-all duration-300 hover:bg-[var(--color-accent)] hover:border-[var(--color-accent)] hover:text-white"
-      :class="isFavorite ? 'text-red-500 bg-red-50 border-red-100' : 'text-gray-400 opacity-0 group-hover:opacity-100'"
-    >
-      <Heart class="w-4 h-4" :class="isFavorite ? 'fill-red-500' : ''" />
-    </button>
-
     <!-- Content Section -->
-    <div class="flex flex-grow flex-col border-t border-gray-50 p-5 sm:p-6">
+    <div class="flex flex-col p-5">
       <!-- Title -->
+      <p class="text-xs text-muted-foreground mb-1 line-clamp-1">{{ categoryName || 'Dounia Market' }}</p>
       <NuxtLink :to="`/produit/${product.handle || product.id}`" class="mb-3">
-        <h3 class="min-h-[2.5rem] line-clamp-2 text-base font-bold leading-snug tracking-tight text-gray-900 group-hover:text-[var(--color-accent-dark)] transition-colors sm:text-lg">
+        <h3 class="line-clamp-2 text-base font-semibold leading-snug text-foreground group-hover:text-brand transition-colors">
           {{ product.title }}
         </h3>
       </NuxtLink>
 
       <!-- Price & Action -->
-      <div class="mt-auto flex items-end justify-between gap-3">
-        <div class="flex flex-col">
-          <span class="text-xl font-black leading-none tracking-tight text-gray-900 sm:text-2xl">
-            {{ cartStore.formatPrice(product.price) }}
-          </span>
-          <span v-if="cartStore.currency !== 'XAF'" class="mt-1.5 text-[10px] font-semibold text-gray-400">
-            ≈ {{ priceFCFA }} FCFA
-          </span>
-        </div>
-
-        <!-- Add to Cart -->
-        <button 
-          @click="addToCart"
-          :disabled="product.inStock === false"
-          class="group/btn flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-[var(--color-accent)] text-white transition-all duration-300 hover:bg-[var(--color-accent-hover)] active:scale-95 shadow-sm disabled:opacity-40 disabled:cursor-not-allowed"
-          title="Ajouter au panier"
-        >
-          <ShoppingBag class="h-4.5 w-4.5 transition-transform group-hover/btn:-translate-y-0.5" />
-        </button>
+      <div class="mt-auto flex items-baseline gap-2 mb-4">
+        <span class="text-xl font-bold text-foreground">
+          {{ cartStore.formatPrice(product.price) }}
+        </span>
+        <span v-if="cartStore.currency !== 'XAF'" class="text-sm font-medium text-muted-foreground">
+          ≈ {{ priceFCFA }} FCFA
+        </span>
       </div>
+
+      <!-- Add to Cart -->
+      <button 
+        @click="addToCart"
+        :disabled="product.inStock === false"
+        class="w-full flex h-10 shrink-0 items-center justify-center gap-2 rounded-xl bg-brand text-brand-foreground font-medium transition-all duration-300 hover:bg-brand/90 active:scale-95 disabled:opacity-40 disabled:cursor-not-allowed"
+      >
+        <ShoppingBag class="h-4 w-4" />
+        Ajouter au panier
+      </button>
     </div>
   </article>
 </template>
