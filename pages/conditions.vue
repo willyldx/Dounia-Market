@@ -18,8 +18,8 @@
 
     <!-- Content -->
     <div class="container-main max-w-4xl mx-auto px-6">
-      <div class="bg-card border border-border shadow-premium rounded-[2rem] p-8 md:p-16 glass-strong">
-        <div class="prose prose-lg max-w-none prose-headings:font-black prose-headings:text-foreground prose-heading:tracking-tight prose-p:text-muted-foreground/90 prose-p:leading-relaxed prose-a:text-accent hover:prose-a:text-brand prose-strong:text-foreground prose-ul:font-medium prose-ul:text-muted-foreground/90">
+      <div class="bg-card border border-border shadow-sm rounded-xl p-8 md:p-12">
+        <div class="prose prose-lg max-w-none prose-headings:font-black prose-headings:text-foreground prose-heading:tracking-tight prose-p:text-muted-foreground/90 prose-p:leading-relaxed prose-a:text-accent hover:prose-a:text-primary prose-strong:text-foreground prose-ul:font-medium prose-ul:text-muted-foreground/90">
           
           <h2>Article 1 — Objet</h2>
           <p>

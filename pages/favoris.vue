@@ -17,7 +17,7 @@
           </button>
           <button
             @click="moveAllToCart"
-            class="flex items-center gap-2 px-6 py-2.5 bg-brand text-brand-foreground font-bold rounded-xl hover:bg-brand/90 transition-all shadow-premium glow-accent"
+            class="flex items-center gap-2 px-6 py-2.5 bg-primary text-primary-foreground font-bold rounded-md hover:bg-primary/90 transition-all shadow-sm"
           >
             <ShoppingCartIcon class="w-4 h-4" /> Tout acheter
           </button>
@@ -25,7 +25,7 @@
       </div>
 
       <!-- Premium Empty State -->
-      <div v-if="favoritesStore.isEmpty" class="bg-card rounded-[2rem] border border-border shadow-premium p-16 text-center max-w-3xl mx-auto mt-10 glass-strong">
+      <div v-if="favoritesStore.isEmpty" class="bg-card rounded-xl border border-border shadow-sm p-16 text-center max-w-3xl mx-auto mt-10">
         <div class="relative mb-10 group mx-auto w-max">
            <div class="absolute inset-0 bg-muted rounded-full scale-150 opacity-50 blur-2xl"></div>
            <div class="w-32 h-32 rounded-full border border-border bg-card shadow-sm flex items-center justify-center relative z-10">
@@ -38,7 +38,7 @@
         </p>
         <NuxtLink
           to="/catalogue"
-          class="inline-flex items-center justify-center gap-3 px-10 py-4 bg-brand text-brand-foreground font-bold rounded-xl hover:bg-brand/90 transition-all shadow-premium glow-accent hover:shadow-premium-lg"
+          class="inline-flex items-center justify-center gap-3 px-10 py-4 bg-primary text-primary-foreground font-bold rounded-md hover:bg-primary/90 transition-all shadow-sm"
         >
           <SearchIcon class="w-5 h-5 opacity-70" /> Explorer la collection
         </NuxtLink>
@@ -49,7 +49,7 @@
         <div
           v-for="item in favoritesStore.items"
           :key="item.productId"
-          class="bg-card rounded-2xl overflow-hidden border border-border shadow-sm group hover:border-border/80 hover:shadow-premium transition-all duration-300"
+          class="bg-card rounded-xl overflow-hidden border border-border shadow-sm group hover:border-border/80 hover:shadow-md transition-all duration-300"
         >
           <!-- Product Image -->
           <NuxtLink :to="`/produit/${item.productId}`" class="block relative aspect-[4/5] bg-muted/30 overflow-hidden">
@@ -93,7 +93,7 @@
               </div>
               <button
                 @click="addToCart(item)"
-                class="w-12 h-12 bg-muted/50 hover:bg-brand text-muted-foreground/80 hover:text-brand-foreground rounded-xl flex items-center justify-center transition-colors shadow-sm"
+                class="w-12 h-12 bg-muted/50 hover:bg-primary text-muted-foreground/80 hover:text-primary-foreground rounded-xl flex items-center justify-center transition-colors shadow-sm"
               >
                 <ShoppingCartIcon class="w-5 h-5" />
               </button>

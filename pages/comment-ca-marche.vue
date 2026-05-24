@@ -1,26 +1,12 @@
 <template>
   <div class="bg-background min-h-screen">
-    <!-- Hero (Cinematic) -->
-    <section class="relative pt-32 pb-40 overflow-hidden text-center flex flex-col items-center justify-center">
-      <!-- Background Image with Heavy Cinematic Overlay for perfect text contrast -->
-      <NuxtImg src="/hero-howto.png" alt="Comment ça marche" class="absolute inset-0 w-full h-full object-cover" loading="eager" quality="80" format="webp" sizes="100vw" />
-      <div class="absolute inset-0 bg-gradient-to-b from-black/80 via-black/60 to-black/95" />
-      
-      <div class="container-main relative z-10 mt-10">
-        <span 
-          v-motion :initial="{ opacity: 0, y: 10 }" :enter="{ opacity: 1, y: 0 }"
-          class="inline-flex px-4 py-1.5 rounded-full bg-white/10 border border-white/20 text-white text-xs font-bold tracking-[0.2em] uppercase mb-8 backdrop-blur-md"
-        >Notre Processus</span>
-        <h1 
-          v-motion :initial="{ opacity: 0, y: 20 }" :enter="{ opacity: 1, y: 0, transition: { delay: 100 } }"
-          class="text-5xl md:text-7xl font-black text-white mb-6 tracking-tight drop-shadow-2xl"
-        >
-          Comment ça <span class="text-accent">marche</span> ?
+    <!-- Minimalist Header -->
+    <section class="pt-32 pb-16 bg-background border-b border-border">
+      <div class="container-main text-center max-w-3xl mx-auto">
+        <h1 class="text-4xl md:text-5xl font-black text-foreground mb-4 tracking-tight">
+          Comment ça marche ?
         </h1>
-        <p 
-          v-motion :initial="{ opacity: 0, y: 20 }" :enter="{ opacity: 1, y: 0, transition: { delay: 200 } }"
-          class="text-xl md:text-2xl text-gray-300 max-w-2xl mx-auto font-medium leading-relaxed drop-shadow-md"
-        >
+        <p class="text-lg text-muted-foreground font-medium leading-relaxed">
           En 4 étapes simples, offrez le meilleur à votre famille au Tchad avec la fiabilité d'un service d'excellence.
         </p>
       </div>
@@ -48,7 +34,7 @@
             <!-- Text side -->
             <div :class="{ 'md:order-2 md:pl-10': i % 2 === 1, 'md:pr-10 text-left md:text-right': i % 2 === 0 }">
               <div class="flex items-center gap-4 mb-6" :class="{'md:flex-row-reverse': i % 2 === 0, 'flex-row': true}">
-                <span class="md:hidden w-12 h-12 rounded-full bg-brand text-brand-foreground flex items-center justify-center font-bold text-lg shadow-md shrink-0">
+                <span class="md:hidden w-12 h-12 rounded-full bg-primary text-primary-foreground flex items-center justify-center font-bold text-lg shadow-md shrink-0">
                   {{ i + 1 }}
                 </span>
                 <h2 class="text-3xl font-black text-foreground tracking-tight">{{ step.title }}</h2>
@@ -66,13 +52,13 @@
               </div>
             </div>
             
-            <!-- Visual side (Sleek monochrome cards) -->
+            <!-- Visual side (Sleek minimalist cards) -->
             <div :class="{ 'md:order-1': i % 2 === 1 }">
-              <div class="bg-card rounded-[2rem] p-12 text-center border border-border shadow-sm hover:shadow-premium hover:border-border/80 transition-all duration-300 group glass-strong">
-                <div class="w-24 h-24 mx-auto rounded-full bg-muted/50 flex items-center justify-center mb-6 border border-border group-hover:scale-110 group-hover:bg-muted transition-all duration-500">
-                   <component :is="step.icon" class="w-10 h-10 text-foreground" />
+              <div class="bg-card rounded-2xl p-10 text-center border border-border shadow-sm transition-all duration-300 group">
+                <div class="w-20 h-20 mx-auto rounded-full bg-muted flex items-center justify-center mb-6 group-hover:scale-105 transition-all duration-300">
+                   <component :is="step.icon" class="w-8 h-8 text-muted-foreground group-hover:text-foreground transition-colors" />
                 </div>
-                <p class="text-xl font-bold text-foreground">{{ step.subtitle }}</p>
+                <p class="text-lg font-semibold text-foreground">{{ step.subtitle }}</p>
               </div>
             </div>
           </div>
@@ -80,26 +66,21 @@
       </div>
     </section>
 
-    <!-- Nouveau Design FAQ -->
-    <section class="py-32 bg-background">
-      <div class="container-main max-w-4xl">
-        <div class="text-center mb-20">
-          <h2 class="text-4xl md:text-5xl font-black tracking-tight text-foreground mb-6">Des questions ?</h2>
-          <p class="text-xl text-muted-foreground font-medium">Tout ce que vous devez savoir sur le processus d'expédition.</p>
+    <!-- Nouveau Design FAQ (V0 Style) -->
+    <section class="py-24 bg-background">
+      <div class="container-main max-w-3xl">
+        <div class="text-center mb-16">
+          <h2 class="text-3xl md:text-4xl font-black tracking-tight text-foreground mb-4">Des questions ?</h2>
+          <p class="text-lg text-muted-foreground font-medium">Tout ce que vous devez savoir sur le processus d'expédition.</p>
         </div>
-        <div class="space-y-4">
+        <div class="border-t border-border">
           <div 
             v-for="(faq, i) in faqs" :key="i" 
-            class="bg-muted/30 rounded-2xl overflow-hidden transition-all duration-300 border border-border"
-            :class="openFaq === i ? 'border-border/80 shadow-sm' : ''"
+            class="border-b border-border"
           >
-            <button @click="openFaq = openFaq === i ? null : i" class="w-full p-6 text-left flex justify-between items-center gap-4 group">
-              <span class="font-bold text-lg text-foreground group-hover:text-muted-foreground transition-colors">{{ faq.question }}</span>
-              <div class="w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0 transition-all border border-border"
-                :class="openFaq === i ? 'bg-brand text-brand-foreground rotate-180 border-brand' : 'bg-card text-muted-foreground'"
-              >
-                <ChevronDown class="w-5 h-5 transition-transform" />
-              </div>
+            <button @click="openFaq = openFaq === i ? null : i" class="w-full py-6 text-left flex justify-between items-center gap-4 group">
+              <span class="font-medium text-[15px] text-foreground group-hover:text-muted-foreground transition-colors">{{ faq.question }}</span>
+              <ChevronDown class="w-4 h-4 text-muted-foreground transition-transform duration-300" :class="openFaq === i ? 'rotate-180' : ''" />
             </button>
             <Transition
               enter-active-class="transition-all duration-300 ease-out"
@@ -109,7 +90,7 @@
               leave-from-class="opacity-100 max-h-40"
               leave-to-class="opacity-0 max-h-0"
             >
-              <div v-if="openFaq === i" class="px-6 pb-8 text-muted-foreground font-medium leading-relaxed overflow-hidden">
+              <div v-if="openFaq === i" class="pb-6 pr-8 text-muted-foreground text-sm leading-relaxed overflow-hidden">
                 {{ faq.answer }}
               </div>
             </Transition>
@@ -123,19 +104,19 @@
       <div class="container-main max-w-5xl">
         <div 
           v-motion :initial="{ opacity: 0, y: 20 }" :visibleOnce="{ opacity: 1, y: 0 }"
-          class="bg-brand rounded-[3rem] p-12 md:p-24 relative overflow-hidden"
+          class="bg-primary rounded-xl p-12 md:p-24 relative overflow-hidden"
         >
           <div class="absolute inset-0 opacity-10 bg-[url('https://api.spencerai.tech/storage/textures/noise.png')]"></div>
           <div class="relative z-10">
-            <h2 class="text-4xl md:text-5xl font-black text-brand-foreground mb-6 tracking-tight">Prêt à envoyer un sourire ?</h2>
-            <p class="text-xl text-brand-foreground/70 mb-12 max-w-2xl mx-auto font-medium">
+            <h2 class="text-4xl md:text-5xl font-black text-primary-foreground mb-6 tracking-tight">Prêt à envoyer un sourire ?</h2>
+            <p class="text-xl text-primary-foreground/70 mb-12 max-w-2xl mx-auto font-medium">
               Rejoignez des centaines de familles qui font déjà confiance à Dounia Market pour le lien avec leurs proches.
             </p>
             <div class="flex flex-col sm:flex-row gap-4 justify-center">
-              <NuxtLink to="/catalogue" class="inline-flex flex-col items-center justify-center px-10 py-5 bg-accent text-brand-foreground font-bold rounded-2xl hover:bg-accent/90 transition-all shadow-premium glow-accent">
+              <NuxtLink to="/catalogue" class="inline-flex flex-col items-center justify-center px-10 py-5 bg-background text-foreground font-bold rounded-md hover:bg-muted transition-all shadow-sm">
                 Voir le catalogue premium
               </NuxtLink>
-              <NuxtLink to="/contact" class="inline-flex flex-col items-center justify-center px-10 py-5 bg-white/10 text-brand-foreground font-bold rounded-2xl hover:bg-white/20 transition-all backdrop-blur-sm border border-white/10">
+              <NuxtLink to="/contact" class="inline-flex flex-col items-center justify-center px-10 py-5 bg-primary-foreground/10 text-primary-foreground font-bold rounded-md hover:bg-primary-foreground/20 transition-all backdrop-blur-sm border border-primary-foreground/10">
                 Nous contacter
               </NuxtLink>
             </div>

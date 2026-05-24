@@ -18,19 +18,18 @@
       </div>
 
       <!-- Empty State Premium -->
-      <div v-if="cartStore.isEmpty" class="glass-strong rounded-2xl border border-border shadow-premium-lg p-16 text-center max-w-3xl mx-auto mt-10">
+      <div v-if="cartStore.isEmpty" class="bg-card rounded-xl border border-border shadow-sm p-12 text-center max-w-3xl mx-auto mt-10">
         <div class="relative mb-10 group mx-auto w-max">
-           <div class="absolute inset-0 bg-gray-100 rounded-full scale-150 opacity-50 blur-2xl"></div>
-           <div class="w-32 h-32 rounded-full border border-gray-100 bg-white shadow-sm flex items-center justify-center relative z-10">
-             <ShoppingBag class="w-12 h-12 text-gray-200" />
+           <div class="w-24 h-24 rounded-full border border-border bg-background shadow-sm flex items-center justify-center relative z-10">
+             <ShoppingBag class="w-10 h-10 text-muted-foreground" />
            </div>
         </div>
-        <h2 class="text-3xl font-black text-gray-900 mb-4 tracking-tight">Votre panier est vide</h2>
-        <p class="text-gray-500 font-medium mb-12 max-w-md mx-auto leading-relaxed">
+        <h2 class="text-2xl font-bold text-foreground mb-4 tracking-tight">Votre panier est vide</h2>
+        <p class="text-muted-foreground mb-10 max-w-md mx-auto leading-relaxed text-sm">
           Remplissez votre panier, et laissez Dounia Market s'occuper de la livraison sécurisée jusqu'à N'Djamena.
         </p>
-        <NuxtLink to="/catalogue" class="inline-flex items-center justify-center gap-3 px-10 py-4 bg-brand text-brand-foreground font-bold rounded-xl hover:bg-brand/90 transition-all glow-accent">
-          <ArrowRight class="w-5 h-5 opacity-70" /> Sélectionner des produits
+        <NuxtLink to="/catalogue" class="inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground hover:bg-primary/90 h-11 px-8">
+          <ArrowRight class="w-4 h-4 mr-2" /> Sélectionner des produits
         </NuxtLink>
       </div>
 
@@ -39,12 +38,12 @@
         <!-- Main Cart Items -->
         <div class="lg:col-span-2 space-y-5">
           <TransitionGroup 
-            enter-active-class="transition-all duration-500 ease-out" 
-            enter-from-class="opacity-0 translate-y-4"
-            leave-active-class="transition-all duration-300 ease-in" 
-            leave-to-class="opacity-0 -translate-x-4"
+            enter-active-class="transition-all duration-300 ease-out" 
+            enter-from-class="opacity-0 translate-y-2"
+            leave-active-class="transition-all duration-200 ease-in" 
+            leave-to-class="opacity-0 -translate-x-2"
           >
-            <div v-for="item in cartStore.items" :key="item.id" class="bg-card rounded-2xl p-6 border border-border shadow-premium group hover:shadow-premium-lg transition-all">
+            <div v-for="item in cartStore.items" :key="item.id" class="bg-card rounded-xl p-6 border border-border shadow-sm transition-all">
               <div class="flex gap-6 sm:gap-8">
                 <!-- Thumbnail -->
                 <div class="w-24 h-24 sm:w-32 sm:h-32 rounded-xl bg-muted flex items-center justify-center flex-shrink-0 relative overflow-hidden">
@@ -118,49 +117,49 @@
 
         <!-- Sticky Summary Sidebar -->
         <div class="lg:col-span-1">
-          <div class="bg-brand rounded-2xl p-8 sticky top-32 text-brand-foreground shadow-premium-lg border border-brand/20">
-            <h2 class="text-xl font-black mb-8 border-b border-brand-foreground/10 pb-6 uppercase tracking-widest text-brand-foreground/50 text-sm">Résumé de la commande</h2>
+          <div class="bg-card rounded-xl p-6 sm:p-8 sticky top-32 text-foreground shadow-sm border border-border flex flex-col">
+            <h2 class="text-lg font-bold mb-6 border-b border-border pb-4 tracking-tight">Résumé de la commande</h2>
             
             <!-- Items summary breakdown -->
-            <div class="space-y-4 mb-8">
+            <div class="space-y-4 mb-6">
               <div v-for="item in cartStore.items" :key="item.id" class="flex justify-between text-sm">
-                <span class="text-brand-foreground/80 truncate mr-3 flex-grow">{{ item.title }} <span class="text-brand-foreground/30 ml-1">×{{ item.quantity }}</span></span>
-                <span class="text-brand-foreground font-medium flex-shrink-0">{{ cartStore.formatPrice(item.price * item.quantity) }}</span>
+                <span class="text-muted-foreground truncate mr-3 flex-grow">{{ item.title }} <span class="text-muted-foreground/70 ml-1">×{{ item.quantity }}</span></span>
+                <span class="font-medium flex-shrink-0">{{ cartStore.formatPrice(item.price * item.quantity) }}</span>
               </div>
             </div>
             
-            <div class="border-t border-brand-foreground/10 pt-6 mb-8 space-y-4">
-              <div class="flex justify-between text-brand-foreground/80 text-sm">
+            <div class="border-t border-border pt-6 mb-6 space-y-4">
+              <div class="flex justify-between text-muted-foreground text-sm">
                 <span>Sous-total articles</span>
-                <span class="text-brand-foreground">{{ cartStore.subtotalFormatted }}</span>
+                <span class="text-foreground font-medium">{{ cartStore.subtotalFormatted }}</span>
               </div>
-              <div class="flex justify-between text-brand-foreground/80 text-sm">
-                <span class="flex items-center gap-2"><Truck class="w-4 h-4 text-brand-foreground/50" />Taxes & Livraison</span>
-                <span class="text-brand-foreground">{{ cartStore.shippingFormatted }}</span>
+              <div class="flex justify-between text-muted-foreground text-sm">
+                <span class="flex items-center gap-2"><Truck class="w-4 h-4" />Taxes & Livraison</span>
+                <span class="text-foreground font-medium">{{ cartStore.shippingFormatted }}</span>
               </div>
             </div>
             
             <!-- Grand Total -->
-            <div class="border-t border-brand-foreground/10 pt-6 mb-8 flex justify-between items-end">
-              <span class="font-bold text-brand-foreground/50 uppercase tracking-widest text-xs">Total TTC</span>
+            <div class="border-t border-border pt-6 mb-8 flex justify-between items-end">
+              <span class="font-bold text-muted-foreground text-sm">Total TTC</span>
               <div class="text-right">
-                <span class="text-4xl font-black text-brand-foreground tracking-tight">{{ cartStore.totalFormatted }}</span>
-                <p class="text-xs text-accent font-bold mt-1 tracking-wider">≈ {{ cartStore.totalFCFA }} FCFA</p>
+                <span class="text-3xl font-bold tracking-tight">{{ cartStore.totalFormatted }}</span>
+                <p class="text-xs text-muted-foreground font-medium mt-1">≈ {{ cartStore.totalFCFA }} FCFA</p>
               </div>
             </div>
             
             <!-- Checkout Action -->
-            <NuxtLink to="/checkout" class="w-full flex items-center justify-center gap-3 py-5 bg-accent text-accent-foreground font-black rounded-xl hover:bg-accent/90 transition-all active:scale-[0.98] glow-accent mb-6">
-              <CreditCard class="w-5 h-5" /> Payer la commande
+            <NuxtLink to="/checkout" class="inline-flex items-center justify-center w-full rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground hover:bg-primary/90 h-11 px-8 mb-6">
+              <CreditCard class="w-4 h-4 mr-2" /> Payer la commande
             </NuxtLink>
             
             <!-- Logistics Badges -->
-            <div class="space-y-3 pt-6 border-t border-brand-foreground/10">
+            <div class="space-y-3 pt-6 border-t border-border">
               <div v-for="badge in trustBadges" :key="badge.label" class="flex items-center gap-3">
-                <div class="w-8 h-8 rounded-full bg-brand-foreground/5 flex items-center justify-center shrink-0">
-                  <component :is="badge.icon" class="w-4 h-4 text-brand-foreground/50" />
+                <div class="w-8 h-8 rounded-md bg-muted flex items-center justify-center shrink-0">
+                  <component :is="badge.icon" class="w-4 h-4 text-muted-foreground" />
                 </div>
-                <span class="text-xs font-bold text-brand-foreground/70 tracking-wide">{{ badge.label }}</span>
+                <span class="text-xs font-medium text-foreground tracking-wide">{{ badge.label }}</span>
               </div>
             </div>
           </div>

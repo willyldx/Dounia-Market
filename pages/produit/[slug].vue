@@ -44,10 +44,10 @@
             <!-- Favorite Button -->
             <button
               @click="toggleFavorite"
-              class="absolute top-6 right-6 w-12 h-12 bg-card/90 backdrop-blur-md rounded-2xl flex items-center justify-center shadow-premium hover:scale-110 transition-all border border-border"
+              class="absolute top-6 right-6 w-10 h-10 bg-card/90 backdrop-blur-sm rounded-xl flex items-center justify-center shadow-sm hover:scale-105 transition-all border border-border"
             >
               <HeartIcon 
-                class="w-5 h-5 transition-colors" 
+                class="w-4 h-4 transition-colors" 
                 :class="isFavorite ? 'fill-destructive text-destructive' : 'text-muted-foreground'"
               />
             </button>
@@ -55,7 +55,7 @@
             <!-- Zoom Button -->
             <button
               @click="showZoom = true"
-              class="absolute bottom-6 right-6 w-10 h-10 bg-card/90 backdrop-blur-md rounded-xl flex items-center justify-center shadow-premium hover:scale-110 transition-all border border-border"
+              class="absolute bottom-6 right-6 w-10 h-10 bg-card/90 backdrop-blur-sm rounded-xl flex items-center justify-center shadow-sm hover:scale-105 transition-all border border-border"
             >
               <ZoomInIcon class="w-4 h-4 text-muted-foreground" />
             </button>
@@ -77,8 +77,8 @@
               v-for="(image, index) in product.images"
               :key="index"
               @click="selectedImage = image"
-              class="w-24 h-24 sm:w-28 sm:h-28 bg-muted/50 rounded-2xl border-2 overflow-hidden shrink-0 transition-all snap-start"
-              :class="selectedImage === image ? 'border-brand shadow-premium scale-105' : 'border-transparent hover:border-border'"
+              class="w-24 h-24 sm:w-28 sm:h-28 bg-muted/50 rounded-xl border-2 overflow-hidden shrink-0 transition-all snap-start"
+              :class="selectedImage === image ? 'border-primary shadow-sm scale-105' : 'border-transparent hover:border-border'"
             >
               <img :src="image" :alt="`Vue ${index + 1}`" class="w-full h-full object-contain p-3 mix-blend-multiply" />
             </button>
@@ -108,7 +108,7 @@
             </div>
 
             <!-- Price Block -->
-            <div class="p-6 bg-card rounded-3xl border border-border shadow-premium-lg">
+            <div class="p-6 bg-card rounded-xl border border-border shadow-sm">
               <div class="flex flex-col gap-1">
                 <div class="flex items-baseline gap-4">
                   <span class="text-4xl sm:text-5xl font-black text-foreground tracking-tighter">{{ cartStore.formatPrice(currentPrice) }}</span>
@@ -133,10 +133,10 @@
                   v-for="variant in product.variants"
                   :key="variant.id"
                   @click="selectedVariant = variant"
-                  class="px-5 py-3 rounded-2xl border-2 text-sm font-bold transition-all"
+                  class="px-5 py-3 rounded-xl border-2 text-sm font-bold transition-all"
                   :class="selectedVariant?.id === variant.id 
-                    ? 'border-brand text-brand bg-brand/5 shadow-premium' 
-                    : 'border-border text-muted-foreground hover:border-brand/50 hover:bg-muted'"
+                    ? 'border-primary text-primary bg-primary/5 shadow-sm' 
+                    : 'border-border text-muted-foreground hover:border-primary/50 hover:bg-muted'"
                 >
                   {{ variant.title }}
                 </button>
@@ -175,12 +175,11 @@
                 <button
                   @click="addToCart"
                   :disabled="!product.inStock || isAddingToCart"
-                  class="flex-1 h-16 rounded-2xl bg-brand text-brand-foreground hover:bg-brand/90 active:scale-95 transition-all duration-300 shadow-premium glow-accent disabled:opacity-50 font-bold text-lg flex items-center justify-center gap-3 group relative overflow-hidden"
+                  class="inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground hover:bg-primary/90 h-14 flex-1 text-base sm:text-lg px-8 relative overflow-hidden"
                 >
-                  <span class="absolute inset-0 w-full h-full bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full group-hover:animate-[shimmer_2s_infinite]"></span>
-                  <LoaderIcon v-if="isAddingToCart" class="w-6 h-6 animate-spin" />
+                  <LoaderIcon v-if="isAddingToCart" class="w-5 h-5 animate-spin mr-2" />
                   <template v-else>
-                    <ShoppingCartIcon class="w-6 h-6 group-hover:-translate-y-1 transition-transform" />
+                    <ShoppingCartIcon class="w-5 h-5 mr-2" />
                     Ajouter au panier
                   </template>
                 </button>
@@ -190,7 +189,7 @@
               <button
                 @click="buyNow"
                 :disabled="!product.inStock"
-                class="w-full h-16 border-2 border-brand text-brand font-extrabold rounded-2xl hover:bg-brand/10 transition-all active:scale-95"
+                class="inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-14 w-full text-base sm:text-lg mt-4"
               >
                 Acheter instantanément
               </button>
@@ -214,7 +213,7 @@
             <div class="sm:hidden h-24"></div>
 
             <!-- Trust Badges Block -->
-            <div class="bg-card rounded-3xl p-6 border border-border shadow-premium mt-8">
+            <div class="bg-card rounded-xl p-6 border border-border shadow-sm mt-8">
               <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
                 <div class="flex items-center gap-4 border-b md:border-b-0 md:border-r border-gray-100 pb-4 md:pb-0 pr-0 md:pr-4">
                   <div class="w-12 h-12 bg-white rounded-xl shadow-sm border border-gray-100 flex flex-shrink-0 items-center justify-center">
@@ -340,7 +339,7 @@
       <!-- UNIVERSAL STICKY BOTTOM BAR -->
       <div 
         v-if="product" 
-        class="fixed left-0 w-full glass border-t border-border p-4 shadow-premium-lg z-50 pb-safe transition-transform duration-500 ease-out"
+        class="fixed left-0 w-full bg-background/90 backdrop-blur-md border-t border-border p-4 shadow-sm z-50 pb-safe transition-transform duration-500 ease-out"
         :class="[
           'bottom-[4rem] lg:bottom-0',
           isScrolledPastCTA ? 'translate-y-0' : 'translate-y-[150%]'
@@ -356,11 +355,11 @@
           <button
             @click="addToCart"
             :disabled="!product.inStock || isAddingToCart"
-            class="px-8 h-14 rounded-2xl bg-brand text-brand-foreground hover:bg-brand/90 active:scale-95 transition-all shadow-premium glow-accent flex-shrink-0 disabled:opacity-50 font-extrabold text-base flex items-center justify-center gap-2"
+            class="inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground hover:bg-primary/90 h-12 px-8 flex-shrink-0"
           >
-            <LoaderIcon v-if="isAddingToCart" class="w-5 h-5 animate-spin" />
+            <LoaderIcon v-if="isAddingToCart" class="w-4 h-4 animate-spin mr-2" />
             <template v-else>
-              <ShoppingCartIcon class="w-5 h-5" />
+              <ShoppingCartIcon class="w-4 h-4 mr-2" />
               Ajouter
             </template>
           </button>

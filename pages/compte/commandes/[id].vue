@@ -11,25 +11,25 @@
       </nav>
 
       <!-- Loading State -->
-      <div v-if="isLoading" class="space-y-8">
-        <div class="bg-card rounded-[2rem] border border-border p-10 animate-pulse shadow-sm glass-strong">
-          <div class="h-8 bg-muted rounded-md w-64 mb-6"></div>
-          <div class="h-4 bg-muted/50 rounded-md w-40"></div>
+      <div v-if="isLoading" class="space-y-6">
+        <div class="bg-card rounded-xl border border-border p-8 animate-pulse shadow-sm">
+          <div class="h-6 bg-muted rounded-md w-48 mb-4"></div>
+          <div class="h-4 bg-muted/50 rounded-md w-32"></div>
         </div>
       </div>
 
       <!-- Error State -->
-      <div v-else-if="error" class="bg-card rounded-[2rem] border border-red-500/20 shadow-sm p-16 text-center max-w-2xl mx-auto glass-strong">
-        <div class="w-20 h-20 bg-red-500/10 rounded-full flex items-center justify-center mx-auto mb-6">
-          <AlertCircleIcon class="w-10 h-10 text-red-500" />
+      <div v-else-if="error" class="bg-card rounded-xl border border-destructive/20 shadow-sm p-12 text-center max-w-2xl mx-auto">
+        <div class="w-16 h-16 bg-destructive/10 rounded-full flex items-center justify-center mx-auto mb-6">
+          <AlertCircleIcon class="w-8 h-8 text-destructive" />
         </div>
         <h3 class="font-black text-2xl text-foreground mb-3 tracking-tight">Dossier introuvable</h3>
         <p class="text-muted-foreground font-medium mb-8">{{ error }}</p>
         <NuxtLink
           to="/compte/commandes"
-          class="inline-flex items-center justify-center gap-3 px-8 py-4 bg-brand text-brand-foreground font-bold rounded-xl hover:bg-brand/90 transition-all shadow-premium glow-accent"
+          class="inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground hover:bg-primary/90 h-10 px-4 py-2 mt-4"
         >
-          <ArrowLeftIcon class="w-4 h-4 text-brand-foreground/60" />
+          <ArrowLeftIcon class="w-4 h-4 mr-2" />
           Retour au registre
         </NuxtLink>
       </div>
@@ -37,11 +37,11 @@
       <!-- Order Content -->
       <div v-else-if="order" class="space-y-8">
         <!-- Premium Header -->
-        <div class="bg-card rounded-[2rem] border border-border shadow-premium p-8 sm:p-10 glass-strong">
+        <div class="bg-card rounded-xl border border-border shadow-sm p-6 sm:p-8">
           <div class="flex flex-col md:flex-row md:items-center justify-between gap-6">
             <div>
-              <div class="flex flex-wrap items-center gap-4 mb-3">
-                <h1 class="text-3xl font-black text-foreground tracking-tight">{{ order.displayId }}</h1>
+              <div class="flex flex-wrap items-center gap-4 mb-2">
+                <h1 class="text-2xl font-bold text-foreground tracking-tight">{{ order.displayId }}</h1>
                 <span
                   class="inline-flex items-center px-4 py-2 rounded-xl text-[10px] font-black uppercase tracking-widest border"
                   :class="getStatusClass(order.fulfillmentStatus)"
@@ -49,23 +49,23 @@
                   {{ getStatusLabel(order.fulfillmentStatus) }}
                 </span>
               </div>
-              <p class="text-muted-foreground font-medium font-mono text-sm tracking-wide">
+              <p class="text-muted-foreground font-medium text-sm">
                 Enregistré le {{ formatDate(order.createdAt) }}
               </p>
             </div>
-            <div class="flex gap-4">
+            <div class="flex flex-wrap gap-3">
               <button
                 @click="downloadInvoice"
-                class="flex items-center justify-center gap-3 px-6 py-4 border border-border rounded-xl font-bold text-foreground hover:bg-muted hover:border-foreground transition-all shadow-sm active:scale-95 bg-card"
+                class="inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2"
               >
-                <DownloadIcon class="w-4 h-4 text-accent" />
+                <DownloadIcon class="w-4 h-4 mr-2" />
                 Reçu
               </button>
               <button
                 @click="contactSupport"
-                class="flex items-center justify-center gap-3 px-6 py-4 bg-brand text-brand-foreground font-bold rounded-xl hover:bg-brand/90 transition-all shadow-premium glow-accent active:scale-95"
+                class="inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground hover:bg-primary/90 h-10 px-4 py-2"
               >
-                <MessageCircleIcon class="w-4 h-4 text-brand-foreground/60" />
+                <MessageCircleIcon class="w-4 h-4 mr-2" />
                 Assistance
               </button>
             </div>
@@ -73,12 +73,12 @@
         </div>
 
         <!-- Tracking Timeline (Luxury Style) -->
-        <div class="bg-card rounded-[2rem] border border-border shadow-premium overflow-hidden glass-strong">
-          <div class="p-8 sm:p-10 border-b border-border/50 bg-muted/30">
-            <h2 class="text-xl font-black text-foreground tracking-tight">Progression logistique</h2>
+        <div class="bg-card rounded-xl border border-border shadow-sm overflow-hidden">
+          <div class="p-6 sm:p-8 border-b border-border bg-muted/30">
+            <h2 class="text-xl font-bold text-foreground tracking-tight">Progression logistique</h2>
           </div>
           
-          <div class="p-8 sm:p-10">
+          <div class="p-6 sm:p-8">
             <!-- Progress Bar -->
             <div class="relative mb-16 px-4 sm:px-8">
               <div class="flex items-center justify-between relative z-10">
@@ -88,14 +88,14 @@
                   class="flex flex-col items-center relative group"
                 >
                   <div
-                    class="w-14 h-14 rounded-2xl flex items-center justify-center transition-all duration-500 border-4 border-card"
+                    class="w-12 h-12 rounded-full flex items-center justify-center transition-all duration-500 border border-background shadow-sm"
                     :class="step.completed 
-                      ? 'bg-brand text-brand-foreground shadow-premium-lg scale-110' 
+                      ? 'bg-primary text-primary-foreground' 
                       : 'bg-muted text-muted-foreground/60'"
                   >
-                    <component :is="step.icon" class="w-6 h-6" :class="{ 'text-accent': step.completed }" />
+                    <component :is="step.icon" class="w-5 h-5" />
                   </div>
-                  <p class="text-[10px] uppercase tracking-widest font-black mt-4 text-center transition-colors" :class="step.completed ? 'text-foreground' : 'text-muted-foreground/60'">
+                  <p class="text-[10px] uppercase font-bold mt-3 text-center transition-colors" :class="step.completed ? 'text-foreground' : 'text-muted-foreground/60'">
                     {{ step.label }}
                   </p>
                   <p v-if="step.date" class="text-xs font-medium text-muted-foreground mt-1">{{ step.date }}</p>
@@ -103,12 +103,11 @@
               </div>
               
               <!-- Progress Line -->
-              <div class="absolute top-7 left-12 right-12 h-1 bg-muted rounded-full z-0">
+              <div class="absolute top-6 left-10 right-10 h-1 bg-muted rounded-full z-0">
                 <div 
-                  class="h-full bg-brand rounded-full transition-all duration-1000 ease-out relative overflow-hidden"
+                  class="h-full bg-primary rounded-full transition-all duration-1000 ease-out relative overflow-hidden"
                   :style="{ width: progressWidth + '%' }"
                 >
-                   <div class="absolute inset-0 bg-white/20 animate-pulse"></div>
                 </div>
               </div>
             </div>
@@ -123,14 +122,13 @@
               >
                 <div class="flex flex-col items-center shrink-0">
                   <div
-                    class="w-6 h-6 rounded-full border-4 border-card flex items-center justify-center mt-1 outline outline-1 outline-border"
-                    :class="event.completed ? 'bg-brand' : 'bg-muted'"
+                    class="w-5 h-5 rounded-full border border-background flex items-center justify-center mt-1 outline outline-1 outline-border"
+                    :class="event.completed ? 'bg-primary' : 'bg-muted'"
                   >
-                     <div v-if="event.completed && index === timeline.length - 1" class="w-1.5 h-1.5 bg-accent rounded-full animate-ping"></div>
                   </div>
                 </div>
-                <div class="pb-10 pt-1">
-                  <p class="font-black text-foreground text-lg tracking-tight">{{ event.title }}</p>
+                <div class="pb-8 pt-0.5">
+                  <p class="font-bold text-foreground text-base tracking-tight">{{ event.title }}</p>
                   <p v-if="event.description" class="text-sm font-medium text-muted-foreground mt-2 leading-relaxed">{{ event.description }}</p>
                   <p class="text-xs font-bold uppercase tracking-widest text-muted-foreground/80 mt-3">{{ event.date }}</p>
                 </div>
@@ -155,20 +153,20 @@
         </div>
 
         <!-- Order Items Manifest -->
-        <div class="bg-card rounded-[2rem] border border-border shadow-premium overflow-hidden glass-strong">
-          <div class="p-8 border-b border-border/50 flex items-center justify-between">
-            <h2 class="text-xl font-black text-foreground tracking-tight">
+        <div class="bg-card rounded-xl border border-border shadow-sm overflow-hidden">
+          <div class="p-6 sm:p-8 border-b border-border flex items-center justify-between bg-muted/30">
+            <h2 class="text-xl font-bold text-foreground tracking-tight">
               Bordereau ({{ order.items.length }})
             </h2>
           </div>
           
-          <div class="divide-y divide-border/50">
+          <div class="divide-y divide-border">
             <div
               v-for="item in order.items"
               :key="item.id"
-              class="flex flex-col sm:flex-row sm:items-center gap-6 p-8 hover:bg-muted/30 transition-colors"
+              class="flex flex-col sm:flex-row sm:items-center gap-6 p-6 sm:p-8 hover:bg-muted/30 transition-colors"
             >
-              <div class="w-24 h-24 bg-card border border-border shadow-sm rounded-2xl flex items-center justify-center shrink-0 p-2">
+              <div class="w-20 h-20 bg-background border border-border shadow-sm rounded-xl flex items-center justify-center shrink-0 p-2">
                 <img
                   v-if="item.thumbnail"
                   :src="item.thumbnail"
@@ -178,43 +176,43 @@
                 <PackageIcon v-else class="w-10 h-10 text-muted-foreground/30" />
               </div>
               <div class="flex-1 min-w-0">
-                <p class="font-black text-foreground text-lg tracking-tight">{{ item.title }}</p>
-                <div class="flex items-center gap-3 mt-2">
+                <p class="font-bold text-foreground text-base tracking-tight">{{ item.title }}</p>
+                <div class="flex items-center gap-3 mt-1">
                    <span class="text-xs font-bold uppercase tracking-widest text-muted-foreground/80 bg-muted px-3 py-1 rounded-lg">Qté : {{ item.quantity }}</span>
                 </div>
               </div>
               <div class="text-left sm:text-right">
-                 <p class="font-black text-2xl text-foreground tracking-tight">{{ formatPrice(item.total) }}</p>
-                 <p class="text-xs font-bold uppercase tracking-widest text-muted-foreground/80 mt-1">Net</p>
+                 <p class="font-bold text-lg text-foreground tracking-tight">{{ formatPrice(item.total) }}</p>
+                 <p class="text-[10px] font-bold uppercase tracking-widest text-muted-foreground mt-0.5">Net</p>
               </div>
             </div>
           </div>
         </div>
 
         <!-- Order Summary & Addresses (Side by side) -->
-        <div class="grid lg:grid-cols-2 gap-8">
+        <div class="grid lg:grid-cols-2 gap-6">
           <!-- Shipping Address -->
-          <div class="bg-card rounded-[2rem] border border-border shadow-premium overflow-hidden flex flex-col glass-strong">
-            <div class="p-8 border-b border-border/50">
-              <h2 class="text-xl font-black text-foreground tracking-tight">Coordonnées logistiques</h2>
+          <div class="bg-card rounded-xl border border-border shadow-sm overflow-hidden flex flex-col">
+            <div class="p-6 border-b border-border bg-muted/30">
+              <h2 class="text-xl font-bold text-foreground tracking-tight">Coordonnées logistiques</h2>
             </div>
-            <div class="p-8 flex-1 bg-muted/30">
-              <div class="flex items-start gap-5">
-                <div class="w-12 h-12 bg-muted rounded-2xl flex items-center justify-center shrink-0">
-                  <MapPinIcon class="w-5 h-5 text-foreground" />
+            <div class="p-6 flex-1">
+              <div class="flex items-start gap-4">
+                <div class="w-10 h-10 bg-muted rounded-full flex items-center justify-center shrink-0">
+                  <MapPinIcon class="w-4 h-4 text-foreground" />
                 </div>
                 <div>
-                  <p class="font-black text-lg text-foreground mb-2">
+                  <p class="font-bold text-base text-foreground mb-1">
                     {{ order.shippingAddress.firstName }} {{ order.shippingAddress.lastName }}
                   </p>
-                  <p class="text-sm font-medium text-muted-foreground leading-relaxed mb-4">
+                  <p class="text-sm text-muted-foreground leading-relaxed mb-4">
                     {{ order.shippingAddress.address1 }}<br />
                     <span v-if="order.shippingAddress.address2">{{ order.shippingAddress.address2 }}<br /></span>
                     <span class="text-foreground font-bold">{{ order.shippingAddress.city }}, {{ order.shippingAddress.country }}</span>
                   </p>
-                  <div v-if="order.shippingAddress.phone" class="inline-flex items-center gap-3 bg-card border border-border shadow-sm px-4 py-2.5 rounded-xl">
-                    <PhoneIcon class="w-4 h-4 text-muted-foreground/60" />
-                    <span class="text-sm font-bold font-mono text-foreground tracking-widest">{{ order.shippingAddress.phone }}</span>
+                  <div v-if="order.shippingAddress.phone" class="inline-flex items-center gap-2 bg-muted px-3 py-1.5 rounded-md border border-border">
+                    <PhoneIcon class="w-3.5 h-3.5 text-muted-foreground" />
+                    <span class="text-xs font-medium font-mono text-foreground">{{ order.shippingAddress.phone }}</span>
                   </div>
                 </div>
               </div>
@@ -222,42 +220,41 @@
           </div>
 
           <!-- Order Summary Financials -->
-          <div class="bg-brand text-brand-foreground rounded-[2rem] shadow-premium-lg overflow-hidden flex flex-col relative glass-strong">
-             <div class="absolute top-0 right-0 w-64 h-64 bg-gradient-to-bl from-brand/50 to-transparent opacity-50 pointer-events-none rounded-bl-full"></div>
-            <div class="p-8 border-b border-brand-foreground/10 relative z-10">
-              <h2 class="text-xl font-black tracking-tight flex items-center gap-3">
-                 <CreditCard class="w-5 h-5 text-accent" /> Bilan financier
+          <div class="bg-card rounded-xl border border-border shadow-sm overflow-hidden flex flex-col">
+            <div class="p-6 border-b border-border bg-muted/30">
+              <h2 class="text-xl font-bold tracking-tight text-foreground flex items-center gap-3">
+                 <CreditCard class="w-4 h-4 text-primary" /> Bilan financier
               </h2>
             </div>
-            <div class="p-8 space-y-4 relative z-10 flex-1 flex flex-col justify-between">
-              <div class="space-y-4 font-medium text-brand-foreground/70">
-                 <div class="flex justify-between items-center bg-black/20 p-4 rounded-xl">
+            <div class="p-6 space-y-4 flex-1 flex flex-col justify-between">
+              <div class="space-y-3 text-sm font-medium text-muted-foreground">
+                 <div class="flex justify-between items-center bg-muted/50 p-3 rounded-md">
                    <span>Frais de marchandises</span>
-                   <span class="text-brand-foreground">{{ formatPrice(order.subtotal) }}</span>
+                   <span class="text-foreground">{{ formatPrice(order.subtotal) }}</span>
                  </div>
-                 <div class="flex justify-between items-center bg-black/20 p-4 rounded-xl">
+                 <div class="flex justify-between items-center bg-muted/50 p-3 rounded-md">
                    <span>Logistique N'Djamena</span>
-                   <span class="text-brand-foreground">{{ formatPrice(order.shippingTotal) }}</span>
+                   <span class="text-foreground">{{ formatPrice(order.shippingTotal) }}</span>
                  </div>
               </div>
               
-              <div class="pt-6 mt-4 border-t border-brand-foreground/10 flex justify-between items-end">
+              <div class="pt-6 mt-4 border-t border-border flex justify-between items-end">
                 <div class="flex items-center gap-3">
-                  <div class="w-10 h-10 rounded-full flex items-center justify-center bg-white/10" :class="order.paymentStatus === 'captured' ? 'text-accent' : 'text-orange-400'">
+                  <div class="w-10 h-10 rounded-full flex items-center justify-center bg-background border border-border" :class="order.paymentStatus === 'captured' ? 'text-green-600' : 'text-orange-500'">
                     <CheckCircleIcon v-if="order.paymentStatus === 'captured'" class="w-5 h-5" />
                     <ClockIcon v-else class="w-5 h-5" />
                   </div>
                   <div>
-                     <span class="text-xs font-bold uppercase tracking-widest text-brand-foreground/50 block">Statut</span>
-                     <span class="text-sm font-bold" :class="order.paymentStatus === 'captured' ? 'text-accent' : 'text-orange-400'">
+                     <span class="text-[10px] font-bold uppercase tracking-widest text-muted-foreground block">Statut</span>
+                     <span class="text-sm font-bold" :class="order.paymentStatus === 'captured' ? 'text-green-600' : 'text-orange-500'">
                        {{ order.paymentStatus === 'captured' ? 'Fonds sécurisés' : 'En attente' }}
                      </span>
                   </div>
                 </div>
                 <div class="text-right">
-                  <p class="text-xs font-bold uppercase tracking-widest text-brand-foreground/50 mb-1">Montant total</p>
-                  <p class="font-black text-4xl tracking-tighter text-brand-foreground">{{ formatPrice(order.total) }}</p>
-                  <p class="text-xs font-bold text-accent uppercase tracking-widest mt-2">≈ {{ formatFCFA(order.total) }}</p>
+                  <p class="text-[10px] font-bold uppercase tracking-widest text-muted-foreground mb-1">Montant total</p>
+                  <p class="font-bold text-3xl tracking-tight text-foreground">{{ formatPrice(order.total) }}</p>
+                  <p class="text-[10px] font-bold text-muted-foreground uppercase tracking-widest mt-1">≈ {{ formatFCFA(order.total) }}</p>
                 </div>
               </div>
             </div>
@@ -268,16 +265,16 @@
         <div class="flex flex-col sm:flex-row gap-4 pt-6">
           <NuxtLink
             to="/catalogue"
-            class="flex-1 bg-brand border border-brand text-brand-foreground flex items-center justify-center gap-3 px-8 py-5 font-bold rounded-2xl hover:bg-brand/90 transition-all shadow-premium glow-accent active:scale-[0.98]"
+            class="inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground hover:bg-primary/90 h-10 px-4 py-2 flex-1"
           >
-            <RefreshCwIcon class="w-5 h-5 text-brand-foreground/60" />
+            <RefreshCwIcon class="w-4 h-4 mr-2" />
             Nouveau Colis
           </NuxtLink>
           <NuxtLink
             to="/compte/commandes"
-            class="flex-1 flex items-center justify-center gap-3 px-8 py-5 border border-border bg-card text-foreground font-bold rounded-2xl hover:bg-muted transition-all shadow-sm active:scale-[0.98]"
+            class="inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2 flex-1"
           >
-            <ArrowLeftIcon class="w-5 h-5 text-muted-foreground/60" />
+            <ArrowLeftIcon class="w-4 h-4 mr-2" />
             Retour à l'historique
           </NuxtLink>
         </div>

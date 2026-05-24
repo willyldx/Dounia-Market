@@ -61,7 +61,7 @@
           
           <div class="space-y-4">
             <label class="flex items-center gap-4 p-5 bg-card border border-border rounded-[1rem] cursor-pointer hover:bg-muted transition-colors group shadow-sm">
-              <input v-model="sameAsCustomer" type="checkbox" class="w-5 h-5 text-brand bg-card border-border rounded focus:ring-brand focus:ring-2" />
+              <input v-model="sameAsCustomer" type="checkbox" class="w-5 h-5 text-primary bg-card border-border rounded focus:ring-brand focus:ring-2" />
               <div class="flex flex-col">
                  <span class="text-sm font-bold text-foreground">Je suis le destinataire</span>
                  <span class="text-xs text-muted-foreground font-medium">Je réceptionnerai le colis à N'Djamena.</span>
@@ -106,8 +106,8 @@
             </div>
           </div>
           
-          <button @click="nextStep" :disabled="!canProceed" class="w-full flex items-center justify-center gap-3 py-5 mt-12 bg-brand text-brand-foreground font-bold rounded-xl hover:bg-brand/90 transition-all shadow-premium glow-accent active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed">
-            Passer au mode de paiement <ArrowRightIcon class="w-4 h-4" />
+          <button @click="nextStep" :disabled="!canProceed" class="inline-flex items-center justify-center w-full rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground hover:bg-primary/90 h-12 mt-8">
+            Passer au mode de paiement <ArrowRightIcon class="w-4 h-4 ml-2" />
           </button>
         </div>
 
@@ -122,7 +122,7 @@
             <ShieldCheckIcon class="w-4 h-4 text-accent" /> Traitement chiffré de bout en bout.
           </p>
 
-          <div class="border border-border rounded-[1rem] overflow-hidden bg-card shadow-premium">
+          <div class="border border-border rounded-xl overflow-hidden bg-card shadow-sm">
             <label 
               v-for="(method, index) in paymentMethods" 
               :key="method.id"
@@ -130,7 +130,7 @@
               :class="selectedPayment === method.id ? 'bg-muted/50' : 'hover:bg-muted/30'"
             >
               <div class="flex items-center p-6 gap-5">
-                <input v-model="selectedPayment" type="radio" :value="method.id" class="w-5 h-5 text-brand border-border focus:ring-brand focus:ring-2" />
+                <input v-model="selectedPayment" type="radio" :value="method.id" class="w-5 h-5 text-primary border-border focus:ring-brand focus:ring-2" />
                 <div class="flex-1 flex justify-between items-center">
                   <span class="font-bold text-foreground">{{ method.label }}</span>
                   <component v-if="method.id === 'card'" :is="CreditCard" class="w-6 h-6 text-muted-foreground" />
@@ -174,7 +174,7 @@
              <span class="pt-0.5">{{ paymentError }}</span>
           </div>
 
-          <button @click="nextStep" :disabled="!canProceed" class="w-full flex items-center justify-center gap-3 py-5 mt-10 bg-brand text-brand-foreground font-bold rounded-xl hover:bg-brand/90 transition-all shadow-premium glow-accent active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed">
+          <button @click="nextStep" :disabled="!canProceed" class="inline-flex items-center justify-center w-full rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground hover:bg-primary/90 h-12 mt-8">
             Vérifier avant paiement
           </button>
         </div>
@@ -187,7 +187,7 @@
           
           <h2 class="text-2xl font-black text-foreground tracking-tight mb-8">Vérification finale</h2>
 
-          <div class="border border-border rounded-[1rem] p-0 overflow-hidden mb-10 text-sm font-medium shadow-sm bg-card">
+          <div class="border border-border rounded-xl p-0 overflow-hidden mb-10 text-sm font-medium shadow-sm bg-card">
             <div class="flex justify-between p-5 border-b border-border items-start">
               <span class="text-muted-foreground font-bold uppercase tracking-wider text-xs w-28 pt-0.5">Contact</span>
               <span class="text-foreground flex-1 break-all">{{ form.email }}</span>
@@ -206,18 +206,18 @@
           </div>
 
           <!-- Conditions -->
-          <label class="flex items-start gap-4 p-5 bg-muted/50 border border-border rounded-[1rem] cursor-pointer hover:bg-muted transition-colors">
-            <input v-model="acceptTerms" type="checkbox" required class="w-5 h-5 mt-0.5 text-brand bg-card border-border rounded focus:ring-brand focus:ring-2" />
+          <label class="flex items-start gap-4 p-5 bg-muted/50 border border-border rounded-xl cursor-pointer hover:bg-muted transition-colors">
+            <input v-model="acceptTerms" type="checkbox" required class="w-5 h-5 mt-0.5 text-primary border-input rounded focus:ring-primary focus:ring-2 bg-background shadow-sm" />
             <span class="text-sm font-medium text-muted-foreground leading-relaxed">
               J'exige que l'équipe logistique livre cette commande en parfait état, et j'accepte formellement les <NuxtLink to="/conditions" class="text-foreground font-bold underline">conditions générales de vente</NuxtLink>.
             </span>
           </label>
 
-          <button @click="submitOrder" :disabled="!acceptTerms || isSubmitting" class="w-full flex items-center justify-center gap-3 py-5 mt-8 bg-brand text-brand-foreground font-bold rounded-xl hover:bg-brand/90 transition-all shadow-premium glow-accent active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed overflow-hidden relative group">
+          <button @click="submitOrder" :disabled="!acceptTerms || isSubmitting" class="inline-flex items-center justify-center w-full rounded-md font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground hover:bg-primary/90 h-14 mt-8 relative overflow-hidden group">
             <div class="absolute inset-0 bg-white/10 translate-x-[-100%] group-hover:animate-[shimmer_2s_infinite]" />
-            <LoaderIcon v-if="isSubmitting" class="w-5 h-5 animate-spin relative z-10" />
-            <LockIcon v-else class="w-5 h-5 text-brand-foreground/70 relative z-10" />
-            <span class="text-lg relative z-10">{{ isSubmitting ? 'Chiffrement en cours...' : `Confirmer et Payer ${cartStore.formattedTotal}` }}</span>
+            <LoaderIcon v-if="isSubmitting" class="w-5 h-5 animate-spin relative z-10 mr-2" />
+            <LockIcon v-else class="w-5 h-5 text-primary-foreground/70 relative z-10 mr-2" />
+            <span class="text-base sm:text-lg relative z-10">{{ isSubmitting ? 'Chiffrement en cours...' : `Confirmer et Payer ${cartStore.formattedTotal}` }}</span>
           </button>
         </div>
 
@@ -233,10 +233,10 @@
     </div>
 
     <!-- RIGHT COLUMN: Order Summary (Sticky Sidebar) -->
-    <div class="w-full lg:w-[45%] xl:w-[40%] bg-brand text-brand-foreground border-b lg:border-b-0 lg:border-l border-brand/20 px-6 sm:px-12 lg:px-16 xl:px-24 py-12 lg:py-16 order-1 lg:order-2 shadow-premium-lg">
+    <div class="w-full lg:w-[45%] xl:w-[40%] bg-muted text-foreground border-b lg:border-b-0 lg:border-l border-border px-6 sm:px-12 lg:px-16 xl:px-24 py-12 lg:py-16 order-1 lg:order-2">
       <!-- Order Summary -->
       <div class="lg:sticky lg:top-12">
-        <h2 class="text-sm font-bold uppercase tracking-widest text-brand-foreground/50 mb-8 border-b border-brand-foreground/10 pb-4">Résumé des achats</h2>
+        <h2 class="text-sm font-bold uppercase tracking-widest text-muted-foreground mb-8 border-b border-border pb-4">Résumé des achats</h2>
         
         <!-- Products List -->
         <div class="space-y-5 mb-8 max-h-[40vh] lg:max-h-[50vh] overflow-y-auto pr-2 custom-scrollbar">
@@ -246,37 +246,37 @@
                   <NuxtImg v-if="item.thumbnail" :src="resolveThumb(item.thumbnail)" :alt="item.title" class="w-full h-full object-cover mix-blend-multiply" />
                   <PackageIcon v-else class="w-6 h-6 text-muted-foreground/30" />
                </div>
-               <div class="absolute -top-2 -right-2 w-6 h-6 bg-accent text-accent-foreground text-[11px] font-bold rounded-full flex items-center justify-center shadow-md border-2 border-brand">
+               <div class="absolute -top-2 -right-2 w-6 h-6 bg-primary text-primary-foreground text-[11px] font-bold rounded-full flex items-center justify-center shadow-md border-2 border-background">
                  {{ item.quantity }}
                </div>
             </div>
             <div class="flex-1 min-w-0">
-              <p class="font-bold text-brand-foreground text-sm truncate">{{ item.title }}</p>
-              <p v-if="item.variantTitle" class="text-xs font-bold uppercase tracking-wide text-brand-foreground/50 mt-1">{{ item.variantTitle }}</p>
+              <p class="font-bold text-foreground text-sm truncate">{{ item.title }}</p>
+              <p v-if="item.variantTitle" class="text-xs font-bold uppercase tracking-wide text-muted-foreground mt-1">{{ item.variantTitle }}</p>
             </div>
-            <div class="text-sm font-black text-brand-foreground shrink-0">
+            <div class="text-sm font-black text-foreground shrink-0">
               {{ cartStore.formatPrice(item.price * item.quantity) }}
             </div>
           </div>
         </div>
 
         <!-- Totals -->
-        <div class="space-y-4 pb-8 border-b border-brand-foreground/10">
+        <div class="space-y-4 pb-8 border-b border-border">
           <div class="flex justify-between text-sm font-medium">
-            <span class="text-brand-foreground/70">Sous-total</span>
-            <span class="text-brand-foreground">{{ cartStore.subtotalFormatted }}</span>
+            <span class="text-muted-foreground">Sous-total</span>
+            <span class="text-foreground font-bold">{{ cartStore.subtotalFormatted }}</span>
           </div>
           <div class="flex justify-between text-sm font-medium">
-            <span class="text-brand-foreground/70 flex items-center gap-2"><TruckIcon class="w-4 h-4 text-brand-foreground/40"/>Fret & Douane</span>
-            <span class="text-brand-foreground">{{ cartStore.shippingFormatted }}</span>
+            <span class="text-muted-foreground flex items-center gap-2"><TruckIcon class="w-4 h-4 text-muted-foreground/60"/>Fret & Douane</span>
+            <span class="text-foreground font-bold">{{ cartStore.shippingFormatted }}</span>
           </div>
         </div>
 
         <div class="flex items-center justify-between pt-8">
-          <span class="text-sm font-bold uppercase tracking-wider text-brand-foreground/50 mt-1">Net à Payer</span>
+          <span class="text-sm font-bold uppercase tracking-wider text-muted-foreground mt-1">Net à Payer</span>
           <div class="text-right flex flex-col items-end">
-            <span class="text-4xl font-black text-brand-foreground tracking-tight">{{ cartStore.totalFormatted }}</span>
-            <span class="text-sm font-bold text-accent mt-2">≈ {{ cartStore.totalFCFA }} FCFA</span>
+            <span class="text-4xl font-black text-foreground tracking-tight">{{ cartStore.totalFormatted }}</span>
+            <span class="text-sm font-bold text-muted-foreground mt-2">≈ {{ cartStore.totalFCFA }} FCFA</span>
           </div>
         </div>
       </div>
@@ -568,11 +568,11 @@ async function submitOrder() {
 <style scoped>
 /* Ultra Premium Stripe-like Inputs */
 .checkout-input {
-  @apply block w-full px-5 pt-7 pb-2.5 text-sm font-bold text-foreground bg-card border border-border rounded-[1rem] appearance-none focus:outline-none focus:ring-2 focus:ring-brand focus:border-transparent transition-all;
+  @apply block w-full px-5 pt-7 pb-2.5 text-sm font-bold text-foreground bg-background border border-input rounded-md appearance-none focus:outline-none focus:ring-1 focus:ring-ring focus:border-primary transition-all shadow-sm;
 }
 
 .checkout-label {
-  @apply absolute text-muted-foreground font-medium text-sm duration-200 transform -translate-y-3.5 scale-[0.8] top-4 z-10 origin-[0] left-5 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-placeholder-shown:text-muted-foreground peer-focus:scale-[0.8] peer-focus:-translate-y-3.5 peer-focus:text-brand pointer-events-none;
+  @apply absolute text-muted-foreground font-medium text-sm duration-200 transform -translate-y-3.5 scale-[0.8] top-4 z-10 origin-[0] left-5 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-placeholder-shown:text-muted-foreground peer-focus:scale-[0.8] peer-focus:-translate-y-3.5 peer-focus:text-primary pointer-events-none;
 }
 
 /* Custom Scrollbar for Cart sidebar */

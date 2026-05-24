@@ -12,17 +12,16 @@
       <div class="grid xl:grid-cols-4 gap-8">
         <!-- Luxury Sidebar Navigation -->
         <div class="xl:col-span-1">
-          <nav class="bg-card rounded-[2rem] overflow-hidden shadow-premium-lg border border-border sticky top-32 glass-strong">
+          <nav class="bg-card rounded-xl overflow-hidden shadow-sm border border-border sticky top-32">
             <!-- Profile Avatar Block -->
-            <div class="p-8 border-b border-border/50 bg-brand text-brand-foreground relative">
-               <div class="absolute inset-0 bg-gradient-to-tr from-brand to-brand/90"></div>
-              <div class="flex items-center gap-5 relative z-10">
-                <div class="w-14 h-14 bg-white/10 border border-white/20 rounded-2xl flex items-center justify-center text-brand-foreground text-xl font-black shadow-lg">
+            <div class="p-6 border-b border-border bg-muted/30">
+              <div class="flex items-center gap-4">
+                <div class="w-12 h-12 bg-background border border-border rounded-full flex items-center justify-center text-foreground font-bold shadow-sm">
                   {{ authStore.initials }}
                 </div>
                 <div class="min-w-0">
-                  <p class="font-black text-brand-foreground truncate text-lg tracking-tight">{{ authStore.fullName }}</p>
-                  <p class="text-xs font-medium text-brand-foreground/70 truncate mt-0.5 tracking-wide">{{ authStore.user?.email }}</p>
+                  <p class="font-bold text-foreground truncate text-lg tracking-tight">{{ authStore.fullName }}</p>
+                  <p class="text-xs font-medium text-muted-foreground truncate mt-0.5">{{ authStore.user?.email }}</p>
                 </div>
               </div>
             </div>
@@ -36,7 +35,7 @@
                 >
                   <component :is="item.icon" class="w-5 h-5 transition-transform group-hover:scale-110" :class="{ 'text-foreground': $route.path === item.to }" />
                   <span>{{ item.label }}</span>
-                  <span v-if="item.badge" class="ml-auto bg-brand text-brand-foreground text-[10px] font-black px-2 py-0.5 rounded-full">
+                  <span v-if="item.badge" class="ml-auto bg-primary/10 text-primary border border-primary/20 text-[10px] font-bold px-2 py-0.5 rounded-md">
                     {{ item.badge }}
                   </span>
                 </NuxtLink>
@@ -56,81 +55,80 @@
         </div>
 
         <!-- Main Content (Conciergerie) -->
-        <div class="xl:col-span-3 space-y-8">
+        <div class="xl:col-span-3 space-y-6">
           <!-- Quick Status Board (Sleek Grayscale UI) -->
-          <div class="grid sm:grid-cols-3 gap-6">
-            <div class="bg-card rounded-[2rem] shadow-premium border border-border p-8 group hover:border-border/80 transition-colors">
-              <div class="flex items-center justify-between mb-8">
-                <div class="w-12 h-12 bg-muted rounded-2xl flex items-center justify-center shrink-0">
-                  <PackageIcon class="w-5 h-5 text-foreground" />
+          <div class="grid sm:grid-cols-3 gap-4">
+            <div class="bg-card rounded-xl shadow-sm border border-border p-6 transition-colors">
+              <div class="flex items-center justify-between mb-6">
+                <div class="w-10 h-10 bg-muted rounded-full flex items-center justify-center shrink-0">
+                  <PackageIcon class="w-4 h-4 text-foreground" />
                 </div>
-                <span class="text-[10px] font-black uppercase tracking-widest text-muted-foreground bg-muted px-3 py-1.5 rounded-full border border-border">Activité</span>
+                <span class="text-[10px] font-bold uppercase tracking-widest text-muted-foreground bg-muted/50 px-2.5 py-1 rounded-md border border-border/50">Activité</span>
               </div>
-              <p class="text-4xl font-black text-foreground tracking-tighter">{{ stats.totalOrders }}</p>
-              <p class="text-sm font-medium text-muted-foreground mt-2">Commandes totales</p>
+              <p class="text-3xl font-black text-foreground tracking-tighter">{{ stats.totalOrders }}</p>
+              <p class="text-sm text-muted-foreground mt-1">Commandes totales</p>
             </div>
 
-            <div class="bg-card rounded-[2rem] shadow-premium border border-border p-8 group hover:border-border/80 transition-colors">
-              <div class="flex items-center justify-between mb-8">
-                <div class="relative w-12 h-12 bg-muted rounded-2xl flex items-center justify-center shrink-0">
-                  <div v-if="stats.inProgress > 0" class="absolute top-0 right-0 w-3 h-3 bg-orange-500 rounded-full border-2 border-card animate-ping"></div>
-                  <div v-if="stats.inProgress > 0" class="absolute top-0 right-0 w-3 h-3 bg-orange-500 rounded-full border-2 border-card"></div>
-                  <TruckIcon class="w-5 h-5 text-foreground" />
+            <div class="bg-card rounded-xl shadow-sm border border-border p-6 transition-colors">
+              <div class="flex items-center justify-between mb-6">
+                <div class="relative w-10 h-10 bg-muted rounded-full flex items-center justify-center shrink-0">
+                  <div v-if="stats.inProgress > 0" class="absolute top-0 right-0 w-2.5 h-2.5 bg-orange-500 rounded-full border-2 border-card animate-ping"></div>
+                  <div v-if="stats.inProgress > 0" class="absolute top-0 right-0 w-2.5 h-2.5 bg-orange-500 rounded-full border-2 border-card"></div>
+                  <TruckIcon class="w-4 h-4 text-foreground" />
                 </div>
-                <span class="text-[10px] font-black uppercase tracking-widest text-orange-500 bg-orange-500/10 px-3 py-1.5 rounded-full border border-orange-500/20">En cours</span>
+                <span class="text-[10px] font-bold uppercase tracking-widest text-orange-600 bg-orange-500/10 px-2.5 py-1 rounded-md border border-orange-500/20">En cours</span>
               </div>
-              <p class="text-4xl font-black text-foreground tracking-tighter">{{ stats.inProgress }}</p>
-              <p class="text-sm font-medium text-muted-foreground mt-2">Logistiques actives</p>
+              <p class="text-3xl font-black text-foreground tracking-tighter">{{ stats.inProgress }}</p>
+              <p class="text-sm text-muted-foreground mt-1">Logistiques actives</p>
             </div>
 
-            <div class="bg-card rounded-[2rem] shadow-premium border border-border p-8 group hover:border-border/80 transition-colors">
-              <div class="flex items-center justify-between mb-8">
-                <div class="w-12 h-12 bg-muted rounded-2xl flex items-center justify-center shrink-0">
-                  <CheckCircleIcon class="w-5 h-5 text-accent" />
+            <div class="bg-card rounded-xl shadow-sm border border-border p-6 transition-colors">
+              <div class="flex items-center justify-between mb-6">
+                <div class="w-10 h-10 bg-muted rounded-full flex items-center justify-center shrink-0">
+                  <CheckCircleIcon class="w-4 h-4 text-green-600" />
                 </div>
-                <span class="text-[10px] font-black uppercase tracking-widest text-accent bg-accent/10 px-3 py-1.5 rounded-full border border-accent/20">Livrés</span>
+                <span class="text-[10px] font-bold uppercase tracking-widest text-green-700 bg-green-500/10 px-2.5 py-1 rounded-md border border-green-500/20">Livrés</span>
               </div>
-              <p class="text-4xl font-black text-foreground tracking-tighter">{{ stats.delivered }}</p>
-              <p class="text-sm font-medium text-muted-foreground mt-2">Expéditions terminées</p>
+              <p class="text-3xl font-black text-foreground tracking-tighter">{{ stats.delivered }}</p>
+              <p class="text-sm text-muted-foreground mt-1">Expéditions terminées</p>
             </div>
           </div>
 
           <!-- Quick Actions (Exclusive Access) -->
-          <div class="grid sm:grid-cols-2 gap-6">
+          <div class="grid sm:grid-cols-2 gap-4">
             <NuxtLink
               to="/catalogue"
-              class="relative bg-brand rounded-[2rem] p-8 text-brand-foreground group overflow-hidden shadow-premium-lg glow-accent"
+              class="bg-primary text-primary-foreground rounded-xl p-6 shadow-sm group hover:bg-primary/90 transition-colors"
             >
-              <div class="absolute inset-0 bg-gradient-to-tr from-black/20 to-transparent z-0"></div>
-              <div class="relative z-10 flex items-start justify-between">
+              <div class="flex items-start justify-between">
                 <div>
-                  <h3 class="font-black text-2xl mb-2 tracking-tight">Initier un envoi</h3>
-                  <p class="text-brand-foreground/70 font-medium text-sm leading-relaxed max-w-[200px]">Commandez maintenant, nous expédions sur N'Djamena demain.</p>
+                  <h3 class="font-bold text-xl mb-1 tracking-tight">Initier un envoi</h3>
+                  <p class="text-primary-foreground/80 text-sm leading-relaxed max-w-[200px]">Commandez maintenant, expédition demain.</p>
                 </div>
-                <div class="w-14 h-14 bg-card text-brand rounded-[1.5rem] flex items-center justify-center group-hover:scale-110 transition-transform shadow-lg">
-                  <PlusIcon class="w-6 h-6" />
+                <div class="w-10 h-10 bg-primary-foreground/10 rounded-full flex items-center justify-center group-hover:scale-105 transition-transform">
+                  <PlusIcon class="w-5 h-5" />
                 </div>
               </div>
             </NuxtLink>
 
             <NuxtLink
               to="/suivi"
-              class="bg-card/50 backdrop-blur-md rounded-[2rem] p-8 border border-border group hover:bg-card hover:shadow-premium hover:border-border/80 transition-all glass-strong"
+              class="bg-card rounded-xl p-6 border border-border group hover:bg-muted/50 shadow-sm transition-colors"
             >
               <div class="flex items-start justify-between">
                 <div>
-                  <h3 class="font-black text-2xl text-foreground mb-2 tracking-tight">Tracking live</h3>
-                  <p class="text-muted-foreground font-medium text-sm leading-relaxed max-w-[200px]">Suivez en direct la progression de vos biens.</p>
+                  <h3 class="font-bold text-xl text-foreground mb-1 tracking-tight">Tracking live</h3>
+                  <p class="text-muted-foreground text-sm leading-relaxed max-w-[200px]">Suivez en direct la progression de vos biens.</p>
                 </div>
-                <div class="w-14 h-14 bg-card shadow-sm border border-border rounded-[1.5rem] flex items-center justify-center group-hover:bg-brand group-hover:text-brand-foreground transition-colors">
-                  <SearchIcon class="w-5 h-5" />
+                <div class="w-10 h-10 bg-muted rounded-full border border-border flex items-center justify-center group-hover:bg-background transition-colors">
+                  <SearchIcon class="w-4 h-4 text-foreground" />
                 </div>
               </div>
             </NuxtLink>
           </div>
 
           <!-- Recent Operations List -->
-          <div class="bg-card rounded-[2rem] shadow-premium border border-border/80 overflow-hidden glass-strong">
+          <div class="bg-card rounded-xl shadow-sm border border-border overflow-hidden">
             <div class="flex items-center justify-between p-8 border-b border-border/50">
               <h2 class="text-xl font-black text-foreground tracking-tight">Opérations récentes</h2>
               <NuxtLink 
@@ -146,10 +144,10 @@
               <div class="w-20 h-20 bg-muted rounded-full flex items-center justify-center mx-auto mb-6">
                 <PackageIcon class="w-8 h-8 text-muted-foreground/40" />
               </div>
-              <h3 class="font-black text-xl text-foreground mb-2">Historique vierge</h3>
-              <p class="text-muted-foreground font-medium mb-8">Votre registre de d'expéditions est actuellement vide.</p>
-              <NuxtLink to="/catalogue" class="inline-flex items-center gap-2 px-8 py-4 bg-brand text-brand-foreground font-bold rounded-xl hover:bg-brand/90 transition-all shadow-premium glow-accent">
-                <ShoppingBagIcon class="w-4 h-4 opacity-70" /> Visiter la boutique
+              <h3 class="font-bold text-xl text-foreground mb-2">Historique vierge</h3>
+              <p class="text-muted-foreground mb-8">Votre registre de d'expéditions est actuellement vide.</p>
+              <NuxtLink to="/catalogue" class="inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground hover:bg-primary/90 h-10 px-4 py-2">
+                <ShoppingBagIcon class="w-4 h-4 mr-2" /> Visiter la boutique
               </NuxtLink>
             </div>
 
@@ -199,7 +197,7 @@
           </div>
 
           <!-- Saved Addresses Preview (Concierge Style) -->
-          <div class="bg-card rounded-[2rem] shadow-premium border border-border/80 overflow-hidden glass-strong">
+          <div class="bg-card rounded-xl shadow-sm border border-border overflow-hidden">
             <div class="flex items-center justify-between p-8 border-b border-border/50">
               <h2 class="text-xl font-black text-foreground tracking-tight">Adresses enregistrées</h2>
               <NuxtLink 
@@ -229,10 +227,10 @@
                 </div>
                 <div class="flex-1 bg-muted/50 rounded-2xl p-6 border border-border">
                   <div class="flex flex-wrap items-center gap-3 mb-3">
-                    <p class="font-black text-foreground text-lg">
+                    <p class="font-bold text-foreground text-lg">
                       {{ authStore.defaultAddress.firstName }} {{ authStore.defaultAddress.lastName }}
                     </p>
-                    <span class="text-[10px] font-black tracking-widest uppercase bg-brand text-brand-foreground px-2.5 py-1 rounded-md">Principal</span>
+                    <span class="text-[10px] font-bold tracking-widest uppercase bg-primary/10 text-primary px-2.5 py-1 rounded-md border border-primary/20">Principal</span>
                   </div>
                   <p class="text-sm font-medium text-muted-foreground leading-relaxed">
                     {{ authStore.defaultAddress.address1 }}<br />

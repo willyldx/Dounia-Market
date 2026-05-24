@@ -14,14 +14,8 @@
     </section>
 
     <!-- Visual Divider -->
-    <section class="w-full h-64 md:h-[500px] bg-brand mb-24 overflow-hidden relative">
-      <div class="absolute inset-0 opacity-20 bg-[url('https://api.spencerai.tech/storage/textures/noise.png')]"></div>
-      <div class="absolute inset-0 flex items-center justify-center">
-        <!-- Placeholder for a brand image -->
-        <div class="w-24 h-24 rounded-full border border-brand-foreground/20 flex items-center justify-center bg-black/50 backdrop-blur-sm">
-          <Globe class="w-8 h-8 text-brand-foreground" />
-        </div>
-      </div>
+    <section class="max-w-7xl mx-auto px-6 mb-24">
+      <div class="w-full h-[2px] bg-border rounded-full opacity-50"></div>
     </section>
 
     <!-- Mission & Valeurs -->
@@ -39,7 +33,7 @@
         <div class="space-y-12">
           <div class="border-t-2 border-border/50 pt-8">
             <h4 class="text-xl font-bold text-foreground mb-3 flex items-center gap-3">
-              <span class="w-2 h-2 rounded-full bg-brand"></span>
+              <span class="w-2 h-2 rounded-full bg-primary"></span>
               Zéro frais cachés
             </h4>
             <p class="text-muted-foreground font-medium leading-relaxed">
@@ -48,7 +42,7 @@
           </div>
           <div class="border-t-2 border-border/50 pt-8">
             <h4 class="text-xl font-bold text-foreground mb-3 flex items-center gap-3">
-              <span class="w-2 h-2 rounded-full bg-brand"></span>
+              <span class="w-2 h-2 rounded-full bg-primary"></span>
               Preuve de livraison
             </h4>
             <p class="text-muted-foreground font-medium leading-relaxed">
@@ -57,7 +51,7 @@
           </div>
           <div class="border-t-2 border-border/50 pt-8">
             <h4 class="text-xl font-bold text-foreground mb-3 flex items-center gap-3">
-              <span class="w-2 h-2 rounded-full bg-brand"></span>
+              <span class="w-2 h-2 rounded-full bg-primary"></span>
               Garantie Premium
             </h4>
             <p class="text-muted-foreground font-medium leading-relaxed">
@@ -70,12 +64,12 @@
 
     <!-- Call to action -->
     <section class="max-w-4xl mx-auto px-6 text-center">
-      <div class="bg-card rounded-[3rem] p-12 md:p-20 border border-border glass-strong shadow-premium-lg">
-        <h2 class="text-4xl font-black text-foreground tracking-tight mb-6">Prêt à faire plaisir ?</h2>
-        <p class="text-lg text-muted-foreground font-medium mb-10 max-w-xl mx-auto">
+      <div class="bg-card rounded-2xl p-12 md:p-16 border border-border shadow-sm">
+        <h2 class="text-3xl font-black text-foreground tracking-tight mb-4">Prêt à faire plaisir ?</h2>
+        <p class="text-lg text-muted-foreground mb-8 max-w-xl mx-auto">
           Découvrez notre sélection de biens essentiels et premium, prêts à être expédiés à N'Djamena dès aujourd'hui.
         </p>
-        <NuxtLink to="/catalogue" class="inline-flex flex-col items-center justify-center px-10 py-5 bg-brand text-brand-foreground font-bold rounded-2xl hover:bg-brand/90 transition-all shadow-premium glow-accent">
+        <NuxtLink to="/catalogue" class="inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground hover:bg-primary/90 h-11 px-8">
           Découvrir le catalogue
         </NuxtLink>
       </div>

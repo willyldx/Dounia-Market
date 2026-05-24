@@ -20,7 +20,7 @@
         </p>
         <div class="mt-8 flex justify-center gap-4">
           <NuxtLink to="/catalogue">
-            <UiButton size="lg" class="bg-accent text-accent-foreground hover:bg-accent/90 glow-accent rounded-xl text-lg px-8">
+            <UiButton size="lg" class="bg-accent text-accent-foreground hover:bg-accent/90  rounded-xl text-lg px-8">
               Explorer le catalogue
               <ArrowRight class="ml-2 h-5 w-5" />
             </UiButton>
@@ -30,7 +30,7 @@
 
       <!-- Trust Badges (v0 style) -->
       <section class="mb-20 flex justify-center">
-        <div class="glass-strong rounded-2xl p-6 shadow-premium-lg flex flex-wrap justify-center gap-6 md:gap-12 w-full max-w-4xl">
+        <div class="rounded-xl p-6 shadow-sm border border-border bg-card/80 backdrop-blur-md flex flex-wrap justify-center gap-6 md:gap-12 w-full max-w-4xl">
           <div class="flex items-center gap-3">
             <div class="w-10 h-10 rounded-full bg-success/10 flex items-center justify-center">
               <ShieldCheck class="w-5 h-5 text-success" />
@@ -42,7 +42,7 @@
           </div>
           <div class="flex items-center gap-3">
             <div class="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">
-              <Truck class="w-5 h-5 text-brand" />
+              <Truck class="w-5 h-5 text-primary" />
             </div>
             <div class="text-left">
               <p class="font-bold text-foreground">Livraison 3-5 jours</p>
@@ -69,7 +69,7 @@
         </div>
 
         <div class="grid md:grid-cols-3 gap-6 max-w-6xl mx-auto">
-          <UiCard class="shadow-premium-lg border-0 bg-gradient-to-br from-card to-secondary/30">
+          <UiCard class="shadow-sm border border-border bg-card hover:-translate-y-1 transition-transform duration-300">
             <div class="p-6">
               <div class="w-14 h-14 rounded-2xl bg-accent/10 flex items-center justify-center mb-4">
                 <Globe class="h-7 w-7 text-accent" />
@@ -81,7 +81,7 @@
             </div>
           </UiCard>
 
-          <UiCard class="shadow-premium-lg border-0 bg-gradient-to-br from-card to-secondary/30">
+          <UiCard class="shadow-sm border border-border bg-card hover:-translate-y-1 transition-transform duration-300">
             <div class="p-6">
               <div class="w-14 h-14 rounded-2xl bg-success/10 flex items-center justify-center mb-4">
                 <ShieldCheck class="h-7 w-7 text-success" />
@@ -93,10 +93,10 @@
             </div>
           </UiCard>
 
-          <UiCard class="shadow-premium-lg border-0 bg-gradient-to-br from-card to-secondary/30">
+          <UiCard class="shadow-sm border border-border bg-card hover:-translate-y-1 transition-transform duration-300">
             <div class="p-6">
               <div class="w-14 h-14 rounded-2xl bg-primary/10 flex items-center justify-center mb-4">
-                <Users class="h-7 w-7 text-brand" />
+                <Users class="h-7 w-7 text-primary" />
               </div>
               <h3 class="font-serif text-xl font-bold mb-2">La Famille d'Abord</h3>
               <p class="text-muted-foreground leading-relaxed">
@@ -114,7 +114,7 @@
             <h2 class="font-serif text-3xl font-bold text-foreground">Top tendances</h2>
             <p class="text-muted-foreground mt-1">Sélectionnés pour vos proches</p>
           </div>
-          <NuxtLink to="/catalogue" class="hidden items-center gap-2 text-sm font-semibold text-brand hover:text-brand/80 md:flex">
+          <NuxtLink to="/catalogue" class="hidden items-center gap-2 text-sm font-semibold text-primary hover:text-primary/80 md:flex">
             Voir tout le catalogue
             <ArrowRight class="h-4 w-4" />
           </NuxtLink>

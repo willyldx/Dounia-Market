@@ -1,25 +1,24 @@
 <template>
   <div class="bg-background min-h-screen pb-16">
     <!-- Slim Hero Header -->
-    <section class="bg-brand text-brand-foreground pt-24 pb-12 px-4 relative overflow-hidden reveal-up">
-      <div class="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent pointer-events-none" />
-      <div class="container-main relative z-10">
+    <section class="bg-background pt-24 pb-12 px-4 border-b border-border reveal-up">
+      <div class="container-main">
         <div class="flex flex-col md:flex-row md:items-end justify-between gap-6">
           <div>
-            <div class="flex items-center gap-2 text-white/60 text-xs mb-4 uppercase tracking-widest font-bold">
-              <NuxtLink to="/" class="hover:text-[var(--color-accent)] transition-colors">Accueil</NuxtLink>
+            <div class="flex items-center gap-2 text-muted-foreground text-xs mb-4 uppercase tracking-widest font-bold">
+              <NuxtLink to="/" class="hover:text-foreground transition-colors">Accueil</NuxtLink>
               <ChevronRight class="w-3 h-3" />
-              <span class="text-white">Catalogue</span>
+              <span class="text-foreground">Catalogue</span>
             </div>
-            <h1 class="text-3xl md:text-5xl font-extrabold tracking-tight text-white">L'essentiel pour vos proches</h1>
-            <p class="text-white/70 text-sm md:text-base mt-2 max-w-xl">
+            <h1 class="text-3xl md:text-5xl font-bold tracking-tight text-foreground">L'essentiel pour vos proches</h1>
+            <p class="text-muted-foreground text-sm md:text-base mt-2 max-w-xl">
               Faites livrer le meilleur de l'alimentaire, de la santé et de la construction à N'Djamena. Sans intermédiaire, avec preuve de remise.
             </p>
           </div>
           <div class="w-full md:w-96 text-right">
-             <div class="relative w-full shadow-premium group">
-                <Search class="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-brand-foreground/50 group-focus-within:text-accent transition-colors" />
-                <input v-model="searchQuery" type="text" placeholder="Rechercher (ex: Lait, Sucre)..." class="w-full bg-brand-foreground/10 hover:bg-brand-foreground/15 focus:bg-background backdrop-blur text-brand-foreground focus:text-foreground border border-brand-foreground/20 focus:border-brand-foreground py-3.5 pl-12 pr-4 rounded-xl font-medium placeholder-brand-foreground/50 focus:outline-none transition-all shadow-sm" />
+             <div class="relative w-full group">
+                <Search class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground transition-colors" />
+                <input v-model="searchQuery" type="text" placeholder="Rechercher (ex: Lait, Sucre)..." class="w-full bg-background border border-input focus:border-primary focus:ring-1 focus:ring-primary py-2.5 pl-10 pr-4 rounded-md text-sm transition-all shadow-sm focus:outline-none" />
              </div>
           </div>
         </div>
@@ -27,35 +26,35 @@
     </section>
 
     <!-- Horizontal Tools Bar -->
-    <div class="sticky top-[72px] z-30 glass border-b transition-all duration-300">
+    <div class="sticky top-[72px] z-30 bg-background/80 backdrop-blur-md border-b transition-all duration-300">
       <div class="container-main py-4 flex flex-col sm:flex-row gap-4 justify-between items-center">
         
         <!-- Category Chips (Luxury Tabs) -->
         <div class="flex items-center gap-6 overflow-x-auto w-full sm:w-auto pb-2 sm:pb-0 scrollbar-hide snap-x">
-          <button @click="selectedCategory = ''" class="flex items-center gap-2 py-3 border-b-2 text-sm font-medium transition-all whitespace-nowrap snap-start" :class="!selectedCategory ? 'border-brand text-foreground' : 'border-transparent text-muted-foreground hover:text-foreground hover:border-border/50'">
+          <button @click="selectedCategory = ''" class="flex items-center gap-2 py-3 border-b-2 text-sm font-medium transition-all whitespace-nowrap snap-start" :class="!selectedCategory ? 'border-primary text-foreground' : 'border-transparent text-muted-foreground hover:text-foreground hover:border-border/50'">
             <span>Toutes les catégories</span>
-            <span class="ml-1 text-[10px] font-bold px-1.5 py-0.5 rounded-full transition-colors" :class="!selectedCategory ? 'bg-brand/10 text-brand' : 'bg-muted text-muted-foreground'">{{ products.length }}</span>
+            <span class="ml-1 text-[10px] font-bold px-1.5 py-0.5 rounded-full transition-colors" :class="!selectedCategory ? 'bg-primary/10 text-primary' : 'bg-muted text-muted-foreground'">{{ products.length }}</span>
           </button>
-          <button v-for="cat in categories" :key="cat.handle" @click="selectedCategory = cat.handle" class="flex items-center gap-2 py-3 border-b-2 text-sm font-medium transition-all whitespace-nowrap snap-start" :class="selectedCategory === cat.handle ? 'border-brand text-foreground' : 'border-transparent text-muted-foreground hover:text-foreground hover:border-border/50'">
+          <button v-for="cat in categories" :key="cat.handle" @click="selectedCategory = cat.handle" class="flex items-center gap-2 py-3 border-b-2 text-sm font-medium transition-all whitespace-nowrap snap-start" :class="selectedCategory === cat.handle ? 'border-primary text-foreground' : 'border-transparent text-muted-foreground hover:text-foreground hover:border-border/50'">
             <component :is="cat.icon" class="w-4 h-4" />
             <span>{{ cat.name }}</span>
-            <span class="ml-1 text-[10px] font-bold px-1.5 py-0.5 rounded-full transition-colors" v-if="getCount(cat.handle) > 0" :class="selectedCategory === cat.handle ? 'bg-brand/10 text-brand' : 'bg-muted text-muted-foreground'">{{ getCount(cat.handle) }}</span>
+            <span class="ml-1 text-[10px] font-bold px-1.5 py-0.5 rounded-full transition-colors" v-if="getCount(cat.handle) > 0" :class="selectedCategory === cat.handle ? 'bg-primary/10 text-primary' : 'bg-muted text-muted-foreground'">{{ getCount(cat.handle) }}</span>
           </button>
         </div>
 
         <!-- Price Drops & Reset -->
         <div class="flex items-center gap-3 w-full sm:w-auto shrink-0 justify-between sm:justify-end">
           <div class="relative group">
-            <select v-model="selectedPrice" class="appearance-none bg-card border border-border text-foreground font-medium py-2 pl-4 pr-10 rounded-lg focus:outline-none focus:ring-2 focus:ring-accent cursor-pointer hover:bg-muted transition-colors text-sm shadow-sm">
+            <select v-model="selectedPrice" class="appearance-none bg-background border border-input text-foreground font-medium py-2 pl-3 pr-8 rounded-md focus:outline-none focus:ring-1 focus:ring-ring cursor-pointer hover:bg-muted transition-colors text-sm shadow-sm">
               <optgroup label="Budget">
                 <option v-for="r in priceRanges" :key="r.value" :value="r.value">{{ r.label }}</option>
               </optgroup>
             </select>
-            <ChevronDown class="w-4 h-4 text-gray-400 absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none" />
+            <ChevronDown class="w-4 h-4 text-muted-foreground absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none" />
           </div>
 
-          <button v-if="hasFilters" @click="resetFilters" class="p-2 text-gray-400 hover:text-red-500 hover:bg-red-50 rounded-lg transition-colors group relative" title="Effacer les filtres">
-            <RotateCcw class="w-5 h-5 group-hover:-rotate-90 transition-transform duration-300" />
+          <button v-if="hasFilters" @click="resetFilters" class="inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 hover:bg-destructive/10 hover:text-destructive h-9 px-3" title="Effacer les filtres">
+            <RotateCcw class="w-4 h-4" />
           </button>
         </div>
       </div>
@@ -66,31 +65,33 @@
       
       <!-- Top info line -->
       <div class="flex items-center justify-between mb-6">
-        <div class="text-sm font-bold text-muted-foreground flex items-center gap-2">
+        <div class="text-sm font-medium text-muted-foreground flex items-center gap-2">
            <LayoutGrid class="w-4 h-4" />
-           <span class="text-brand">{{ filteredProducts.length }}</span> résultats trouvés
+           <span class="text-foreground font-bold">{{ filteredProducts.length }}</span> résultats trouvés
         </div>
       </div>
 
       <!-- Loading state -->
       <div v-if="isLoading" class="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6">
-        <div v-for="i in 8" :key="i" class="card p-4 animate-pulse">
-          <div class="aspect-[4/3] bg-gray-200 rounded-xl mb-4"></div>
-          <div class="h-4 bg-gray-200 rounded mb-2"></div>
-          <div class="h-4 bg-gray-200 rounded w-2/3 mb-4"></div>
+        <div v-for="i in 8" :key="i" class="bg-card border border-border rounded-xl p-4 animate-pulse shadow-sm">
+          <div class="aspect-[4/3] bg-muted rounded-lg mb-4"></div>
+          <div class="h-4 bg-muted rounded w-full mb-2"></div>
+          <div class="h-4 bg-muted rounded w-2/3 mb-4"></div>
           <div class="flex justify-between items-end mt-4">
-             <div class="h-6 bg-gray-200 rounded w-1/3"></div>
-             <div class="w-10 h-10 bg-gray-200 rounded-xl"></div>
+             <div class="h-6 bg-muted rounded w-1/3"></div>
+             <div class="w-10 h-10 bg-muted rounded-md"></div>
           </div>
         </div>
       </div>
 
       <!-- Error state -->
-      <div v-else-if="error" class="card p-16 text-center max-w-2xl mx-auto mt-10">
-        <AlertCircle class="w-16 h-16 text-red-300 mx-auto mb-4" />
-        <h3 class="text-xl font-semibold text-[var(--color-text)] mb-2">Chargement impossible</h3>
-        <p class="text-[var(--color-text-muted)] mb-6">{{ error }}</p>
-        <button @click="fetchProducts" class="btn-primary"><span>Réessayer</span></button>
+      <div v-else-if="error" class="bg-card rounded-xl border border-destructive/20 shadow-sm p-12 text-center max-w-2xl mx-auto mt-10">
+        <AlertCircle class="w-12 h-12 text-destructive mx-auto mb-4" />
+        <h3 class="text-xl font-bold text-foreground mb-2">Chargement impossible</h3>
+        <p class="text-muted-foreground mb-6">{{ error }}</p>
+        <button @click="fetchProducts" class="inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground hover:bg-primary/90 h-10 px-4 py-2">
+          Réessayer
+        </button>
       </div>
 
       <!-- Products grid -->
@@ -99,11 +100,13 @@
       </div>
 
       <!-- Empty state -->
-      <div v-else class="card p-16 text-center max-w-2xl mx-auto mt-10">
-        <SearchX class="w-16 h-16 text-gray-300 mx-auto mb-4" />
-        <h3 class="text-xl font-semibold text-[var(--color-text)] mb-2">Aucun produit trouvé</h3>
-        <p class="text-[var(--color-text-muted)] mb-6">Essayez d'ajuster vos filtres de recherche ou vérifiez l'orthographe.</p>
-        <button @click="resetFilters" class="btn-primary"><span>Réinitialiser la recherche</span></button>
+      <div v-else class="bg-card rounded-xl border border-border shadow-sm p-12 text-center max-w-2xl mx-auto mt-10">
+        <SearchX class="w-12 h-12 text-muted-foreground mx-auto mb-4" />
+        <h3 class="text-xl font-bold text-foreground mb-2">Aucun produit trouvé</h3>
+        <p class="text-muted-foreground mb-6">Essayez d'ajuster vos filtres de recherche ou vérifiez l'orthographe.</p>
+        <button @click="resetFilters" class="inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2">
+          Réinitialiser la recherche
+        </button>
       </div>
     </div>
   </div>

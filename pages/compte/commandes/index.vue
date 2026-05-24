@@ -15,11 +15,11 @@
           <p class="text-muted-foreground font-medium mt-2">Suivi complet de vos {{ orders.length }} expéditions.</p>
         </div>
 
-         <div class="relative">
-           <select
-             v-model="statusFilter"
-             class="appearance-none w-full sm:w-64 px-6 py-4 bg-card border border-border rounded-xl text-sm font-bold text-foreground focus:outline-none focus:ring-2 focus:ring-brand focus:border-transparent transition-all shadow-sm cursor-pointer"
-           >
+          <div class="relative">
+            <select
+              v-model="statusFilter"
+              class="appearance-none w-full sm:w-64 px-4 py-2 bg-background border border-input rounded-md text-sm font-medium text-foreground focus:outline-none focus:ring-1 focus:ring-ring focus:border-transparent transition-all shadow-sm cursor-pointer"
+            >
              <option value="all">Tous les statuts</option>
              <option value="pending">En préparation</option>
              <option value="shipped">En transit / Logistique</option>
@@ -30,8 +30,8 @@
       </div>
 
       <!-- Orders List -->
-      <div v-if="isLoading" class="space-y-6">
-        <div v-for="i in 3" :key="i" class="bg-card rounded-[2rem] border border-border p-8 shadow-sm animate-pulse glass-strong">
+      <div v-if="isLoading" class="space-y-4">
+        <div v-for="i in 3" :key="i" class="bg-card rounded-xl border border-border p-6 shadow-sm animate-pulse">
           <div class="flex flex-col sm:flex-row sm:items-center gap-6">
             <div class="w-24 h-24 bg-muted rounded-2xl shrink-0"></div>
             <div class="flex-1 space-y-3">
@@ -42,7 +42,7 @@
         </div>
       </div>
 
-      <div v-else-if="filteredOrders.length === 0" class="bg-card rounded-[2rem] shadow-premium-lg p-16 text-center max-w-3xl mx-auto mt-10 border border-border glass-strong">
+      <div v-else-if="filteredOrders.length === 0" class="bg-card rounded-xl shadow-sm p-12 text-center max-w-3xl mx-auto mt-8 border border-border">
         <div class="relative mb-8 group mx-auto w-max">
            <div class="absolute inset-0 bg-muted rounded-full scale-150 opacity-50 blur-2xl"></div>
            <div class="w-28 h-28 rounded-full border border-border bg-card shadow-sm flex items-center justify-center relative z-10">
@@ -58,46 +58,46 @@
         <NuxtLink
           v-if="statusFilter === 'all'"
           to="/catalogue"
-          class="inline-flex items-center justify-center gap-3 px-10 py-4 bg-brand text-brand-foreground font-bold rounded-xl hover:bg-brand/90 transition-all shadow-premium glow-accent"
+          class="inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground hover:bg-primary/90 h-10 px-6 py-2 mt-4"
         >
-          <ShoppingBagIcon class="w-5 h-5 opacity-70 text-accent" /> Visiter la boutique
+          <ShoppingBagIcon class="w-4 h-4 mr-2" /> Visiter la boutique
         </NuxtLink>
       </div>
 
-      <div v-else class="space-y-6">
+      <div v-else class="space-y-4">
         <NuxtLink
           v-for="order in filteredOrders"
           :key="order.id"
           :to="`/compte/commandes/${order.id}`"
-          class="block bg-card rounded-[2rem] border border-border shadow-premium hover:border-border/80 hover:shadow-premium-lg transition-all duration-300 overflow-hidden group glass-strong"
+          class="block bg-card rounded-xl border border-border shadow-sm hover:shadow-md hover:border-border/80 transition-all duration-300 overflow-hidden group"
         >
           <!-- Premium Order Header -->
-          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-5 p-8 border-b border-border/50 bg-muted/30">
-            <div class="flex items-center gap-5">
-              <div class="w-14 h-14 bg-card shadow-sm border border-border rounded-2xl flex items-center justify-center shrink-0">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-5 p-6 border-b border-border bg-muted/30">
+            <div class="flex items-center gap-4">
+              <div class="w-12 h-12 bg-background shadow-sm border border-border rounded-full flex items-center justify-center shrink-0">
                 <PackageIcon class="w-6 h-6 text-foreground" />
               </div>
               <div>
-                <p class="font-black text-xl text-foreground tracking-tight">{{ order.displayId }}</p>
-                <p class="text-xs font-bold uppercase tracking-widest text-muted-foreground/80 mt-1">{{ formatDate(order.createdAt) }}</p>
+                <p class="font-bold text-lg text-foreground tracking-tight">{{ order.displayId }}</p>
+                <p class="text-xs font-medium text-muted-foreground mt-0.5">{{ formatDate(order.createdAt) }}</p>
               </div>
             </div>
             
-            <div class="flex items-center gap-5">
+            <div class="flex items-center gap-4">
               <span
-                class="inline-flex items-center px-4 py-2 rounded-xl text-[10px] font-black uppercase tracking-widest border"
+                class="inline-flex items-center px-2.5 py-1 rounded-md text-[10px] font-bold uppercase tracking-widest border"
                 :class="getStatusClass(order.fulfillmentStatus)"
               >
                 {{ getStatusLabel(order.fulfillmentStatus) }}
               </span>
-              <div class="w-10 h-10 rounded-full flex items-center justify-center bg-card border border-border text-muted-foreground/80 group-hover:bg-brand group-hover:text-brand-foreground group-hover:border-transparent transition-all shadow-sm">
-                <ChevronRightIcon class="w-5 h-5" />
+              <div class="w-8 h-8 rounded-md flex items-center justify-center bg-background border border-border text-muted-foreground group-hover:bg-primary group-hover:text-primary-foreground group-hover:border-primary transition-all shadow-sm">
+                <ChevronRightIcon class="w-4 h-4" />
               </div>
             </div>
           </div>
 
           <!-- Order Content Preview -->
-          <div class="p-8">
+          <div class="p-6">
             <div class="flex flex-col md:flex-row md:items-center gap-8">
               <!-- Collaged Thumbnail Stack -->
               <div class="flex -space-x-4 shrink-0">
@@ -127,18 +127,18 @@
 
               <!-- Content Summary -->
               <div class="flex-1 min-w-0 flex flex-col justify-center">
-                <p class="text-sm font-bold text-foreground capitalize leading-relaxed line-clamp-2 pr-4">
+                <p class="text-sm font-semibold text-foreground leading-relaxed line-clamp-2 pr-4">
                   {{ order.items.map(i => i.title).join(', ') }}
                 </p>
-                <p class="text-xs font-bold uppercase tracking-widest text-muted-foreground mt-2">
+                <p class="text-xs font-medium text-muted-foreground mt-1">
                   Dossier de {{ order.items.length }} article{{ order.items.length > 1 ? 's' : '' }}
                 </p>
               </div>
 
               <!-- Price Box -->
-              <div class="md:text-right shrink-0 bg-muted/30 p-4 rounded-xl border border-border">
-                <p class="text-[10px] font-bold uppercase tracking-widest text-muted-foreground/80 mb-1">Total payé</p>
-                <p class="text-2xl font-black text-foreground tracking-tight">{{ formatPrice(order.total) }}</p>
+              <div class="md:text-right shrink-0 bg-muted/50 p-4 rounded-xl border border-border">
+                <p class="text-xs font-medium text-muted-foreground mb-1">Total payé</p>
+                <p class="text-xl font-bold text-foreground tracking-tight">{{ formatPrice(order.total) }}</p>
               </div>
             </div>
 
@@ -159,23 +159,23 @@
       </div>
 
       <!-- Pagination -->
-      <div v-if="totalPages > 1" class="flex items-center justify-center gap-3 mt-14">
+      <div v-if="totalPages > 1" class="flex items-center justify-center gap-2 mt-10">
         <button
           @click="currentPage--"
           :disabled="currentPage === 1"
-          class="w-12 h-12 flex items-center justify-center rounded-xl border border-border hover:bg-muted disabled:opacity-50 disabled:cursor-not-allowed transition-all shadow-sm bg-card"
+          class="inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-10 w-10"
         >
-          <ChevronLeftIcon class="w-5 h-5 text-foreground" />
+          <ChevronLeftIcon class="w-4 h-4" />
         </button>
         
         <button
           v-for="page in visiblePages"
           :key="page"
           @click="currentPage = page"
-          class="w-12 h-12 flex items-center justify-center rounded-xl font-bold transition-all text-sm shadow-sm border"
+          class="inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 h-10 w-10 border"
           :class="currentPage === page 
-            ? 'bg-brand text-brand-foreground border-brand' 
-            : 'bg-card border-border hover:bg-muted text-muted-foreground hover:text-foreground'"
+            ? 'bg-primary text-primary-foreground border-primary' 
+            : 'border-input bg-background hover:bg-accent hover:text-accent-foreground'"
         >
           {{ page }}
         </button>
@@ -183,9 +183,9 @@
         <button
           @click="currentPage++"
           :disabled="currentPage === totalPages"
-          class="w-12 h-12 flex items-center justify-center rounded-xl border border-border hover:bg-muted disabled:opacity-50 disabled:cursor-not-allowed transition-all shadow-sm bg-card"
+          class="inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-10 w-10"
         >
-          <ChevronRightIcon class="w-5 h-5 text-foreground" />
+          <ChevronRightIcon class="w-4 h-4" />
         </button>
       </div>
     </div>

@@ -16,27 +16,24 @@
       <div class="grid lg:grid-cols-3 gap-10">
         <!-- Profile VIP Card -->
         <div class="lg:col-span-1">
-          <div class="bg-brand rounded-[2rem] shadow-premium-lg overflow-hidden text-center sticky top-32 glass-strong">
-             <div class="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent"></div>
-             
-             <div class="px-8 pt-12 pb-8 relative z-10">
-               <div class="relative w-28 h-28 mx-auto mb-6">
-                 <div class="absolute inset-0 border-2 border-white/20 rounded-3xl rotate-6"></div>
-                 <div class="absolute inset-0 bg-white/10 backdrop-blur border border-white/30 rounded-3xl flex items-center justify-center text-brand-foreground text-4xl font-black shadow-2xl">
+          <div class="bg-card rounded-xl shadow-sm border border-border overflow-hidden text-center sticky top-32">
+             <div class="px-8 pt-10 pb-8 relative z-10">
+               <div class="relative w-24 h-24 mx-auto mb-6">
+                 <div class="absolute inset-0 bg-muted/50 border border-border rounded-full flex items-center justify-center text-foreground text-3xl font-bold shadow-sm">
                    {{ authStore.initials }}
                  </div>
                </div>
                
-               <h2 class="text-2xl font-black text-brand-foreground tracking-tight">{{ authStore.fullName }}</h2>
-               <p class="text-brand-foreground/70 font-bold uppercase tracking-widest text-xs mt-2">{{ authStore.user?.email }}</p>
+               <h2 class="text-xl font-bold text-foreground tracking-tight">{{ authStore.fullName }}</h2>
+               <p class="text-muted-foreground text-xs font-medium mt-1">{{ authStore.user?.email }}</p>
              </div>
             
-             <div class="px-8 py-6 bg-black/40 border-t border-white/10 relative z-10 flex justify-between items-center text-left">
+             <div class="px-8 py-5 bg-muted/30 border-t border-border flex justify-between items-center text-left">
                <div>
-                  <p class="text-[10px] uppercase font-black tracking-widest text-muted-foreground/80 mb-1">Affiliation</p>
-                  <p class="text-sm font-bold text-brand-foreground">{{ memberSince }}</p>
+                  <p class="text-[10px] uppercase font-bold tracking-widest text-muted-foreground mb-1">Affiliation</p>
+                  <p class="text-sm font-semibold text-foreground">{{ memberSince }}</p>
                </div>
-               <div class="w-10 h-10 rounded-full bg-accent/20 flex items-center justify-center text-accent">
+               <div class="w-10 h-10 rounded-full bg-background border border-border flex items-center justify-center text-muted-foreground">
                   <ShieldCheckIcon class="w-5 h-5" />
                </div>
              </div>
@@ -46,7 +43,7 @@
         <!-- Profile Form Controls -->
         <div class="lg:col-span-2 space-y-8">
           <!-- Identity Info -->
-          <div class="bg-card rounded-[2rem] border border-border shadow-premium overflow-hidden glass-strong">
+          <div class="bg-card rounded-xl border border-border shadow-sm overflow-hidden">
             <div class="p-8 sm:p-10 border-b border-border/50 bg-muted/30">
               <h3 class="text-xl font-black text-foreground tracking-tight">Coordonnées de base</h3>
               <p class="text-sm font-medium text-muted-foreground mt-1">Nécessaire pour le traitement officiel des bordereaux.</p>
@@ -145,10 +142,10 @@
                 <button
                   type="submit"
                   :disabled="isLoading || !hasChanges"
-                  class="px-8 py-4 bg-brand text-brand-foreground font-bold rounded-2xl disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-3 w-full sm:w-auto hover:bg-brand/90 transition-all shadow-premium glow-accent active:scale-95"
+                  class="inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground hover:bg-primary/90 h-10 px-8 w-full sm:w-auto mt-2"
                 >
-                  <LoaderIcon v-if="isLoading" class="w-5 h-5 animate-spin text-brand-foreground/60" />
-                  <SaveIcon v-else class="w-5 h-5 text-accent" />
+                  <LoaderIcon v-if="isLoading" class="w-5 h-5 animate-spin text-primary-foreground/60 mr-2" />
+                  <SaveIcon v-else class="w-5 h-5 text-primary-foreground mr-2" />
                   {{ isLoading ? 'Synchronisation...' : 'Valider les modifications' }}
                 </button>
               </div>
@@ -156,7 +153,7 @@
           </div>
 
           <!-- Cryptography / Password Change -->
-          <div class="bg-card rounded-[2rem] border border-border shadow-premium overflow-hidden glass-strong">
+          <div class="bg-card rounded-xl border border-border shadow-sm overflow-hidden">
             <div class="p-8 sm:p-10 border-b border-border/50 bg-muted/30">
               <h3 class="text-xl font-black text-foreground tracking-tight">Mot de passe & Cryptographie</h3>
               <p class="text-sm font-medium text-muted-foreground mt-1">Protégez votre espace logistique avec une clé forte.</p>
@@ -229,10 +226,10 @@
                 <button
                   type="submit"
                   :disabled="isChangingPassword || !passwordsMatch || !passwordForm.current || !passwordForm.new"
-                  class="px-8 py-4 border-2 border-border text-foreground font-bold rounded-2xl hover:bg-muted hover:border-foreground transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-3 w-full sm:w-auto shadow-sm active:scale-95"
+                  class="inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-10 px-8 w-full sm:w-auto mt-2"
                 >
-                  <LoaderIcon v-if="isChangingPassword" class="w-5 h-5 animate-spin" />
-                  <KeyIcon v-else class="w-5 h-5" />
+                  <LoaderIcon v-if="isChangingPassword" class="w-5 h-5 animate-spin mr-2" />
+                  <KeyIcon v-else class="w-5 h-5 mr-2" />
                   {{ isChangingPassword ? 'Rotations des clés...' : 'Actualiser la sécurité' }}
                 </button>
               </div>
@@ -240,7 +237,7 @@
           </div>
 
           <!-- Danger Zone -->
-          <div class="bg-card rounded-[2rem] shadow-sm border border-red-500/20 overflow-hidden relative">
+          <div class="bg-card rounded-xl shadow-sm border border-destructive/20 overflow-hidden relative">
              <div class="absolute top-0 left-0 bottom-0 w-2 bg-red-600"></div>
             <div class="p-8 sm:p-10 pl-12 flex flex-col sm:flex-row sm:items-center justify-between gap-6">
               <div>
@@ -251,7 +248,7 @@
               </div>
               <button
                 @click="showDeleteConfirm = true"
-                class="px-6 py-4 border-2 border-red-500/20 text-red-600 font-bold rounded-xl hover:bg-red-500/10 hover:border-red-600 transition-all shrink-0"
+                class="inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-destructive text-destructive-foreground hover:bg-destructive/90 h-10 px-4 py-2 shrink-0"
               >
                 Demander l'effacement
               </button>
@@ -271,8 +268,8 @@
         leave-from-class="opacity-100"
         leave-to-class="opacity-0"
       >
-        <div v-if="showDeleteConfirm" class="fixed inset-0 bg-background/80 backdrop-blur-md z-[100] flex items-center justify-center p-6">
-          <div class="bg-card rounded-[2rem] max-w-lg w-full p-10 shadow-premium border border-border relative overflow-hidden">
+        <div v-if="showDeleteConfirm" class="fixed inset-0 bg-background/80 backdrop-blur-sm z-[100] flex items-center justify-center p-6">
+          <div class="bg-card rounded-xl max-w-lg w-full p-8 shadow-sm border border-border relative overflow-hidden">
              <div class="absolute top-0 left-0 w-full h-1.5 bg-red-600"></div>
             <div class="w-20 h-20 bg-red-500/10 rounded-full flex items-center justify-center mx-auto mb-6">
               <AlertTriangleIcon class="w-10 h-10 text-red-600" />
@@ -284,13 +281,13 @@
             <div class="flex flex-col sm:flex-row gap-4">
               <button
                 @click="showDeleteConfirm = false"
-                class="flex-1 py-4 border-2 border-border text-foreground font-bold rounded-xl hover:bg-muted transition-all"
+                class="inline-flex flex-1 items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2"
               >
                 Conserver mon accès
               </button>
               <button
                 @click="handleDeleteAccount"
-                class="flex-1 py-4 bg-red-600 text-white font-bold rounded-xl hover:bg-red-700 shadow-lg transition-all"
+                class="inline-flex flex-1 items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-destructive text-destructive-foreground hover:bg-destructive/90 h-10 px-4 py-2"
               >
                 Confirmer l'effacement
               </button>
@@ -427,12 +424,12 @@ async function handleDeleteAccount() {
 </script>
 
 <style scoped>
-/* Ultra Premium Stripe-like Inputs for Profile */
+/* Ultra Premium Stripe-like Inputs for Profile -> Minimalist V0 Style */
 .checkout-input {
-  @apply block w-full px-5 pt-8 pb-3 text-sm font-bold text-foreground bg-card border border-border rounded-2xl appearance-none focus:outline-none focus:ring-2 focus:ring-brand focus:border-transparent transition-all shadow-sm;
+  @apply block w-full px-4 pt-6 pb-2 text-sm font-medium text-foreground bg-background border border-input rounded-md appearance-none focus:outline-none focus:ring-1 focus:ring-ring focus:border-transparent transition-all shadow-sm;
 }
 
 .checkout-label {
-  @apply absolute text-muted-foreground/80 font-bold uppercase tracking-widest text-xs duration-200 transform -translate-y-3 scale-[0.8] top-5 z-10 origin-[0] left-5 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-placeholder-shown:text-muted-foreground/60 peer-placeholder-shown:normal-case peer-placeholder-shown:font-medium peer-focus:scale-[0.8] peer-focus:-translate-y-3 peer-focus:text-foreground peer-focus:uppercase peer-focus:font-bold pointer-events-none;
+  @apply absolute text-muted-foreground font-medium text-xs duration-200 transform -translate-y-2 scale-[0.85] top-4 z-10 origin-[0] left-4 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-placeholder-shown:text-muted-foreground peer-focus:scale-[0.85] peer-focus:-translate-y-2 peer-focus:text-foreground pointer-events-none;
 }
 </style>

@@ -8,8 +8,8 @@
                 :class="isPaid ? 'bg-[var(--color-accent)]' : (isMobileMoney ? 'bg-orange-500' : 'bg-[var(--color-accent)]')"></div>
            
           <!-- Paid State -->
-          <div v-if="isPaid" class="w-28 h-28 bg-brand rounded-full flex items-center justify-center mx-auto shadow-2xl relative z-10 border-4 border-card animate-bounce-once">
-            <CheckIcon class="w-12 h-12 text-accent" />
+          <div v-if="isPaid" class="w-28 h-28 bg-primary rounded-full flex items-center justify-center mx-auto shadow-md relative z-10 border-4 border-background animate-bounce-once">
+            <CheckIcon class="w-12 h-12 text-primary-foreground" />
           </div>
           <!-- Awaiting State (Mobile Money) -->
           <div v-else-if="isMobileMoney" class="w-28 h-28 bg-brand rounded-full flex items-center justify-center mx-auto shadow-2xl relative z-10 border-4 border-card">
@@ -17,8 +17,8 @@
              <Smartphone class="w-12 h-12 text-brand-foreground animate-pulse" />
           </div>
           <!-- Default Success -->
-          <div v-else class="w-28 h-28 bg-brand rounded-full flex items-center justify-center mx-auto shadow-2xl relative z-10 border-4 border-card animate-bounce-once">
-            <CheckIcon class="w-12 h-12 text-accent" />
+          <div v-else class="w-28 h-28 bg-primary rounded-full flex items-center justify-center mx-auto shadow-md relative z-10 border-4 border-background animate-bounce-once">
+            <CheckIcon class="w-12 h-12 text-primary-foreground" />
           </div>
           
           <!-- Subtle Sparkles effect instead of tacky confetti -->
@@ -32,7 +32,7 @@
       </div>
 
       <!-- Confirmation Receipt Card -->
-      <div class="bg-card rounded-[2rem] shadow-premium-lg overflow-hidden border border-border glass-strong">
+      <div class="bg-card rounded-xl shadow-sm overflow-hidden border border-border">
         <div class="p-10 text-center pb-8 border-b border-border/50">
           <h1 class="text-3xl font-black text-foreground mb-3 tracking-tight">
             {{ isPaid ? 'Paiement sécurisé !' : (isMobileMoney ? 'Attente du transfert' : 'Commande confirmée !') }}
@@ -76,10 +76,10 @@
           </div>
 
           <!-- Payment Confirmed (Mobile Money Success) -->
-          <div v-if="isMobileMoney && isPaid" class="bg-brand rounded-2xl p-6 text-brand-foreground shadow-xl">
+          <div v-if="isMobileMoney && isPaid" class="bg-primary rounded-xl p-6 text-primary-foreground shadow-sm">
             <div class="flex items-center gap-3 font-black text-lg mb-2">
                <div class="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center shrink-0">
-                 <CheckIcon class="w-5 h-5 text-accent" />
+                 <CheckIcon class="w-5 h-5 text-primary-foreground" />
                </div>
                Transfert Validé
             </div>
@@ -116,21 +116,21 @@
             <NuxtLink
               v-if="authStore.isAuthenticated"
               :to="`/compte/commandes`"
-              class="flex items-center justify-center gap-2 w-full py-4.5 bg-brand text-brand-foreground font-bold rounded-xl hover:bg-brand/90 transition-all shadow-premium glow-accent active:scale-[0.98]"
+              class="inline-flex items-center justify-center w-full rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground hover:bg-primary/90 h-12"
             >
-              <PackageIcon class="w-4 h-4 text-brand-foreground/70" /> Mon Espace Logistique
+              <PackageIcon class="w-4 h-4 text-primary-foreground/70 mr-2" /> Mon Espace Logistique
             </NuxtLink>
             
             <div class="grid grid-cols-2 gap-4">
               <NuxtLink
                 to="/suivi"
-                class="flex items-center justify-center w-full py-4 bg-card border border-border text-foreground font-bold rounded-xl hover:bg-muted transition-all shadow-sm"
+                class="inline-flex items-center justify-center w-full rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-12"
               >
                 Suivre en ligne
               </NuxtLink>
               <NuxtLink
                 to="/"
-                class="flex items-center justify-center w-full py-4 text-muted-foreground bg-transparent font-bold hover:text-foreground transition-colors"
+                class="inline-flex items-center justify-center w-full rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-transparent text-muted-foreground hover:bg-muted hover:text-foreground h-12"
               >
                 Accueil
               </NuxtLink>

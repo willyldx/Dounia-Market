@@ -16,23 +16,23 @@
         </div>
         <button
           @click="openAddModal"
-          class="flex items-center justify-center gap-3 px-8 py-4 bg-brand text-brand-foreground font-bold rounded-2xl hover:bg-brand/90 transition-all shadow-premium glow-accent active:scale-95 shrink-0"
+          class="inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground hover:bg-primary/90 h-10 px-4 py-2 shrink-0"
         >
-          <PlusIcon class="w-5 h-5" />
+          <PlusIcon class="w-4 h-4 mr-2" />
           Nouveau Contact
         </button>
       </div>
 
       <!-- Addresses Grid -->
       <div v-if="isLoading" class="grid md:grid-cols-2 gap-6">
-        <div v-for="i in 2" :key="i" class="bg-card rounded-[2rem] border border-border p-8 shadow-sm animate-pulse glass-strong">
+        <div v-for="i in 2" :key="i" class="bg-card rounded-xl border border-border p-6 shadow-sm animate-pulse">
           <div class="h-5 bg-muted rounded-md w-32 mb-4"></div>
           <div class="h-4 bg-muted/50 rounded-md w-48 mb-3"></div>
           <div class="h-4 bg-muted/50 rounded-md w-40"></div>
         </div>
       </div>
 
-      <div v-else-if="addresses.length === 0" class="bg-card rounded-[2rem] border border-border p-16 text-center shadow-premium glass-strong">
+      <div v-else-if="addresses.length === 0" class="bg-card rounded-xl border border-border p-12 text-center shadow-sm">
         <div class="w-24 h-24 bg-muted rounded-full flex items-center justify-center mx-auto mb-6">
           <MapPinIcon class="w-10 h-10 text-muted-foreground/30" />
         </div>
@@ -42,9 +42,9 @@
         </p>
         <button
           @click="openAddModal"
-          class="inline-flex items-center justify-center gap-3 px-8 py-4 bg-brand text-brand-foreground font-bold rounded-xl hover:bg-brand/90 transition-all shadow-premium glow-accent"
+          class="inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground hover:bg-primary/90 h-10 px-4 py-2 mt-2"
         >
-          <PlusIcon class="w-5 h-5" />
+          <PlusIcon class="w-4 h-4 mr-2" />
           Ajouter un destinataire
         </button>
       </div>
@@ -53,10 +53,10 @@
         <div
           v-for="address in addresses"
           :key="address.id"
-          class="bg-card rounded-[2rem] border overflow-hidden p-8 relative flex flex-col hover:shadow-premium hover:border-border/80 transition-all duration-300 group glass-strong"
-          :class="address.isDefault ? 'border-brand/30 shadow-premium' : 'border-border shadow-sm'"
+          class="bg-card rounded-xl border overflow-hidden p-6 relative flex flex-col hover:shadow-md hover:border-border/80 transition-all duration-300 group shadow-sm"
+          :class="address.isDefault ? 'border-primary/50' : 'border-border'"
         >
-           <div v-if="address.isDefault" class="absolute top-0 left-0 right-0 h-1.5 bg-brand"></div>
+           <div v-if="address.isDefault" class="absolute top-0 left-0 right-0 h-1 bg-primary"></div>
 
           <!-- Address Content -->
           <div class="flex items-start justify-between mb-2">
@@ -66,7 +66,7 @@
              <!-- Default Badge -->
              <span
                v-if="address.isDefault"
-               class="text-[10px] uppercase font-black tracking-widest bg-brand text-brand-foreground px-3 py-1.5 rounded-lg shadow-sm"
+               class="text-[10px] uppercase font-bold tracking-widest bg-primary/10 text-primary px-2.5 py-1 rounded-md shadow-sm border border-primary/20"
              >
                Principal
              </span>
@@ -88,23 +88,23 @@
           </div>
 
           <!-- Actions -->
-          <div class="flex items-center gap-2 mt-8 pt-6 border-t border-border/50 flex-wrap">
+          <div class="flex items-center gap-2 mt-6 pt-6 border-t border-border flex-wrap">
             <button
               @click="editAddress(address)"
-              class="flex items-center gap-2 px-4 py-2 text-xs font-bold uppercase tracking-widest text-muted-foreground hover:text-foreground hover:bg-muted rounded-xl transition-all"
+              class="inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-9 px-3"
             >
-              <EditIcon class="w-4 h-4" /> Éditer
+              <EditIcon class="w-4 h-4 mr-2" /> Éditer
             </button>
             <button
               v-if="!address.isDefault"
               @click="setAsDefault(address.id)"
-              class="flex items-center gap-2 px-4 py-2 text-xs font-bold uppercase tracking-widest text-muted-foreground hover:text-foreground hover:bg-muted rounded-xl transition-all"
+              class="inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-9 px-3"
             >
-              <StarIcon class="w-4 h-4" /> Rendre Principal
+              <StarIcon class="w-4 h-4 mr-2" /> Principal
             </button>
             <button
               @click="confirmDelete(address)"
-              class="flex items-center gap-2 px-4 py-2 text-xs font-bold uppercase tracking-widest text-red-500 hover:bg-red-500/10 hover:text-red-600 rounded-xl transition-all ml-auto"
+              class="inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 text-destructive hover:bg-destructive/10 h-9 px-3 ml-auto"
             >
                Supprimer
             </button>
@@ -113,10 +113,9 @@
       </div>
 
       <!-- Info Note -->
-      <div class="mt-12 bg-card rounded-[2rem] border border-border p-8 flex items-start gap-5 shadow-premium relative overflow-hidden glass-strong">
-        <div class="absolute top-0 left-0 w-1.5 h-full bg-accent pointer-events-none"></div>
-        <div class="w-12 h-12 bg-muted border border-border rounded-2xl flex items-center justify-center shrink-0">
-          <InfoIcon class="w-5 h-5 text-accent" />
+      <div class="mt-10 bg-primary/5 rounded-xl border border-primary/20 p-6 flex items-start gap-4">
+        <div class="w-10 h-10 bg-primary/10 rounded-full flex items-center justify-center shrink-0">
+          <InfoIcon class="w-5 h-5 text-primary" />
         </div>
         <div>
           <p class="text-sm font-black uppercase tracking-widest text-foreground mb-2">Notice Logistique Tchad</p>
@@ -146,19 +145,19 @@
             leave-from-class="opacity-100 scale-100 translate-y-0"
             leave-to-class="opacity-0 scale-95 translate-y-4"
           >
-            <div v-if="showModal" class="bg-card rounded-[2rem] max-w-2xl w-full max-h-[90vh] overflow-y-auto shadow-premium-lg relative glass-strong">
+            <div v-if="showModal" class="bg-card rounded-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto shadow-sm border border-border relative">
               <!-- Modal Header -->
-              <div class="flex items-center justify-between p-8 sm:p-10 border-b border-border/50 bg-muted/30">
-                <h3 class="text-2xl font-black text-foreground tracking-tight">
+              <div class="flex items-center justify-between p-6 sm:p-8 border-b border-border bg-muted/30">
+                <h3 class="text-xl font-bold text-foreground tracking-tight">
                   {{ editingAddress ? 'Modifier le contact' : 'Nouveau destinataire' }}
                 </h3>
-                <button @click="closeModal" class="w-10 h-10 flex items-center justify-center bg-card border border-border rounded-full hover:bg-muted hover:scale-105 transition-all shadow-sm">
-                  <XIcon class="w-5 h-5 text-muted-foreground" />
+                <button @click="closeModal" class="w-8 h-8 flex items-center justify-center rounded-md hover:bg-muted transition-colors">
+                  <XIcon class="w-4 h-4 text-muted-foreground" />
                 </button>
               </div>
 
               <!-- Premium Checkout-Style Form -->
-              <form @submit.prevent="handleSubmit" class="p-8 sm:p-10 space-y-8">
+              <form @submit.prevent="handleSubmit" class="p-6 sm:p-8 space-y-6">
                 <div class="grid sm:grid-cols-2 gap-8">
                   <div class="relative">
                     <input
@@ -247,31 +246,31 @@
                   <label for="mPhone" class="checkout-label">Téléphone (obligatoire pour le livreur)</label>
                 </div>
 
-                <div class="pt-4 border-t border-border/50 flex items-center gap-4 cursor-pointer group" @click="form.isDefault = !form.isDefault">
-                  <div class="w-6 h-6 rounded-lg border-2 flex items-center justify-center transition-colors"
-                       :class="form.isDefault ? 'bg-brand border-brand' : 'border-border bg-card group-hover:border-border/80'">
-                     <CheckIcon v-if="form.isDefault" class="w-4 h-4 text-brand-foreground" />
+                <div class="pt-4 border-t border-border flex items-center gap-3 cursor-pointer group" @click="form.isDefault = !form.isDefault">
+                  <div class="w-5 h-5 rounded border flex items-center justify-center transition-colors"
+                       :class="form.isDefault ? 'bg-primary border-primary text-primary-foreground' : 'border-input bg-background'">
+                     <CheckIcon v-if="form.isDefault" class="w-3.5 h-3.5" />
                   </div>
-                  <span class="text-sm font-bold text-muted-foreground group-hover:text-foreground transition-colors">
+                  <span class="text-sm font-medium text-muted-foreground group-hover:text-foreground transition-colors">
                     Imposer comme point de logistique prioritaire
                   </span>
                 </div>
 
                 <!-- Actions -->
-                <div class="flex flex-col sm:flex-row gap-4 pt-8">
+                <div class="flex flex-col sm:flex-row justify-end gap-3 pt-6">
                   <button
                     type="button"
                     @click="closeModal"
-                    class="flex-1 py-4 border-2 border-border text-foreground font-bold rounded-2xl hover:bg-muted hover:border-foreground transition-colors shadow-sm"
+                    class="inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2 w-full sm:w-auto"
                   >
                     Annuler
                   </button>
                   <button
                     type="submit"
                     :disabled="isSaving"
-                    class="flex-1 py-4 bg-brand text-brand-foreground font-bold rounded-2xl disabled:opacity-50 flex items-center justify-center gap-3 hover:bg-brand/90 transition-colors shadow-premium glow-accent active:scale-95"
+                    class="inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground hover:bg-primary/90 h-10 px-4 py-2 w-full sm:w-auto"
                   >
-                    <LoaderIcon v-if="isSaving" class="w-5 h-5 animate-spin text-brand-foreground/60" />
+                    <LoaderIcon v-if="isSaving" class="w-4 h-4 animate-spin mr-2" />
                     {{ isSaving ? 'Synchronisation...' : (editingAddress ? 'Sauvegarder' : 'Approuver la création') }}
                   </button>
                 </div>
@@ -292,28 +291,28 @@
         leave-from-class="opacity-100"
         leave-to-class="opacity-0"
       >
-        <div v-if="showDeleteModal" class="fixed inset-0 bg-background/80 backdrop-blur-md z-[110] flex items-center justify-center p-6">
-          <div class="bg-card rounded-[2rem] max-w-sm w-full p-10 relative overflow-hidden shadow-premium-lg border border-border glass-strong">
-             <div class="absolute top-0 left-0 w-full h-1.5 bg-red-500"></div>
-            <div class="w-20 h-20 bg-red-500/10 rounded-full flex items-center justify-center mx-auto mb-6">
-              <TrashIcon class="w-10 h-10 text-red-500" />
+        <div v-if="showDeleteModal" class="fixed inset-0 bg-background/80 backdrop-blur-sm z-[110] flex items-center justify-center p-6">
+          <div class="bg-card rounded-xl max-w-sm w-full p-8 relative overflow-hidden shadow-sm border border-border">
+             <div class="absolute top-0 left-0 w-full h-1 bg-destructive"></div>
+            <div class="w-16 h-16 bg-destructive/10 rounded-full flex items-center justify-center mx-auto mb-6">
+              <TrashIcon class="w-8 h-8 text-destructive" />
             </div>
-            <h3 class="text-2xl font-black text-foreground text-center mb-3 tracking-tight">Supprimer ?</h3>
-            <p class="text-muted-foreground font-medium text-center mb-8">
+            <h3 class="text-xl font-bold text-foreground text-center mb-2 tracking-tight">Supprimer ?</h3>
+            <p class="text-muted-foreground text-sm text-center mb-6">
               Ce contact sera rayé définitivement de votre carnet d'adresses.
             </p>
-            <div class="flex flex-col gap-3">
+            <div class="flex flex-col gap-2">
               <button
                 @click="handleDelete"
                 :disabled="isDeleting"
-                class="w-full py-4 bg-red-600 text-white font-bold rounded-xl hover:bg-red-700 transition-all disabled:opacity-50 flex items-center justify-center gap-3 shadow-lg active:scale-95"
+                class="inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-destructive text-destructive-foreground hover:bg-destructive/90 h-10 px-4 py-2 w-full"
               >
-                <LoaderIcon v-if="isDeleting" class="w-5 h-5 animate-spin" />
-                {{ isDeleting ? 'Effacement...' : 'Confirmer la suppression' }}
+                <LoaderIcon v-if="isDeleting" class="w-4 h-4 animate-spin mr-2" />
+                {{ isDeleting ? 'Effacement...' : 'Confirmer' }}
               </button>
               <button
                 @click="showDeleteModal = false"
-                class="w-full py-4 border-2 border-transparent text-muted-foreground font-bold hover:text-foreground hover:bg-muted rounded-xl transition-all"
+                class="inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2 w-full"
               >
                 Annuler
               </button>
@@ -484,12 +483,12 @@ async function setAsDefault(addressId: string) {
 </script>
 
 <style scoped>
-/* Ultra Premium Stripe-like Inputs for Modals */
+/* Ultra Premium Stripe-like Inputs for Modals -> Minimalist V0 Style */
 .checkout-input {
-  @apply block w-full px-5 pt-8 pb-3 text-sm font-bold text-foreground bg-card border border-border rounded-2xl appearance-none focus:outline-none focus:ring-2 focus:ring-brand focus:border-transparent transition-all shadow-sm;
+  @apply block w-full px-4 pt-6 pb-2 text-sm font-medium text-foreground bg-background border border-input rounded-md appearance-none focus:outline-none focus:ring-1 focus:ring-ring focus:border-transparent transition-all shadow-sm;
 }
 
 .checkout-label {
-  @apply absolute text-muted-foreground/80 font-bold uppercase tracking-widest text-xs duration-200 transform -translate-y-3 scale-[0.8] top-5 z-10 origin-[0] left-5 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-placeholder-shown:text-muted-foreground/60 peer-placeholder-shown:normal-case peer-placeholder-shown:font-medium peer-focus:scale-[0.8] peer-focus:-translate-y-3 peer-focus:text-foreground peer-focus:uppercase peer-focus:font-bold pointer-events-none;
+  @apply absolute text-muted-foreground font-medium text-xs duration-200 transform -translate-y-2 scale-[0.85] top-4 z-10 origin-[0] left-4 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-placeholder-shown:text-muted-foreground peer-focus:scale-[0.85] peer-focus:-translate-y-2 peer-focus:text-foreground pointer-events-none;
 }
 </style>

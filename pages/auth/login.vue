@@ -1,24 +1,18 @@
 <template>
-  <div class="min-h-screen flex items-center justify-center relative overflow-hidden bg-brand">
-    <!-- Cinematic Full-screen Photo Background -->
-    <div class="absolute inset-0 w-full h-full bg-cover bg-center bg-no-repeat transition-transform duration-[10s] hover:scale-105" style="background-image: url('/auth-bg.png');"></div>
-    
-    <!-- Luxury Overlay (Very subtle) to keep the image extremely visible -->
-    <div class="absolute inset-0 bg-black/30 backdrop-blur-[1px]"></div>
-
-    <!-- Centered Glassmorphism Card -->
+  <div class="min-h-screen flex items-center justify-center relative bg-muted/30">
+    <!-- Centered Minimalist Card -->
     <div class="w-full max-w-md relative z-10 px-4 sm:px-0">
       
       <!-- Back to Home -->
-      <NuxtLink to="/" class="mb-8 mx-auto flex w-fit items-center gap-2 text-sm font-medium text-white/70 hover:text-white transition-colors backdrop-blur-md bg-white/10 px-4 py-2 rounded-full border border-white/10">
+      <NuxtLink to="/" class="mb-8 mx-auto flex w-fit items-center gap-2 text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">
         <ArrowLeft class="w-4 h-4" /> Retour à l'accueil
       </NuxtLink>
 
-      <div class="bg-brand/80 backdrop-blur-[40px] rounded-[2rem] border border-white/10 shadow-[0_20px_80px_-15px_rgba(0,0,0,0.8)] overflow-hidden">
+      <div class="bg-card rounded-xl border border-border shadow-sm overflow-hidden">
         
         <!-- Logo -->
         <div class="pt-10 pb-2 flex justify-center">
-          <img src="/logo.png" alt="Dounia Market" class="h-10 sm:h-12 w-auto brightness-0 invert" />
+          <img src="/logo.png" alt="Dounia Market" class="h-8 sm:h-10 w-auto" />
         </div>
 
         <div class="px-8 sm:px-10 pb-10 pt-4 space-y-8">
@@ -34,26 +28,21 @@
           >
             <div v-if="step === 'email'" class="w-full">
               <div class="text-center mb-8">
-                <h1 class="text-2xl font-extrabold text-white mb-2 tracking-tight">Bienvenue</h1>
-                <p class="text-white/70 text-sm font-medium">Entrez votre email pour recevoir votre code d'accès sécurisé.</p>
+                <h1 class="text-2xl font-bold text-foreground mb-2 tracking-tight">Bienvenue</h1>
+                <p class="text-muted-foreground text-sm">Entrez votre email pour recevoir votre code d'accès sécurisé.</p>
               </div>
 
-              <form @submit.prevent="handleSendOtp" class="space-y-5">
+              <form @submit.prevent="handleSendOtp" class="space-y-4">
                 <div class="space-y-1.5">
-                  <label class="block text-xs uppercase tracking-wider font-semibold text-white/70 ml-1">Adresse email</label>
-                  <div class="relative group">
-                    <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                      <Mail class="w-5 h-5 text-white/50 group-focus-within:text-white transition-colors" />
-                    </div>
-                    <input
-                      v-model="email"
-                      type="email"
-                      required
-                      autofocus
-                      placeholder="vous@exemple.com"
-                      class="block w-full pl-11 pr-4 py-3.5 bg-white/10 border border-white/20 focus:bg-white/20 focus:border-accent rounded-xl outline-none transition-all placeholder:text-white/40 text-white font-medium shadow-sm"
-                    />
-                  </div>
+                  <label class="text-sm font-medium leading-none text-foreground">Adresse email</label>
+                  <input
+                    v-model="email"
+                    type="email"
+                    required
+                    autofocus
+                    placeholder="vous@exemple.com"
+                    class="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring transition-colors"
+                  />
                 </div>
 
                 <!-- Error -->
@@ -62,8 +51,8 @@
                   enter-from-class="opacity-0 -translate-y-2"
                   enter-to-class="opacity-100 translate-y-0"
                 >
-                  <div v-if="authStore.error" class="p-4 bg-red-500/10 border border-red-500/30 rounded-xl text-sm text-red-400 flex items-start gap-3">
-                    <AlertCircle class="w-5 h-5 mt-0.5 shrink-0" />
+                  <div v-if="authStore.error" class="p-3 bg-destructive/10 border border-destructive/20 rounded-md text-sm text-destructive flex items-start gap-2">
+                    <AlertCircle class="w-4 h-4 mt-0.5 shrink-0" />
                     <span class="leading-relaxed">{{ authStore.error }}</span>
                   </div>
                 </Transition>
@@ -71,14 +60,11 @@
                 <button
                   type="submit"
                   :disabled="!email || authStore.isLoading"
-                  class="w-full relative group overflow-hidden rounded-xl p-[2px] disabled:opacity-60 transition-all shadow-[0_4px_20px_rgba(245,158,11,0.2)] mt-4 border border-accent/50"
+                  class="inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground hover:bg-primary/90 h-10 px-4 py-2 w-full mt-2"
                 >
-                  <span class="absolute inset-0 bg-gradient-to-r from-accent via-yellow-400 to-accent group-hover:scale-105 transition-transform duration-500"></span>
-                  <div class="relative flex items-center justify-center gap-2 px-6 py-3.5 bg-brand/50 rounded-[10px] text-white font-bold transition-colors group-hover:bg-transparent">
-                    <Loader2 v-if="authStore.isLoading" class="w-5 h-5 animate-spin" />
-                    <ArrowRight v-else class="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-                    {{ authStore.isLoading ? 'Envoi...' : 'Continuer' }}
-                  </div>
+                  <Loader2 v-if="authStore.isLoading" class="w-4 h-4 mr-2 animate-spin" />
+                  <ArrowRight v-else class="w-4 h-4 mr-2" />
+                  {{ authStore.isLoading ? 'Envoi...' : 'Continuer' }}
                 </button>
               </form>
             </div>
@@ -94,39 +80,37 @@
             leave-to-class="opacity-0 -translate-x-8"
           >
             <div v-if="step === 'name'" class="w-full">
-              <button @click="step = 'email'" class="flex items-center gap-2 text-sm font-medium text-white/70 hover:text-white mb-6 transition-colors group">
-                <div class="w-8 h-8 rounded-full bg-white/5 group-hover:bg-white/10 flex items-center justify-center transition-colors border border-white/5">
-                  <ArrowLeft class="w-4 h-4 group-hover:-translate-x-0.5 transition-transform" />
-                </div>
+              <button @click="step = 'email'" class="flex items-center gap-2 text-sm font-medium text-muted-foreground hover:text-foreground mb-6 transition-colors">
+                <ArrowLeft class="w-4 h-4" />
                 Changer d'email
               </button>
 
               <div class="text-center mb-8">
-                <h1 class="text-2xl font-extrabold text-white mb-2 tracking-tight">Faisons connaissance</h1>
-                <p class="text-white/70 text-sm font-medium">Dites-nous comment vous appeler.</p>
+                <h1 class="text-2xl font-bold text-foreground mb-2 tracking-tight">Faisons connaissance</h1>
+                <p class="text-muted-foreground text-sm">Dites-nous comment vous appeler.</p>
               </div>
 
-              <form @submit.prevent="handleNameSubmit" class="space-y-5">
+              <form @submit.prevent="handleNameSubmit" class="space-y-4">
                 <div class="grid grid-cols-2 gap-3">
                   <div class="space-y-1.5">
-                    <label class="block text-xs uppercase tracking-wider font-semibold text-white/70 ml-1">Prénom</label>
+                    <label class="text-sm font-medium leading-none text-foreground">Prénom</label>
                     <input 
                       v-model="firstName" 
                       type="text" 
                       required 
                       autofocus
                       placeholder="Prénom" 
-                      class="block w-full px-4 py-3.5 bg-white/10 border border-white/20 focus:bg-white/20 focus:border-accent rounded-xl outline-none transition-all placeholder:text-white/40 text-white font-medium shadow-sm"
+                      class="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring transition-colors"
                     />
                   </div>
                   <div class="space-y-1.5">
-                    <label class="block text-xs uppercase tracking-wider font-semibold text-white/70 ml-1">Nom</label>
+                    <label class="text-sm font-medium leading-none text-foreground">Nom</label>
                     <input 
                       v-model="lastName" 
                       type="text" 
                       required 
                       placeholder="Nom" 
-                      class="block w-full px-4 py-3.5 bg-white/10 border border-white/20 focus:bg-white/20 focus:border-accent rounded-xl outline-none transition-all placeholder:text-white/40 text-white font-medium shadow-sm"
+                      class="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring transition-colors"
                     />
                   </div>
                 </div>
@@ -134,12 +118,9 @@
                 <button 
                   type="submit" 
                   :disabled="!firstName || !lastName" 
-                  class="w-full relative group overflow-hidden rounded-xl p-[2px] disabled:opacity-60 transition-all shadow-[0_4px_20px_rgba(245,158,11,0.2)] mt-4 border border-accent/50"
+                  class="inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground hover:bg-primary/90 h-10 px-4 py-2 w-full mt-2"
                 >
-                  <span class="absolute inset-0 bg-gradient-to-r from-accent via-yellow-400 to-accent group-hover:scale-105 transition-transform duration-500"></span>
-                  <div class="relative flex items-center justify-center gap-2 px-6 py-3.5 bg-brand/50 rounded-[10px] text-white font-bold transition-colors group-hover:bg-transparent">
-                    <ArrowRight class="w-5 h-5 group-hover:translate-x-1 transition-transform" /> Suivant
-                  </div>
+                  Suivant <ArrowRight class="w-4 h-4 ml-2" />
                 </button>
               </form>
             </div>
@@ -155,21 +136,19 @@
             leave-to-class="opacity-0 -translate-x-8"
           >
             <div v-if="step === 'otp'" class="w-full">
-              <button @click="step = isNewUser ? 'name' : 'email'" class="flex items-center gap-2 text-sm font-medium text-white/70 hover:text-white mb-6 transition-colors group">
-                <div class="w-8 h-8 rounded-full bg-white/5 group-hover:bg-white/10 flex items-center justify-center transition-colors border border-white/5">
-                  <ArrowLeft class="w-4 h-4 group-hover:-translate-x-0.5 transition-transform" />
-                </div>
+              <button @click="step = isNewUser ? 'name' : 'email'" class="flex items-center gap-2 text-sm font-medium text-muted-foreground hover:text-foreground mb-6 transition-colors">
+                <ArrowLeft class="w-4 h-4" />
                 Retour
               </button>
 
               <div class="flex flex-col items-center text-center">
-                <div class="w-16 h-16 mx-auto mb-4 rounded-2xl bg-accent/10 flex items-center justify-center border border-accent/20 shadow-[0_0_30px_rgba(245,158,11,0.2)]">
-                  <ShieldCheck class="w-8 h-8 text-accent" />
+                <div class="w-12 h-12 mx-auto mb-4 rounded-full bg-muted flex items-center justify-center border border-border">
+                  <ShieldCheck class="w-6 h-6 text-foreground" />
                 </div>
 
-                <h1 class="text-2xl font-extrabold text-white mb-2 tracking-tight">Code de sécurité</h1>
-                <p class="text-white/70 text-sm font-medium mb-6 max-w-xs">
-                  Envoyé à <strong class="text-white font-bold">{{ email }}</strong>
+                <h1 class="text-2xl font-bold text-foreground mb-2 tracking-tight">Code de sécurité</h1>
+                <p class="text-muted-foreground text-sm mb-6 max-w-xs">
+                  Envoyé à <strong class="text-foreground font-semibold">{{ email }}</strong>
                 </p>
               </div>
 
@@ -183,7 +162,7 @@
                     type="text"
                     inputmode="numeric"
                     maxlength="1"
-                    class="w-10 h-14 sm:w-12 sm:h-14 text-center text-2xl font-extrabold rounded-xl bg-white/10 border border-white/20 focus:bg-white/20 focus:border-accent focus:shadow-[0_0_0_3px_rgba(245,158,11,0.3)] outline-none transition-all text-white"
+                    class="w-10 h-12 sm:w-12 sm:h-12 text-center text-xl font-bold rounded-md border border-input bg-background focus:outline-none focus:ring-2 focus:ring-ring transition-all text-foreground"
                     @input="onOtpInput(i, $event)"
                     @keydown="onOtpKeydown(i, $event)"
                     @paste="onOtpPaste($event)"
@@ -196,8 +175,8 @@
                   enter-from-class="opacity-0 -translate-y-2"
                   enter-to-class="opacity-100 translate-y-0"
                 >
-                  <div v-if="authStore.error" class="p-4 bg-red-500/10 border border-red-500/30 rounded-xl text-sm text-red-400 flex items-start justify-center text-center gap-3">
-                    <AlertCircle class="w-5 h-5 mt-0.5 shrink-0" />
+                  <div v-if="authStore.error" class="p-3 bg-destructive/10 border border-destructive/20 rounded-md text-sm text-destructive flex items-start justify-center text-center gap-2">
+                    <AlertCircle class="w-4 h-4 mt-0.5 shrink-0" />
                     <span class="leading-relaxed">{{ authStore.error }}</span>
                   </div>
                 </Transition>
@@ -205,14 +184,11 @@
                 <button
                   type="submit"
                   :disabled="otpCode.length < 6 || authStore.isLoading"
-                  class="w-full relative group overflow-hidden rounded-xl p-[2px] disabled:opacity-60 transition-all shadow-[0_4px_20px_rgba(245,158,11,0.2)] mt-2 border border-accent/50"
+                  class="inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground hover:bg-primary/90 h-10 px-4 py-2 w-full mt-2"
                 >
-                  <span class="absolute inset-0 bg-gradient-to-r from-accent via-yellow-400 to-accent group-hover:scale-105 transition-transform duration-500"></span>
-                  <div class="relative flex items-center justify-center gap-2 px-6 py-3.5 bg-brand/50 rounded-[10px] text-white font-bold transition-colors group-hover:bg-transparent">
-                    <Loader2 v-if="authStore.isLoading" class="w-5 h-5 animate-spin" />
-                    <LogIn v-else class="w-5 h-5" />
-                    {{ authStore.isLoading ? 'Vérification...' : 'Accéder à mon espace' }}
-                  </div>
+                  <Loader2 v-if="authStore.isLoading" class="w-4 h-4 mr-2 animate-spin" />
+                  <LogIn v-else class="w-4 h-4 mr-2" />
+                  {{ authStore.isLoading ? 'Vérification...' : 'Accéder à mon espace' }}
                 </button>
 
                 <!-- Resend -->
@@ -221,12 +197,12 @@
                     v-if="resendCooldown <= 0"
                     @click="handleSendOtp"
                     type="button"
-                    class="text-xs text-accent hover:text-white font-bold transition-colors underline underline-offset-4"
+                    class="text-xs text-muted-foreground hover:text-foreground transition-colors underline underline-offset-4"
                   >
                     Je n'ai pas reçu le code
                   </button>
-                  <p v-else class="text-xs font-medium text-white/50 bg-white/5 border border-white/5 inline-block px-3 py-1.5 rounded-full">
-                    Renvoyer un code dans <span class="text-white font-bold">{{ resendCooldown }}s</span>
+                  <p v-else class="text-xs text-muted-foreground">
+                    Renvoyer un code dans <span class="text-foreground font-semibold">{{ resendCooldown }}s</span>
                   </p>
                 </div>
               </form>
@@ -238,9 +214,9 @@
       
       <!-- Footer Text -->
       <div class="text-center mt-6">
-        <p class="text-xs text-white/60 font-medium">
+        <p class="text-xs text-muted-foreground">
           En continuant, vous acceptez nos
-          <NuxtLink to="/conditions" class="text-white hover:underline transition-colors">CGV</NuxtLink>.
+          <NuxtLink to="/conditions" class="text-foreground hover:underline transition-colors">CGV</NuxtLink>.
         </p>
       </div>
 
