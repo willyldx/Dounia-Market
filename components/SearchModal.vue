@@ -28,8 +28,8 @@
 
           <div v-if="query.length >= 2" class="max-h-80 overflow-y-auto">
             <div v-if="isSearching" class="p-8 text-center">
-              <div class="w-8 h-8 border-3 border-gray-200 border-t-[var(--color-accent)] rounded-full animate-spin mx-auto mb-3"></div>
-              <p class="text-[var(--color-text-muted)]">Recherche en cours...</p>
+              <div class="w-8 h-8 border-3 border-gray-200 border-t-primary rounded-full animate-spin mx-auto mb-3"></div>
+              <p class="text-[currentColor]">Recherche en cours...</p>
             </div>
             <div v-else-if="searchResults.length > 0" class="p-2">
               <NuxtLink 
@@ -43,22 +43,22 @@
                   <Package v-else class="w-5 h-5 text-gray-400" />
                 </div>
                 <div class="flex-grow">
-                  <h4 class="font-medium text-[var(--color-text)]" v-html="product.title"></h4>
-                  <p class="text-sm text-[var(--color-text-muted)]" v-html="product.category"></p>
+                  <h4 class="font-medium text-foreground" v-html="product.title"></h4>
+                  <p class="text-sm text-[currentColor]" v-html="product.category"></p>
                 </div>
-                <span class="font-semibold text-[var(--color-primary)]">{{ formatPrice(product.price) }}</span>
+                <span class="font-semibold text-[currentColor]">{{ formatPrice(product.price) }}</span>
               </NuxtLink>
             </div>
             <div v-else class="p-8 text-center">
               <SearchX class="w-12 h-12 text-gray-300 mx-auto mb-3" />
-              <p class="text-[var(--color-text-muted)]">Aucun résultat pour "{{ query }}"</p>
+              <p class="text-[currentColor]">Aucun résultat pour "{{ query }}"</p>
             </div>
           </div>
 
           <div v-else class="p-5">
-            <p class="text-sm text-[var(--color-text-muted)] mb-3">Recherches populaires</p>
+            <p class="text-sm text-[currentColor] mb-3">Recherches populaires</p>
             <div class="flex flex-wrap gap-2">
-              <button v-for="term in ['Riz', 'Kit scolaire', 'Ramadan', 'Huile', 'Bébé']" :key="term" @click="query = term" class="px-4 py-2 rounded-full bg-gray-100 hover:bg-[var(--color-primary)] hover:text-white text-sm transition-colors">
+              <button v-for="term in ['Riz', 'Kit scolaire', 'Ramadan', 'Huile', 'Bébé']" :key="term" @click="query = term" class="px-4 py-2 rounded-full bg-gray-100 hover:bg-[currentColor] hover:text-white text-sm transition-colors">
                 {{ term }}
               </button>
             </div>

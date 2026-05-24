@@ -55,18 +55,18 @@
           </NuxtLink>
 
           <!-- Desktop Search Bar — Central Component -->
-          <div class="hidden md:flex flex-1 max-w-xl mx-8">
+          <div class="hidden md:flex flex-1 max-w-xl mx-4 lg:mx-8">
             <div class="relative w-full group">
               <input 
                 type="text"
-                placeholder="Rechercher un produit, une marque, une catégorie..."
-                class="w-full min-w-[200px] h-11 pl-4 pr-12 rounded-xl border border-border focus:border-primary outline-none transition-all text-sm bg-card/90 focus:bg-card text-foreground shadow-sm backdrop-blur-md"
+                placeholder="Rechercher un produit..."
+                class="w-full min-w-[180px] lg:min-w-[250px] h-11 pl-4 pr-14 rounded-xl border border-border focus:border-primary outline-none transition-all text-sm bg-card/90 focus:bg-card text-foreground shadow-sm backdrop-blur-md"
                 @click="isSearchOpen = true"
                 readonly
               />
               <button 
                 @click="isSearchOpen = true"
-                class="absolute right-0 top-0 h-full px-4 bg-primary text-primary-foreground rounded-r-xl hover:bg-primary/90 transition-colors"
+                class="absolute right-0 top-0 h-full w-12 flex items-center justify-center bg-primary text-primary-foreground rounded-r-xl hover:bg-primary/90 transition-colors"
               >
                 <Search class="w-5 h-5" />
               </button>
