@@ -120,9 +120,11 @@ export const usePaystack = () => {
 
   return {
     initializePayment,
-    // verifyPayment will need to be defined or imported from backend API
     verifyPayment: async (reference: string) => {
-      return { success: true } // Backend webhook handles real verification
+      return $fetch<{ success: boolean; error?: string }>('/api/verify-payment', {
+        method: 'POST',
+        body: { reference },
+      })
     },
     generateReference,
     convertToPaymentAmount,

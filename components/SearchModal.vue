@@ -34,7 +34,7 @@
             <div v-else-if="searchResults.length > 0" class="p-2">
               <NuxtLink 
                 v-for="product in searchResults" :key="product.id"
-                :to="`/produit/${product.handle}`"
+                :to="`/produit/${encodeURIComponent(product.handle)}`"
                 class="flex items-center gap-4 p-3 rounded-xl hover:bg-gray-50 transition-colors"
                 @click="close"
               >
@@ -43,8 +43,8 @@
                   <Package v-else class="w-5 h-5 text-gray-400" />
                 </div>
                 <div class="flex-grow">
-                  <h4 class="font-medium text-foreground" v-html="product.title"></h4>
-                  <p class="text-sm text-[currentColor]" v-html="product.category"></p>
+                  <h4 class="font-medium text-foreground">{{ product.title }}</h4>
+                  <p class="text-sm text-[currentColor]">{{ product.category }}</p>
                 </div>
                 <span class="font-semibold text-[currentColor]">{{ formatPrice(product.price) }}</span>
               </NuxtLink>
@@ -104,12 +104,7 @@ watch(query, (q) => {
   
   searchTimeout = setTimeout(async () => {
     try {
-      const results = await performSearch(q, { 
-        limit: 8,
-        attributesToHighlight: ['title', 'category'],
-        highlightPreTag: '<em class="bg-amber-100 text-amber-900 not-italic rounded px-0.5">',
-        highlightPostTag: '</em>'
-      })
+      const results = await performSearch(q, { limit: 8 })
 
       // Ignore results if a newer search has been started
       if (queryId !== currentQueryId) return
@@ -117,11 +112,11 @@ watch(query, (q) => {
       // Map Meilisearch hits to our expected format
       searchResults.value = (results.hits || []).map((p: any) => ({
         id: p.id,
-        title: p._highlightResult?.title?.value || p.title,
+        title: p.title || '',
         handle: p.slug || p.handle || p.id,
         price: p.price,
-        thumbnail: p.thumbnail ? (p.thumbnail.startsWith('http') ? p.thumbnail : (p.thumbnail.startsWith('/') ? 'https://api.spencerai.tech' + p.thumbnail : 'https://api.spencerai.tech/' + p.thumbnail)) : '',
-        category: p._highlightResult?.category?.value || p.category || '',
+        thumbnail: normalizeThumbnail(p.thumbnail),
+        category: p.category || '',
       }))
     } catch (e) {
       console.error('Search failed', e)
@@ -134,6 +129,14 @@ watch(query, (q) => {
 })
 
 const formatPrice = (price: number) => cartStore.formatPrice(price)
+
+const normalizeThumbnail = (thumbnail?: string) => {
+  if (!thumbnail) return ''
+  if (thumbnail.startsWith('https://')) return thumbnail
+  if (thumbnail.startsWith('/')) return `https://api.spencerai.tech${thumbnail}`
+  if (/^[\w./-]+$/.test(thumbnail)) return `https://api.spencerai.tech/${thumbnail}`
+  return ''
+}
 
 const close = () => { emit('update:modelValue', false); query.value = ''; searchResults.value = [] }
 

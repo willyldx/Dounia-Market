@@ -49,11 +49,13 @@ export default defineEventHandler(async (event) => {
 
   const config = useRuntimeConfig()
   const apiUrl = (config.public.apiUrl as string || 'https://api.spencerai.tech/api').replace(/\/+$/, '')
+  const authToken = getCookie(event, 'tchadbox_auth_token')
 
   try {
     // Forward to Laravel backend
     const result = await $fetch<{ orderId: string; reference: string }>(`${apiUrl}/checkout`, {
       method: 'POST',
+      headers: authToken ? { Authorization: `Bearer ${authToken}` } : undefined,
       body: {
         user_id: body.user_id || null,
         email: body.email,
