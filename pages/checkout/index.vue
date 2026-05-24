@@ -7,7 +7,7 @@
       <!-- Header (Mobile & Desktop) -->
       <header class="mb-10 lg:mb-14">
         <NuxtLink to="/" class="flex items-center gap-3 w-max">
-          <img src="/logo.png" alt="Dounia Market" class="h-10 w-auto" />
+          <img src="/logo-full.svg" alt="Dounia Market" class="h-10 w-auto" />
         </NuxtLink>
         
         <!-- Breadcrumbs / Steps -->

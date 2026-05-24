@@ -48,7 +48,7 @@
           <!-- Logo -->
           <NuxtLink to="/" class="flex-shrink-0 group">
             <img 
-              src="/logo.png" 
+              src="/logo-full.svg" 
               alt="Dounia Market" 
               class="h-10 sm:h-12 w-auto transition-transform duration-300 group-hover:scale-105"
             />
@@ -328,9 +328,9 @@
         <div class="grid grid-cols-1 md:grid-cols-4 gap-12">
           <!-- Brand (Visible on Mobile & Desktop) -->
           <div class="rounded-2xl border border-border bg-muted/50 p-6 shadow-sm">
-            <div class="bg-background inline-block px-3 py-2 rounded-xl mb-6 shadow-sm border border-border">
-              <img src="/logo.png" alt="Dounia Market" class="h-8 md:h-10 w-auto mix-blend-multiply" />
-            </div>
+            <NuxtLink to="/" class="inline-block mb-6">
+              <img src="/logo-full.svg" alt="Dounia Market" class="h-8 md:h-10 w-auto" />
+            </NuxtLink>
             <p class="text-muted-foreground text-sm leading-relaxed mb-6 font-medium">
               Le trait d'union de confiance entre la diaspora et le Tchad. Offrez l'excellence et la tranquillité d'esprit à votre famille.
             </p>

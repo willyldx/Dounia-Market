@@ -12,7 +12,7 @@
         
         <!-- Logo -->
         <div class="pt-10 pb-2 flex justify-center">
-          <img src="/logo.png" alt="Dounia Market" class="h-8 sm:h-10 w-auto" />
+          <img src="/logo-full.svg" alt="Dounia Market" class="h-8 sm:h-10 w-auto" />
         </div>
 
         <div class="px-8 sm:px-10 pb-12 pt-6">
