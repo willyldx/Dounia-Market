@@ -22,7 +22,7 @@ export default {
         ring: 'oklch(var(--ring) / <alpha-value>)',
         background: 'oklch(var(--background) / <alpha-value>)',
         foreground: 'oklch(var(--foreground) / <alpha-value>)',
-        primary: {
+        brand: {
           DEFAULT: 'oklch(var(--primary) / <alpha-value>)',
           foreground: 'oklch(var(--primary-foreground) / <alpha-value>)',
         },

@@ -3,7 +3,7 @@
     <!-- Announcement Bar -->
     <div
       class="text-white py-2.5 transition-all duration-500"
-      :class="isScrolled ? 'bg-primary/90 backdrop-blur-md' : 'bg-primary'"
+      :class="isScrolled ? 'bg-brand/90 backdrop-blur-md' : 'bg-brand'"
     >
       <div class="container-main">
         <div class="flex items-center gap-4 text-sm whitespace-nowrap overflow-hidden">
@@ -66,7 +66,7 @@
               />
               <button 
                 @click="isSearchOpen = true"
-                class="absolute right-0 top-0 h-full px-4 bg-primary text-primary-foreground rounded-r-xl hover:bg-primary/90 transition-colors"
+                class="absolute right-0 top-0 h-full px-4 bg-brand text-brand-foreground rounded-r-xl hover:bg-brand/90 transition-colors"
               >
                 <Search class="w-5 h-5" />
               </button>
@@ -323,7 +323,7 @@
     </div>
 
     <!-- Footer -->
-    <footer class="border-t bg-primary text-primary-foreground pt-12">
+    <footer class="border-t bg-brand text-brand-foreground pt-12">
       <div class="container-main pb-12">
         <div class="grid grid-cols-1 md:grid-cols-4 gap-12">
           <!-- Brand (Visible on Mobile & Desktop) -->

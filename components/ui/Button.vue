@@ -14,12 +14,12 @@ const props = withDefaults(defineProps<{
 })
 
 const variantClasses = {
-  default: 'bg-primary text-primary-foreground hover:bg-primary/90',
+  default: 'bg-brand text-brand-foreground hover:bg-brand/90',
   destructive: 'bg-destructive text-destructive-foreground hover:bg-destructive/90',
   outline: 'border border-input hover:bg-accent/10 hover:text-accent-foreground',
   secondary: 'bg-secondary text-secondary-foreground hover:bg-secondary/80',
   ghost: 'hover:bg-accent/10 hover:text-accent-foreground',
-  link: 'underline-offset-4 hover:underline text-primary'
+  link: 'underline-offset-4 hover:underline text-brand'
 }
 
 const sizeClasses = {
