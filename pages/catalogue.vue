@@ -2,7 +2,7 @@
   <div class="bg-background min-h-screen pb-16">
     <!-- Slim Hero Header -->
     <section class="bg-brand text-brand-foreground pt-24 pb-12 px-4 relative overflow-hidden reveal-up">
-      <div class="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI4NiIgaGVpZ2h0PSI4NiIgPjxyZWN0IHdpZHRoPSI4NiIgaGVpZ2h0PSI4NiIgZmlsbD0ibm9uZSI+PC9yZWN0PjxjaXJjbGUgY3g9IjQzIiBjeT0iNDMiIHI9IjEiIGZpbGw9InJnYmEoMjU1LCAyNTUsIDI1NSwgMC4xKSI+PC9jaXJjbGU+PC9zdmc+')] opacity-30 pointer-events-none" />
+      <div class="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent pointer-events-none" />
       <div class="container-main relative z-10">
         <div class="flex flex-col md:flex-row md:items-end justify-between gap-6">
           <div>
@@ -11,9 +11,9 @@
               <ChevronRight class="w-3 h-3" />
               <span class="text-white">Catalogue</span>
             </div>
-            <h1 class="text-3xl md:text-5xl font-extrabold tracking-tight text-white">Notre Sélection</h1>
+            <h1 class="text-3xl md:text-5xl font-extrabold tracking-tight text-white">L'essentiel pour vos proches</h1>
             <p class="text-white/70 text-sm md:text-base mt-2 max-w-xl">
-              Produits essentiels de haute qualité, livraison express à N'Djamena.
+              Faites livrer le meilleur de l'alimentaire, de la santé et de la construction à N'Djamena. Sans intermédiaire, avec preuve de remise.
             </p>
           </div>
           <div class="w-full md:w-96 text-right">
@@ -30,16 +30,16 @@
     <div class="sticky top-[72px] z-30 glass border-b transition-all duration-300">
       <div class="container-main py-4 flex flex-col sm:flex-row gap-4 justify-between items-center">
         
-        <!-- Category Chips -->
-        <div class="flex items-center gap-2 overflow-x-auto w-full sm:w-auto pb-2 sm:pb-0 scrollbar-hide snap-x">
-          <button @click="selectedCategory = ''" class="chip" :class="{ 'active shadow-premium': !selectedCategory }">
-            <span class="whitespace-nowrap">Toutes les catégories</span>
-            <span class="chip-count">{{ products.length }}</span>
+        <!-- Category Chips (Luxury Tabs) -->
+        <div class="flex items-center gap-6 overflow-x-auto w-full sm:w-auto pb-2 sm:pb-0 scrollbar-hide snap-x">
+          <button @click="selectedCategory = ''" class="flex items-center gap-2 py-3 border-b-2 text-sm font-medium transition-all whitespace-nowrap snap-start" :class="!selectedCategory ? 'border-brand text-foreground' : 'border-transparent text-muted-foreground hover:text-foreground hover:border-border/50'">
+            <span>Toutes les catégories</span>
+            <span class="ml-1 text-[10px] font-bold px-1.5 py-0.5 rounded-full transition-colors" :class="!selectedCategory ? 'bg-brand/10 text-brand' : 'bg-muted text-muted-foreground'">{{ products.length }}</span>
           </button>
-          <button v-for="cat in categories" :key="cat.handle" @click="selectedCategory = cat.handle" class="chip snap-start" :class="{ 'active shadow-premium': selectedCategory === cat.handle }">
+          <button v-for="cat in categories" :key="cat.handle" @click="selectedCategory = cat.handle" class="flex items-center gap-2 py-3 border-b-2 text-sm font-medium transition-all whitespace-nowrap snap-start" :class="selectedCategory === cat.handle ? 'border-brand text-foreground' : 'border-transparent text-muted-foreground hover:text-foreground hover:border-border/50'">
             <component :is="cat.icon" class="w-4 h-4" />
-            <span class="whitespace-nowrap">{{ cat.name }}</span>
-            <span class="chip-count" v-if="getCount(cat.handle) > 0">{{ getCount(cat.handle) }}</span>
+            <span>{{ cat.name }}</span>
+            <span class="ml-1 text-[10px] font-bold px-1.5 py-0.5 rounded-full transition-colors" v-if="getCount(cat.handle) > 0" :class="selectedCategory === cat.handle ? 'bg-brand/10 text-brand' : 'bg-muted text-muted-foreground'">{{ getCount(cat.handle) }}</span>
           </button>
         </div>
 
@@ -329,18 +329,6 @@ useHead({ title: 'Catalogue' })
 </script>
 
 <style scoped>
-.chip {
-  @apply flex items-center gap-1.5 px-4 py-2 rounded-full bg-card border border-border text-sm font-medium text-muted-foreground hover:border-muted-foreground/30 transition-all shadow-sm;
-}
-.chip.active {
-  @apply bg-brand border-brand text-brand-foreground;
-}
-.chip-count {
-  @apply ml-1 bg-muted text-muted-foreground text-[10px] font-bold px-1.5 py-0.5 rounded-full;
-}
-.chip.active .chip-count {
-  @apply bg-brand-foreground/20 text-brand-foreground;
-}
 
 /* Hide scrollbar for chips */
 .scrollbar-hide::-webkit-scrollbar {

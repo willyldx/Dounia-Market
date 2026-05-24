@@ -1,40 +1,41 @@
 <template>
-  <article class="card-product group relative flex h-full flex-col overflow-hidden rounded-2xl border border-border bg-card shadow-premium transition-all duration-500 hover:-translate-y-1 hover:shadow-premium-lg">
-    <!-- Image Section -->
-    <div class="relative aspect-square bg-muted overflow-hidden">
-      <!-- Status Badges -->
-      <div class="absolute top-3 left-3 flex flex-col gap-1.5 z-10 pointer-events-none">
+  <article class="group relative flex h-full flex-col overflow-hidden rounded-3xl bg-card transition-all duration-500 hover:-translate-y-1 hover:shadow-premium border border-transparent hover:border-border/50">
+    <!-- Image Section (Clean background, minimalist elements) -->
+    <div class="relative aspect-square w-full overflow-hidden bg-background">
+      <!-- Minimalist Badges -->
+      <div class="absolute top-4 left-4 flex flex-col gap-2 z-10 pointer-events-none">
         <span
           v-if="product.category"
-          class="pointer-events-auto rounded-lg bg-card/90 px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider text-foreground shadow-sm backdrop-blur-md border border-border"
+          class="pointer-events-auto rounded-full bg-white/80 backdrop-blur-md px-3 py-1 text-[10px] font-bold uppercase tracking-widest text-foreground shadow-sm"
         >
           {{ categoryName }}
         </span>
-        <span 
-          v-if="product.inStock !== false"
-          class="pointer-events-auto rounded-lg bg-success/10 px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider text-success border border-success/20 flex items-center gap-1"
-        >
-          <span class="w-1.5 h-1.5 rounded-full bg-success"></span>
-          Disponible
-        </span>
-        <span 
-          v-else
-          class="pointer-events-auto rounded-lg bg-destructive/10 px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider text-destructive border border-destructive/20"
-        >
-          Rupture
-        </span>
       </div>
 
-      <!-- Wishlist Button -->
+      <!-- Minimalist Stock Status -->
+      <div class="absolute bottom-4 left-4 flex items-center gap-1.5 z-10">
+        <span 
+          v-if="product.inStock !== false"
+          class="w-2 h-2 rounded-full bg-green-500 shadow-[0_0_8px_rgba(34,197,94,0.6)]"
+          title="En stock"
+        ></span>
+        <span 
+          v-else
+          class="w-2 h-2 rounded-full bg-red-500 shadow-[0_0_8px_rgba(239,68,68,0.6)]"
+          title="Rupture de stock"
+        ></span>
+      </div>
+
+      <!-- Wishlist Button - Sleek floating -->
       <button 
         @click.prevent="toggleFavorite"
-        class="absolute top-3 right-3 z-10 flex h-9 w-9 cursor-pointer items-center justify-center rounded-xl border border-border bg-card/80 backdrop-blur-sm shadow-sm transition-all duration-300 hover:bg-card hover:text-accent"
-        :class="isFavorite ? 'text-destructive bg-destructive/10 border-destructive/20' : 'text-muted-foreground opacity-0 group-hover:opacity-100'"
+        class="absolute top-4 right-4 z-10 flex h-9 w-9 cursor-pointer items-center justify-center rounded-full bg-white/80 backdrop-blur-md shadow-sm transition-all duration-300 hover:bg-white hover:scale-110"
+        :class="isFavorite ? 'text-red-500' : 'text-muted-foreground/50 opacity-0 group-hover:opacity-100'"
       >
-        <Heart class="w-4 h-4" :class="isFavorite ? 'fill-destructive' : ''" />
+        <Heart class="w-4 h-4" :class="isFavorite ? 'fill-red-500' : ''" />
       </button>
 
-      <NuxtLink :to="`/produit/${product.handle || product.id}`" class="block w-full h-full flex items-center justify-center p-4">
+      <NuxtLink :to="`/produit/${product.handle || product.id}`" class="block w-full h-full flex items-center justify-center p-6">
         <NuxtImg 
           v-if="product.thumbnail || product.images?.[0]"
           :src="product.thumbnail || product.images[0]"
@@ -45,40 +46,41 @@
           quality="90"
         />
         <div v-else class="w-full h-full flex items-center justify-center">
-          <component :is="getCategoryIcon" class="w-16 h-16 text-muted-foreground/30" />
+          <component :is="getCategoryIcon" class="w-16 h-16 text-muted-foreground/20 stroke-[1]" />
         </div>
       </NuxtLink>
     </div>
 
     <!-- Content Section -->
-    <div class="flex flex-col p-5">
+    <div class="flex flex-col p-5 pt-4 flex-grow">
       <!-- Title -->
-      <p class="text-xs text-muted-foreground mb-1 line-clamp-1">{{ categoryName || 'Dounia Market' }}</p>
-      <NuxtLink :to="`/produit/${product.handle || product.id}`" class="mb-3">
-        <h3 class="line-clamp-2 text-base font-semibold leading-snug text-foreground group-hover:text-brand transition-colors">
+      <NuxtLink :to="`/produit/${product.handle || product.id}`" class="mb-1">
+        <h3 class="line-clamp-2 text-[15px] font-semibold leading-relaxed text-foreground group-hover:text-brand transition-colors">
           {{ product.title }}
         </h3>
       </NuxtLink>
 
-      <!-- Price & Action -->
-      <div class="mt-auto flex items-baseline gap-2 mb-4">
-        <span class="text-xl font-bold text-foreground">
-          {{ cartStore.formatPrice(product.price) }}
-        </span>
-        <span v-if="cartStore.currency !== 'XAF'" class="text-sm font-medium text-muted-foreground">
-          ≈ {{ priceFCFA }} FCFA
-        </span>
-      </div>
+      <!-- Price -->
+      <div class="mt-auto flex items-end justify-between pt-4">
+        <div class="flex flex-col gap-0.5">
+          <span class="text-lg font-bold text-foreground">
+            {{ cartStore.formatPrice(product.price) }}
+          </span>
+          <span v-if="cartStore.currency !== 'XAF'" class="text-xs font-medium text-muted-foreground/70">
+            ≈ {{ priceFCFA }} FCFA
+          </span>
+        </div>
 
-      <!-- Add to Cart -->
-      <button 
-        @click="addToCart"
-        :disabled="product.inStock === false"
-        class="w-full flex h-10 shrink-0 items-center justify-center gap-2 rounded-xl bg-brand text-brand-foreground font-medium transition-all duration-300 hover:bg-brand/90 active:scale-95 disabled:opacity-40 disabled:cursor-not-allowed"
-      >
-        <ShoppingBag class="h-4 w-4" />
-        Ajouter au panier
-      </button>
+        <!-- Elegant Add Button (Circular icon button instead of big bulky text) -->
+        <button 
+          @click="addToCart"
+          :disabled="product.inStock === false"
+          class="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-foreground text-background transition-all duration-300 hover:bg-brand hover:scale-105 active:scale-95 disabled:opacity-40 disabled:cursor-not-allowed shadow-md group-hover:shadow-lg"
+          title="Ajouter au panier"
+        >
+          <ShoppingBag class="h-4 w-4" />
+        </button>
+      </div>
     </div>
   </article>
 </template>

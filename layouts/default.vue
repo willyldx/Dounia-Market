@@ -327,10 +327,12 @@
       <div class="container-main pb-12">
         <div class="grid grid-cols-1 md:grid-cols-4 gap-12">
           <!-- Brand (Visible on Mobile & Desktop) -->
-          <div class="rounded-2xl border border-white/10 bg-white/[0.03] p-6">
-            <img src="/logo.png" alt="Dounia Market" class="h-10 md:h-14 w-auto mb-6" />
+          <div class="rounded-2xl border border-white/5 bg-white/[0.02] p-6 shadow-sm">
+            <div class="bg-white inline-block px-3 py-2 rounded-xl mb-6 shadow-md">
+              <img src="/logo.png" alt="Dounia Market" class="h-8 md:h-10 w-auto mix-blend-multiply" />
+            </div>
             <p class="text-brand-foreground/70 text-sm leading-relaxed mb-6 font-medium">
-              Dounia Market relie la diaspora tchadienne à ses proches. Envoyez l'essentiel avec confiance et amour.
+              Le trait d'union de confiance entre la diaspora et le Tchad. Offrez l'excellence et la tranquillité d'esprit à votre famille.
             </p>
             <div class="flex gap-3">
               <a v-for="s in socials" :key="s.name" :href="s.url" class="w-10 h-10 rounded-xl bg-white/5 hover:bg-accent hover:text-brand-foreground flex items-center justify-center transition-all duration-300">
@@ -341,10 +343,10 @@
 
           <!-- A PROPOS (Hidden on Mobile) -->
           <div class="hidden md:block">
-            <h4 class="font-bold mb-6 text-brand-foreground tracking-wide uppercase text-xs opacity-50">Dounia Market</h4>
+            <h4 class="font-bold mb-6 text-brand-foreground tracking-wide uppercase text-xs opacity-50">Notre Engagement</h4>
             <ul class="space-y-3">
-              <li><NuxtLink to="/a-propos" class="text-brand-foreground/70 hover:text-accent text-sm font-medium transition-colors">Qui sommes-nous ?</NuxtLink></li>
-              <li><NuxtLink to="/comment-ca-marche" class="text-brand-foreground/70 hover:text-accent text-sm font-medium transition-colors">Comment ça marche</NuxtLink></li>
+              <li><NuxtLink to="/a-propos" class="text-brand-foreground/70 hover:text-accent text-sm font-medium transition-colors">Notre Mission</NuxtLink></li>
+              <li><NuxtLink to="/comment-ca-marche" class="text-brand-foreground/70 hover:text-accent text-sm font-medium transition-colors">Notre Fonctionnement</NuxtLink></li>
               <li><NuxtLink to="/conditions" class="text-brand-foreground/70 hover:text-accent text-sm font-medium transition-colors">Conditions Générales (CGV)</NuxtLink></li>
               <li><NuxtLink to="/mentions-legales" class="text-brand-foreground/70 hover:text-accent text-sm font-medium transition-colors">Mentions Légales</NuxtLink></li>
               <li><NuxtLink to="/confidentialite" class="text-brand-foreground/70 hover:text-accent text-sm font-medium transition-colors">Confidentialité</NuxtLink></li>
@@ -353,10 +355,10 @@
 
           <!-- ASSISTANCE (Hidden on Mobile) -->
           <div class="hidden md:block">
-            <h4 class="font-bold mb-6 text-brand-foreground tracking-wide uppercase text-xs opacity-50">Besoin d'aide ?</h4>
+            <h4 class="font-bold mb-6 text-brand-foreground tracking-wide uppercase text-xs opacity-50">Accompagnement</h4>
             <ul class="space-y-4">
-              <li><NuxtLink to="/faq" class="text-brand-foreground/70 hover:text-accent text-sm font-medium transition-colors">Foire aux questions</NuxtLink></li>
-              <li><NuxtLink to="/contact" class="text-brand-foreground/70 hover:text-accent text-sm font-medium transition-colors">Contactez-nous</NuxtLink></li>
+              <li><NuxtLink to="/faq" class="text-brand-foreground/70 hover:text-accent text-sm font-medium transition-colors">Centre d'aide & FAQ</NuxtLink></li>
+              <li><NuxtLink to="/contact" class="text-brand-foreground/70 hover:text-accent text-sm font-medium transition-colors">Service Client</NuxtLink></li>
               <li><NuxtLink to="/suivi" class="text-brand-foreground/70 hover:text-accent text-sm font-medium transition-colors">Suivre ma commande</NuxtLink></li>
               <li><NuxtLink to="/conditions#remboursement" class="text-brand-foreground/70 hover:text-accent text-sm font-medium transition-colors">Remboursement & Retours</NuxtLink></li>
             </ul>
