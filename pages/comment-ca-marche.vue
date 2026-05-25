@@ -150,7 +150,7 @@ const steps = [
     subtitle: '100% Crypté et Sécurisé',
     icon: CreditCard,
     features: [
-      'Cartes bancaires & Mobile Money acceptés',
+      'Cartes bancaires Visa et Mastercard acceptées',
       'Cryptage de pointe SSL 256-bit',
       'Confirmation de commande par email instantanée',
     ]
@@ -183,7 +183,7 @@ const faqs = [
   { question: 'Dans quelles villes livrez-vous actuellement ?', answer: 'Notre service de livraison couvre actuellement l\'ensemble de N\'Djamena (ainsi que Moundou et Sarh selon les options de transport). Inscrivez-vous à notre newsletter pour être informé de nos ouvertures.' },
   { question: 'Quel est le délai de livraison garanti ?', answer: 'Comptez 3 à 5 jours ouvrés après la confirmation de votre paiement. Pour les commandes urgentes, notre équipe peut organiser une livraison express — contactez-nous directement par WhatsApp pour en discuter.' },
   { question: 'Comment être sûr que ma famille a bien reçu le colis ?', answer: 'C\'est notre engagement phare : chaque livraison est accompagnée d\'une photo de preuve envoyée par WhatsApp ou email. Vous pouvez également suivre l\'avancement de votre commande en temps réel depuis votre espace client.' },
-  { question: 'Quels moyens de paiement sont acceptés ?', answer: 'Nous acceptons : les cartes bancaires (Visa, Mastercard), le Mobile Money International via Paystack (MTN, Orange Money), le virement bancaire, et bien sûr le Mobile Money local tchadien (Airtel Money et Moov Africa).' },
+  { question: 'Quels moyens de paiement sont acceptés ?', answer: 'Nous acceptons les cartes bancaires Visa et Mastercard via la passerelle sécurisée Paystack.' },
   { question: 'Est-il possible d\'annuler une commande ?', answer: 'Oui, l\'annulation est gratuite tant que la préparation de votre colis n\'a pas débuté. Il vous suffit de nous contacter par email ou WhatsApp et nous procéderons au remboursement intégral sous 48h.' },
   { question: 'Les frais de livraison sont-ils inclus dans les prix ?', answer: 'Absolument. Les frais de livraison sont calculés et affichés de manière totalement transparente avant la validation de votre commande. Votre proche ne paiera pas de douane ou de frais caché.' },
 ]

@@ -179,6 +179,35 @@ export interface OrderTimelineEvent {
   completed?: boolean
 }
 
+export interface PublicOrderTimelineStep {
+  key: 'payment' | 'processing' | 'shipped' | 'delivered'
+  title: string
+  completed: boolean
+  date: string | null
+  detail: string
+}
+
+export interface PublicOrderStatus {
+  reference: string
+  status: string
+  payment_status: 'awaiting' | 'captured' | 'failed'
+  fulfillment_status: string
+  created_at: string | null
+  delivered_at: string | null
+  timeline: PublicOrderTimelineStep[]
+}
+
+export type PaystackChargeCurrency = 'NGN' | 'USD'
+
+export interface CheckoutPaymentInitialization {
+  reference: string
+  commercial_amount: string
+  commercial_currency: 'EUR'
+  payment_display_amount: string
+  payment_currency: PaystackChargeCurrency
+  access_code: string
+}
+
 export type OrderStatus = 'pending' | 'processing' | 'completed' | 'cancelled'
 export type PaymentStatus = 'awaiting' | 'captured' | 'refunded'
 export type FulfillmentStatus = 'not_fulfilled' | 'partially_fulfilled' | 'fulfilled' | 'shipped' | 'delivered'

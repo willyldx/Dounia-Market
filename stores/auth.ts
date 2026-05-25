@@ -194,7 +194,6 @@ export const useAuthStore = defineStore('auth', {
 
         return {
           success: true,
-          isNewUser: response.is_new_user,
           message: response.message,
         }
       } catch (error: any) {

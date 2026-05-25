@@ -2,6 +2,7 @@
  * Appels vers l'API backend Laravel avec le token Sanctum.
  * Utiliser pour: /api/admin/*, /api/livreur/*, /api/checkout.
  */
+import type { CheckoutPaymentInitialization, PublicOrderStatus } from '~/types'
 
 export function useBackendApi() {
   const authCookie = useCookie('tchadbox_auth_token')
@@ -43,20 +44,16 @@ export function useBackendApi() {
     fetchWithAuth,
     /** POST /api/checkout — proxied to Laravel. Supports guests (no auth needed). */
     checkout: (body: any) =>
-      $fetch<{ orderId: string; reference: string }>('/api/checkout', {
+      $fetch<CheckoutPaymentInitialization>('/api/checkout', {
         method: 'POST',
         body,
       }),
     /** GET /api/admin/stats */
     adminStats: () => fetchWithAuth<any>('api/admin/stats'),
 
-    /** GET /api/admin/mobile-money/logs */
-    adminMobileMoneyLogs: (params?: { page?: number }) =>
-      fetchWithAuth<any>('api/admin/mobile-money/logs', { query: params }),
-
     /** GET /api/order-status/:reference — public, no auth */
     orderStatus: (reference: string) =>
-      $fetch<{ reference: string; payment_status: string; status: string; payment_method: string }>(
+      $fetch<PublicOrderStatus>(
         `/api/order-status/${encodeURIComponent(reference)}`
       ),
 
