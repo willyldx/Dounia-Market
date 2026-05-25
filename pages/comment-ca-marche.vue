@@ -106,7 +106,7 @@
           v-motion :initial="{ opacity: 0, y: 20 }" :visibleOnce="{ opacity: 1, y: 0 }"
           class="bg-primary rounded-xl p-12 md:p-24 relative overflow-hidden"
         >
-          <div class="absolute inset-0 opacity-10 bg-[url('https://api.spencerai.tech/storage/textures/noise.png')]"></div>
+          <div class="absolute inset-0 opacity-10 bg-[url('https://api.douniamarket.com/storage/textures/noise.png')]"></div>
           <div class="relative z-10">
             <h2 class="text-4xl md:text-5xl font-black text-primary-foreground mb-6 tracking-tight">Prêt à envoyer un sourire ?</h2>
             <p class="text-xl text-primary-foreground/70 mb-12 max-w-2xl mx-auto font-medium">

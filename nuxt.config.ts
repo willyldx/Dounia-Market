@@ -29,11 +29,11 @@ export default defineNuxtConfig({
   image: {
     quality: 80,
     format: ['webp', 'avif'],
-    domains: ['api.spencerai.tech'],
+    domains: ['api.douniamarket.com'],
     remotePatterns: [
       {
         protocol: 'https',
-        hostname: 'api.spencerai.tech',
+        hostname: 'api.douniamarket.com',
         pathname: '/storage/**',
       },
     ],
@@ -71,9 +71,9 @@ export default defineNuxtConfig({
     // Server-side only (not exposed to client)
     paystackSecretKey: process.env.PAYSTACK_SECRET_KEY || '',
     public: {
-      apiUrl: process.env.VITE_API_URL || 'https://api.spencerai.tech/api',
-      aiApiUrl: process.env.NUXT_PUBLIC_AI_API_URL || 'https://ai.spencerai.tech',
-      siteUrl: process.env.SITE_URL || 'https://tchadbox.vercel.app',
+      apiUrl: process.env.VITE_API_URL || 'https://api.douniamarket.com/api',
+      aiApiUrl: process.env.NUXT_PUBLIC_AI_API_URL || 'https://ai.douniamarket.com',
+      siteUrl: process.env.SITE_URL || 'https://douniamarket.com',
       paystackPublicKey: process.env.PAYSTACK_PUBLIC_KEY || '',
       meilisearchHost: process.env.NUXT_PUBLIC_MEILISEARCH_HOST || '',
       meilisearchKey: process.env.NUXT_PUBLIC_MEILISEARCH_KEY || '',

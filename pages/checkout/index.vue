@@ -323,8 +323,8 @@ const { initializePayment, verifyPayment, eurToXof } = usePaystack()
 const resolveThumb = (path: string | undefined) => {
   if (!path) return ''
   if (path.startsWith('http')) return path
-  if (path.startsWith('storage/')) return `https://api.spencerai.tech/${path}`
-  if (path.startsWith('/storage/')) return `https://api.spencerai.tech${path}`
+  if (path.startsWith('storage/')) return `https://api.douniamarket.com/${path}`
+  if (path.startsWith('/storage/')) return `https://api.douniamarket.com${path}`
   return path
 }
 

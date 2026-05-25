@@ -23,7 +23,7 @@ async def lifespan(app: FastAPI):
     print("Loading product catalogue from TchadBox Backend...")
     try:
         # We try to use the VITE_API_URL or default to the production one
-        api_url = os.environ.get("TCHADBOX_API_URL", "https://api.spencerai.tech/api")
+        api_url = os.environ.get("TCHADBOX_API_URL", "https://api.douniamarket.com/api")
         async with httpx.AsyncClient() as client:
             response = await client.get(f"{api_url}/products?limit=500")
             response.raise_for_status()
@@ -40,10 +40,18 @@ async def lifespan(app: FastAPI):
 
 app = FastAPI(title="TchadBox AI Subsystem", lifespan=lifespan)
 
-# Allow CORS for Nuxt frontend
+allowed_origins = [
+    origin.strip()
+    for origin in os.environ.get(
+        "CORS_ALLOWED_ORIGINS",
+        "https://douniamarket.com,https://www.douniamarket.com",
+    ).split(",")
+    if origin.strip()
+]
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"], # In production, restrict to tchadbox.vercel.app
+    allow_origins=allowed_origins,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],

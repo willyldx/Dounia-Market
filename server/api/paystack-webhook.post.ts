@@ -36,7 +36,7 @@ export default defineEventHandler(async (event) => {
     }
 
     // Forward the verified webhook to Laravel backend
-    const apiUrl = (config.public.apiUrl as string || 'https://api.spencerai.tech/api').replace(/\/+$/, '')
+    const apiUrl = (config.public.apiUrl as string || 'https://api.douniamarket.com/api').replace(/\/+$/, '')
     
     try {
         await $fetch(`${apiUrl}/webhooks/paystack`, {

@@ -133,8 +133,8 @@ const formatPrice = (price: number) => cartStore.formatPrice(price)
 const normalizeThumbnail = (thumbnail?: string) => {
   if (!thumbnail) return ''
   if (thumbnail.startsWith('https://')) return thumbnail
-  if (thumbnail.startsWith('/')) return `https://api.spencerai.tech${thumbnail}`
-  if (/^[\w./-]+$/.test(thumbnail)) return `https://api.spencerai.tech/${thumbnail}`
+  if (thumbnail.startsWith('/')) return `https://api.douniamarket.com${thumbnail}`
+  if (/^[\w./-]+$/.test(thumbnail)) return `https://api.douniamarket.com/${thumbnail}`
   return ''
 }
 

@@ -29,10 +29,10 @@ const recommendations = ref<any[]>([])
 
 const fetchRecommendations = async () => {
   try {
-    // Determine the AI Engine Endpoint based on config or hardcode to production URL
     const config = useRuntimeConfig()
-    // AI Engine uses the dedicated domain ai.spencerai.tech
-    const aiEngineUrl = 'https://ai.spencerai.tech/recommend'
+    const aiOrigin = String(config.public.aiApiUrl || 'https://ai.douniamarket.com').replace(/\/+$/, '')
+    const apiOrigin = new URL(String(config.public.apiUrl || 'https://api.douniamarket.com/api')).origin
+    const aiEngineUrl = `${aiOrigin}/recommend`
     
     const response = await $fetch<any>(aiEngineUrl, {
       method: 'POST',
@@ -53,7 +53,7 @@ const fetchRecommendations = async () => {
         // Format thumbnail just like we did in Search!
         thumbnail: p.thumbnail ? 
           (p.thumbnail.startsWith('http') ? p.thumbnail : 
-          (p.thumbnail.startsWith('/') ? 'https://api.spencerai.tech' + p.thumbnail : 'https://api.spencerai.tech/' + p.thumbnail)) 
+          (p.thumbnail.startsWith('/') ? apiOrigin + p.thumbnail : apiOrigin + '/' + p.thumbnail))
           : '',
         category: p.category || '',
         category_handle: p.category_handle || '',

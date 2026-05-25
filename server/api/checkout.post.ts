@@ -48,7 +48,7 @@ export default defineEventHandler(async (event) => {
   }
 
   const config = useRuntimeConfig()
-  const apiUrl = (config.public.apiUrl as string || 'https://api.spencerai.tech/api').replace(/\/+$/, '')
+  const apiUrl = (config.public.apiUrl as string || 'https://api.douniamarket.com/api').replace(/\/+$/, '')
   const authToken = getCookie(event, 'tchadbox_auth_token')
 
   try {

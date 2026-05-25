@@ -8,7 +8,7 @@ export function useBackendApi() {
 
   const getBaseUrl = () => {
     const config = useRuntimeConfig()
-    let url = config.public.apiUrl || 'https://api.spencerai.tech'
+    let url = config.public.apiUrl || 'https://api.douniamarket.com'
     // Ensure baseUrl does NOT end with /api — we add it in paths
     url = url.replace(/\/api\/?$/, '')
     // Remove trailing slash
@@ -158,4 +158,3 @@ export function useBackendApi() {
       fetchWithAuth(`api/livreur/orders/${id}`, { method: 'PATCH', body }),
   }
 }
-
