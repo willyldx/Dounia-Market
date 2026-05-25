@@ -70,7 +70,7 @@
             </div>
           </Transition>
 
-          <!-- Step 2: Name (for new users only) -->
+          <!-- Step 2: Name is collected in the same flow for every email. -->
           <Transition
             enter-active-class="transition-all duration-500 ease-out"
             enter-from-class="opacity-0 translate-x-8"
@@ -86,8 +86,8 @@
               </button>
 
               <div class="text-center mb-8">
-                <h1 class="text-2xl font-bold text-foreground mb-2 tracking-tight">Faisons connaissance</h1>
-                <p class="text-muted-foreground text-sm">Dites-nous comment vous appeler.</p>
+                <h1 class="text-2xl font-bold text-foreground mb-2 tracking-tight">Vos informations</h1>
+                <p class="text-muted-foreground text-sm">Dites-nous comment vous appeler pour continuer.</p>
               </div>
 
               <form @submit.prevent="handleNameSubmit" class="space-y-4">
@@ -136,7 +136,7 @@
             leave-to-class="opacity-0 -translate-x-8"
           >
             <div v-if="step === 'otp'" class="w-full">
-              <button @click="step = isNewUser ? 'name' : 'email'" class="flex items-center gap-2 text-sm font-medium text-muted-foreground hover:text-foreground mb-6 transition-colors">
+              <button @click="step = 'name'" class="flex items-center gap-2 text-sm font-medium text-muted-foreground hover:text-foreground mb-6 transition-colors">
                 <ArrowLeft class="w-4 h-4" />
                 Retour
               </button>
@@ -195,7 +195,7 @@
                 <div class="text-center">
                   <button
                     v-if="resendCooldown <= 0"
-                    @click="handleSendOtp"
+                    @click="handleResendOtp"
                     type="button"
                     class="text-xs text-muted-foreground hover:text-foreground transition-colors underline underline-offset-4"
                   >
@@ -246,7 +246,6 @@ const step = ref<'email' | 'name' | 'otp'>('email')
 const email = ref('')
 const firstName = ref('')
 const lastName = ref('')
-const isNewUser = ref(false)
 const otpDigits = ref<string[]>(['', '', '', '', '', ''])
 const otpRefs = ref<HTMLInputElement[]>([])
 const resendCooldown = ref(0)
@@ -307,26 +306,20 @@ async function handleSendOtp() {
   const result = await authStore.sendOtp(email.value, firstName.value || undefined, lastName.value || undefined)
 
   if (result.success) {
-    isNewUser.value = !!result.isNewUser
-    if (result.isNewUser && !firstName.value) {
-      step.value = 'name'
-    } else {
-      step.value = 'otp'
-      startResendCooldown()
-      nextTick(() => otpRefs.value[0]?.focus())
-    }
+    step.value = 'name'
+    startResendCooldown()
   }
 }
 
 function handleNameSubmit() {
-  handleSendOtpAfterName()
+  step.value = 'otp'
+  nextTick(() => otpRefs.value[0]?.focus())
 }
 
-async function handleSendOtpAfterName() {
+async function handleResendOtp() {
   authStore.clearError()
   const result = await authStore.sendOtp(email.value, firstName.value, lastName.value)
   if (result.success) {
-    step.value = 'otp'
     startResendCooldown()
     nextTick(() => otpRefs.value[0]?.focus())
   }

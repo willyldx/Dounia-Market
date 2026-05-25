@@ -1,9 +1,18 @@
-// Paystack Payment Composable
-export const usePaystack = () => {
-  const config = useRuntimeConfig()
-  const publicKey = config.public.paystackPublicKey
+interface PaystackInlineInstance {
+  resumeTransaction: (accessCode: string) => void
+}
 
-  // Load Paystack script dynamically
+interface PaystackConstructor {
+  new (): PaystackInlineInstance
+}
+
+declare global {
+  interface Window {
+    Paystack?: PaystackConstructor
+  }
+}
+
+export const usePaystack = () => {
   const loadScript = (): Promise<void> => {
     return new Promise((resolve, reject) => {
       if (typeof window === 'undefined') {
@@ -11,8 +20,7 @@ export const usePaystack = () => {
         return
       }
 
-      // Already loaded
-      if ((window as any).PaystackPop) {
+      if (window.Paystack) {
         resolve()
         return
       }
@@ -26,109 +34,18 @@ export const usePaystack = () => {
     })
   }
 
-  interface PaystackOptions {
-    email: string
-    amount: number // in the smallest currency unit (kobo for NGN, centimes for XOF/XAF)
-    currency?: string
-    reference?: string
-    metadata?: Record<string, any>
-    channels?: string[]
-    onSuccess: (response: PaystackResponse) => void
-    onClose: () => void
-  }
-
-  interface PaystackResponse {
-    reference: string
-    trans: string
-    status: string
-    message: string
-    transaction: string
-    trxref: string
-  }
-
-  // Generate unique reference
-  const generateReference = (): string => {
-    const timestamp = Date.now().toString(36)
-    const random = Math.random().toString(36).substring(2, 8)
-    return `TCB-${timestamp}-${random}`.toUpperCase()
-  }
-
-  // Convert standard amount to Paystack unit (cents/whole)
-  const convertToPaymentAmount = (amount: number, currency: string): number => {
-    const cartStore = useCartStore()
-    
-    if (currency === 'XAF' || currency === 'XOF') {
-      // XAF/XOF: 1 unit = 1 Franc (no cents)
-      return Math.round(amount * cartStore.rates.XAF)
-    }
-    
-    if (currency === 'USD') {
-      // USD: 1 unit = 100 cents
-      return Math.round(amount * cartStore.rates.USD * 100)
-    }
-    
-    // Default EUR: 1 unit = 100 cents
-    return Math.round(amount * 100)
-  }
-
-  // Initialize payment
-  const initializePayment = async (options: PaystackOptions): Promise<void> => {
+  const resumeTransaction = async (accessCode: string): Promise<void> => {
     await loadScript()
 
-    const PaystackPop = (window as any).PaystackPop
-
-    if (!PaystackPop) {
+    if (!window.Paystack) {
       throw new Error('Paystack SDK not loaded')
     }
 
-    const handler = PaystackPop.setup({
-      key: publicKey,
-      email: options.email,
-      amount: options.amount, 
-      ref: options.reference || generateReference(),
-      metadata: {
-        custom_fields: [
-          ...(options.metadata?.custom_fields || []),
-        ],
-        ...options.metadata,
-      },
-      callback: (response: PaystackResponse) => {
-        options.onSuccess(response)
-      },
-      onClose: () => {
-        options.onClose()
-      },
-    })
-
-    handler.openIframe()
-  }
-
-  // Format XOF amount for display
-  const formatXof = (amount: number): string => {
-    return new Intl.NumberFormat('fr-FR', {
-      style: 'currency',
-      currency: 'XOF',
-      minimumFractionDigits: 0,
-    }).format(amount)
-  }
-
-  // Convert EUR to XOF
-  const eurToXof = (amount: number): number => {
-    const cartStore = useCartStore()
-    return Math.round(amount * cartStore.rates.XAF)
+    const popup = new window.Paystack()
+    popup.resumeTransaction(accessCode)
   }
 
   return {
-    initializePayment,
-    verifyPayment: async (reference: string) => {
-      return $fetch<{ success: boolean; error?: string }>('/api/verify-payment', {
-        method: 'POST',
-        body: { reference },
-      })
-    },
-    generateReference,
-    convertToPaymentAmount,
-    eurToXof,
-    formatXof,
+    resumeTransaction,
   }
 }

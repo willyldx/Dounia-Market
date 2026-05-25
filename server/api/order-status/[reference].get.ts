@@ -1,7 +1,9 @@
 /**
  * GET /api/order-status/:reference
- * Proxy vers Laravel pour vérifier le statut de paiement (polling Mobile Money).
+ * Proxy vers Laravel pour afficher le suivi public d'une commande.
  */
+import type { PublicOrderStatus } from '~/types'
+
 export default defineEventHandler(async (event) => {
   const reference = getRouterParam(event, 'reference')
 
@@ -16,12 +18,7 @@ export default defineEventHandler(async (event) => {
   const apiUrl = (config.public.apiUrl as string || 'https://api.douniamarket.com/api').replace(/\/+$/, '')
 
   try {
-    const result = await $fetch<{
-      reference: string
-      payment_status: string
-      status: string
-      payment_method: string
-    }>(`${apiUrl}/orders/status/${encodeURIComponent(reference)}`)
+    const result = await $fetch<PublicOrderStatus>(`${apiUrl}/orders/status/${encodeURIComponent(reference)}`)
 
     return result
   } catch (error: any) {

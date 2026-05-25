@@ -60,7 +60,6 @@
           <p>Le Client peut régler sa commande par des moyens hautement sécurisés :</p>
           <ul>
             <li>Cartes bancaires internationales (Visa, Mastercard)</li>
-            <li>Mobile Money (Services compatibles en Afrique et hors du continent)</li>
           </ul>
           <p>
             L’intégralité des transactions est certifiée, cryptée (SSL 256-bit) et opérée par notre partenaire financier Paystack. 

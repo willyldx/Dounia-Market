@@ -5,24 +5,17 @@
       <div class="text-center mb-10">
         <div class="relative inline-block group">
            <div class="absolute inset-0 rounded-full scale-150 opacity-40 blur-2xl transition-all duration-1000"
-                :class="isPaid ? 'bg-[var(--color-accent)]' : (isMobileMoney ? 'bg-orange-500' : 'bg-[var(--color-accent)]')"></div>
+                :class="confirmationState === 'captured' ? 'bg-[var(--color-accent)]' : 'bg-muted-foreground/30'"></div>
            
-          <!-- Paid State -->
-          <div v-if="isPaid" class="w-28 h-28 bg-primary rounded-full flex items-center justify-center mx-auto shadow-md relative z-10 border-4 border-background animate-bounce-once">
-            <CheckIcon class="w-12 h-12 text-primary-foreground" />
-          </div>
-          <!-- Awaiting State (Mobile Money) -->
-          <div v-else-if="isMobileMoney" class="w-28 h-28 bg-brand rounded-full flex items-center justify-center mx-auto shadow-2xl relative z-10 border-4 border-card">
-             <div class="absolute inset-0 rounded-full border-2 border-orange-500/50 animate-ping"></div>
-             <Smartphone class="w-12 h-12 text-brand-foreground animate-pulse" />
-          </div>
-          <!-- Default Success -->
-          <div v-else class="w-28 h-28 bg-primary rounded-full flex items-center justify-center mx-auto shadow-md relative z-10 border-4 border-background animate-bounce-once">
-            <CheckIcon class="w-12 h-12 text-primary-foreground" />
+          <div class="w-28 h-28 rounded-full flex items-center justify-center mx-auto shadow-md relative z-10 border-4 border-background"
+               :class="confirmationState === 'captured' ? 'bg-primary animate-bounce-once' : 'bg-muted'">
+            <CheckIcon v-if="confirmationState === 'captured'" class="w-12 h-12 text-primary-foreground" />
+            <LoaderIcon v-else-if="confirmationState === 'checking' || confirmationState === 'awaiting'" class="w-12 h-12 text-muted-foreground animate-spin" />
+            <AlertIcon v-else class="w-12 h-12 text-destructive" />
           </div>
           
           <!-- Subtle Sparkles effect instead of tacky confetti -->
-          <div v-if="isPaid || !isMobileMoney" class="absolute inset-0 pointer-events-none z-20">
+          <div v-if="confirmationState === 'captured'" class="absolute inset-0 pointer-events-none z-20">
             <div class="absolute top-0 left-1/4 w-1.5 h-1.5 bg-white rounded-full animate-confetti-1 shadow-sm"></div>
             <div class="absolute top-0 right-1/4 w-1.5 h-1.5 bg-white rounded-full animate-confetti-2 shadow-sm"></div>
             <div class="absolute top-1/4 left-0 w-1.5 h-1.5 bg-white rounded-full animate-confetti-3 shadow-sm"></div>
@@ -35,10 +28,10 @@
       <div class="bg-card rounded-xl shadow-sm overflow-hidden border border-border">
         <div class="p-10 text-center pb-8 border-b border-border/50">
           <h1 class="text-3xl font-black text-foreground mb-3 tracking-tight">
-            {{ isPaid ? 'Paiement sécurisé !' : (isMobileMoney ? 'Attente du transfert' : 'Commande confirmée !') }}
+            {{ confirmationTitle }}
           </h1>
           <p class="text-muted-foreground font-medium leading-relaxed">
-            {{ isPaid ? "La logistique prend le relais. Merci de votre confiance." : (isMobileMoney ? 'Finalisez votre paiement pour valider' : "Votre commande a bien été enregistrée.") }}
+            {{ confirmationDetail }}
           </p>
         </div>
 
@@ -49,60 +42,28 @@
             <p class="text-3xl font-black text-foreground font-mono tracking-wider">{{ orderId }}</p>
           </div>
 
-          <!-- Mobile Money Instructions (Pending) -->
-          <div v-if="isMobileMoney && !isPaid" class="bg-card border-2 border-orange-500/20 rounded-2xl p-6 shadow-sm relative overflow-hidden">
-             <div class="absolute top-0 left-0 w-1.5 h-full bg-orange-500"></div>
-            <div class="flex items-center gap-3 text-orange-600 font-black tracking-tight mb-4 text-lg">
-               <div class="w-8 h-8 rounded-full bg-orange-500/10 flex items-center justify-center shrink-0">
-                 <Smartphone class="w-4 h-4" />
-               </div>
-               Action requise
-            </div>
-            <div class="text-sm font-medium text-muted-foreground space-y-4">
-              <p>Veuillez effectuer le transfert exact de <b class="text-foreground bg-orange-500/10 px-1 rounded">{{ amount }}</b> :</p>
-              <div class="bg-muted p-4 rounded-xl border border-border">
-                 <p class="text-xs font-bold text-muted-foreground/70 uppercase tracking-widest mb-1">Guichet Airtel Tchad</p>
-                 <p class="text-xl font-mono font-black text-foreground tracking-wider">+235 85 96 25 92</p>
-              </div>
-            </div>
-            
-            <!-- Polling indicator -->
-            <div class="flex items-center justify-center gap-3 pt-6 mt-4 border-t border-border">
-              <LoaderIcon class="w-4 h-4 text-orange-500 animate-spin" />
-              <span class="text-xs font-bold uppercase tracking-widest text-muted-foreground">
-                Scrutation en cours ({{ pollCountdown }}s)
-              </span>
-            </div>
-          </div>
-
-          <!-- Payment Confirmed (Mobile Money Success) -->
-          <div v-if="isMobileMoney && isPaid" class="bg-primary rounded-xl p-6 text-primary-foreground shadow-sm">
-            <div class="flex items-center gap-3 font-black text-lg mb-2">
-               <div class="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center shrink-0">
-                 <CheckIcon class="w-5 h-5 text-primary-foreground" />
-               </div>
-               Transfert Validé
-            </div>
-            <p class="text-sm text-brand-foreground/80 font-medium">
-              Nos systèmes ont bien identifié votre paiement. L'ordre de préparation vient d'être envoyé à l'équipe.
+          <div v-if="confirmationState !== 'captured'" class="rounded-xl border border-border bg-card p-5 text-sm text-muted-foreground">
+            <p v-if="confirmationState === 'awaiting' || confirmationState === 'checking'">
+              Cette page se met à jour automatiquement dès que Paystack et Dounia Market ont rapproché le paiement.
+            </p>
+            <p v-else>
+              Aucun paiement confirmé ne peut être rattaché à cette commande. Contactez le support avec votre référence si vous avez été débité.
             </p>
           </div>
 
           <!-- What's Next Tracker -->
-          <div class="space-y-6 pt-4">
+          <div v-else class="space-y-6 pt-4">
             <h3 class="font-black text-foreground text-lg">Suivi de l'opération</h3>
             
             <div class="relative pl-4 space-y-8 border-l-2 border-border ml-4">
-               <div class="absolute -left-[11px] top-0 w-5 h-5 rounded-full border-4 border-card"
-                    :class="isPaid || !isMobileMoney ? 'bg-brand' : 'bg-muted-foreground/30'"></div>
+               <div class="absolute -left-[11px] top-0 w-5 h-5 rounded-full border-4 border-card bg-brand"></div>
                
                <div class="-mt-1.5">
-                  <p class="font-bold text-foreground">{{ isMobileMoney && !isPaid ? 'Attente d\'autorisation' : 'Paiement crypté validé' }}</p>
-                  <p class="text-sm font-medium text-muted-foreground mt-1">{{ isMobileMoney && !isPaid ? 'Transfert local en cours de vérification par API' : 'Les fonds ont bien été sécurisés.' }}</p>
+                  <p class="font-bold text-foreground">Paiement crypté validé</p>
+                  <p class="text-sm font-medium text-muted-foreground mt-1">Les fonds ont bien été sécurisés.</p>
                </div>
 
-               <div class="absolute -left-[11px] top-[70px] w-5 h-5 rounded-full border-4 border-card"
-                    :class="isPaid || !isMobileMoney ? 'bg-accent animate-pulse' : 'bg-muted-foreground/20'"></div>
+               <div class="absolute -left-[11px] top-[70px] w-5 h-5 rounded-full border-4 border-card bg-accent animate-pulse"></div>
                
                <div class="pt-2">
                   <p class="font-bold text-foreground">Logistique N'Djamena</p>
@@ -150,7 +111,8 @@
 </template>
 
 <script setup lang="ts">
-import { Check as CheckIcon, Package as PackageIcon, Smartphone, Loader as LoaderIcon, ShieldCheck as ShieldCheckIcon } from 'lucide-vue-next'
+import { AlertCircle as AlertIcon, Check as CheckIcon, LoaderCircle as LoaderIcon, Package as PackageIcon, ShieldCheck as ShieldCheckIcon } from 'lucide-vue-next'
+import type { PublicOrderStatus } from '~/types'
 
 definePageMeta({
   layout: false,
@@ -159,72 +121,84 @@ definePageMeta({
 
 const route = useRoute()
 const authStore = useAuthStore()
+const cartStore = useCartStore()
 
 const orderId = computed(() => {
   return route.query.order as string || 'TCB-XXXXXXX'
 })
 
-const isMobileMoney = computed(() => {
-  return route.query.method === 'tchad_mobile_money'
+type ConfirmationState = 'checking' | 'awaiting' | 'captured' | 'failed' | 'invalid'
+
+const confirmationState = ref<ConfirmationState>('checking')
+const paystackReference = computed(() => {
+  return (route.query.reference || route.query.trxref || '') as string
 })
 
-const amount = computed(() => {
-  return route.query.amount as string || '0 FCFA'
+const confirmationTitle = computed(() => {
+  if (confirmationState.value === 'captured') return 'Paiement confirmé !'
+  if (confirmationState.value === 'failed' || confirmationState.value === 'invalid') return 'Paiement non confirmé'
+  return 'Validation du paiement en cours'
 })
 
-// Payment status polling for Mobile Money
-const isPaid = ref(false)
-const pollCountdown = ref(10)
-let pollInterval: ReturnType<typeof setInterval> | null = null
-let countdownInterval: ReturnType<typeof setInterval> | null = null
+const confirmationDetail = computed(() => {
+  if (confirmationState.value === 'captured') return 'La logistique prend le relais. Merci de votre confiance.'
+  if (confirmationState.value === 'failed' || confirmationState.value === 'invalid') return 'Nous ne pouvons pas valider ce paiement pour cette commande.'
+  return 'Nous vérifions la référence, le montant et la devise reçus.'
+})
 
-async function checkPaymentStatus() {
-  if (!orderId.value || orderId.value === 'TCB-XXXXXXX') return
-  
+let pollTimer: ReturnType<typeof setTimeout> | null = null
+let pollingAttempts = 0
+
+async function refreshPaymentStatus() {
   try {
-    const result = await $fetch<{
-      reference: string
-      payment_status: string
-      status: string
-    }>(`/api/order-status/${encodeURIComponent(orderId.value)}`)
+    const status = await $fetch<PublicOrderStatus>(`/api/order-status/${encodeURIComponent(orderId.value)}`)
 
-    if (result.payment_status === 'captured') {
-      isPaid.value = true
-      stopPolling()
+    if (status.payment_status === 'captured') {
+      confirmationState.value = 'captured'
+      cartStore.clearCart()
+      return
     }
-  } catch (error) {
-    console.error('Status check failed:', error)
+
+    if (status.payment_status === 'failed') {
+      confirmationState.value = 'failed'
+      return
+    }
+
+    confirmationState.value = 'awaiting'
+    if (pollingAttempts++ < 30) {
+      pollTimer = setTimeout(refreshPaymentStatus, 2000)
+    }
+  } catch {
+    confirmationState.value = 'invalid'
   }
 }
 
-function startPolling() {
-  if (!isMobileMoney.value) return
-  
-  checkPaymentStatus()
+onMounted(async () => {
+  if (!orderId.value || orderId.value === 'TCB-XXXXXXX') {
+    confirmationState.value = 'invalid'
+    return
+  }
 
-  pollInterval = setInterval(() => {
-    checkPaymentStatus()
-    pollCountdown.value = 10
-  }, 10000)
-
-  countdownInterval = setInterval(() => {
-    if (pollCountdown.value > 0) {
-      pollCountdown.value--
+  if (paystackReference.value) {
+    try {
+      await $fetch('/api/verify-payment', {
+        method: 'POST',
+        body: {
+          orderReference: orderId.value,
+          paymentReference: paystackReference.value,
+        },
+      })
+    } catch {
+      confirmationState.value = 'invalid'
+      return
     }
-  }, 1000)
-}
+  }
 
-function stopPolling() {
-  if (pollInterval) clearInterval(pollInterval)
-  if (countdownInterval) clearInterval(countdownInterval)
-}
-
-onMounted(() => {
-  startPolling()
+  await refreshPaymentStatus()
 })
 
 onUnmounted(() => {
-  stopPolling()
+  if (pollTimer) clearTimeout(pollTimer)
 })
 
 useSeoMeta({

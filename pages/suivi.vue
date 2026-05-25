@@ -66,10 +66,6 @@
             <div>
               <p class="text-[10px] font-bold uppercase tracking-widest text-muted-foreground mb-1">Votre commande</p>
               <p class="text-2xl font-bold text-foreground tracking-tight">{{ order.reference }}</p>
-              <div v-if="order.recipient_name" class="mt-4 flex items-center gap-2 bg-background px-3 py-1.5 rounded-md inline-flex border border-border">
-                 <User class="w-3.5 h-3.5 text-muted-foreground" />
-                 <span class="text-xs font-medium text-foreground">{{ order.recipient_name }} <span class="text-muted-foreground">| {{ order.shipping_city }}</span></span>
-              </div>
             </div>
             
             <span class="px-3 py-1 rounded-md text-[10px] font-bold uppercase tracking-widest border"
@@ -107,7 +103,7 @@
                     ? 'bg-primary text-primary-foreground' 
                     : 'bg-muted text-muted-foreground'"
                 >
-                  <component :is="step.icon" class="w-4 h-4" />
+                  <component :is="timelineIcons[step.key] || Package" class="w-4 h-4" />
                 </div>
                 
                 <div class="pt-1.5">
@@ -125,21 +121,6 @@
             </div>
           </div>
           
-          <!-- VIP Delivery Photo Proof -->
-          <div v-if="order.delivery_photo" class="p-6 sm:p-8 border-t border-border">
-            <div class="bg-muted rounded-xl p-6 relative overflow-hidden">
-               <div class="flex items-center gap-3 mb-4 relative z-10">
-                  <Camera class="w-4 h-4 text-foreground" />
-                  <p class="text-sm font-bold text-foreground">Preuve visuelle de remise</p>
-               </div>
-              <img
-                :src="order.delivery_photo"
-                alt="Preuve certifiée de livraison"
-                class="w-full rounded-md object-cover border border-border shadow-sm max-h-96 relative z-10"
-              />
-            </div>
-          </div>
-
           <!-- Actions -->
           <div class="p-6 sm:p-8 border-t border-border flex justify-center bg-muted/10">
             <NuxtLink to="/contact" class="inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-11 px-8">
@@ -175,19 +156,26 @@
 </template>
 
 <script setup lang="ts">
-import { MapPin, Search, Check, SearchX, Package, Info, MessageCircle, Loader, Clock, User, Camera } from 'lucide-vue-next'
+import { MapPin, Search, Check, SearchX, Package, MessageCircle, Loader, Clock } from 'lucide-vue-next'
+import type { PublicOrderStatus } from '~/types'
 
 const route = useRoute()
 const config = useRuntimeConfig()
 
 const orderNumber = ref((route.query.ref as string) || '')
-const order = ref<any>(null)
+const order = ref<PublicOrderStatus | null>(null)
 const notFound = ref(false)
 const isSearching = ref(false)
+const timelineIcons = {
+  payment: Check,
+  processing: Package,
+  shipped: Clock,
+  delivered: Check,
+}
 
 const completedPercent = computed(() => {
   if (!order.value?.timeline) return 0
-  const completed = order.value.timeline.filter((s: any) => s.completed).length
+  const completed = order.value.timeline.filter(step => step.completed).length
   return (completed / order.value.timeline.length) * 100
 })
 
@@ -201,7 +189,7 @@ const trackOrder = async () => {
   await new Promise(resolve => setTimeout(resolve, 800))
 
   try {
-    const data = await $fetch<any>(
+    const data = await $fetch<PublicOrderStatus>(
       `${config.public.apiUrl}/orders/status/${encodeURIComponent(orderNumber.value.trim())}`
     )
     order.value = data
