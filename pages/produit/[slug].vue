@@ -230,7 +230,7 @@
                   </div>
                   <div>
                     <h4 class="text-sm font-bold text-gray-900">Paiement Sécurisé</h4>
-                    <p class="text-xs font-medium text-gray-500 mt-0.5">Virement / CB</p>
+                    <p class="text-xs font-medium text-gray-500 mt-0.5">Carte via Paystack</p>
                   </div>
                 </div>
                 <div class="flex items-center gap-4">

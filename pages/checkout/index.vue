@@ -133,9 +133,7 @@
                 <input v-model="selectedPayment" type="radio" :value="method.id" class="w-5 h-5 text-primary border-border focus:ring-brand focus:ring-2" />
                 <div class="flex-1 flex justify-between items-center">
                   <span class="font-bold text-foreground">{{ method.label }}</span>
-                  <component v-if="method.id === 'card'" :is="CreditCard" class="w-6 h-6 text-muted-foreground" />
-                  <component v-else-if="method.id === 'mobile_money' || method.id === 'tchad_mobile_money'" :is="Smartphone" class="w-6 h-6 text-muted-foreground" />
-                  <component v-else :is="Banknote" class="w-6 h-6 text-muted-foreground" />
+                  <component :is="method.icon" class="w-6 h-6 text-muted-foreground" />
                 </div>
               </div>
               
@@ -143,21 +141,7 @@
               <div v-show="selectedPayment === method.id" class="px-6 pb-6 pt-0 ml-[44px]">
                 <p class="text-sm font-medium text-muted-foreground">{{ method.description }}</p>
                 
-                <!-- Specialized Mobile Money Tchad Panel -->
-                <div v-if="method.id === 'tchad_mobile_money'" class="mt-5 bg-card border border-border rounded-xl p-5 shadow-sm relative overflow-hidden">
-                  <div class="absolute top-0 left-0 w-1.5 h-full bg-accent"></div>
-                  <h4 class="font-black text-foreground text-sm mb-3 tracking-tight">Protocole Manuel (FCFA)</h4>
-                  <p class="text-sm font-medium text-muted-foreground mb-4 leading-relaxed">
-                    1. Effectuez un transfert exact de <b class="text-foreground bg-accent/10 px-1 rounded">{{ cartStore.totalXAF }} FCFA</b> au numéro :<br/>
-                    <span class="inline-block mt-2 font-mono font-bold text-lg bg-muted text-foreground px-3 py-1 rounded-lg tracking-widest">+235 85 96 25 92</span> <span class="text-xs text-muted-foreground ml-2">(Airtel Tchad)</span>
-                  </p>
-                  <div class="relative mt-2">
-                    <input v-model="transferPhone" type="tel" id="tpl" class="peer checkout-input !bg-muted border-transparent focus:border-border" placeholder=" " />
-                    <label for="tpl" class="checkout-label bg-transparent">Téléphone ayant émis le transfert</label>
-                  </div>
-                </div>
-                
-                <div v-else class="mt-5 bg-muted/50 rounded-xl p-6 flex flex-col items-center justify-center text-center border border-border/50">
+                <div class="mt-5 bg-muted/50 rounded-xl p-6 flex flex-col items-center justify-center text-center border border-border/50">
                   <component :is="method.icon" class="w-8 h-8 text-muted-foreground/50 mb-3" />
                   <p class="text-xs font-bold uppercase tracking-widest text-muted-foreground max-w-sm leading-relaxed">
                     Vous serez redirigé vers l'interface ultra-sécurisée de Paystack pour garantir l'intégrité de vos données bancaires.
@@ -181,7 +165,7 @@
 
         <!-- Step 3: Confirmation -->
         <div v-show="currentStep === 2" class="animate-fade-in">
-           <div class="flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-muted-foreground mb-10 cursor-pointer hover:text-foreground transition-colors w-max" @click="currentStep = 1">
+           <div class="flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-muted-foreground mb-10 cursor-pointer hover:text-foreground transition-colors w-max" @click="invalidatePaymentSession(); currentStep = 1">
             <ArrowLeftIcon class="w-4 h-4" /> Retour au paiement
           </div>
           
@@ -191,18 +175,33 @@
             <div class="flex justify-between p-5 border-b border-border items-start">
               <span class="text-muted-foreground font-bold uppercase tracking-wider text-xs w-28 pt-0.5">Contact</span>
               <span class="text-foreground flex-1 break-all">{{ form.email }}</span>
-              <button @click="currentStep = 0" class="text-muted-foreground hover:text-foreground font-bold underline decoration-2 decoration-muted-foreground hover:decoration-foreground underline-offset-4 transition-all">Éditer</button>
+              <button @click="invalidatePaymentSession(); currentStep = 0" class="text-muted-foreground hover:text-foreground font-bold underline decoration-2 decoration-muted-foreground hover:decoration-foreground underline-offset-4 transition-all">Éditer</button>
             </div>
              <div class="flex justify-between p-5 border-b border-border items-start">
               <span class="text-muted-foreground font-bold uppercase tracking-wider text-xs w-28 pt-0.5">Destinataire</span>
               <span class="text-foreground flex-1 max-w-[200px] sm:max-w-none">{{ form.address.address1 }}, {{ form.address.city }}, Tchad</span>
-              <button @click="currentStep = 0" class="text-muted-foreground hover:text-foreground font-bold underline decoration-2 decoration-muted-foreground hover:decoration-foreground underline-offset-4 transition-all">Éditer</button>
+              <button @click="invalidatePaymentSession(); currentStep = 0" class="text-muted-foreground hover:text-foreground font-bold underline decoration-2 decoration-muted-foreground hover:decoration-foreground underline-offset-4 transition-all">Éditer</button>
             </div>
              <div class="flex justify-between p-5 items-start">
               <span class="text-muted-foreground font-bold uppercase tracking-wider text-xs w-28 pt-0.5">Méthode</span>
               <span class="text-foreground flex-1">{{ paymentMethods.find(m => m.id === selectedPayment)?.label }}</span>
-              <button @click="currentStep = 1" class="text-muted-foreground hover:text-foreground font-bold underline decoration-2 decoration-muted-foreground hover:decoration-foreground underline-offset-4 transition-all">Éditer</button>
+              <button @click="invalidatePaymentSession(); currentStep = 1" class="text-muted-foreground hover:text-foreground font-bold underline decoration-2 decoration-muted-foreground hover:decoration-foreground underline-offset-4 transition-all">Éditer</button>
             </div>
+          </div>
+
+          <div v-if="paymentSession" class="mb-6 rounded-xl border border-border bg-card p-5 shadow-sm">
+            <p class="text-xs font-bold uppercase tracking-widest text-muted-foreground mb-4">Cotation de paiement sécurisée</p>
+            <div class="flex justify-between text-sm font-medium mb-2">
+              <span class="text-muted-foreground">Total de commande</span>
+              <span class="font-bold text-foreground">{{ formatAmount(paymentSession.commercial_amount, paymentSession.commercial_currency) }}</span>
+            </div>
+            <div class="flex justify-between items-baseline">
+              <span class="text-muted-foreground text-sm font-medium">Montant débité par Paystack</span>
+              <span class="text-xl font-black text-foreground">{{ formatAmount(paymentSession.payment_display_amount, paymentSession.payment_currency) }}</span>
+            </div>
+            <p class="mt-4 text-xs text-muted-foreground leading-relaxed">
+              Votre banque peut appliquer son propre taux ou des frais de conversion.
+            </p>
           </div>
 
           <!-- Conditions -->
@@ -217,7 +216,9 @@
             <div class="absolute inset-0 bg-white/10 translate-x-[-100%] group-hover:animate-[shimmer_2s_infinite]" />
             <LoaderIcon v-if="isSubmitting" class="w-5 h-5 animate-spin relative z-10 mr-2" />
             <LockIcon v-else class="w-5 h-5 text-primary-foreground/70 relative z-10 mr-2" />
-            <span class="text-base sm:text-lg relative z-10">{{ isSubmitting ? 'Chiffrement en cours...' : `Confirmer et Payer ${cartStore.formattedTotal}` }}</span>
+            <span class="text-base sm:text-lg relative z-10">
+              {{ isSubmitting ? 'Connexion sécurisée...' : paymentSession ? `Payer ${formatAmount(paymentSession.payment_display_amount, paymentSession.payment_currency)}` : 'Calculer le montant à débiter' }}
+            </span>
           </button>
         </div>
 
@@ -276,7 +277,6 @@
           <span class="text-sm font-bold uppercase tracking-wider text-muted-foreground mt-1">Net à Payer</span>
           <div class="text-right flex flex-col items-end">
             <span class="text-4xl font-black text-foreground tracking-tight">{{ cartStore.totalFormatted }}</span>
-            <span class="text-sm font-bold text-muted-foreground mt-2">≈ {{ cartStore.totalFCFA }} FCFA</span>
           </div>
         </div>
       </div>
@@ -289,20 +289,16 @@ import {
   Package as PackageIcon,
   ArrowLeft as ArrowLeftIcon,
   ArrowRight as ArrowRightIcon,
-  Check as CheckIcon,
-  User as UserIcon,
   CreditCard,
-  Smartphone,
-  Banknote,
   Info as InfoIcon,
   Lock as LockIcon,
   ShieldCheck as ShieldCheckIcon,
   Loader as LoaderIcon,
   ChevronRight as ChevronRightIcon,
-  ChevronLeft as ChevronLeftIcon,
   ChevronDown as ChevronDownIcon,
   Truck as TruckIcon,
 } from 'lucide-vue-next'
+import type { CheckoutPaymentInitialization } from '~/types'
 
 definePageMeta({
   layout: false,
@@ -314,11 +310,10 @@ useSeoMeta({
   description: 'Tunnel de paiement sécurisé Dounia Market.',
 })
 
-const router = useRouter()
 const cartStore = useCartStore()
 const authStore = useAuthStore()
 const { checkout: apiCheckout } = useBackendApi()
-const { initializePayment, verifyPayment, eurToXof } = usePaystack()
+const { resumeTransaction } = usePaystack()
 
 const resolveThumb = (path: string | undefined) => {
   if (!path) return ''
@@ -335,22 +330,12 @@ const steps = [
   { id: 'confirm', label: 'Confirmation' },
 ]
 
-// Flag pour éviter le retour au catalogue pendant le processus de confirmation
-const isOrderCompleted = ref(false)
-
 // Redirect if cart is empty (wait for hydration)
 watchEffect(() => {
-  if (cartStore.isHydrated && cartStore.isEmpty && !isOrderCompleted.value) {
+  if (cartStore.isHydrated && cartStore.isEmpty) {
     navigateTo('/catalogue')
   }
 })
-
-// Currency Selection
-const currencies = [
-  { id: 'EUR', label: 'Euro (€)', icon: '€' },
-  { id: 'USD', label: 'Dollar ($)', icon: '$' },
-  { id: 'XAF', label: 'FCFA (CFA)', icon: 'FC' },
-]
 
 // Validation
 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
@@ -408,8 +393,9 @@ const selectedPayment = ref('card')
 const acceptTerms = ref(false)
 const isSubmitting = ref(false)
 const paymentError = ref<string | null>(null)
+const paymentSession = ref<CheckoutPaymentInitialization | null>(null)
 
-// Payment methods (Paystack supported channels)
+// Payment methods available for launch.
 const paymentMethods = [
   {
     id: 'card',
@@ -417,37 +403,7 @@ const paymentMethods = [
     description: 'Visa, Mastercard — passerelle interbancaire cryptée',
     icon: CreditCard,
   },
-  {
-    id: 'mobile_money',
-    label: 'Mobile Money (Côte d\'Ivoire, Sénégal...)',
-    description: 'MTN, Orange, Wave...',
-    icon: Smartphone,
-  },
-  {
-    id: 'bank_transfer',
-    label: 'Virement Institutionnel',
-    description: 'Fonds sécurisés par les banques centrales',
-    icon: Banknote,
-  },
-  {
-    id: 'tchad_mobile_money',
-    label: 'Paiement Tchad (Mobile Money Local)',
-    description: 'Procédure spéciale pour Airtel Money & Moov',
-    icon: Smartphone,
-  },
 ]
-
-const transferPhone = ref(authStore.user?.phone || '')
-
-// Map selected payment to Paystack channels
-const paystackChannels = computed(() => {
-  const channelMap: Record<string, string[]> = {
-    card: ['card'],
-    mobile_money: ['mobile_money'],
-    bank_transfer: ['bank_transfer'],
-  }
-  return channelMap[selectedPayment.value] || ['card', 'mobile_money', 'bank_transfer']
-})
 
 // Computed
 const canProceed = computed(() => {
@@ -474,20 +430,22 @@ async function submitOrder() {
   paymentError.value = null
 
   try {
+    if (paymentSession.value) {
+      await resumeTransaction(paymentSession.value.access_code)
+      return
+    }
+
     const recipientName = sameAsCustomer.value
       ? `${form.firstName} ${form.lastName}`
       : form.recipientName
     const recipientPhone = sameAsCustomer.value ? form.phone : form.recipientPhone
 
-    const isMobileMoney = selectedPayment.value === 'tchad_mobile_money'
-    const paymentAmountFcfa = isMobileMoney ? cartStore.totalXAF : undefined
-
-    const { orderId, reference } = await apiCheckout({
+    paymentSession.value = await apiCheckout({
       user_id: authStore.user?.id,
       email: form.email,
       customer_first_name: form.firstName,
       customer_last_name: form.lastName,
-      customer_phone: isMobileMoney ? transferPhone.value : form.phone,
+      customer_phone: form.phone,
       recipient_name: recipientName,
       recipient_phone: recipientPhone,
       shipping_address_1: form.address.address1,
@@ -495,74 +453,37 @@ async function submitOrder() {
       shipping_city: form.address.city,
       shipping_country: form.address.country,
       delivery_instructions: form.deliveryInstructions || undefined,
-      subtotal: cartStore.subtotal,
-      shipping_total: cartStore.shipping,
-      total: cartStore.total,
-      payment_method: selectedPayment.value,
-      payment_amount_fcfa: paymentAmountFcfa,
+      payment_method: 'card',
       items: cartStore.items.map((item) => ({
         product_id: item.productId,
         variant_id: item.variantId,
-        title: item.variantTitle ? `${item.title} (${item.variantTitle})` : item.title,
         quantity: item.quantity,
-        unit_price: item.price,
-        total: item.price * item.quantity,
-        thumbnail: item.thumbnail,
       })),
-    })
-
-    if (selectedPayment.value === 'tchad_mobile_money') {
-      const totalFCFA = cartStore.totalFCFA
-      isOrderCompleted.value = true
-      cartStore.clearCart()
-      navigateTo(`/checkout/confirmation?order=${reference}&method=tchad_mobile_money&amount=${totalFCFA}`)
-      return
-    }
-
-    const amountInXof = eurToXof(cartStore.total)
-    await initializePayment({
-      email: form.email,
-      amount: amountInXof * 100,
-      currency: 'XOF',
-      reference,
-      metadata: {
-        order_id: orderId,
-        customer_name: `${form.firstName} ${form.lastName}`,
-        recipient_name: recipientName,
-        custom_fields: [
-          { display_name: 'Commande', variable_name: 'order_ref', value: reference },
-          { display_name: 'Destinataire', variable_name: 'recipient', value: recipientName },
-        ],
-      },
-      onSuccess: async (response) => {
-        try {
-          const verification = await verifyPayment(response.reference)
-          if (verification.success) {
-            isOrderCompleted.value = true
-            cartStore.clearCart()
-            navigateTo(`/checkout/confirmation?order=${reference}`)
-          } else {
-            paymentError.value = verification.error || 'La vérification du paiement a échoué. Nos équipes de sécurité ont été alertées.'
-          }
-        } catch (err) {
-          console.error('Payment verification error:', err)
-          paymentError.value =
-            'Suspicion d\'erreur lors de la validation. Communiquez cette référence au support : ' + reference
-        } finally {
-          isSubmitting.value = false
-        }
-      },
-      onClose: () => {
-        isSubmitting.value = false
-        paymentError.value = 'Opération interrompue. Votre session est fermée pour des raisons de sécurité.'
-      },
     })
   } catch (error: any) {
     console.error('Order failed:', error)
     paymentError.value = error.data?.message || error.message || 'La connexion à notre chambre forte a échoué. Réessayez.'
+  } finally {
     isSubmitting.value = false
   }
 }
+
+function invalidatePaymentSession() {
+  paymentSession.value = null
+}
+
+function formatAmount(amount: number | string, currency: string): string {
+  return new Intl.NumberFormat('fr-FR', {
+    style: 'currency',
+    currency,
+  }).format(amount)
+}
+
+watch(
+  () => [cartStore.total, cartStore.items],
+  () => invalidatePaymentSession(),
+  { deep: true }
+)
 </script>
 
 <style scoped>

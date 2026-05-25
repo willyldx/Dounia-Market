@@ -1,7 +1,9 @@
 /**
  * Création de commande (checkout).
- * Proxy vers le backend Laravel: POST /api/checkout
+ * Laravel calcule le montant débité et initialise la transaction Paystack.
  */
+import type { CheckoutPaymentInitialization } from '~/types'
+
 export default defineEventHandler(async (event) => {
   const body = await readBody<{
     user_id?: string
@@ -16,19 +18,11 @@ export default defineEventHandler(async (event) => {
     shipping_city?: string
     shipping_country?: string
     delivery_instructions?: string
-    subtotal: number
-    shipping_total: number
-    total: number
     payment_method?: string
-    payment_amount_fcfa?: number
     items: Array<{
       product_id?: string
       variant_id?: string
-      title: string
       quantity: number
-      unit_price: number
-      total: number
-      thumbnail?: string
     }>
   }>(event)
 
@@ -37,13 +31,19 @@ export default defineEventHandler(async (event) => {
     !body.customer_first_name ||
     !body.customer_last_name ||
     !body.recipient_name ||
-    typeof body.total !== 'number' ||
     !Array.isArray(body.items) ||
     body.items.length === 0
   ) {
     throw createError({
       statusCode: 400,
-      statusMessage: 'Données de commande invalides (email, noms, destinataire, total, items requis)',
+      statusMessage: 'Données de commande invalides (email, noms, destinataire et articles requis)',
+    })
+  }
+
+  if (body.payment_method && body.payment_method !== 'card') {
+    throw createError({
+      statusCode: 422,
+      statusMessage: 'Le mode de paiement demandé n’est pas disponible.',
     })
   }
 
@@ -53,7 +53,7 @@ export default defineEventHandler(async (event) => {
 
   try {
     // Forward to Laravel backend
-    const result = await $fetch<{ orderId: string; reference: string }>(`${apiUrl}/checkout`, {
+    const result = await $fetch<CheckoutPaymentInitialization>(`${apiUrl}/checkout`, {
       method: 'POST',
       headers: authToken ? { Authorization: `Bearer ${authToken}` } : undefined,
       body: {
@@ -69,20 +69,11 @@ export default defineEventHandler(async (event) => {
         shipping_city: body.shipping_city ?? "N'Djamena",
         shipping_country: body.shipping_country ?? 'Tchad',
         delivery_instructions: body.delivery_instructions ?? null,
-        subtotal: Number(body.subtotal),
-        shipping_total: Number(body.shipping_total),
-        total: Number(body.total),
-        currency: 'EUR',
-        payment_method: body.payment_method ?? 'card',
-        payment_amount_fcfa: body.payment_amount_fcfa ?? null,
+        payment_method: 'card',
         items: body.items.map((item) => ({
           product_id: item.product_id,
           variant_id: item.variant_id,
-          title: item.title,
           quantity: item.quantity,
-          unit_price: item.unit_price,
-          total: item.total,
-          thumbnail: item.thumbnail,
         })),
       },
     })

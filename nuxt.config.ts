@@ -68,13 +68,10 @@ export default defineNuxtConfig({
     }
   },
   runtimeConfig: {
-    // Server-side only (not exposed to client)
-    paystackSecretKey: process.env.PAYSTACK_SECRET_KEY || '',
     public: {
       apiUrl: process.env.VITE_API_URL || 'https://api.douniamarket.com/api',
       aiApiUrl: process.env.NUXT_PUBLIC_AI_API_URL || 'https://ai.douniamarket.com',
       siteUrl: process.env.SITE_URL || 'https://douniamarket.com',
-      paystackPublicKey: process.env.PAYSTACK_PUBLIC_KEY || '',
       meilisearchHost: process.env.NUXT_PUBLIC_MEILISEARCH_HOST || '',
       meilisearchKey: process.env.NUXT_PUBLIC_MEILISEARCH_KEY || '',
     }

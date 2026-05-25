@@ -309,7 +309,7 @@
               <Shield class="w-6 h-6" />
             </div>
             <h4 class="font-bold text-foreground mb-2">Paiement Sécurisé</h4>
-            <p class="text-sm text-muted-foreground/90">Transactions chiffrées. Nous acceptons Cartes et Mobile Money.</p>
+            <p class="text-sm text-muted-foreground/90">Transactions chiffrées par carte via Paystack.</p>
           </div>
           <div class="flex flex-col items-center px-4 pt-8 md:pt-0">
             <div class="w-12 h-12 bg-card rounded-full flex items-center justify-center text-primary shadow-sm mb-4 border border-border/50">
@@ -398,7 +398,7 @@
             <div class="flex gap-2">
               <div class="w-10 h-6 bg-background border border-border rounded flex items-center justify-center text-[10px] font-bold text-muted-foreground">VISA</div>
               <div class="w-10 h-6 bg-background border border-border rounded flex items-center justify-center text-[10px] font-bold text-muted-foreground">MC</div>
-              <div class="w-10 h-6 bg-background border border-border rounded flex items-center justify-center text-[10px] font-bold text-muted-foreground">MM</div>
+              <div class="w-16 h-6 bg-background border border-border rounded flex items-center justify-center text-[10px] font-bold text-muted-foreground">PAYSTACK</div>
             </div>
           </div>
         </div>

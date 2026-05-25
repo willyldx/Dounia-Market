@@ -37,7 +37,7 @@
             </div>
             <div class="text-left">
               <p class="font-bold text-foreground">Paiement Sécurisé</p>
-              <p class="text-xs text-muted-foreground">Visa, Mastercard, Mobile Money</p>
+              <p class="text-xs text-muted-foreground">Visa, Mastercard via Paystack</p>
             </div>
           </div>
           <div class="flex items-center gap-3">

@@ -60,7 +60,7 @@ const faqs = [
   { question: 'Quel est le délai de livraison garanti ?', answer: 'Le délai standard est de 3 à 5 jours ouvrés par transport aérien après la confirmation de votre paiement. L\'acheminement passe par notre propre réseau pour éviter tout blocage en douane.' },
   { question: 'Y a-t-il des frais de douanes pour le destinataire ?', answer: 'Non, jamais. Tous nos prix sont définitifs et incluent les frais d\'exportation, les taxes douanières au Tchad et la livraison locale. Votre famille ne paiera pas le moindre centime.' },
   { question: 'Comment être sûr que ma famille a bien reçu le colis ?', answer: 'C\'est notre plus grande force : la Preuve Dounia Market. Chaque livraison à domicile est validée par une photographie sécurisée du bénéficiaire avec le colis. Vous la recevez directement dans votre espace client.' },
-  { question: 'Quels moyens de paiement internationaux sont acceptés ?', answer: 'Toutes les cartes bancaires classiques (Visa, Mastercard, Maestro) ainsi que le Mobile Money transfrontalier via notre passerelle cryptée Paystack. Tout est converti de manière transparente.' },
+  { question: 'Quels moyens de paiement internationaux sont acceptés ?', answer: 'Les cartes bancaires Visa et Mastercard sont acceptées via notre passerelle sécurisée Paystack. Le montant débité est affiché avant paiement.' },
   { question: 'Puis-je annuler une commande après paiement ?', answer: 'L\'annulation et le remboursement intégral sont possibles jusqu\'à ce que le statut de la commande passe à "Expédié". Une fois le colis dans l\'avion, les frais logistiques internationaux nous empêchent de bloquer la livraison.' },
 ]
 
