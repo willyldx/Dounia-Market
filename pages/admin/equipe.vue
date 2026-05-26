@@ -1,104 +1,140 @@
 <template>
-  <div>
-    <!-- Header -->
-    <div class="mb-6 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+  <div class="space-y-6">
+    <header class="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
       <div>
-        <div class="flex items-center gap-2 mb-1">
-          <h1 class="text-2xl font-bold text-gray-900">Équipe</h1>
-          <UBadge color="amber" variant="soft">👑 CEO Only</UBadge>
+        <div class="mb-2 flex items-center gap-2">
+          <p class="text-xs font-semibold uppercase text-amber-700">Direction</p>
+          <UBadge color="amber" variant="soft" size="xs">
+            <span class="inline-flex items-center gap-1">
+              <Icon name="lucide:lock-keyhole" class="h-3 w-3" />
+              Accès réservé
+            </span>
+          </UBadge>
         </div>
-        <p class="text-gray-500">Gérez les administrateurs de Dounia Market</p>
+        <h1 class="text-2xl font-semibold text-zinc-950 sm:text-3xl">Équipe</h1>
+        <p class="mt-1 text-sm text-zinc-500">Gestion des administrateurs et accès opérationnels.</p>
       </div>
-      <UButton @click="showAddModal = true" color="primary" icon="i-lucide-user-plus">
+      <UButton color="black" icon="i-lucide-user-plus" class="h-10 justify-center font-medium" @click="showAddModal = true">
         Ajouter un admin
       </UButton>
+    </header>
+
+    <div class="grid grid-cols-2 gap-3 lg:grid-cols-3">
+      <div
+        v-for="stat in teamStats"
+        :key="stat.label"
+        class="relative min-h-[104px] rounded-lg border border-zinc-200 bg-white p-4"
+      >
+        <p class="pr-10 text-xs font-medium text-zinc-500 sm:text-sm">{{ stat.label }}</p>
+        <p class="mt-3 text-2xl font-semibold text-zinc-950">{{ stat.value }}</p>
+        <div :class="['absolute right-4 top-4 flex h-9 w-9 items-center justify-center rounded-lg', stat.bgColor]">
+          <Icon :name="stat.icon" :class="['h-5 w-5', stat.iconColor]" />
+        </div>
+      </div>
     </div>
 
-    <!-- Team Members -->
-    <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
-      <div v-if="loading" class="p-8 text-center">
-        <UIcon name="i-lucide-loader-2" class="w-8 h-8 animate-spin text-primary-500 mx-auto" />
-      </div>
+    <div class="grid grid-cols-1 gap-4 xl:grid-cols-[minmax(0,1fr)_340px]">
+      <section class="overflow-hidden rounded-lg border border-zinc-200 bg-white">
+        <div class="border-b border-zinc-100 px-4 py-4 sm:px-5">
+          <h2 class="font-semibold text-zinc-950">Accès administration</h2>
+          <p class="mt-0.5 text-xs text-zinc-500">Comptes autorisés à gérer les opérations.</p>
+        </div>
 
-      <div v-else class="divide-y divide-gray-100">
-        <!-- Super Admin (You) -->
-        <div class="p-4 bg-amber-50/50">
-          <div class="flex items-center gap-4">
-            <div class="w-12 h-12 rounded-full bg-amber-100 flex items-center justify-center">
-              <span class="text-lg font-semibold text-amber-700">{{ authStore.initials }}</span>
-            </div>
-            <div class="flex-1">
-              <div class="flex items-center gap-2">
-                <p class="font-medium text-gray-900">{{ authStore.fullName }}</p>
-                <UBadge color="amber" variant="soft" size="xs">👑 CEO</UBadge>
+        <div v-if="loading" class="flex min-h-[210px] items-center justify-center">
+          <UIcon name="i-lucide-loader-2" class="h-7 w-7 animate-spin text-zinc-400" />
+        </div>
+
+        <div v-else class="divide-y divide-zinc-100">
+          <div class="bg-amber-50/40 px-4 py-4 sm:px-5">
+            <div class="flex flex-col gap-3 sm:flex-row sm:items-center">
+              <div class="flex min-w-0 flex-1 items-center gap-3">
+                <div class="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg bg-amber-100">
+                  <span class="text-sm font-semibold text-amber-800">{{ authStore.initials }}</span>
+                </div>
+                <div class="min-w-0">
+                  <div class="flex flex-wrap items-center gap-2">
+                    <p class="truncate font-medium text-zinc-950">{{ authStore.fullName }}</p>
+                    <UBadge color="amber" variant="soft" size="xs">Direction</UBadge>
+                  </div>
+                  <p class="truncate text-sm text-zinc-500">{{ authStore.user?.email || '-' }}</p>
+                </div>
               </div>
-              <p class="text-sm text-gray-500">{{ authStore.user?.email }}</p>
+              <span class="text-xs font-medium text-zinc-500">Votre compte</span>
             </div>
-            <p class="text-sm text-gray-400">C'est vous</p>
           </div>
-        </div>
 
-        <!-- Admins -->
-        <div v-for="admin in admins" :key="admin.id" class="p-4 hover:bg-gray-50 transition-colors">
-          <div class="flex items-center gap-4">
-            <div class="w-12 h-12 rounded-full bg-indigo-100 flex items-center justify-center">
-              <span class="text-lg font-semibold text-indigo-700">{{ getInitials(admin) }}</span>
-            </div>
-            <div class="flex-1">
-              <div class="flex items-center gap-2">
-                <p class="font-medium text-gray-900">{{ admin.first_name }} {{ admin.last_name }}</p>
-                <UBadge color="indigo" variant="soft" size="xs">🛡️ Admin</UBadge>
+          <div v-for="admin in admins" :key="admin.id" class="px-4 py-4 hover:bg-zinc-50 sm:px-5">
+            <div class="flex flex-col gap-3 sm:flex-row sm:items-center">
+              <div class="flex min-w-0 flex-1 items-center gap-3">
+                <div class="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg bg-sky-50">
+                  <span class="text-sm font-semibold text-sky-700">{{ getInitials(admin) }}</span>
+                </div>
+                <div class="min-w-0">
+                  <div class="flex flex-wrap items-center gap-2">
+                    <p class="truncate font-medium text-zinc-950">{{ getName(admin) }}</p>
+                    <UBadge color="sky" variant="soft" size="xs">Administrateur</UBadge>
+                  </div>
+                  <p class="truncate text-sm text-zinc-500">{{ admin.email || '-' }}</p>
+                </div>
               </div>
-              <p class="text-sm text-gray-500">{{ admin.email }}</p>
+              <div class="flex items-center justify-between gap-3 sm:justify-end">
+                <p class="whitespace-nowrap text-xs text-zinc-500">Ajouté le {{ formatDate(admin.created_at) }}</p>
+                <UButton
+                  color="red"
+                  variant="ghost"
+                  size="sm"
+                  icon="i-lucide-user-minus"
+                  class="font-medium"
+                  @click="demoteAdmin(admin)"
+                >
+                  Retirer
+                </UButton>
+              </div>
             </div>
-            <div class="text-right text-sm text-gray-500">
-              Ajouté le {{ formatDate(admin.created_at) }}
-            </div>
-            <UDropdown :items="getAdminActions(admin)" :popper="{ placement: 'bottom-end' }">
-              <UButton color="gray" variant="ghost" icon="i-lucide-more-vertical" size="sm" />
-            </UDropdown>
+          </div>
+
+          <div v-if="admins.length === 0" class="flex min-h-[150px] flex-col items-center justify-center p-8 text-center">
+            <Icon name="lucide:user-cog" class="mb-3 h-8 w-8 text-zinc-300" />
+            <p class="text-sm font-medium text-zinc-700">Aucun autre administrateur</p>
+            <p class="mt-1 text-xs text-zinc-500">Ajoutez un compte pour répartir le traitement des commandes.</p>
           </div>
         </div>
+      </section>
 
-        <!-- Empty state -->
-        <div v-if="admins.length === 0" class="p-8 text-center">
-          <Icon name="lucide:users" class="w-12 h-12 mx-auto text-gray-300 mb-3" />
-          <p class="text-gray-500">Aucun autre administrateur</p>
-          <p class="text-sm text-gray-400 mt-1">Ajoutez des admins pour vous aider à gérer les commandes</p>
+      <section class="h-fit overflow-hidden rounded-lg border border-zinc-200 bg-white">
+        <div class="border-b border-zinc-100 px-4 py-4 sm:px-5">
+          <h2 class="font-semibold text-zinc-950">Livraison</h2>
+          <p class="mt-0.5 text-xs text-zinc-500">Accès à la gestion des livreurs.</p>
         </div>
-      </div>
+        <div class="p-4 sm:p-5">
+          <div class="flex items-center gap-3">
+            <div class="flex h-11 w-11 items-center justify-center rounded-lg bg-amber-50">
+              <Icon name="lucide:truck" class="h-5 w-5 text-amber-700" />
+            </div>
+            <div>
+              <p class="text-2xl font-semibold text-zinc-950">{{ livreursCount }}</p>
+              <p class="text-xs text-zinc-500">Livreur(s) actif(s)</p>
+            </div>
+          </div>
+          <NuxtLink
+            to="/admin/livreurs"
+            class="mt-5 inline-flex h-10 w-full items-center justify-center gap-2 rounded-lg border border-zinc-200 bg-white px-4 text-sm font-medium text-zinc-700 hover:bg-zinc-50"
+          >
+            <Icon name="lucide:truck" class="h-4 w-4" />
+            Gérer les livreurs
+          </NuxtLink>
+        </div>
+      </section>
     </div>
 
-    <!-- Livreurs Section -->
-    <div class="mt-8">
-      <div class="flex items-center justify-between mb-4">
-        <h2 class="text-lg font-semibold text-gray-900">Livreurs</h2>
-        <NuxtLink to="/admin/livreurs" class="text-sm text-primary-600 hover:text-primary-700 font-medium">
-          Gérer les livreurs →
-        </NuxtLink>
-      </div>
-      <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
-        <div class="flex items-center justify-between">
-          <div>
-            <p class="text-2xl font-bold text-gray-900">{{ livreursCount }}</p>
-            <p class="text-sm text-gray-500">Livreurs actifs</p>
-          </div>
-          <div class="w-12 h-12 rounded-xl bg-green-100 flex items-center justify-center">
-            <Icon name="lucide:truck" class="w-6 h-6 text-green-600" />
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Add Admin Modal -->
     <UModal v-model="showAddModal">
       <div class="p-6">
-        <h3 class="text-lg font-semibold text-gray-900 mb-4">Ajouter un administrateur</h3>
-        
-        <p class="text-sm text-gray-500 mb-4">
-          Sélectionnez un utilisateur existant pour le promouvoir administrateur.
-        </p>
-        
+        <div class="mb-5">
+          <h3 class="text-lg font-semibold text-zinc-950">Ajouter un administrateur</h3>
+          <p class="mt-1 text-sm text-zinc-500">Sélectionnez un utilisateur existant à promouvoir.</p>
+        </div>
+
+        <label class="mb-1.5 block text-sm font-medium text-zinc-700">Utilisateur</label>
         <USelectMenu
           v-model="selectedUser"
           :options="availableUsers"
@@ -106,12 +142,14 @@
           value-attribute="value"
           placeholder="Sélectionner un utilisateur"
           searchable
-          class="mb-4"
+          class="mb-6"
         />
 
-        <div class="flex justify-end gap-3">
+        <div class="flex justify-end gap-2">
           <UButton color="gray" variant="outline" @click="showAddModal = false">Annuler</UButton>
-          <UButton color="primary" :loading="saving" @click="promoteToAdmin">Promouvoir</UButton>
+          <UButton color="black" icon="i-lucide-user-plus" :loading="saving" :disabled="!selectedUser" @click="promoteToAdmin">
+            Promouvoir
+          </UButton>
         </div>
       </div>
     </UModal>
@@ -126,54 +164,51 @@ definePageMeta({
 
 const authStore = useAuthStore()
 const toast = useToast()
+const api = useBackendApi()
 
-// Redirect if not super_admin
 if (!authStore.isSuperAdmin) {
   navigateTo('/admin')
 }
 
-// State
 const loading = ref(true)
 const saving = ref(false)
 const admins = ref<any[]>([])
 const livreursCount = ref(0)
-
-// Add modal
 const showAddModal = ref(false)
 const selectedUser = ref<string | null>(null)
 const availableUsers = ref<{ label: string; value: string }[]>([])
 
-// Fetch team & available users (Combined in Laravel API now)
+const teamStats = computed(() => [
+  { label: 'Administrateurs', value: admins.value.length + 1, icon: 'lucide:user-cog', bgColor: 'bg-sky-50', iconColor: 'text-sky-700' },
+  { label: 'Livreurs actifs', value: livreursCount.value, icon: 'lucide:truck', bgColor: 'bg-sky-50', iconColor: 'text-sky-700' },
+  { label: 'Utilisateurs éligibles', value: availableUsers.value.length, icon: 'lucide:user-plus', bgColor: 'bg-zinc-100', iconColor: 'text-zinc-700' }
+])
+
 const fetchTeam = async () => {
   loading.value = true
   try {
-    const data = await useBackendApi().adminTeam()
-    
+    const data = await api.adminTeam()
     admins.value = data.admins || []
     livreursCount.value = data.livreurs_count || 0
     availableUsers.value = data.available_users || []
   } catch (error) {
     console.error('Error fetching team:', error)
+    toast.add({ title: 'Erreur', description: "Impossible de charger l'équipe", color: 'red' })
   } finally {
     loading.value = false
   }
 }
 
-// (Optional alias, as they are now fetched together)
-const fetchAvailableUsers = () => {}
-
-// Promote to admin
 const promoteToAdmin = async () => {
   if (!selectedUser.value) return
 
   saving.value = true
   try {
-    await useBackendApi().adminPromoteTeam(selectedUser.value, 'admin')
-
+    await api.adminPromoteTeam(selectedUser.value, 'admin')
     toast.add({ title: 'Succès', description: 'Utilisateur promu administrateur', color: 'green' })
     showAddModal.value = false
     selectedUser.value = null
-    fetchTeam()
+    await fetchTeam()
   } catch (error) {
     console.error('Error promoting user:', error)
     toast.add({ title: 'Erreur', description: 'Impossible de promouvoir cet utilisateur', color: 'red' })
@@ -182,43 +217,36 @@ const promoteToAdmin = async () => {
   }
 }
 
-// Demote admin
 const demoteAdmin = async (admin: any) => {
-  if (!confirm(`Retirer les droits admin de ${admin.first_name} ${admin.last_name} ?`)) return
+  if (!confirm(`Retirer les droits admin de ${getName(admin)} ?`)) return
 
   try {
-    await useBackendApi().adminPromoteTeam(admin.id, 'client')
-
+    await api.adminPromoteTeam(admin.id, 'client')
     toast.add({ title: 'Succès', description: 'Droits admin retirés', color: 'green' })
-    fetchTeam()
+    await fetchTeam()
   } catch (error) {
     console.error('Error demoting admin:', error)
     toast.add({ title: 'Erreur', description: 'Impossible de retirer les droits', color: 'red' })
   }
 }
 
-// Actions dropdown
-const getAdminActions = (admin: any) => [
-  [{
-    label: 'Retirer les droits admin',
-    icon: 'i-lucide-user-minus',
-    click: () => demoteAdmin(admin)
-  }]
-]
-
-// Helpers
 const getInitials = (user: any) => {
-  return ((user.first_name?.[0] || '') + (user.last_name?.[0] || '')).toUpperCase()
+  return ((user.first_name?.[0] || '') + (user.last_name?.[0] || '')).toUpperCase() || '?'
 }
 
-const formatDate = (date: string) => {
-  return new Date(date).toLocaleDateString('fr-FR', { day: 'numeric', month: 'short', year: 'numeric' })
+const getName = (user: any) => {
+  return [user.first_name, user.last_name].filter(Boolean).join(' ') || 'Utilisateur sans nom'
 }
 
-// Fetch on mount
+const formatDate = (date?: string) => {
+  if (!date) return '-'
+  const parsedDate = new Date(date)
+  if (Number.isNaN(parsedDate.getTime())) return '-'
+  return parsedDate.toLocaleDateString('fr-FR', { day: 'numeric', month: 'short', year: 'numeric' })
+}
+
 onMounted(() => {
   fetchTeam()
-  fetchAvailableUsers()
 })
 
 useHead({

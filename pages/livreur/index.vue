@@ -8,15 +8,15 @@
 
     <!-- Stats -->
     <div class="grid grid-cols-3 gap-3 mb-6">
-      <div class="bg-white rounded-xl p-4 shadow-sm border border-gray-100 text-center">
+      <div class="bg-white rounded-lg p-4 shadow-sm border border-gray-100 text-center">
         <p class="text-2xl font-bold text-amber-600">{{ pendingCount }}</p>
         <p class="text-xs text-gray-500">En attente</p>
       </div>
-      <div class="bg-white rounded-xl p-4 shadow-sm border border-gray-100 text-center">
-        <p class="text-2xl font-bold text-blue-600">{{ inProgressCount }}</p>
+      <div class="bg-white rounded-lg p-4 shadow-sm border border-gray-100 text-center">
+        <p class="text-2xl font-bold text-dounia-500">{{ inProgressCount }}</p>
         <p class="text-xs text-gray-500">En cours</p>
       </div>
-      <div class="bg-white rounded-xl p-4 shadow-sm border border-gray-100 text-center">
+      <div class="bg-white rounded-lg p-4 shadow-sm border border-gray-100 text-center">
         <p class="text-2xl font-bold text-green-600">{{ deliveredTodayCount }}</p>
         <p class="text-xs text-gray-500">Livrées</p>
       </div>
@@ -31,7 +31,7 @@
         :class="[
           'px-4 py-2 rounded-full text-sm font-medium whitespace-nowrap transition-colors',
           activeTab === tab.value
-            ? 'bg-green-600 text-white'
+            ? 'bg-dounia-500 text-white'
             : 'bg-gray-100 text-gray-600'
         ]"
       >
@@ -44,7 +44,7 @@
 
     <!-- Loading -->
     <div v-if="loading" class="flex items-center justify-center py-12">
-      <UIcon name="i-lucide-loader-2" class="w-8 h-8 animate-spin text-green-500" />
+      <UIcon name="i-lucide-loader-2" class="w-8 h-8 animate-spin text-amber-600" />
     </div>
 
     <!-- Deliveries List -->
@@ -53,7 +53,7 @@
         v-for="delivery in filteredDeliveries"
         :key="delivery.id"
         :to="`/livreur/${delivery.id}`"
-        class="block bg-white rounded-xl p-4 shadow-sm border border-gray-100 hover:shadow-md transition-shadow"
+        class="block bg-white rounded-lg p-4 shadow-sm border border-gray-100 hover:shadow-md transition-shadow"
       >
         <div class="flex items-start justify-between mb-3">
           <div>
@@ -65,7 +65,7 @@
             </div>
             <p class="text-sm text-gray-500 mt-0.5">{{ formatTime(delivery.assignedAt) }}</p>
           </div>
-          <span class="font-bold text-green-600">{{ formatPrice(delivery.total) }}</span>
+          <span class="font-bold text-dounia-500">{{ formatPrice(delivery.total) }}</span>
         </div>
 
         <!-- Recipient -->
@@ -107,7 +107,7 @@
     <div class="fixed bottom-24 right-4">
       <UButton
         @click="fetchDeliveries"
-        color="green"
+        color="primary"
         icon="i-lucide-refresh-cw"
         size="lg"
         class="rounded-full shadow-lg"
@@ -235,13 +235,14 @@ const formatTime = (date: string | undefined) => {
 
 const formatAddress = (address: any) => {
   if (!address) return 'Adresse non spécifiée'
-  return `${address.address_1 || ''}, ${address.city || ''}`
+  const addressLine = address.address1 || address.address_1
+  return [addressLine, address.city].filter(Boolean).join(', ') || 'Adresse non spécifiée'
 }
 
 const getStatusColor = (status: string) => {
   const colors: Record<string, string> = {
     fulfilled: 'amber',
-    shipped: 'blue',
+    shipped: 'primary',
     delivered: 'green'
   }
   return colors[status] || 'gray'

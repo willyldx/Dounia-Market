@@ -1,21 +1,18 @@
 <template>
   <div class="bg-background min-h-screen">
-    <!-- Minimalist Header -->
     <section class="pt-32 pb-16 bg-background border-b border-border">
       <div class="container-main text-center max-w-3xl mx-auto">
         <h1 class="text-4xl md:text-5xl font-black text-foreground mb-4 tracking-tight">
           Comment ça marche ?
         </h1>
         <p class="text-lg text-muted-foreground font-medium leading-relaxed">
-          En 4 étapes simples, offrez le meilleur à votre famille au Tchad avec la fiabilité d'un service d'excellence.
+          Depuis l'étranger, choisissez des produits disponibles localement pour un proche à N'Djamena.
         </p>
       </div>
     </section>
 
-    <!-- Steps — Sleek E-Commerce Timeline -->
     <section class="py-32 relative bg-muted/10 border-t border-border/50">
       <div class="container-main max-w-5xl relative">
-        <!-- LA LIGNE VERTICALE RÉPARÉE : Parent désormais en position relative ! -->
         <div class="hidden md:block absolute left-1/2 top-10 bottom-10 w-px bg-border -translate-x-1/2" />
         
         <div class="space-y-32">
@@ -26,22 +23,19 @@
             :initial="{ opacity: 0, y: 40 }" 
             :visibleOnce="{ opacity: 1, y: 0, transition: { delay: i * 100, duration: 600 } }"
           >
-            <!-- Timeline Center Node (Desktop) -->
             <div class="hidden md:flex absolute left-1/2 top-1/2 -translate-y-1/2 -translate-x-1/2 w-16 h-16 bg-card border-[6px] border-muted/50 rounded-full items-center justify-center shadow-sm z-10 text-foreground font-black text-xl">
               {{ i + 1 }}
             </div>
 
-            <!-- Text side -->
             <div :class="{ 'md:order-2 md:pl-10': i % 2 === 1, 'md:pr-10 text-left md:text-right': i % 2 === 0 }">
               <div class="flex items-center gap-4 mb-6" :class="{'md:flex-row-reverse': i % 2 === 0, 'flex-row': true}">
-                <span class="md:hidden w-12 h-12 rounded-full bg-primary text-primary-foreground flex items-center justify-center font-bold text-lg shadow-md shrink-0">
+                <span class="md:hidden w-12 h-12 rounded-full bg-brand text-brand-foreground flex items-center justify-center font-bold text-lg shadow-md shrink-0">
                   {{ i + 1 }}
                 </span>
                 <h2 class="text-3xl font-black text-foreground tracking-tight">{{ step.title }}</h2>
               </div>
               <p class="text-lg text-muted-foreground font-medium leading-relaxed mb-8">{{ step.description }}</p>
               
-              <!-- Feature bullets -->
               <div class="inline-block" :class="{'text-left': true}">
                 <ul class="space-y-4">
                   <li v-for="feature in step.features" :key="feature" class="flex items-center gap-3">
@@ -52,9 +46,8 @@
               </div>
             </div>
             
-            <!-- Visual side (Sleek minimalist cards) -->
             <div :class="{ 'md:order-1': i % 2 === 1 }">
-              <div class="bg-card rounded-2xl p-10 text-center border border-border shadow-sm transition-all duration-300 group">
+              <div class="bg-card rounded-lg p-10 text-center border border-border shadow-sm transition-all duration-300 group">
                 <div class="w-20 h-20 mx-auto rounded-full bg-muted flex items-center justify-center mb-6 group-hover:scale-105 transition-all duration-300">
                    <component :is="step.icon" class="w-8 h-8 text-muted-foreground group-hover:text-foreground transition-colors" />
                 </div>
@@ -66,12 +59,11 @@
       </div>
     </section>
 
-    <!-- Nouveau Design FAQ (V0 Style) -->
     <section class="py-24 bg-background">
       <div class="container-main max-w-3xl">
         <div class="text-center mb-16">
           <h2 class="text-3xl md:text-4xl font-black tracking-tight text-foreground mb-4">Des questions ?</h2>
-          <p class="text-lg text-muted-foreground font-medium">Tout ce que vous devez savoir sur le processus d'expédition.</p>
+          <p class="text-lg text-muted-foreground font-medium">Livraison, bénéficiaire et suivi de commande.</p>
         </div>
         <div class="border-t border-border">
           <div 
@@ -99,24 +91,22 @@
       </div>
     </section>
 
-    <!-- Nouveau CTA Luxe -->
     <section class="py-24 mb-10 text-center">
       <div class="container-main max-w-5xl">
         <div 
           v-motion :initial="{ opacity: 0, y: 20 }" :visibleOnce="{ opacity: 1, y: 0 }"
-          class="bg-primary rounded-xl p-12 md:p-24 relative overflow-hidden"
+          class="bg-brand rounded-lg p-12 md:p-24 relative overflow-hidden"
         >
-          <div class="absolute inset-0 opacity-10 bg-[url('https://api.douniamarket.com/storage/textures/noise.png')]"></div>
           <div class="relative z-10">
-            <h2 class="text-4xl md:text-5xl font-black text-primary-foreground mb-6 tracking-tight">Prêt à envoyer un sourire ?</h2>
-            <p class="text-xl text-primary-foreground/70 mb-12 max-w-2xl mx-auto font-medium">
-              Rejoignez des centaines de familles qui font déjà confiance à Dounia Market pour le lien avec leurs proches.
+            <h2 class="text-4xl md:text-5xl font-black text-brand-foreground mb-6 tracking-tight">Commander pour un proche</h2>
+            <p class="text-xl text-brand-foreground/70 mb-12 max-w-2xl mx-auto font-medium">
+              Consultez les produits disponibles et les informations de livraison affichées par Dounia Market.
             </p>
             <div class="flex flex-col sm:flex-row gap-4 justify-center">
               <NuxtLink to="/catalogue" class="inline-flex flex-col items-center justify-center px-10 py-5 bg-background text-foreground font-bold rounded-md hover:bg-muted transition-all shadow-sm">
-                Voir le catalogue premium
+                Voir le catalogue
               </NuxtLink>
-              <NuxtLink to="/contact" class="inline-flex flex-col items-center justify-center px-10 py-5 bg-primary-foreground/10 text-primary-foreground font-bold rounded-md hover:bg-primary-foreground/20 transition-all backdrop-blur-sm border border-primary-foreground/10">
+              <NuxtLink to="/contact" class="inline-flex flex-col items-center justify-center px-10 py-5 bg-brand-foreground/10 text-brand-foreground font-bold rounded-md hover:bg-brand-foreground/20 transition-all backdrop-blur-sm border border-brand-foreground/10">
                 Nous contacter
               </NuxtLink>
             </div>
@@ -128,70 +118,69 @@
 </template>
 
 <script setup lang="ts">
-import { Package, CreditCard, Truck, Camera, ChevronDown } from 'lucide-vue-next'
+import { Package, MapPin, ClipboardCheck, Truck, ChevronDown } from 'lucide-vue-next'
 
 const openFaq = ref<number | null>(null)
 
 const steps = [
   { 
-    title: 'Composez votre commande', 
-    description: 'Parcourez notre catalogue et choisissez les produits de qualité à faire livrer à vos proches au Tchad.',
-    subtitle: 'Catalogue exclusif',
+    title: 'Choisissez les produits',
+    description: 'Parcourez le catalogue et choisissez des produits disponibles localement pour votre proche.',
+    subtitle: 'Catalogue local',
     icon: Package,
     features: [
-      'Alimentation, santé, fêtes',
-      'Prix transparents sans aucun frais de douane cachés',
-      'Photos haute résolution certifiées',
+      'Produits présentés dans le catalogue',
+      'Disponibilité indiquée sur la fiche produit',
+      'Ajout simple au panier',
     ]
   },
   { 
-    title: 'Réglez en tout sécurité', 
-    description: 'Finalisez votre achat grâce à notre plateforme de paiement inviolable et certifiée.',
-    subtitle: '100% Crypté et Sécurisé',
-    icon: CreditCard,
+    title: 'Indiquez le bénéficiaire',
+    description: 'Renseignez la personne qui recevra la commande et son adresse de livraison à N\'Djamena.',
+    subtitle: 'Adresse locale',
+    icon: MapPin,
     features: [
-      'Cartes bancaires Visa et Mastercard acceptées',
-      'Cryptage de pointe SSL 256-bit',
-      'Confirmation de commande par email instantanée',
+      'Nom et contact du bénéficiaire',
+      'Quartier et repère utiles à la livraison',
+      'Livraison selon les zones couvertes',
     ]
   },
   { 
-    title: 'Livraison à domicile', 
-    description: 'Notre équipe logistique réceptionne et achemine votre colis soigneusement directement au domicile de votre proche.',
-    subtitle: 'Logistique Premium',
+    title: 'Vérifiez le récapitulatif',
+    description: 'Vérifiez les produits, le bénéficiaire et l\'adresse; les frais seront confirmés avant l\'ouverture publique.',
+    subtitle: 'Informations claires',
+    icon: ClipboardCheck,
+    features: [
+      'Adresse visible avant validation',
+      'Frais de livraison à confirmer avant ouverture',
+      'Conditions accessibles à tout moment',
+    ]
+  },
+  { 
+    title: 'Suivez la livraison',
+    description: 'Une fois une commande enregistrée, consultez son avancement à partir de sa référence.',
+    subtitle: 'Suivi de commande',
     icon: Truck,
     features: [
-      'Remise porte-à-porte au Tchad',
-      'Suivi étape par étape depuis votre compte',
-      'Traitement prioritaire pour l\'aéroport',
-    ]
-  },
-  { 
-    title: 'Preuve Photographique', 
-    description: 'Bénéficiez dune tranquillité absolue en recevant une photo validant la bonne réception par votre famille.',
-    subtitle: 'Zéro stress',
-    icon: Camera,
-    features: [
-      'Cliché de la remise envoyé en direct',
-      'Notification immédiate sur Whatsapp/Email',
-      'Garantie satisfaction ou remboursement',
+      'Référence de commande uniquement',
+      'Aucune donnée personnelle à saisir',
+      'Assistance disponible en cas de question',
     ]
   },
 ]
 
 const faqs = [
-  { question: 'Dans quelles villes livrez-vous actuellement ?', answer: 'Notre service de livraison couvre actuellement l\'ensemble de N\'Djamena (ainsi que Moundou et Sarh selon les options de transport). Inscrivez-vous à notre newsletter pour être informé de nos ouvertures.' },
-  { question: 'Quel est le délai de livraison garanti ?', answer: 'Comptez 3 à 5 jours ouvrés après la confirmation de votre paiement. Pour les commandes urgentes, notre équipe peut organiser une livraison express — contactez-nous directement par WhatsApp pour en discuter.' },
-  { question: 'Comment être sûr que ma famille a bien reçu le colis ?', answer: 'C\'est notre engagement phare : chaque livraison est accompagnée d\'une photo de preuve envoyée par WhatsApp ou email. Vous pouvez également suivre l\'avancement de votre commande en temps réel depuis votre espace client.' },
-  { question: 'Quels moyens de paiement sont acceptés ?', answer: 'Nous acceptons les cartes bancaires Visa et Mastercard via la passerelle sécurisée Paystack.' },
-  { question: 'Est-il possible d\'annuler une commande ?', answer: 'Oui, l\'annulation est gratuite tant que la préparation de votre colis n\'a pas débuté. Il vous suffit de nous contacter par email ou WhatsApp et nous procéderons au remboursement intégral sous 48h.' },
-  { question: 'Les frais de livraison sont-ils inclus dans les prix ?', answer: 'Absolument. Les frais de livraison sont calculés et affichés de manière totalement transparente avant la validation de votre commande. Votre proche ne paiera pas de douane ou de frais caché.' },
+  { question: 'Où la livraison est-elle proposée ?', answer: 'Dounia Market propose la livraison locale à N\'Djamena, selon les zones couvertes indiquées lors de la commande.' },
+  { question: 'Quand connaîtrai-je les frais de livraison ?', answer: 'Les zones couvertes et les frais applicables seront confirmés avant l\'ouverture publique du service.' },
+  { question: 'Comment suivre une commande ?', answer: 'Utilisez sa référence sur la page de suivi. N\'y saisissez jamais le nom, le téléphone ou l\'adresse du bénéficiaire.' },
+  { question: 'Comment finaliser une commande ?', answer: 'Les modalités disponibles seront confirmées avant l\'ouverture publique du service et présentées avant toute validation.' },
+  { question: 'Puis-je modifier une commande ?', answer: 'Contactez l\'assistance avec votre référence pour connaître les possibilités applicables à votre commande.' },
 ]
 
 useHead({ 
   title: 'Comment ça marche ? — Dounia Market',
   meta: [
-    { name: 'description', content: 'Découvrez comment envoyer facilement des produits essentiels à votre famille au Tchad avec le service premium Dounia Market.' },
+    { name: 'description', content: 'Découvrez comment commander à distance des produits disponibles localement pour un proche à N\'Djamena avec Dounia Market.' },
     { property: 'og:title', content: 'Comment fonctionne Dounia Market ?' }
   ]
 })

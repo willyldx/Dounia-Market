@@ -1,94 +1,110 @@
 <template>
-  <div class="mt-12 bg-white rounded-[2rem] p-8 lg:p-12 shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-gray-100 ring-1 ring-slate-900/5 relative overflow-hidden">
-    <!-- Decorative background elements -->
-    <div class="absolute top-0 right-0 -mt-16 -mr-16 w-64 h-64 bg-gradient-to-br from-amber-100 to-orange-50 rounded-full blur-3xl opacity-50 mix-blend-multiply pointer-events-none"></div>
-
-    <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-6 relative z-10">
+  <section class="rounded-lg border border-border bg-card p-4 sm:p-6">
+    <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
       <div>
-        <h2 class="text-3xl font-black text-[var(--color-primary)] tracking-tight">Avis Clients certifiés</h2>
-        <div class="flex items-center gap-4 mt-3" v-if="totalReviews > 0">
-          <div class="flex items-center gap-1 text-amber-400 drop-shadow-sm">
-            <template v-for="i in 5" :key="i">
-              <Icon :name="i <= Math.round(averageRating) ? 'ph:star-fill' : 'ph:star'" class="w-6 h-6 transition-transform hover:scale-110" />
-            </template>
+        <h2 class="text-xl font-bold text-foreground">Avis publiés</h2>
+        <div v-if="totalReviews > 0" class="mt-2 flex flex-wrap items-center gap-2">
+          <div class="flex items-center gap-0.5 text-amber-500">
+            <Star
+              v-for="value in 5"
+              :key="value"
+              class="h-4 w-4"
+              :class="value <= Math.round(averageRating) ? 'fill-current' : 'text-slate-300'"
+            />
           </div>
-          <div class="flex items-center gap-2">
-            <span class="text-2xl font-bold text-gray-900">{{ averageRating }}</span>
-            <span class="text-gray-500 font-medium">/ 5 ({{ totalReviews }} avis)</span>
-          </div>
+          <span class="text-sm font-semibold text-foreground">{{ averageRating }} / 5</span>
+          <span class="text-sm text-muted-foreground">({{ totalReviews }} avis)</span>
         </div>
-        <div v-else class="text-gray-500 font-medium mt-3 flex items-center gap-2">
-          <Icon name="ph:star-duotone" class="w-5 h-5 text-amber-400" />
-          Aucun avis pour le moment. Soyez le premier !
-        </div>
+        <p v-else class="mt-2 text-sm text-muted-foreground">Aucun avis publié pour le moment.</p>
       </div>
-      <div>
-        <button @click="showReviewModal = true" class="px-6 py-3.5 bg-[var(--color-accent)] hover:bg-[var(--color-accent-hover)] text-white font-bold rounded-2xl transition-all shadow-[0_8px_24px_-8px_rgba(245,158,11,0.5)] active:scale-95 flex items-center gap-2 group hover:-translate-y-0.5">
-          <Icon name="ph:pencil-simple-line-bold" class="w-5 h-5 group-hover:rotate-12 transition-transform" />
-          Laisser un avis
-        </button>
-      </div>
+      <button
+        type="button"
+        class="inline-flex h-10 items-center justify-center gap-2 rounded-md bg-brand px-4 text-sm font-semibold text-brand-foreground hover:bg-brand/90"
+        @click="showReviewModal = true"
+      >
+        <PencilLine class="h-4 w-4" />
+        Donner un avis
+      </button>
     </div>
 
-    <div class="w-full h-px bg-gradient-to-r from-gray-100 via-gray-200 to-gray-100 my-8"></div>
-
-    <!-- Review Modal -->
     <Teleport to="body">
       <Transition
-        enter-active-class="transition duration-300 ease-out"
-        enter-from-class="opacity-0 scale-95 translate-y-4"
-        enter-to-class="opacity-100 scale-100 translate-y-0"
-        leave-active-class="transition duration-200 ease-in"
-        leave-from-class="opacity-100 scale-100 translate-y-0"
-        leave-to-class="opacity-0 scale-95 translate-y-4"
+        enter-active-class="transition duration-200 ease-out"
+        enter-from-class="opacity-0"
+        enter-to-class="opacity-100"
+        leave-active-class="transition duration-150 ease-in"
+        leave-from-class="opacity-100"
+        leave-to-class="opacity-0"
       >
-        <div v-if="showReviewModal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-gray-900/40 backdrop-blur-md" @click.self="showReviewModal = false">
-          <div class="bg-white rounded-3xl p-8 w-full max-w-lg shadow-[0_30px_60px_-15px_rgba(0,0,0,0.3)] relative overflow-hidden ring-1 ring-black/5">
-            <button @click="showReviewModal = false" class="absolute top-6 right-6 w-10 h-10 bg-gray-50 hover:bg-gray-100 text-gray-500 rounded-full flex items-center justify-center transition-colors">
-              <Icon name="ph:x-bold" class="w-5 h-5" />
+        <div
+          v-if="showReviewModal"
+          class="fixed inset-0 z-50 flex items-end justify-center overflow-y-auto bg-slate-950/50 p-3 sm:items-center sm:p-4"
+          @click.self="showReviewModal = false"
+        >
+          <div class="relative max-h-[calc(100dvh-1.5rem)] w-full max-w-md overflow-y-auto rounded-lg bg-white p-5 shadow-xl sm:max-h-[calc(100dvh-2rem)] sm:p-6">
+            <button
+              type="button"
+              aria-label="Fermer"
+              class="absolute right-4 top-4 flex h-9 w-9 items-center justify-center rounded-md border border-border text-muted-foreground hover:text-foreground"
+              @click="showReviewModal = false"
+            >
+              <X class="h-4 w-4" />
             </button>
-            
-            <div class="text-center mb-8 relative z-10">
-              <div class="w-16 h-16 bg-amber-50 rounded-2xl flex items-center justify-center mx-auto mb-4 border border-amber-100 shadow-inner">
-                <Icon name="ph:star-fill" class="w-8 h-8 text-amber-500" />
-              </div>
-              <h3 class="text-2xl font-black text-gray-900">Noter ce produit</h3>
-              <p class="text-gray-500 font-medium mt-1">Votre avis compte pour la communauté TchadBox.</p>
-            </div>
-            
-            <!-- Stars Selection -->
-            <div class="flex items-center justify-center gap-3 mb-8 bg-gray-50 p-6 rounded-2xl border border-gray-100">
-              <button v-for="i in 5" :key="i" @click="form.rating = i" @mouseenter="hoverRating = i" @mouseleave="hoverRating = 0" class="focus:outline-none transition-all hover:scale-125 active:scale-95 origin-center">
-                <Icon :name="(hoverRating || form.rating) >= i ? 'ph:star-fill' : 'ph:star'" 
-                      class="w-12 h-12 transition-colors duration-200"
-                      :class="(hoverRating || form.rating) >= i ? 'text-amber-400 drop-shadow-md' : 'text-gray-300'" />
+            <h3 class="pr-12 text-xl font-bold text-foreground">Noter ce produit</h3>
+            <p class="mt-2 text-sm text-muted-foreground">Votre avis aide les clients Dounia Market.</p>
+
+            <div class="my-6 flex items-center justify-center gap-2 rounded-lg bg-muted/50 p-4">
+              <button
+                v-for="value in 5"
+                :key="value"
+                type="button"
+                :aria-label="`${value} étoile${value > 1 ? 's' : ''}`"
+                class="text-slate-300 transition-colors hover:text-amber-500"
+                @click="form.rating = value"
+                @mouseenter="hoverRating = value"
+                @mouseleave="hoverRating = 0"
+              >
+                <Star
+                  class="h-9 w-9"
+                  :class="(hoverRating || form.rating) >= value ? 'fill-current text-amber-500' : ''"
+                />
               </button>
             </div>
 
-            <div class="space-y-5 relative z-10">
-              <div>
-                <label class="block text-sm font-bold text-gray-700 mb-2">Votre Prénom <span class="text-gray-400 font-normal ml-1">(facultatif)</span></label>
-                <div class="relative">
-                  <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                    <Icon name="ph:user-duotone" class="h-5 w-5 text-gray-400" />
-                  </div>
-                  <input v-model="form.author_name" type="text" class="w-full bg-white border-2 border-gray-100 focus:border-amber-400 focus:ring-4 focus:ring-amber-400/10 rounded-xl pl-11 pr-4 py-3.5 text-gray-900 placeholder-gray-400 font-medium transition-all outline-none shadow-sm" placeholder="Ex: Hassane" />
-                </div>
-              </div>
-              <div>
-                <label class="block text-sm font-bold text-gray-700 mb-2">Votre Commentaire <span class="text-gray-400 font-normal ml-1">(facultatif)</span></label>
-                <div class="relative">
-                  <div class="absolute top-3.5 left-0 pl-4 pointer-events-none">
-                    <Icon name="ph:chat-text-duotone" class="h-5 w-5 text-gray-400" />
-                  </div>
-                  <textarea v-model="form.comment" rows="3" class="w-full bg-white border-2 border-gray-100 focus:border-amber-400 focus:ring-4 focus:ring-amber-400/10 rounded-xl pl-11 pr-4 py-3.5 text-gray-900 placeholder-gray-400 font-medium transition-all outline-none shadow-sm resize-none" placeholder="Racontez votre expérience..."></textarea>
-                </div>
-              </div>
-              <button @click="submitReview" :disabled="form.rating === 0 || isSubmitting" class="w-full mt-4 h-14 bg-[var(--color-primary)] hover:bg-slate-800 text-white font-bold rounded-xl transition-all shadow-[0_8px_20px_-8px_rgba(15,23,42,0.5)] disabled:opacity-50 disabled:cursor-not-allowed flex justify-center items-center gap-2 active:scale-95 text-lg">
-                <Icon v-if="isSubmitting" name="ph:spinner-bold" class="w-6 h-6 animate-spin" />
-                <template v-else>
-                  Valider ma note <Icon name="ph:check-circle-bold" class="w-5 h-5" />
-                </template>
+            <div class="space-y-4">
+              <label class="block text-sm font-medium text-foreground">
+                Prénom <span class="font-normal text-muted-foreground">(facultatif)</span>
+                <span class="relative mt-2 block">
+                  <UserRound class="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+                  <input
+                    v-model="form.author_name"
+                    type="text"
+                    class="h-11 w-full rounded-md border border-input pl-10 pr-3 text-sm outline-none focus:border-brand"
+                    placeholder="Votre prénom"
+                  />
+                </span>
+              </label>
+              <label class="block text-sm font-medium text-foreground">
+                Commentaire <span class="font-normal text-muted-foreground">(facultatif)</span>
+                <span class="relative mt-2 block">
+                  <MessageSquare class="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+                  <textarea
+                    v-model="form.comment"
+                    rows="3"
+                    class="w-full resize-none rounded-md border border-input py-3 pl-10 pr-3 text-sm outline-none focus:border-brand"
+                    placeholder="Votre expérience avec ce produit"
+                  ></textarea>
+                </span>
+              </label>
+              <button
+                type="button"
+                :disabled="form.rating === 0 || isSubmitting"
+                class="inline-flex h-11 w-full items-center justify-center gap-2 rounded-md bg-brand px-4 text-sm font-semibold text-brand-foreground disabled:cursor-not-allowed disabled:opacity-50"
+                @click="submitReview"
+              >
+                <LoaderCircle v-if="isSubmitting" class="h-4 w-4 animate-spin" />
+                <CheckCircle2 v-else class="h-4 w-4" />
+                Publier mon avis
               </button>
             </div>
           </div>
@@ -96,62 +112,52 @@
       </Transition>
     </Teleport>
 
-    <!-- Content (Restricted) -->
-    <div v-if="totalReviews > 0" class="relative z-10">
-      <div v-if="!isAuthenticated" class="mt-8 relative overflow-hidden bg-gradient-to-br from-slate-50 to-gray-100 rounded-2xl border border-gray-200 p-8 sm:p-12 text-center shadow-inner">
-        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-md opacity-[0.03] pointer-events-none">
-          <Icon name="ph:lock-key-fill" class="w-full h-full" />
-        </div>
-        
-        <div class="relative z-10">
-          <div class="w-16 h-16 bg-white rounded-2xl mx-auto flex items-center justify-center shadow-md mb-5 border border-gray-100">
-            <Icon name="ph:lock-key-duotone" class="w-8 h-8 text-slate-700" />
-          </div>
-          <h4 class="text-2xl font-black text-gray-900 mb-3">Commentaires privés</h4>
-          <p class="text-gray-600 font-medium mb-8 max-w-md mx-auto leading-relaxed">
-            Pour garantir l'authenticité de notre plateforme, seuls nos membres peuvent lire les avis détaillés des autres clients.
-          </p>
-          <NuxtLink to="/auth/login" class="inline-flex px-8 h-12 items-center bg-white text-gray-900 font-bold border-2 border-gray-200 rounded-xl hover:border-gray-300 hover:bg-gray-50 transition-all shadow-sm active:scale-95">
-            Me connecter pour lire
-          </NuxtLink>
-        </div>
+    <div v-if="totalReviews > 0" class="mt-6 border-t border-border pt-6">
+      <div v-if="!isAuthenticated" class="rounded-lg bg-muted/40 p-6 text-center">
+        <LockKeyhole class="mx-auto h-6 w-6 text-muted-foreground" />
+        <h3 class="mt-3 text-base font-semibold text-foreground">Commentaires réservés aux clients connectés</h3>
+        <p class="mx-auto mt-2 max-w-md text-sm text-muted-foreground">
+          Connectez-vous pour consulter les commentaires associés à ce produit.
+        </p>
+        <NuxtLink
+          to="/auth/login"
+          class="mt-5 inline-flex h-10 items-center rounded-md border border-border bg-white px-4 text-sm font-semibold text-foreground"
+        >
+          Se connecter
+        </NuxtLink>
       </div>
 
-      <div v-else class="space-y-6 mt-8">
-        <div v-for="(review, index) in reviews" :key="review.id" class="p-6 bg-gray-50/50 rounded-2xl border border-gray-100 hover:bg-white hover:shadow-md hover:border-gray-200 transition-all group">
-          <div class="flex items-start justify-between mb-4">
-            <div class="flex items-center gap-4">
-              <div class="w-12 h-12 rounded-full bg-gradient-to-br from-amber-100 to-orange-100 border border-amber-200 flex items-center justify-center">
-                <span class="text-amber-700 font-black text-lg">{{ (review.author_name || 'C').charAt(0).toUpperCase() }}</span>
-              </div>
-              <div>
-                <div class="font-bold text-gray-900 flex items-center gap-2">
-                  {{ review.author_name || 'Client de TchadBox' }}
-                  <Icon name="ph:seal-check-fill" class="w-4 h-4 text-blue-500" />
-                </div>
-                <div class="text-sm text-gray-400 font-medium mt-0.5">{{ new Date(review.created_at).toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' }) }}</div>
-              </div>
+      <div v-else class="space-y-3">
+        <article v-for="review in reviews" :key="review.id" class="rounded-lg border border-border bg-background p-4">
+          <div class="flex items-start justify-between gap-3">
+            <div>
+              <p class="text-sm font-semibold text-foreground">{{ review.author_name || 'Auteur non renseigné' }}</p>
+              <p class="mt-1 text-xs text-muted-foreground">
+                {{ new Date(review.created_at).toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' }) }}
+              </p>
             </div>
-            <div class="flex gap-0.5 bg-white px-2.5 py-1.5 rounded-lg border border-gray-100 shadow-sm">
-              <Icon v-for="i in 5" :key="i" :name="i <= review.rating ? 'ph:star-fill' : 'ph:star'" class="w-4 h-4" :class="i <= review.rating ? 'text-amber-400' : 'text-gray-300'" />
+            <div class="flex items-center gap-0.5 text-amber-500">
+              <Star
+                v-for="value in 5"
+                :key="value"
+                class="h-3.5 w-3.5"
+                :class="value <= review.rating ? 'fill-current' : 'text-slate-300'"
+              />
             </div>
           </div>
-          <p v-if="review.comment" class="text-gray-600 font-medium leading-relaxed bg-white/50 p-4 rounded-xl border border-gray-100 prose prose-stone max-w-none">{{ review.comment }}</p>
-        </div>
+          <p v-if="review.comment" class="mt-3 text-sm leading-relaxed text-muted-foreground">{{ review.comment }}</p>
+        </article>
       </div>
     </div>
-  </div>
+  </section>
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
+import { CheckCircle2, LoaderCircle, LockKeyhole, MessageSquare, PencilLine, Star, UserRound, X } from 'lucide-vue-next'
 
-const props = defineProps({
-  productId: {
-    type: [Number, String],
-    required: true
-  }
-})
+const props = defineProps<{
+  productId: number | string
+}>()
 
 const config = useRuntimeConfig()
 const authCookie = useCookie('tchadbox_auth_token')
@@ -160,28 +166,24 @@ const averageRating = ref(0)
 const totalReviews = ref(0)
 const isAuthenticated = ref(false)
 const reviews = ref<any[]>([])
-
 const showReviewModal = ref(false)
 const hoverRating = ref(0)
 const isSubmitting = ref(false)
-
 const form = ref({
   rating: 0,
   author_name: '',
-  comment: ''
+  comment: '',
 })
 
 const fetchReviews = async () => {
   try {
-    const headers: any = {}
-    if (authCookie.value) {
-      headers.Authorization = `Bearer ${authCookie.value}`
-    }
+    const headers: Record<string, string> = {}
+    if (authCookie.value) headers.Authorization = `Bearer ${authCookie.value}`
 
     const { data } = await useFetch<any>(`${config.public.apiUrl}/products/${props.productId}/reviews`, {
       headers,
     })
-    
+
     if (data.value) {
       averageRating.value = data.value.average_rating
       totalReviews.value = data.value.total_reviews
@@ -196,12 +198,10 @@ const fetchReviews = async () => {
 const submitReview = async () => {
   if (form.value.rating === 0) return
   isSubmitting.value = true
-  
+
   try {
-    const headers: any = { 'Content-Type': 'application/json' }
-    if (authCookie.value) {
-      headers.Authorization = `Bearer ${authCookie.value}`
-    }
+    const headers: Record<string, string> = { 'Content-Type': 'application/json' }
+    if (authCookie.value) headers.Authorization = `Bearer ${authCookie.value}`
 
     await $fetch(`${config.public.apiUrl}/products/${props.productId}/reviews`, {
       method: 'POST',
@@ -209,10 +209,10 @@ const submitReview = async () => {
       body: {
         rating: form.value.rating,
         author_name: form.value.author_name,
-        comment: form.value.comment
-      }
+        comment: form.value.comment,
+      },
     })
-    
+
     showReviewModal.value = false
     await fetchReviews()
     form.value.rating = 0

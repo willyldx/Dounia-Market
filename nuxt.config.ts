@@ -16,7 +16,7 @@ export default defineNuxtConfig({
     fallback: 'light',
   },
   ui: {
-    primary: 'emerald',
+    primary: 'amber',
     gray: 'zinc',
   },
   googleFonts: {
@@ -46,7 +46,7 @@ export default defineNuxtConfig({
       meta: [
         { charset: 'utf-8' },
         { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-        { name: 'description', content: 'Dounia Market - Envoyez des biens de qualité à votre famille au Tchad. Livraison sécurisée avec preuve photo à N\'Djamena.' },
+        { name: 'description', content: 'Dounia Market permet à la diaspora de commander des produits préparés localement pour livraison à N\'Djamena selon les zones couvertes.' },
         { name: 'theme-color', content: '#0F172A' },
       ],
       link: [
@@ -74,6 +74,7 @@ export default defineNuxtConfig({
       siteUrl: process.env.SITE_URL || 'https://douniamarket.com',
       meilisearchHost: process.env.NUXT_PUBLIC_MEILISEARCH_HOST || '',
       meilisearchKey: process.env.NUXT_PUBLIC_MEILISEARCH_KEY || '',
+      checkoutPaymentEnabled: process.env.NUXT_PUBLIC_CHECKOUT_PAYMENT_ENABLED === 'true',
     }
   },
   nitro: {

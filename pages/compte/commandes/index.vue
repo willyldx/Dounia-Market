@@ -3,16 +3,15 @@
     <div class="max-w-7xl mx-auto px-6 lg:px-8">
       <!-- Breadcrumb -->
       <nav class="flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-muted-foreground mb-8">
-        <NuxtLink to="/compte" class="hover:text-foreground transition-colors">Conciergerie</NuxtLink>
+        <NuxtLink to="/compte" class="hover:text-foreground transition-colors">Mon compte</NuxtLink>
         <ChevronRightIcon class="w-3 h-3 text-muted-foreground/40" />
         <span class="text-foreground">Historique</span>
       </nav>
 
-      <!-- Premium Header -->
       <div class="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-6 mb-12 border-b border-border pb-8">
         <div>
-          <h1 class="text-4xl font-black text-foreground tracking-tight">Registre Logistique</h1>
-          <p class="text-muted-foreground font-medium mt-2">Suivi complet de vos {{ orders.length }} expéditions.</p>
+          <h1 class="text-4xl font-black text-foreground tracking-tight">Mes commandes</h1>
+          <p class="text-muted-foreground font-medium mt-2">{{ orders.length }} commande{{ orders.length > 1 ? 's' : '' }} dans votre espace privé.</p>
         </div>
 
           <div class="relative">
@@ -22,8 +21,8 @@
             >
              <option value="all">Tous les statuts</option>
              <option value="pending">En préparation</option>
-             <option value="shipped">En transit / Logistique</option>
-             <option value="delivered">Dossiers clos (Livrés)</option>
+             <option value="shipped">Prêtes ou en livraison</option>
+             <option value="delivered">Livrées</option>
            </select>
            <ChevronDownIcon class="absolute right-6 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground/60 pointer-events-none" />
          </div>
@@ -31,9 +30,9 @@
 
       <!-- Orders List -->
       <div v-if="isLoading" class="space-y-4">
-        <div v-for="i in 3" :key="i" class="bg-card rounded-xl border border-border p-6 shadow-sm animate-pulse">
+        <div v-for="i in 3" :key="i" class="bg-card rounded-lg border border-border p-6 shadow-sm animate-pulse">
           <div class="flex flex-col sm:flex-row sm:items-center gap-6">
-            <div class="w-24 h-24 bg-muted rounded-2xl shrink-0"></div>
+            <div class="w-24 h-24 bg-muted rounded-lg shrink-0"></div>
             <div class="flex-1 space-y-3">
               <div class="h-4 bg-muted rounded-md w-1/3"></div>
               <div class="h-3 bg-muted/50 rounded-md w-1/2"></div>
@@ -42,7 +41,7 @@
         </div>
       </div>
 
-      <div v-else-if="filteredOrders.length === 0" class="bg-card rounded-xl shadow-sm p-12 text-center max-w-3xl mx-auto mt-8 border border-border">
+      <div v-else-if="filteredOrders.length === 0" class="bg-card rounded-lg shadow-sm p-12 text-center max-w-3xl mx-auto mt-8 border border-border">
         <div class="relative mb-8 group mx-auto w-max">
            <div class="absolute inset-0 bg-muted rounded-full scale-150 opacity-50 blur-2xl"></div>
            <div class="w-28 h-28 rounded-full border border-border bg-card shadow-sm flex items-center justify-center relative z-10">
@@ -50,15 +49,15 @@
            </div>
         </div>
         <h3 class="text-3xl font-black text-foreground mb-3 tracking-tight">
-          {{ statusFilter === 'all' ? 'Aucune opération' : 'Filtre vide' }}
+          {{ statusFilter === 'all' ? 'Aucune commande' : 'Aucun résultat' }}
         </h3>
         <p class="text-muted-foreground font-medium mb-12 max-w-sm mx-auto leading-relaxed">
-          {{ statusFilter === 'all' ? "Aucun colis n'a encore été confié à notre équipe de logistique." : "Aucune commande ne correspond au statut recherché." }}
+          {{ statusFilter === 'all' ? "Vos prochaines commandes apparaîtront ici." : "Aucune commande ne correspond au statut recherché." }}
         </p>
         <NuxtLink
           v-if="statusFilter === 'all'"
           to="/catalogue"
-          class="inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground hover:bg-primary/90 h-10 px-6 py-2 mt-4"
+          class="inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-brand text-brand-foreground hover:bg-brand/90 h-10 px-6 py-2 mt-4"
         >
           <ShoppingBagIcon class="w-4 h-4 mr-2" /> Visiter la boutique
         </NuxtLink>
@@ -69,9 +68,8 @@
           v-for="order in filteredOrders"
           :key="order.id"
           :to="`/compte/commandes/${order.id}`"
-          class="block bg-card rounded-xl border border-border shadow-sm hover:shadow-md hover:border-border/80 transition-all duration-300 overflow-hidden group"
+          class="block bg-card rounded-lg border border-border shadow-sm hover:shadow-md hover:border-border/80 transition-all duration-300 overflow-hidden group"
         >
-          <!-- Premium Order Header -->
           <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-5 p-6 border-b border-border bg-muted/30">
             <div class="flex items-center gap-4">
               <div class="w-12 h-12 bg-background shadow-sm border border-border rounded-full flex items-center justify-center shrink-0">
@@ -90,21 +88,19 @@
               >
                 {{ getStatusLabel(order.fulfillmentStatus) }}
               </span>
-              <div class="w-8 h-8 rounded-md flex items-center justify-center bg-background border border-border text-muted-foreground group-hover:bg-primary group-hover:text-primary-foreground group-hover:border-primary transition-all shadow-sm">
+              <div class="w-8 h-8 rounded-md flex items-center justify-center bg-background border border-border text-muted-foreground group-hover:bg-brand group-hover:text-brand-foreground group-hover:border-brand transition-all shadow-sm">
                 <ChevronRightIcon class="w-4 h-4" />
               </div>
             </div>
           </div>
 
-          <!-- Order Content Preview -->
           <div class="p-6">
             <div class="flex flex-col md:flex-row md:items-center gap-8">
-              <!-- Collaged Thumbnail Stack -->
               <div class="flex -space-x-4 shrink-0">
                 <div
                   v-for="(item, index) in order.items.slice(0, 3)"
                   :key="item.id"
-                  class="w-20 h-20 bg-muted/50 rounded-2xl border-4 border-card flex items-center justify-center overflow-hidden shadow-sm"
+                  class="w-20 h-20 bg-muted/50 rounded-lg border-4 border-card flex items-center justify-center overflow-hidden shadow-sm"
                   :style="{ zIndex: 3 - index }"
                 >
                   <img
@@ -115,10 +111,9 @@
                   />
                   <PackageIcon v-else class="w-6 h-6 text-muted-foreground/40" />
                 </div>
-                <!-- Excess Items count -->
                 <div
                   v-if="order.items.length > 3"
-                  class="w-20 h-20 bg-brand rounded-2xl border-4 border-card flex items-center justify-center text-sm font-black text-brand-foreground shadow-sm z-0 relative overflow-hidden"
+                  class="w-20 h-20 bg-brand rounded-lg border-4 border-card flex items-center justify-center text-sm font-black text-brand-foreground shadow-sm z-0 relative overflow-hidden"
                 >
                   <div class="absolute inset-0 bg-gradient-to-tr from-brand to-brand/80 opacity-50"></div>
                   <span class="relative z-10">+{{ order.items.length - 3 }}</span>
@@ -131,22 +126,20 @@
                   {{ order.items.map(i => i.title).join(', ') }}
                 </p>
                 <p class="text-xs font-medium text-muted-foreground mt-1">
-                  Dossier de {{ order.items.length }} article{{ order.items.length > 1 ? 's' : '' }}
+                  {{ order.items.length }} article{{ order.items.length > 1 ? 's' : '' }}
                 </p>
               </div>
 
-              <!-- Price Box -->
-              <div class="md:text-right shrink-0 bg-muted/50 p-4 rounded-xl border border-border">
-                <p class="text-xs font-medium text-muted-foreground mb-1">Total payé</p>
-                <p class="text-xl font-bold text-foreground tracking-tight">{{ formatPrice(order.total) }}</p>
+              <div class="md:text-right shrink-0 bg-muted/50 p-4 rounded-lg border border-border">
+                <p class="text-xs font-medium text-muted-foreground mb-1">Total enregistré</p>
+                <p class="text-xl font-bold text-foreground tracking-tight">{{ formatAmount(order.total, order.currency) }}</p>
               </div>
             </div>
 
-            <!-- Luxury Progress Bar (If shipped/transit) -->
             <div v-if="order.fulfillmentStatus === 'shipped'" class="mt-8 pt-6 border-t border-border/50">
               <div class="flex items-center justify-between mb-3 text-xs font-bold uppercase tracking-widest">
-                 <span class="text-accent animate-pulse flex items-center gap-2"><TruckIcon class="w-4 h-4"/> En cours d'acheminement</span>
-                 <span class="text-muted-foreground/80">Atterrissage estimé : {{ estimatedDelivery(order.createdAt) }}</span>
+                 <span class="text-accent flex items-center gap-2"><TruckIcon class="w-4 h-4"/> En livraison locale</span>
+                 <span class="text-muted-foreground/80">N'Djamena, selon zone couverte</span>
               </div>
               <div class="h-1.5 bg-muted rounded-full overflow-hidden">
                 <div class="h-full bg-accent rounded-full w-2/3 relative overflow-hidden">
@@ -174,7 +167,7 @@
           @click="currentPage = page"
           class="inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 h-10 w-10 border"
           :class="currentPage === page 
-            ? 'bg-primary text-primary-foreground border-primary' 
+            ? 'bg-brand text-brand-foreground border-brand'
             : 'border-input bg-background hover:bg-accent hover:text-accent-foreground'"
         >
           {{ page }}
@@ -208,8 +201,8 @@ definePageMeta({
 })
 
 useSeoMeta({
-  title: 'Historique des Logistiques | Dounia Market',
-  description: 'Consultez et suivez l\'ensemble de vos expéditions Dounia Market.',
+  title: 'Mes commandes | Dounia Market',
+  description: 'Consultez les commandes associées à votre compte Dounia Market.',
 })
 
 const authStore = useAuthStore()
@@ -282,29 +275,24 @@ function formatDate(date: string): string {
   })
 }
 
-function formatPrice(amount: number): string {
-  return new Intl.NumberFormat('fr-FR', {
-    style: 'currency',
-    currency: 'EUR',
-  }).format(amount)
-}
-
-function estimatedDelivery(orderDate: string): string {
-  const date = new Date(orderDate)
-  date.setDate(date.getDate() + 14) // 14 days shipping estimate
-  return date.toLocaleDateString('fr-FR', {
-    day: '2-digit',
-    month: 'long',
-  })
+function formatAmount(amount: number, currency: string): string {
+  try {
+    return new Intl.NumberFormat('fr-FR', {
+      style: 'currency',
+      currency,
+    }).format(amount)
+  } catch {
+    return `${amount} ${currency}`
+  }
 }
 
 function getStatusLabel(status: FulfillmentStatus): string {
   const labels: Record<FulfillmentStatus, string> = {
-    not_fulfilled: 'Dossier Ouvert',
-    partially_fulfilled: 'Prépa Partielle',
-    fulfilled: 'Prêt Logistique',
-    shipped: 'Transit en cours',
-    delivered: 'Colis Livré',
+    not_fulfilled: 'En préparation',
+    partially_fulfilled: 'Préparation partielle',
+    fulfilled: 'Prête',
+    shipped: 'En livraison',
+    delivered: 'Livrée',
   }
   return labels[status] || status
 }

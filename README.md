@@ -1,4 +1,4 @@
-# 🚀 TchadBox V4 - Premium E-commerce
+# Dounia Market - E-commerce local pour la diaspora
 
 > Le meilleur des deux mondes : Design clair professionnel + Animations premium
 

@@ -1,20 +1,19 @@
 <template>
   <div class="min-h-screen bg-background flex items-center justify-center p-6 py-24">
     <div class="max-w-lg w-full">
-      <!-- Premium Success / Waiting Animation -->
       <div class="text-center mb-10">
         <div class="relative inline-block group">
            <div class="absolute inset-0 rounded-full scale-150 opacity-40 blur-2xl transition-all duration-1000"
                 :class="confirmationState === 'captured' ? 'bg-[var(--color-accent)]' : 'bg-muted-foreground/30'"></div>
            
           <div class="w-28 h-28 rounded-full flex items-center justify-center mx-auto shadow-md relative z-10 border-4 border-background"
-               :class="confirmationState === 'captured' ? 'bg-primary animate-bounce-once' : 'bg-muted'">
-            <CheckIcon v-if="confirmationState === 'captured'" class="w-12 h-12 text-primary-foreground" />
+               :class="confirmationState === 'captured' ? 'bg-brand animate-bounce-once' : 'bg-muted'">
+            <CheckIcon v-if="confirmationState === 'captured'" class="w-12 h-12 text-brand-foreground" />
             <LoaderIcon v-else-if="confirmationState === 'checking' || confirmationState === 'awaiting'" class="w-12 h-12 text-muted-foreground animate-spin" />
+            <InfoIcon v-else-if="confirmationState === 'disabled'" class="w-12 h-12 text-muted-foreground" />
             <AlertIcon v-else class="w-12 h-12 text-destructive" />
           </div>
           
-          <!-- Subtle Sparkles effect instead of tacky confetti -->
           <div v-if="confirmationState === 'captured'" class="absolute inset-0 pointer-events-none z-20">
             <div class="absolute top-0 left-1/4 w-1.5 h-1.5 bg-white rounded-full animate-confetti-1 shadow-sm"></div>
             <div class="absolute top-0 right-1/4 w-1.5 h-1.5 bg-white rounded-full animate-confetti-2 shadow-sm"></div>
@@ -24,9 +23,8 @@
         </div>
       </div>
 
-      <!-- Confirmation Receipt Card -->
-      <div class="bg-card rounded-xl shadow-sm overflow-hidden border border-border">
-        <div class="p-10 text-center pb-8 border-b border-border/50">
+      <div class="bg-card rounded-lg shadow-sm overflow-hidden border border-border">
+        <div class="p-6 sm:p-10 text-center pb-8 border-b border-border/50">
           <h1 class="text-3xl font-black text-foreground mb-3 tracking-tight">
             {{ confirmationTitle }}
           </h1>
@@ -35,39 +33,41 @@
           </p>
         </div>
 
-        <div class="p-10 space-y-8 bg-muted/20">
+        <div class="p-6 sm:p-10 space-y-8 bg-muted/20">
           <!-- Order Number -->
-          <div class="bg-card border border-border rounded-2xl p-6 text-center shadow-sm">
-            <p class="text-xs font-bold uppercase tracking-widest text-muted-foreground mb-2">Référence Commande</p>
-            <p class="text-3xl font-black text-foreground font-mono tracking-wider">{{ orderId }}</p>
+          <div class="bg-card border border-border rounded-lg p-5 sm:p-6 text-center shadow-sm">
+            <p class="text-xs font-bold uppercase tracking-widest text-muted-foreground mb-2">Référence de commande</p>
+            <p class="text-xl sm:text-3xl font-black text-foreground font-mono tracking-wider break-all">{{ orderId }}</p>
           </div>
 
-          <div v-if="confirmationState !== 'captured'" class="rounded-xl border border-border bg-card p-5 text-sm text-muted-foreground">
-            <p v-if="confirmationState === 'awaiting' || confirmationState === 'checking'">
-              Cette page se met à jour automatiquement dès que Paystack et Dounia Market ont rapproché le paiement.
+          <div v-if="confirmationState !== 'captured'" class="rounded-lg border border-border bg-card p-5 text-sm text-muted-foreground">
+            <p v-if="confirmationState === 'disabled'">
+              La validation en ligne n'est pas ouverte actuellement. Contactez l'équipe si vous avez besoin d'informations sur une commande.
+            </p>
+            <p v-else-if="confirmationState === 'awaiting' || confirmationState === 'checking'">
+              Cette page se met à jour automatiquement lorsque Dounia Market reçoit la confirmation associée à votre référence.
             </p>
             <p v-else>
-              Aucun paiement confirmé ne peut être rattaché à cette commande. Contactez le support avec votre référence si vous avez été débité.
+              Aucune validation ne peut être rattachée à cette commande. Contactez le support avec votre référence si nécessaire.
             </p>
           </div>
 
-          <!-- What's Next Tracker -->
           <div v-else class="space-y-6 pt-4">
-            <h3 class="font-black text-foreground text-lg">Suivi de l'opération</h3>
+            <h3 class="font-black text-foreground text-lg">Prochaines étapes</h3>
             
             <div class="relative pl-4 space-y-8 border-l-2 border-border ml-4">
                <div class="absolute -left-[11px] top-0 w-5 h-5 rounded-full border-4 border-card bg-brand"></div>
                
                <div class="-mt-1.5">
-                  <p class="font-bold text-foreground">Paiement crypté validé</p>
-                  <p class="text-sm font-medium text-muted-foreground mt-1">Les fonds ont bien été sécurisés.</p>
+                  <p class="font-bold text-foreground">Commande confirmée</p>
+                  <p class="text-sm font-medium text-muted-foreground mt-1">Votre référence est enregistrée pour le suivi.</p>
                </div>
 
                <div class="absolute -left-[11px] top-[70px] w-5 h-5 rounded-full border-4 border-card bg-accent animate-pulse"></div>
                
                <div class="pt-2">
-                  <p class="font-bold text-foreground">Logistique N'Djamena</p>
-                  <p class="text-sm font-medium text-muted-foreground mt-1">Préparation du colis pour la livraison finale.</p>
+                  <p class="font-bold text-foreground">Préparation locale à N'Djamena</p>
+                  <p class="text-sm font-medium text-muted-foreground mt-1">Livraison selon les zones couvertes et les informations fournies.</p>
                </div>
             </div>
           </div>
@@ -77,12 +77,12 @@
             <NuxtLink
               v-if="authStore.isAuthenticated"
               :to="`/compte/commandes`"
-              class="inline-flex items-center justify-center w-full rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground hover:bg-primary/90 h-12"
+              class="inline-flex items-center justify-center w-full rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-brand text-brand-foreground hover:bg-brand/90 h-12"
             >
-              <PackageIcon class="w-4 h-4 text-primary-foreground/70 mr-2" /> Mon Espace Logistique
+              <PackageIcon class="w-4 h-4 text-brand-foreground/70 mr-2" /> Mes commandes
             </NuxtLink>
             
-            <div class="grid grid-cols-2 gap-4">
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <NuxtLink
                 to="/suivi"
                 class="inline-flex items-center justify-center w-full rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-12"
@@ -100,10 +100,9 @@
         </div>
       </div>
 
-      <!-- Support -->
       <div class="text-center mt-10">
-         <p class="text-sm font-bold uppercase tracking-widest text-muted-foreground inline-flex items-center gap-2">
-           <ShieldCheckIcon class="w-4 h-4" /> Plateforme sécurisée Dounia Market
+         <p class="text-sm font-bold text-muted-foreground inline-flex items-center gap-2">
+           <MapPinIcon class="w-4 h-4" /> Livraison locale Dounia Market à N'Djamena
          </p>
       </div>
     </div>
@@ -111,7 +110,7 @@
 </template>
 
 <script setup lang="ts">
-import { AlertCircle as AlertIcon, Check as CheckIcon, LoaderCircle as LoaderIcon, Package as PackageIcon, ShieldCheck as ShieldCheckIcon } from 'lucide-vue-next'
+import { AlertCircle as AlertIcon, Check as CheckIcon, Info as InfoIcon, LoaderCircle as LoaderIcon, MapPin as MapPinIcon, Package as PackageIcon } from 'lucide-vue-next'
 import type { PublicOrderStatus } from '~/types'
 
 definePageMeta({
@@ -122,28 +121,32 @@ definePageMeta({
 const route = useRoute()
 const authStore = useAuthStore()
 const cartStore = useCartStore()
+const config = useRuntimeConfig()
+const checkoutPaymentEnabled = computed(() => String(config.public.checkoutPaymentEnabled) === 'true')
 
 const orderId = computed(() => {
-  return route.query.order as string || 'TCB-XXXXXXX'
+  return route.query.order as string || 'DM-XXXXXXX'
 })
 
-type ConfirmationState = 'checking' | 'awaiting' | 'captured' | 'failed' | 'invalid'
+type ConfirmationState = 'checking' | 'awaiting' | 'captured' | 'failed' | 'invalid' | 'disabled'
 
 const confirmationState = ref<ConfirmationState>('checking')
-const paystackReference = computed(() => {
+const paymentReference = computed(() => {
   return (route.query.reference || route.query.trxref || '') as string
 })
 
 const confirmationTitle = computed(() => {
-  if (confirmationState.value === 'captured') return 'Paiement confirmé !'
-  if (confirmationState.value === 'failed' || confirmationState.value === 'invalid') return 'Paiement non confirmé'
-  return 'Validation du paiement en cours'
+  if (confirmationState.value === 'captured') return 'Commande confirmée'
+  if (confirmationState.value === 'disabled') return 'Validation indisponible'
+  if (confirmationState.value === 'failed' || confirmationState.value === 'invalid') return 'Validation non confirmée'
+  return 'Validation en cours'
 })
 
 const confirmationDetail = computed(() => {
-  if (confirmationState.value === 'captured') return 'La logistique prend le relais. Merci de votre confiance.'
-  if (confirmationState.value === 'failed' || confirmationState.value === 'invalid') return 'Nous ne pouvons pas valider ce paiement pour cette commande.'
-  return 'Nous vérifions la référence, le montant et la devise reçus.'
+  if (confirmationState.value === 'captured') return 'La préparation locale peut maintenant commencer pour la livraison prévue.'
+  if (confirmationState.value === 'disabled') return 'La validation de commande sera proposée lors de l’ouverture du service.'
+  if (confirmationState.value === 'failed' || confirmationState.value === 'invalid') return 'Nous ne pouvons pas valider cette commande à partir de la référence reçue.'
+  return 'Nous vérifions la référence associée à votre commande.'
 })
 
 let pollTimer: ReturnType<typeof setTimeout> | null = null
@@ -174,18 +177,23 @@ async function refreshPaymentStatus() {
 }
 
 onMounted(async () => {
-  if (!orderId.value || orderId.value === 'TCB-XXXXXXX') {
+  if (!checkoutPaymentEnabled.value) {
+    confirmationState.value = 'disabled'
+    return
+  }
+
+  if (!orderId.value || orderId.value === 'DM-XXXXXXX') {
     confirmationState.value = 'invalid'
     return
   }
 
-  if (paystackReference.value) {
+  if (paymentReference.value) {
     try {
       await $fetch('/api/verify-payment', {
         method: 'POST',
         body: {
           orderReference: orderId.value,
-          paymentReference: paystackReference.value,
+          paymentReference: paymentReference.value,
         },
       })
     } catch {
@@ -202,8 +210,8 @@ onUnmounted(() => {
 })
 
 useSeoMeta({
-  title: `Reçu | Commande ${orderId.value} - Dounia Market`,
-  description: 'Votre reçu de commande officiel protégé par Dounia Market.',
+  title: `Commande ${orderId.value} | Dounia Market`,
+  description: 'Suivez la confirmation et la préparation locale de votre commande Dounia Market.',
 })
 </script>
 

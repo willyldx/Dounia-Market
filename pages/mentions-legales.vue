@@ -12,17 +12,17 @@
         Mentions Légales
       </h1>
       <p class="text-lg text-muted-foreground/80 font-medium">
-        Informations légales relatives à la plateforme Dounia Market.com
+        Informations légales relatives à la plateforme Dounia Market
       </p>
     </section>
 
     <!-- Content -->
     <div class="container-main max-w-4xl mx-auto px-6">
-      <div class="bg-card border border-border shadow-sm rounded-xl p-8 md:p-12">
-        <div class="prose prose-lg max-w-none prose-headings:font-black prose-headings:text-foreground prose-heading:tracking-tight prose-p:text-muted-foreground/90 prose-p:leading-relaxed prose-a:text-accent hover:prose-a:text-primary prose-strong:text-foreground prose-ul:font-medium prose-ul:text-muted-foreground/90">
+      <div class="bg-card border border-border shadow-sm rounded-lg p-8 md:p-12">
+        <div class="prose prose-lg max-w-none prose-headings:font-black prose-headings:text-foreground prose-heading:tracking-tight prose-p:text-muted-foreground/90 prose-p:leading-relaxed prose-a:text-accent hover:prose-a:text-brand prose-strong:text-foreground prose-ul:font-medium prose-ul:text-muted-foreground/90">
           
           <h2>1. Éditeur du Site</h2>
-          <p>La plateforme Dounia Market.com est éditée et gérée de manière exclusive par :</p>
+          <p>La plateforme Dounia Market est éditée et gérée par :</p>
           <ul>
             <li><strong>Raison sociale :</strong> Dounia Market</li>
             <li><strong>Forme juridique :</strong> [À compléter]</li>
@@ -31,7 +31,7 @@
             <li><strong>SIRET :</strong> [À compléter]</li>
             <li><strong>RCS :</strong> [À compléter]</li>
             <li><strong>TVA Intracommunautaire :</strong> [À compléter]</li>
-            <li><strong>Email de contact :</strong> contact@Dounia Market.com</li>
+            <li><strong>Email de contact :</strong> contact@douniamarket.com</li>
           </ul>
 
           <h2>2. Directeur de la Publication</h2>
@@ -40,11 +40,7 @@
           </p>
 
           <h2>3. Hébergement des Infrastructures</h2>
-          <p>Afin de garantir une sécurité maximale et une vitesse optimale, la plateforme Dounia Market est hébergée sur des infrastructures cloud de l'industrie :</p>
-          <ul>
-            <li><strong>Frontend & Edge Network :</strong> Amazon Web Services (AWS) — Amazon.com Inc. (P.O. Box 81226, Seattle, WA 98108-1226, Centres de données européens)</li>
-            <li><strong>Backend & Bases de Données :</strong> Grappe de Serveurs Privés Virtuels (VPS) localisée exclusivement en Union Européenne, garantissant la pleine conformité RGPD et la souveraineté des données.</li>
-          </ul>
+          <p>Les informations relatives à l'hébergeur et à sa localisation seront complétées avant l'ouverture publique du service.</p>
 
           <h2>4. Propriété Intellectuelle</h2>
           <p>
@@ -59,11 +55,11 @@
 
           <h2>5. Traitement des Données Personnelles</h2>
           <p>
-            Conformément au Règlement Général sur la Protection des Données (RGPD), vos données personnelles (incluant les informations relatives aux destinataires au Tchad) sont traitées avec des protocoles cryptographiques stricts (SSL 256-bit).
+            Vos données personnelles, incluant les informations nécessaires à la livraison du destinataire, sont traitées pour exécuter la commande et assurer le support.
           </p>
           <p>
             Vos données ne sont ni vendues ni cédées à des courtiers. Vous bénéficiez d’un droit d’accès, de rectification, 
-            et de suppression immédiate. Pour l'exercer, adressez votre requête à : <strong>contact@Dounia Market.com</strong>.
+            et de suppression selon les conditions applicables. Pour l'exercer, adressez votre requête à : <strong>contact@douniamarket.com</strong>.
           </p>
           <p>
             Pour de plus amples informations sur nos processus de sécurisation, consultez notre 
@@ -92,7 +88,7 @@
             Pour toute injonction ou requête administrative :
           </p>
           <ul>
-            <li>Par email sécurisé : <strong>contact@Dounia Market.com</strong></li>
+            <li>Par email : <strong>contact@douniamarket.com</strong></li>
             <li>En ligne : <NuxtLink to="/contact">Formulaire de demande légale</NuxtLink></li>
           </ul>
         </div>

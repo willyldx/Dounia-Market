@@ -11,21 +11,21 @@
         <div v-if="!favoritesStore.isEmpty" class="flex gap-3">
           <button
             @click="showClearConfirm = true"
-            class="flex items-center gap-2 px-5 py-2.5 bg-card border border-border text-muted-foreground font-bold rounded-xl hover:bg-muted/50 hover:text-red-500 transition-all shadow-sm"
+            class="flex items-center gap-2 px-5 py-2.5 bg-card border border-border text-muted-foreground font-bold rounded-lg hover:bg-muted/50 hover:text-red-500 transition-all shadow-sm"
           >
             <TrashIcon class="w-4 h-4" /> Vider
           </button>
           <button
             @click="moveAllToCart"
-            class="flex items-center gap-2 px-6 py-2.5 bg-primary text-primary-foreground font-bold rounded-md hover:bg-primary/90 transition-all shadow-sm"
+            class="flex items-center gap-2 px-6 py-2.5 bg-brand text-brand-foreground font-bold rounded-md hover:bg-brand/90 transition-all shadow-sm"
           >
-            <ShoppingCartIcon class="w-4 h-4" /> Tout acheter
+            <ShoppingCartIcon class="w-4 h-4" /> Ajouter au panier
           </button>
         </div>
       </div>
 
       <!-- Premium Empty State -->
-      <div v-if="favoritesStore.isEmpty" class="bg-card rounded-xl border border-border shadow-sm p-16 text-center max-w-3xl mx-auto mt-10">
+      <div v-if="favoritesStore.isEmpty" class="bg-card rounded-lg border border-border shadow-sm p-16 text-center max-w-3xl mx-auto mt-10">
         <div class="relative mb-10 group mx-auto w-max">
            <div class="absolute inset-0 bg-muted rounded-full scale-150 opacity-50 blur-2xl"></div>
            <div class="w-32 h-32 rounded-full border border-border bg-card shadow-sm flex items-center justify-center relative z-10">
@@ -38,7 +38,7 @@
         </p>
         <NuxtLink
           to="/catalogue"
-          class="inline-flex items-center justify-center gap-3 px-10 py-4 bg-primary text-primary-foreground font-bold rounded-md hover:bg-primary/90 transition-all shadow-sm"
+          class="inline-flex items-center justify-center gap-3 px-10 py-4 bg-brand text-brand-foreground font-bold rounded-md hover:bg-brand/90 transition-all shadow-sm"
         >
           <SearchIcon class="w-5 h-5 opacity-70" /> Explorer la collection
         </NuxtLink>
@@ -49,7 +49,7 @@
         <div
           v-for="item in favoritesStore.items"
           :key="item.productId"
-          class="bg-card rounded-xl overflow-hidden border border-border shadow-sm group hover:border-border/80 hover:shadow-md transition-all duration-300"
+          class="bg-card rounded-lg overflow-hidden border border-border shadow-sm group hover:border-border/80 hover:shadow-md transition-all duration-300"
         >
           <!-- Product Image -->
           <NuxtLink :to="`/produit/${item.productId}`" class="block relative aspect-[4/5] bg-muted/30 overflow-hidden">
@@ -88,12 +88,12 @@
             
             <div class="flex items-center justify-between mt-4">
               <div class="flex flex-col">
-                 <p class="text-[10px] text-muted-foreground/80 font-bold uppercase tracking-wider mb-0.5">Prix total</p>
+                <p class="text-[10px] text-muted-foreground/80 font-bold uppercase tracking-wider mb-0.5">Prix</p>
                  <p class="font-black text-xl text-foreground">{{ formatPrice(item.price) }}</p>
               </div>
               <button
                 @click="addToCart(item)"
-                class="w-12 h-12 bg-muted/50 hover:bg-primary text-muted-foreground/80 hover:text-primary-foreground rounded-xl flex items-center justify-center transition-colors shadow-sm"
+                class="w-12 h-12 bg-muted/50 hover:bg-brand text-muted-foreground/80 hover:text-brand-foreground rounded-lg flex items-center justify-center transition-colors shadow-sm"
               >
                 <ShoppingCartIcon class="w-5 h-5" />
               </button>
@@ -103,18 +103,18 @@
       </div>
 
       <!-- Sync Notice for logged in users -->
-      <div v-if="authStore.isAuthenticated && !favoritesStore.isEmpty" class="mt-12 p-6 bg-card border border-border rounded-2xl shadow-sm flex items-start gap-4">
+      <div v-if="authStore.isAuthenticated && !favoritesStore.isEmpty" class="mt-12 p-6 bg-card border border-border rounded-lg shadow-sm flex items-start gap-4">
         <div class="w-10 h-10 rounded-full bg-accent/10 flex items-center justify-center shrink-0">
           <CheckCircleIcon class="w-5 h-5 text-accent" />
         </div>
         <div>
           <p class="text-sm font-bold text-foreground">Synchronisation active</p>
-          <p class="text-sm text-muted-foreground font-medium mt-1">Vos favoris sont sauvegardés en toute sécurité sur votre compte Dounia Market.</p>
+          <p class="text-sm text-muted-foreground font-medium mt-1">Vos favoris sont enregistrés dans votre compte Dounia Market.</p>
         </div>
       </div>
 
       <!-- Login prompt for guests -->
-      <div v-if="!authStore.isAuthenticated && !favoritesStore.isEmpty" class="mt-12 p-6 bg-card border border-border rounded-2xl shadow-sm flex items-start flex-col md:flex-row md:items-center justify-between gap-6">
+      <div v-if="!authStore.isAuthenticated && !favoritesStore.isEmpty" class="mt-12 p-6 bg-card border border-border rounded-lg shadow-sm flex items-start flex-col md:flex-row md:items-center justify-between gap-6">
         <div class="flex items-start gap-4">
            <div class="w-10 h-10 rounded-full bg-muted flex items-center justify-center shrink-0">
              <UserIcon class="w-5 h-5 text-muted-foreground" />
@@ -126,7 +126,7 @@
              </p>
            </div>
         </div>
-        <NuxtLink to="/auth/login?redirect=/favoris" class="px-6 py-3 bg-muted text-foreground font-bold rounded-xl hover:bg-muted/80 transition-colors whitespace-nowrap">
+        <NuxtLink to="/auth/login?redirect=/favoris" class="px-6 py-3 bg-muted text-foreground font-bold rounded-lg hover:bg-muted/80 transition-colors whitespace-nowrap">
           S'identifier
         </NuxtLink>
       </div>
@@ -143,7 +143,7 @@
         leave-to-class="opacity-0"
       >
         <div v-if="showClearConfirm" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-[200] flex items-center justify-center p-4">
-          <div class="bg-card rounded-[2rem] max-w-sm w-full p-8 shadow-2xl relative border border-border">
+          <div class="bg-card rounded-lg max-w-sm w-full p-8 shadow-2xl relative border border-border">
             <div class="w-20 h-20 bg-red-500/10 rounded-full flex items-center justify-center mx-auto mb-6">
               <TrashIcon class="w-8 h-8 text-red-500" />
             </div>
@@ -154,13 +154,13 @@
             <div class="flex flex-col gap-3">
               <button
                 @click="clearAll"
-                class="w-full py-4 bg-red-500 text-white font-bold rounded-xl hover:bg-red-600 transition-colors shadow-md shadow-red-500/20"
+                class="w-full py-4 bg-red-500 text-white font-bold rounded-lg hover:bg-red-600 transition-colors shadow-md shadow-red-500/20"
               >
                 Confirmer la suppression
               </button>
               <button
                 @click="showClearConfirm = false"
-                class="w-full py-4 bg-muted text-foreground font-bold rounded-xl hover:bg-muted/80 transition-colors border border-border"
+                class="w-full py-4 bg-muted text-foreground font-bold rounded-lg hover:bg-muted/80 transition-colors border border-border"
               >
                 Annuler
               </button>
@@ -199,10 +199,7 @@ onMounted(() => {
 })
 
 function formatPrice(amount: number): string {
-  return new Intl.NumberFormat('fr-FR', {
-    style: 'currency',
-    currency: 'EUR',
-  }).format(amount)
+  return cartStore.formatPrice(amount)
 }
 
 function formatDate(date: string): string {

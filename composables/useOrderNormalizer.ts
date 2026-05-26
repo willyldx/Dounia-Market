@@ -24,7 +24,7 @@ export function useOrderNormalizer() {
 
     return {
       id: dbOrder.id,
-      displayId: dbOrder.display_id || `TCB-${(dbOrder.id || '').toString().slice(0, 8).toUpperCase()}`,
+      displayId: dbOrder.display_id || `DM-${(dbOrder.id || '').toString().slice(0, 8).toUpperCase()}`,
       status: dbOrder.status,
       paymentStatus: dbOrder.payment_status,
       fulfillmentStatus: dbOrder.fulfillment_status,

@@ -30,7 +30,7 @@
     >
       <div
         v-if="isOpen"
-        class="absolute right-0 top-full mt-1.5 w-52 bg-white dark:bg-gray-800 rounded-xl shadow-xl border border-gray-100 dark:border-gray-700 overflow-hidden z-50"
+        class="absolute right-0 top-full mt-1.5 w-52 bg-white dark:bg-gray-800 rounded-lg shadow-xl border border-gray-100 dark:border-gray-700 overflow-hidden z-50"
         role="listbox"
       >
         <div class="p-1.5">

@@ -1,4 +1,4 @@
-// Types for TchadBox E-commerce
+// Types for Dounia Market e-commerce
 
 // =============================================
 // USER ROLES

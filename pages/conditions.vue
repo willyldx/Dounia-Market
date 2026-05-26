@@ -12,92 +12,87 @@
         Conditions Générales de Vente
       </h1>
       <p class="text-lg text-muted-foreground/80 font-medium">
-        Dernière mise à jour : {{ currentDate }}
+        Dernière mise à jour : {{ lastUpdated }}
       </p>
     </section>
 
     <!-- Content -->
     <div class="container-main max-w-4xl mx-auto px-6">
-      <div class="bg-card border border-border shadow-sm rounded-xl p-8 md:p-12">
-        <div class="prose prose-lg max-w-none prose-headings:font-black prose-headings:text-foreground prose-heading:tracking-tight prose-p:text-muted-foreground/90 prose-p:leading-relaxed prose-a:text-accent hover:prose-a:text-primary prose-strong:text-foreground prose-ul:font-medium prose-ul:text-muted-foreground/90">
+      <div class="bg-card border border-border shadow-sm rounded-lg p-8 md:p-12">
+        <div class="prose prose-lg max-w-none prose-headings:font-black prose-headings:text-foreground prose-heading:tracking-tight prose-p:text-muted-foreground/90 prose-p:leading-relaxed prose-a:text-accent hover:prose-a:text-brand prose-strong:text-foreground prose-ul:font-medium prose-ul:text-muted-foreground/90">
           
           <h2>Article 1 — Objet</h2>
           <p>
-            Les présentes Conditions Générales de Vente (ci-après « CGV ») définissent les droits et obligations 
-            de la société Dounia Market (ci-après « le Prestataire ») et de toute personne physique ou morale 
-            (ci-après « le Client ») passant commande sur la plateforme sécurisée Dounia Market.com.
+            Les présentes conditions décrivent le parcours proposé par Dounia Market pour commander des produits
+            disponibles localement et demander leur livraison à un bénéficiaire à N'Djamena.
           </p>
           <p>
-            Dounia Market est une plateforme de commerce en ligne haut de gamme spécialisée dans la vente et l’acheminement 
-            de biens essentiels et qualitatifs depuis l’international vers le Tchad, destinée principalement à la diaspora 
-            souhaitant garantir le meilleur à ses proches sur place.
+            Le client est invité à lire les informations présentées dans son récapitulatif avant de valider une commande.
           </p>
 
-          <h2>Article 2 — Produits et Services</h2>
+          <h2>Article 2 — Produits et disponibilité</h2>
           <p>
-            Les produits proposés sont ceux expressément référencés sur le site Dounia Market.com au moment de la 
-            consultation. Chaque produit fait l’objet d’une fiche descriptive détaillée.
+            Les produits proposés sont ceux référencés dans le catalogue au moment de la consultation. La fiche produit
+            présente les informations disponibles, notamment le produit, son prix affiché et son état de disponibilité.
           </p>
           <p>
-            Dounia Market s'engage à expédier des produits strictement neufs, originaux et correspondants aux meilleurs standards. Les photographies illustrant les produits sont de haute fidélité. Toutefois, de légères variations de packaging peuvent exister selon les arrivages à N'Djamena.
+            En cas d'indisponibilité identifiée avant la préparation, Dounia Market contacte le client afin de déterminer
+            les suites possibles pour la commande.
           </p>
 
-          <h2>Article 3 — Tarification Transparente</h2>
+          <h2>Article 3 — Prix et frais de livraison</h2>
           <p>
-            L’ensemble des prix sont libellés en Euros (€) avec une indication de conversion en temps réel dans d'autres devises (FCFA, USD, CAD, GBP) à titre informatif. Les montants affichés sont définitifs, toutes taxes comprises (TTC).
-          </p>
-          <p>
-            <strong>Garantie Zéro Surprise :</strong> Les prix du catalogue incluent d'office l'assurance, le dédouanement et l'acheminement local. Le destinataire final au Tchad n'aura absolument aucune somme à débourser à la réception du colis.
+            Les prix des produits sont présentés dans le catalogue et le parcours de commande.
+            Les zones couvertes et frais de livraison applicables seront confirmés avant l'ouverture publique du service.
           </p>
 
           <h2>Article 4 — Processus de Commande</h2>
           <p>
-            La validation définitive de la commande via notre portail vaut acceptation pleine et entière des présentes CGV. 
-            Un email de confirmation comportant les détails de préparation est automatiquement envoyé au Client. Un numéro de suivi unique est attribué pour tracer la progression logistique.
+            Le client renseigne le bénéficiaire, son adresse et un contact local utile à la livraison, puis vérifie le
+            récapitulatif présenté avant toute validation. Une commande enregistrée peut être consultée depuis l'espace client
+            et suivie au moyen de sa référence.
           </p>
 
-          <h2>Article 5 — Modalités de Paiement Sécurisé</h2>
-          <p>Le Client peut régler sa commande par des moyens hautement sécurisés :</p>
-          <ul>
-            <li>Cartes bancaires internationales (Visa, Mastercard)</li>
-          </ul>
+          <h2>Article 5 — Modalités de finalisation</h2>
           <p>
-            L’intégralité des transactions est certifiée, cryptée (SSL 256-bit) et opérée par notre partenaire financier Paystack. 
-            Aucune information bancaire en clair n’est stockée sur les serveurs de Dounia Market.
+            Les modalités permettant de finaliser une commande seront confirmées avant l'ouverture publique du service.
+            Dounia Market n'annonce sur cette page aucun prestataire ni moyen spécifique.
           </p>
 
-          <h2>Article 6 — Logistique et Livraison</h2>
+          <h2>Article 6 — Livraison locale</h2>
           <p>
-            Les livraisons en main propre sont assurées prioritairement à N'Djamena (Tchad). Le délai logistique standard (préparation, expédition, douane et livraison) est de <strong>3 à 5 jours ouvrés</strong> à compter de la confirmation du paiement.
+            La livraison sera proposée localement à N'Djamena selon les zones couvertes confirmées avant l'ouverture
+            publique du service. Les frais applicables seront communiqués dans ce même cadre.
           </p>
           <p>
-            <strong>La Preuve Dounia Market :</strong> Une photographie certifiant la remise du colis au destinataire final est systématiquement prise par nos agents sur place (sous réserve de consentement) et téléversée dans l'espace client de l'expéditeur, conférant une preuve d'exécution totale du contrat de vente.
+            Le bénéficiaire doit pouvoir être joint au numéro communiqué par le client afin de faciliter la livraison.
           </p>
 
-          <h2>Article 7 — Droit de Rétractation</h2>
+          <h2>Article 7 — Modification ou annulation</h2>
           <p>
-            Compte tenu de la nature internationale de la logistique, de la gestion des douanes et du fret aérien express, le droit de rétractation ne peut s’exercer une fois que la commande a été expédiée et traitée aux douanes.
-          </p>
-          <p>
-            Toutefois, avant l'expédition physique (statut "En Préparation"), le Client dispose de la faculté d’annuler sa commande sans frais depuis le service client. Le remboursement intégral est émis sous 48 à 72 heures ouvrées.
+            Pour demander une modification ou une annulation, le client contacte l'assistance avec sa référence.
+            Les possibilités dépendent de l'état de préparation ou de livraison de la commande et des conditions confirmées au client.
           </p>
 
           <h2>Article 8 — Réclamations</h2>
           <p>
-            Toute réclamation doit être adressée dans un délai stricts de 48 heures suivant la preuve de remise du colis, via notre support prioritaire : <strong>contact@Dounia Market.com</strong>.
+            Toute question ou réclamation peut être adressée par la page de contact en indiquant la référence de commande,
+            sans publier les coordonnées du bénéficiaire.
           </p>
           <p>
-            Si le produit s'avère endommagé pendant le fret, Dounia Market s'engage à enquêter immédiatement sur simple présentation de preuves photographiques de la part du client ou du destinataire.
+            L'équipe examine la demande et informe le client des éléments nécessaires à son traitement.
           </p>
 
           <h2>Article 9 — Confidentialité</h2>
           <p>
-            Les données personnelles (dont l'identité et les coordonnées du destinataire au Tchad) sont traitées avec le plus haut niveau de confidentialité, et ne sont transmises qu'à notre cellule logistique locale dans le seul but de réussir l'acheminement physique du colis.
+            Les informations du bénéficiaire sont destinées au traitement de la commande et à l'organisation de sa
+            livraison locale. Les détails sont présentés dans la politique de confidentialité.
           </p>
 
-          <h2>Article 10 — Droit Applicable</h2>
+          <h2>Article 10 — Évolution des conditions</h2>
           <p>
-            Les présentes CGV sont soumises au droit du commerce européen et français. En cas de litige, notre service client privilégiera toujours une résolution amiable rapide.
+            Dounia Market peut mettre à jour ces conditions lorsque les modalités opérationnelles du service sont précisées.
+            La version affichée au moment de la validation est celle présentée au client.
           </p>
         </div>
       </div>
@@ -110,18 +105,8 @@ import { ChevronRight as ChevronRightIcon } from 'lucide-vue-next'
 
 useSeoMeta({
   title: 'Conditions Générales de Vente | Dounia Market',
-  description: 'Consultez les conditions générales de vente (CGV) de Dounia Market. Une transparence totale sur la livraison vers N\'Djamena.',
+  description: 'Consultez les conditions de Dounia Market pour les commandes et livraisons locales à N\'Djamena.',
 })
 
-const currentDate = computed(() => {
-  return new Date().toLocaleDateString('fr-FR', {
-    day: 'numeric',
-    month: 'long',
-    year: 'numeric',
-  })
-})
+const lastUpdated = '25 mai 2026'
 </script>
-
-<style scoped>
-/* Any required strict clean styling */
-</style>

@@ -1,152 +1,196 @@
 <template>
-  <div>
-    <!-- Header -->
-    <div class="mb-6 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+  <div class="space-y-6">
+    <header class="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
       <div>
-        <h1 class="text-2xl font-bold text-gray-900">Commandes</h1>
-        <p class="text-gray-500 mt-1">Gérez toutes les commandes</p>
+        <p class="mb-2 text-xs font-semibold uppercase text-amber-700">Opérations</p>
+        <h1 class="text-2xl font-semibold text-zinc-950 sm:text-3xl">Commandes</h1>
+        <p class="mt-1 text-sm text-zinc-500">Préparation, affectation et livraison des commandes locales.</p>
       </div>
-      <div class="flex items-center gap-3">
-        <UInput
-          v-model="search"
-          placeholder="Rechercher..."
-          icon="i-lucide-search"
-          class="w-64"
-        />
-        <UButton @click="fetchOrders" color="gray" variant="outline" icon="i-lucide-refresh-cw">
-          Actualiser
-        </UButton>
-      </div>
-    </div>
-
-    <!-- Filters -->
-    <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-4 mb-6">
-      <div class="flex flex-wrap items-center gap-4">
-        <USelectMenu
-          v-model="statusFilter"
-          :options="statusOptions"
-          placeholder="Statut"
-          class="w-40"
-        />
-        <USelectMenu
-          v-model="fulfillmentFilter"
-          :options="fulfillmentOptions"
-          placeholder="Livraison"
-          class="w-40"
-        />
-        <UButton v-if="hasActiveFilters" @click="clearFilters" color="gray" variant="ghost" size="sm">
-          Effacer les filtres
-        </UButton>
-      </div>
-    </div>
-
-    <!-- Orders Table -->
-    <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
-      <UTable
-        :columns="columns"
-        :rows="filteredOrders"
+      <UButton
+        @click="fetchOrders"
+        color="gray"
+        variant="outline"
+        icon="i-lucide-refresh-cw"
         :loading="loading"
-        :empty-state="{ icon: 'i-lucide-package', label: 'Aucune commande trouvée' }"
+        class="h-10 font-medium"
       >
-        <!-- ID Column -->
-        <template #display_id-data="{ row }">
-          <NuxtLink :to="`/admin/commandes/${row.id}`" class="font-medium text-primary-600 hover:text-primary-700">
-            #{{ row.display_id || row.id.slice(0, 8).toUpperCase() }}
-          </NuxtLink>
-        </template>
+        Actualiser
+      </UButton>
+    </header>
 
-        <!-- Customer Column -->
-        <template #customer-data="{ row }">
-          <div>
-            <p class="font-medium text-gray-900">{{ row.customer_first_name }} {{ row.customer_last_name }}</p>
-            <p class="text-xs text-gray-500">{{ row.email }}</p>
-          </div>
-        </template>
-
-        <!-- Recipient Column -->
-        <template #recipient-data="{ row }">
-          <div>
-            <p class="font-medium text-gray-900">{{ row.recipient_name || '-' }}</p>
-            <p class="text-xs text-gray-500">{{ row.recipient_phone || '-' }}</p>
-          </div>
-        </template>
-
-        <!-- Status Column -->
-        <template #status-data="{ row }">
-          <UBadge :color="getStatusColor(row.status)" variant="soft" size="sm">
-            {{ getStatusLabel(row.status) }}
-          </UBadge>
-        </template>
-
-        <!-- Fulfillment Column -->
-        <template #fulfillment-data="{ row }">
-          <UBadge :color="getFulfillmentColor(row.fulfillment_status)" variant="soft" size="sm">
-            {{ getFulfillmentLabel(row.fulfillment_status) }}
-          </UBadge>
-        </template>
-
-        <!-- Total Column -->
-        <template #total-data="{ row }">
-          <span class="font-semibold text-gray-900">{{ formatPrice(row.total) }}</span>
-        </template>
-
-        <!-- Date Column -->
-        <template #date-data="{ row }">
-          <span class="text-sm text-gray-500">{{ formatDate(row.created_at) }}</span>
-        </template>
-
-        <!-- Assigned Column -->
-        <template #assigned-data="{ row }">
-          <div v-if="row.assigned_to" class="flex items-center gap-2">
-            <div class="w-6 h-6 rounded-full bg-green-100 flex items-center justify-center">
-              <Icon name="lucide:user" class="w-3 h-3 text-green-600" />
-            </div>
-            <span class="text-sm text-gray-700">Assigné</span>
-          </div>
-          <span v-else class="text-sm text-gray-400">-</span>
-        </template>
-
-        <!-- Actions Column -->
-        <template #actions-data="{ row }">
-          <UDropdown :items="getRowActions(row)" :popper="{ placement: 'bottom-end' }">
-            <UButton color="gray" variant="ghost" icon="i-lucide-more-vertical" size="sm" />
-          </UDropdown>
-        </template>
-      </UTable>
-
-      <!-- Pagination -->
-      <div v-if="totalPages > 1" class="border-t border-gray-100 px-4 py-3 flex items-center justify-between">
-        <p class="text-sm text-gray-500">
-          {{ filteredOrders.length }} commande(s) sur {{ orders.length }}
-        </p>
-        <UPagination v-model="currentPage" :total="totalPages" :page-count="pageSize" />
+    <div class="grid grid-cols-2 gap-3 lg:grid-cols-4">
+      <div
+        v-for="stat in orderStats"
+        :key="stat.label"
+        class="relative min-h-[104px] rounded-lg border border-zinc-200 bg-white p-4"
+      >
+        <p class="pr-10 text-xs font-medium text-zinc-500 sm:text-sm">{{ stat.label }}</p>
+        <p class="mt-3 text-2xl font-semibold text-zinc-950">{{ stat.value }}</p>
+        <div :class="['absolute right-4 top-4 flex h-9 w-9 items-center justify-center rounded-lg', stat.bgColor]">
+          <Icon :name="stat.icon" :class="['h-5 w-5', stat.iconColor]" />
+        </div>
       </div>
     </div>
 
-    <!-- Assign Livreur Modal -->
+    <section class="overflow-hidden rounded-lg border border-zinc-200 bg-white">
+      <div class="flex flex-col gap-3 border-b border-zinc-100 p-4 sm:p-5 lg:flex-row lg:items-center lg:justify-between">
+        <div>
+          <h2 class="text-base font-semibold text-zinc-950">File opérationnelle</h2>
+          <p class="mt-0.5 text-xs text-zinc-500">{{ filteredOrders.length }} commande(s) affichée(s)</p>
+        </div>
+        <div class="flex w-full flex-col gap-2 sm:flex-row lg:w-auto">
+          <UInput
+            v-model="search"
+            placeholder="N° commande, client, destinataire"
+            icon="i-lucide-search"
+            class="w-full sm:min-w-64"
+            size="md"
+          >
+            <template #trailing>
+              <UButton v-show="search" color="gray" variant="link" icon="i-lucide-x" :padded="false" @click="search = ''" />
+            </template>
+          </UInput>
+          <USelectMenu
+            v-model="statusFilter"
+            :options="statusOptions"
+            value-attribute="value"
+            option-attribute="label"
+            placeholder="Commande"
+            class="w-full sm:w-40"
+            size="md"
+          />
+          <USelectMenu
+            v-model="fulfillmentFilter"
+            :options="fulfillmentOptions"
+            value-attribute="value"
+            option-attribute="label"
+            placeholder="Livraison"
+            class="w-full sm:w-44"
+            size="md"
+          />
+          <UButton v-if="hasActiveFilters" @click="clearFilters" color="gray" variant="ghost" icon="i-lucide-filter-x" class="h-10">
+            Effacer
+          </UButton>
+        </div>
+      </div>
+
+      <div v-if="loading" class="flex min-h-[220px] items-center justify-center">
+        <UIcon name="i-lucide-loader-2" class="h-7 w-7 animate-spin text-zinc-400" />
+      </div>
+
+      <div v-else-if="filteredOrders.length === 0" class="flex min-h-[220px] flex-col items-center justify-center p-8 text-center">
+        <Icon name="lucide:package-open" class="mb-3 h-8 w-8 text-zinc-300" />
+        <p class="text-sm font-medium text-zinc-800">Aucune commande trouvée</p>
+        <p class="mt-1 text-xs text-zinc-500">Modifiez les filtres ou actualisez la file.</p>
+      </div>
+
+      <div v-else>
+        <div class="hidden overflow-x-auto lg:block">
+          <table class="w-full text-left text-sm">
+            <thead class="border-b border-zinc-100 bg-zinc-50 text-xs font-semibold text-zinc-500">
+              <tr>
+                <th scope="col" class="px-5 py-3">Commande</th>
+                <th scope="col" class="px-5 py-3">Client / destinataire</th>
+                <th scope="col" class="px-5 py-3">Commande</th>
+                <th scope="col" class="px-5 py-3">Livraison</th>
+                <th scope="col" class="px-5 py-3">Total</th>
+                <th scope="col" class="px-5 py-3">Livreur</th>
+                <th scope="col" class="px-5 py-3 text-right">Actions</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-zinc-100">
+              <tr v-for="order in pagedOrders" :key="order.id" class="hover:bg-zinc-50">
+                <td class="whitespace-nowrap px-5 py-3">
+                  <NuxtLink :to="`/admin/commandes/${order.id}`" class="font-medium text-dounia-500 hover:text-amber-700">
+                    #{{ order.display_id || order.id.slice(0, 8).toUpperCase() }}
+                  </NuxtLink>
+                  <p class="mt-0.5 text-xs text-zinc-500">{{ formatDate(order.created_at) }}</p>
+                </td>
+                <td class="max-w-[250px] px-5 py-3">
+                  <p class="truncate font-medium text-zinc-950">{{ order.customer_first_name }} {{ order.customer_last_name }}</p>
+                  <p class="truncate text-xs text-zinc-500">Pour {{ order.recipient_name || '-' }}</p>
+                </td>
+                <td class="whitespace-nowrap px-5 py-3">
+                  <UBadge :color="getStatusColor(order.status)" variant="soft" size="sm">
+                    {{ getStatusLabel(order.status) }}
+                  </UBadge>
+                </td>
+                <td class="whitespace-nowrap px-5 py-3">
+                  <UBadge :color="getFulfillmentColor(order.fulfillment_status)" variant="soft" size="sm">
+                    {{ getFulfillmentLabel(order.fulfillment_status) }}
+                  </UBadge>
+                </td>
+                <td class="whitespace-nowrap px-5 py-3 font-medium text-zinc-950">{{ formatPrice(order.total) }}</td>
+                <td class="whitespace-nowrap px-5 py-3 text-zinc-600">
+                  <span v-if="order.assigned_to" class="inline-flex items-center gap-1.5">
+                    <Icon name="lucide:truck" class="h-4 w-4 text-sky-700" />
+                    Assigné
+                  </span>
+                  <span v-else class="text-zinc-400">Non assigné</span>
+                </td>
+                <td class="whitespace-nowrap px-5 py-3">
+                  <div class="flex justify-end gap-1">
+                    <UButton :to="`/admin/commandes/${order.id}`" color="gray" variant="ghost" icon="i-lucide-eye" size="sm" title="Ouvrir" aria-label="Ouvrir la commande" />
+                    <UButton @click="openAssignModal(order)" color="gray" variant="ghost" icon="i-lucide-user-plus" size="sm" title="Assigner un livreur" aria-label="Assigner un livreur" />
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="divide-y divide-zinc-100 lg:hidden">
+          <article v-for="order in pagedOrders" :key="order.id" class="p-4">
+            <div class="flex items-start justify-between gap-3">
+              <div class="min-w-0">
+                <NuxtLink :to="`/admin/commandes/${order.id}`" class="font-medium text-dounia-500">
+                  #{{ order.display_id || order.id.slice(0, 8).toUpperCase() }}
+                </NuxtLink>
+                <p class="mt-1 text-xs text-zinc-500">{{ formatDate(order.created_at) }}</p>
+              </div>
+              <p class="shrink-0 text-sm font-semibold text-zinc-950">{{ formatPrice(order.total) }}</p>
+            </div>
+            <p class="mt-3 truncate text-sm font-medium text-zinc-950">{{ order.recipient_name || '-' }}</p>
+            <p class="truncate text-xs text-zinc-500">Client : {{ order.customer_first_name }} {{ order.customer_last_name }}</p>
+            <div class="mt-3 flex flex-wrap gap-2">
+              <UBadge :color="getStatusColor(order.status)" variant="soft" size="sm">{{ getStatusLabel(order.status) }}</UBadge>
+              <UBadge :color="getFulfillmentColor(order.fulfillment_status)" variant="soft" size="sm">{{ getFulfillmentLabel(order.fulfillment_status) }}</UBadge>
+            </div>
+            <div class="mt-4 flex gap-2">
+              <UButton :to="`/admin/commandes/${order.id}`" color="gray" variant="outline" icon="i-lucide-eye" size="sm" class="flex-1">
+                Ouvrir
+              </UButton>
+              <UButton @click="openAssignModal(order)" color="gray" variant="outline" icon="i-lucide-user-plus" size="sm" class="flex-1">
+                Assigner
+              </UButton>
+            </div>
+          </article>
+        </div>
+
+        <div v-if="totalPages > 1" class="flex flex-col gap-3 border-t border-zinc-100 px-4 py-3 sm:flex-row sm:items-center sm:justify-between">
+          <p class="text-xs text-zinc-500">{{ filteredOrders.length }} commande(s) sur {{ orders.length }}</p>
+          <UPagination v-model="currentPage" :total="filteredOrders.length" :page-count="pageSize" />
+        </div>
+      </div>
+    </section>
+
     <UModal v-model="showAssignModal">
       <div class="p-6">
-        <h3 class="text-lg font-semibold text-gray-900 mb-4">Assigner un livreur</h3>
-        <p class="text-sm text-gray-500 mb-4">
+        <h3 class="text-lg font-semibold text-zinc-950">Assigner un livreur</h3>
+        <p class="mb-5 mt-1 text-sm text-zinc-500">
           Commande #{{ selectedOrder?.display_id || selectedOrder?.id?.slice(0, 8).toUpperCase() }}
         </p>
-        
         <USelectMenu
           v-model="selectedLivreur"
           :options="livreurs"
           option-attribute="label"
           value-attribute="value"
           placeholder="Sélectionner un livreur"
-          class="mb-4"
+          class="mb-5"
         />
-
-        <div class="flex justify-end gap-3">
-          <UButton color="gray" variant="outline" @click="showAssignModal = false">
-            Annuler
-          </UButton>
-          <UButton color="primary" :loading="assigning" @click="assignLivreur">
-            Assigner
-          </UButton>
+        <div class="flex justify-end gap-2">
+          <UButton color="gray" variant="outline" @click="showAssignModal = false">Annuler</UButton>
+          <UButton color="black" icon="i-lucide-user-plus" :loading="assigning" @click="assignLivreur">Assigner</UButton>
         </div>
       </div>
     </UModal>
@@ -178,19 +222,6 @@ const selectedLivreur = ref<string | null>(null)
 const livreurs = ref<{ label: string; value: string }[]>([])
 const assigning = ref(false)
 
-// Columns
-const columns = [
-  { key: 'display_id', label: 'ID' },
-  { key: 'customer', label: 'Client' },
-  { key: 'recipient', label: 'Destinataire' },
-  { key: 'status', label: 'Statut' },
-  { key: 'fulfillment', label: 'Livraison' },
-  { key: 'total', label: 'Total' },
-  { key: 'date', label: 'Date' },
-  { key: 'assigned', label: 'Livreur' },
-  { key: 'actions', label: '' }
-]
-
 // Filter options
 const statusOptions = [
   { label: 'Tous', value: null },
@@ -219,7 +250,7 @@ const filteredOrders = computed(() => {
   if (search.value) {
     const s = search.value.toLowerCase()
     result = result.filter(o => 
-      (o.display_id || String(o.id))?.toLowerCase().includes(s) ||
+      String(o.display_id || o.id || '').toLowerCase().includes(s) ||
       o.email?.toLowerCase().includes(s) ||
       o.customer_first_name?.toLowerCase().includes(s) ||
       o.customer_last_name?.toLowerCase().includes(s) ||
@@ -239,6 +270,20 @@ const filteredOrders = computed(() => {
 })
 
 const totalPages = computed(() => Math.ceil(filteredOrders.value.length / pageSize))
+const pagedOrders = computed(() => {
+  const start = (currentPage.value - 1) * pageSize
+  return filteredOrders.value.slice(start, start + pageSize)
+})
+const orderStats = computed(() => [
+  { label: 'Chargées', value: orders.value.length, icon: 'lucide:package', bgColor: 'bg-zinc-100', iconColor: 'text-zinc-700' },
+  { label: 'À préparer', value: orders.value.filter(order => order.fulfillment_status === 'not_fulfilled').length, icon: 'lucide:clipboard-list', bgColor: 'bg-amber-50', iconColor: 'text-amber-700' },
+  { label: 'En livraison', value: orders.value.filter(order => order.fulfillment_status === 'shipped').length, icon: 'lucide:truck', bgColor: 'bg-sky-50', iconColor: 'text-sky-700' },
+  { label: 'Livrées', value: orders.value.filter(order => order.fulfillment_status === 'delivered').length, icon: 'lucide:package-check', bgColor: 'bg-emerald-50', iconColor: 'text-emerald-700' }
+])
+
+watch([search, statusFilter, fulfillmentFilter], () => {
+  currentPage.value = 1
+})
 
 // Methods
 const fetchOrders = async () => {
@@ -280,8 +325,7 @@ const assignLivreur = async () => {
   assigning.value = true
   try {
     await api.adminOrderUpdate(selectedOrder.value.id, {
-      assigned_to: selectedLivreur.value,
-      fulfillment_status: 'fulfilled'
+      assigned_to: selectedLivreur.value
     })
 
     toast.add({ title: 'Succès', description: 'Livreur assigné avec succès', color: 'green' })
@@ -294,19 +338,6 @@ const assignLivreur = async () => {
     assigning.value = false
   }
 }
-
-const getRowActions = (row: any) => [
-  [{
-    label: 'Voir détails',
-    icon: 'i-lucide-eye',
-    click: () => navigateTo(`/admin/commandes/${row.id}`)
-  }],
-  [{
-    label: 'Assigner livreur',
-    icon: 'i-lucide-truck',
-    click: () => openAssignModal(row)
-  }]
-]
 
 const clearFilters = () => {
   search.value = ''
@@ -373,4 +404,3 @@ useHead({
   title: 'Commandes - Admin Dounia Market'
 })
 </script>
-

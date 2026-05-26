@@ -9,7 +9,7 @@
     >
       <div v-if="modelValue" class="fixed inset-0 bg-black/40 backdrop-blur-sm z-50 flex items-start justify-center pt-24 px-4" @click.self="close">
         <div 
-          class="w-full max-w-2xl bg-white rounded-2xl shadow-2xl overflow-hidden transform transition-all"
+          class="w-full max-w-2xl bg-white rounded-lg shadow-2xl overflow-hidden transform transition-all"
         >
           <div class="relative border-b border-gray-100">
             <Search class="absolute left-5 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
@@ -28,14 +28,14 @@
 
           <div v-if="query.length >= 2" class="max-h-80 overflow-y-auto">
             <div v-if="isSearching" class="p-8 text-center">
-              <div class="w-8 h-8 border-3 border-gray-200 border-t-primary rounded-full animate-spin mx-auto mb-3"></div>
+              <div class="w-8 h-8 border-3 border-gray-200 border-t-brand rounded-full animate-spin mx-auto mb-3"></div>
               <p class="text-[currentColor]">Recherche en cours...</p>
             </div>
             <div v-else-if="searchResults.length > 0" class="p-2">
               <NuxtLink 
                 v-for="product in searchResults" :key="product.id"
                 :to="`/produit/${encodeURIComponent(product.handle)}`"
-                class="flex items-center gap-4 p-3 rounded-xl hover:bg-gray-50 transition-colors"
+                class="flex items-center gap-4 p-3 rounded-lg hover:bg-gray-50 transition-colors"
                 @click="close"
               >
                 <div class="w-12 h-12 rounded-lg bg-gray-100 flex items-center justify-center overflow-hidden">

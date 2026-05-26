@@ -1,119 +1,143 @@
 <template>
-  <div>
-    <!-- Hero dynamique pour la catégorie -->
-    <section class="relative text-white py-20 overflow-hidden bg-gradient-to-r from-amber-600 to-amber-900">
-      <div class="absolute inset-0 bg-black/20" />
-      <div class="container-main relative z-10">
-        <div class="flex items-center gap-2 text-white/80 text-sm mb-4">
-          <NuxtLink to="/" class="hover:text-white transition-colors">Accueil</NuxtLink>
-          <ChevronRight class="w-4 h-4" />
-          <NuxtLink to="/catalogue" class="hover:text-white transition-colors">Catalogue</NuxtLink>
-          <ChevronRight class="w-4 h-4" />
-          <span class="text-white font-medium capitalize">{{ currentCategoryName }}</span>
-        </div>
-        <h1 class="text-4xl lg:text-5xl font-bold text-white mb-2 capitalize">{{ currentCategoryName }}</h1>
-        <p class="text-white/80 mt-2 text-lg">{{ filteredProducts.length }} produit{{ filteredProducts.length > 1 ? 's' : '' }} disponible{{ filteredProducts.length > 1 ? 's' : '' }}</p>
+  <div class="min-h-screen bg-background pb-14">
+    <header class="border-b border-border bg-card">
+      <div class="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
+        <nav class="mb-4 flex flex-wrap items-center gap-2 text-xs font-medium text-muted-foreground">
+          <NuxtLink to="/" class="hover:text-foreground">Accueil</NuxtLink>
+          <ChevronRight class="h-3.5 w-3.5" />
+          <NuxtLink to="/catalogue" class="hover:text-foreground">Catalogue</NuxtLink>
+          <ChevronRight class="h-3.5 w-3.5" />
+          <span class="text-foreground">{{ currentCategoryName }}</span>
+        </nav>
+        <p class="text-xs font-semibold uppercase tracking-[0.14em] text-amber-700">Catalogue local</p>
+        <h1 class="mt-2 text-3xl font-bold text-foreground sm:text-4xl">{{ currentCategoryName }}</h1>
+        <p class="mt-3 max-w-2xl text-sm leading-relaxed text-muted-foreground sm:text-base">
+          Sélectionnez un produit pour votre proche à N'Djamena. La disponibilité locale est indiquée; les
+          zones couvertes et frais seront confirmés avant l'ouverture publique.
+        </p>
       </div>
-    </section>
+    </header>
 
-    <div class="container-main py-10">
-      <div class="flex flex-col lg:flex-row gap-8">
-        <!-- Filters -->
-        <aside class="lg:w-72 flex-shrink-0">
-          <div class="card p-6 sticky top-28 border border-gray-100 shadow-sm">
-            <div class="mb-8">
-              <h3 class="font-semibold text-[var(--color-text)] mb-4 flex items-center gap-2">
-                <LayoutGrid class="w-5 h-5 text-amber-500" />Toutes les Catégories
-              </h3>
-              <div class="space-y-2">
-                <NuxtLink to="/catalogue" class="filter-btn w-full inline-flex items-center gap-3">
-                  <Package class="w-5 h-5" />Catalogue complet
-                </NuxtLink>
-                <NuxtLink 
-                  v-for="cat in categories" 
-                  :key="cat.handle" 
-                  :to="`/categories/${cat.handle}`"
-                  class="filter-btn w-full inline-flex items-center gap-3" 
-                  :class="{ active: currentSlug === cat.handle }"
-                >
-                  <component :is="cat.icon" class="w-5 h-5" />{{ cat.name }}
-                </NuxtLink>
-              </div>
-            </div>
-
-            <div class="mb-8">
-              <h3 class="font-semibold text-[var(--color-text)] mb-4 flex items-center gap-2">
-                <Euro class="w-5 h-5 text-amber-500" />Filtrer par Prix
-              </h3>
-              <div class="space-y-2">
-                <label v-for="r in priceRanges" :key="r.value" class="flex items-center gap-3 py-2 cursor-pointer text-[var(--color-text-secondary)] hover:text-amber-600 transition-colors">
-                  <input type="radio" v-model="selectedPrice" :value="r.value" class="sr-only" />
-                  <span class="w-4 h-4 rounded-full border-2 flex items-center justify-center transition-colors" :class="selectedPrice === r.value ? 'border-amber-500 bg-amber-500' : 'border-gray-300'">
-                    <span v-if="selectedPrice === r.value" class="w-1.5 h-1.5 rounded-full bg-white" />
-                  </span>
-                  {{ r.label }}
-                </label>
-              </div>
-            </div>
-            
-            <button v-if="selectedPrice" @click="selectedPrice = ''" class="btn-ghost w-full">
-              <RotateCcw class="w-4 h-4" />Réinitialiser les prix
-            </button>
+    <main class="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
+      <section class="rounded-lg border border-border bg-card p-4 sm:p-5" aria-label="Filtres de catégorie">
+        <div class="flex flex-col gap-4">
+          <div class="scrollbar-hide flex gap-2 overflow-x-auto">
+            <NuxtLink
+              to="/catalogue"
+              class="inline-flex shrink-0 items-center gap-2 rounded-md border border-border bg-background px-3 py-2 text-sm font-medium text-muted-foreground hover:text-foreground"
+            >
+              <Package class="h-4 w-4" />
+              Tous
+            </NuxtLink>
+            <NuxtLink
+              v-for="category in categories"
+              :key="category.handle"
+              :to="`/categories/${category.handle}`"
+              class="inline-flex shrink-0 items-center gap-2 rounded-md border px-3 py-2 text-sm font-medium transition-colors"
+              :class="currentSlug === category.handle ? 'border-brand bg-brand text-brand-foreground' : 'border-border bg-background text-muted-foreground hover:text-foreground'"
+            >
+              <component :is="category.icon" class="h-4 w-4" />
+              {{ category.name }}
+            </NuxtLink>
           </div>
-        </aside>
-
-        <!-- Products -->
-        <div class="flex-grow">
-          <div class="card p-4 mb-6 relative shadow-sm border border-gray-100 flex items-center">
-             <Search class="absolute left-6 w-5 h-5 text-gray-400" />
-             <input v-model="searchQuery" type="text" placeholder="Rechercher dans cette catégorie..." class="input w-full border-none focus:ring-0 shadow-none pl-12 bg-transparent" />
-          </div>
-
-          <!-- Loading state -->
-          <div v-if="isLoading" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            <div v-for="i in 6" :key="i" class="card p-4 animate-pulse">
-              <div class="aspect-square bg-gray-200 rounded-xl mb-4"></div>
-              <div class="h-4 bg-gray-200 rounded mb-2"></div>
-              <div class="h-4 bg-gray-200 rounded w-2/3"></div>
-            </div>
-          </div>
-
-          <!-- Products grid -->
-          <div v-else-if="filteredProducts.length > 0" class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6">
-            <ProductCard 
-              v-for="(p, i) in filteredProducts" 
-              :key="p.id" 
-              :product="p" 
-              :delay="i * 50" 
-            />
-          </div>
-
-          <!-- Empty state -->
-          <div v-else class="card p-16 text-center border border-gray-100">
-            <SearchX class="w-16 h-16 text-gray-300 mx-auto mb-4" />
-            <h3 class="text-xl font-semibold text-[var(--color-text)] mb-2">Aucun produit trouvé</h3>
-            <p class="text-[var(--color-text-muted)] mb-6">Ajustez vos filtres de prix ou votre recherche.</p>
-            <button @click="resetFilters" class="btn-primary">
-              <span>Réinitialiser les filtres</span>
+          <div class="flex flex-col gap-2 sm:flex-row">
+            <label class="relative flex-1">
+              <span class="sr-only">Rechercher dans {{ currentCategoryName }}</span>
+              <Search class="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+              <input
+                v-model="searchQuery"
+                type="search"
+                :placeholder="`Rechercher dans ${currentCategoryName}`"
+                class="h-11 w-full rounded-md border border-input bg-background pl-10 pr-4 text-sm outline-none focus:border-brand focus:ring-1 focus:ring-brand"
+              />
+            </label>
+            <label class="inline-flex h-11 items-center gap-2 rounded-md border border-border bg-background px-3 text-sm">
+              <input v-model="inStockOnly" type="checkbox" class="h-4 w-4 accent-amber-700" />
+              Disponibles
+            </label>
+            <label class="relative">
+              <span class="sr-only">Filtrer par prix</span>
+              <select
+                v-model="selectedPrice"
+                class="h-11 w-full appearance-none rounded-md border border-input bg-background py-2 pl-3 pr-9 text-sm outline-none focus:border-brand sm:w-auto"
+              >
+                <option v-for="range in priceRanges" :key="range.value" :value="range.value">{{ range.label }}</option>
+              </select>
+              <ChevronDown class="pointer-events-none absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+            </label>
+            <button
+              v-if="hasFilters"
+              type="button"
+              class="inline-flex h-11 items-center justify-center gap-1.5 rounded-md border border-border px-3 text-sm font-medium text-muted-foreground hover:text-foreground"
+              @click="resetFilters"
+            >
+              <RotateCcw class="h-4 w-4" />
+              Effacer
             </button>
           </div>
         </div>
+      </section>
+
+      <div class="mb-5 mt-6 flex flex-wrap items-center justify-between gap-2 text-sm text-muted-foreground">
+        <p>
+          <strong class="text-foreground">{{ filteredProducts.length }}</strong>
+          produit{{ filteredProducts.length > 1 ? 's' : '' }} affiché{{ filteredProducts.length > 1 ? 's' : '' }}
+        </p>
+        <p>{{ availableCount }} disponible{{ availableCount > 1 ? 's' : '' }} localement</p>
       </div>
-    </div>
+
+      <div v-if="isLoading" class="grid grid-cols-1 gap-3 min-[380px]:grid-cols-2 sm:gap-5 lg:grid-cols-3 xl:grid-cols-4">
+        <ProductSkeleton v-for="i in 8" :key="i" />
+      </div>
+
+      <div v-else-if="error" class="mx-auto max-w-xl rounded-lg border border-red-100 bg-card p-8 text-center">
+        <AlertCircle class="mx-auto mb-3 h-8 w-8 text-red-600" />
+        <h2 class="text-lg font-semibold text-foreground">Chargement impossible</h2>
+        <p class="mt-2 text-sm text-muted-foreground">{{ error }}</p>
+        <button type="button" class="mt-5 rounded-md bg-brand px-4 py-2 text-sm font-semibold text-brand-foreground" @click="fetchProducts">
+          Réessayer
+        </button>
+      </div>
+
+      <div v-else-if="filteredProducts.length" class="grid grid-cols-1 gap-3 min-[380px]:grid-cols-2 sm:gap-5 lg:grid-cols-3 xl:grid-cols-4">
+        <ProductCard v-for="product in filteredProducts" :key="product.id" :product="product" />
+      </div>
+
+      <div v-else class="mx-auto max-w-xl rounded-lg border border-border bg-card p-8 text-center">
+        <SearchX class="mx-auto mb-3 h-8 w-8 text-muted-foreground" />
+        <h2 class="text-lg font-semibold text-foreground">Aucun produit trouvé</h2>
+        <p class="mt-2 text-sm text-muted-foreground">Modifiez les filtres ou consultez le catalogue complet.</p>
+        <button type="button" class="mt-5 rounded-md border border-border px-4 py-2 text-sm font-semibold" @click="resetFilters">
+          Réinitialiser
+        </button>
+      </div>
+    </main>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ChevronRight, LayoutGrid, Package, Euro, RotateCcw, Search, SearchX, Wheat, BookOpen, Heart, Gift } from 'lucide-vue-next'
+import { AlertCircle, BookOpen, ChevronDown, ChevronRight, Gift, Heart, Package, RotateCcw, Search, SearchX, Wheat } from 'lucide-vue-next'
 import ProductCard from '~/components/product/ProductCard.vue'
+import ProductSkeleton from '~/components/product/ProductSkeleton.vue'
 import type { Product } from '~/types'
 
 const route = useRoute()
+const cartStore = useCartStore()
 const currentSlug = computed(() => route.params.slug as string)
-
 const { getProducts } = useProducts()
 
-// Categories (Sync with catalogue)
+type CatalogueProduct = Omit<Product, 'price' | 'inStock'> & {
+  price?: number
+  inStock?: boolean
+}
+
+const normalizePrice = (value: unknown): number | undefined => (
+  typeof value === 'number' && Number.isFinite(value) ? value : undefined
+)
+const normalizeAvailability = (value: unknown): boolean | undefined => (
+  value === true ? true : value === false ? false : undefined
+)
+
 const categories = [
   { name: 'Alimentaire', handle: 'alimentaire', icon: Wheat },
   { name: 'Scolarité', handle: 'scolarite', icon: BookOpen },
@@ -122,95 +146,101 @@ const categories = [
 ]
 
 const currentCategoryName = computed(() => {
-  const cat = categories.find(c => c.handle === currentSlug.value)
-  return cat ? cat.name : currentSlug.value.replace('-', ' ')
+  const category = categories.find(item => item.handle === currentSlug.value)
+  return category ? category.name : currentSlug.value.replace(/-/g, ' ')
 })
 
-// SEO
 useSeoMeta({
-  title: () => `${currentCategoryName.value} - Achat en ligne Dounia Market`,
-  description: () => `Découvrez nos meilleurs produits dans la catégorie ${currentCategoryName.value} avec livraison à N'Djamena sur Dounia Market.`,
+  title: () => `${currentCategoryName.value} | Dounia Market`,
+  description: () => `Consultez les produits ${currentCategoryName.value} disponibles chez Dounia Market pour une livraison locale à N’Djamena selon zone couverte.`,
 })
 
-// State
-const products = ref<Product[]>([])
+const allCategoryProducts = ref<CatalogueProduct[]>([])
 const isLoading = ref(true)
+const error = ref<string | null>(null)
 const selectedPrice = ref('')
 const searchQuery = ref('')
-const allCategoryProducts = ref<Product[]>([]) // All products for this category
+const inStockOnly = ref(false)
 
-const priceRanges = [
+const priceRanges = computed(() => [
   { label: 'Tous les prix', value: '' },
-  { label: 'Moins de 30€', value: '0-30' },
-  { label: '30€ - 60€', value: '30-60' },
-  { label: 'Plus de 60€', value: '60+' },
-]
+  { label: `Moins de ${cartStore.formatPrice(30)}`, value: '0-30' },
+  { label: `${cartStore.formatPrice(30)} à ${cartStore.formatPrice(60)}`, value: '30-60' },
+  { label: `Plus de ${cartStore.formatPrice(60)}`, value: '60+' },
+])
 
-// Fetch products based on category
 const fetchProducts = async () => {
   isLoading.value = true
-  
+  error.value = null
+
   try {
     const response = await getProducts({ category: currentSlug.value, limit: 100 })
-    
-    const mapped = response.products.map((p: any) => ({
+    allCategoryProducts.value = response.products.map((p: any) => ({
       id: p.id.toString(),
       title: p.title,
       handle: p.slug,
       subtitle: p.subtitle || '',
       description: p.description || '',
-      price: p.price || 0,
+      price: normalizePrice(p.price),
       thumbnail: p.thumbnail || '',
       images: p.images || [],
       category: p.category || '',
       categoryHandle: p.category_handle || '',
-      inStock: p.in_stock,
+      inStock: normalizeAvailability(p.in_stock),
     }))
-
-    allCategoryProducts.value = mapped
-    products.value = mapped
-  } catch (e: any) {
+  } catch (e) {
     console.error('Error fetching products:', e)
+    allCategoryProducts.value = []
+    error.value = 'Les produits de cette catégorie ne peuvent pas être chargés.'
   } finally {
     isLoading.value = false
   }
 }
 
-// Local filtering (Search + Price)
 const filteredProducts = computed(() => {
   let result = [...allCategoryProducts.value]
-  
-  // Search query (local search for responsiveness inside a category)
-  if (searchQuery.value && searchQuery.value.length > 2) {
-    const q = searchQuery.value.toLowerCase()
-    result = result.filter(p => p.title.toLowerCase().includes(q) || p.description?.toLowerCase().includes(q))
+
+  if (searchQuery.value.length >= 2) {
+    const query = searchQuery.value.toLowerCase()
+    result = result.filter(product => (
+      product.title.toLowerCase().includes(query)
+      || (product.description || '').toLowerCase().includes(query)
+    ))
   }
-  
-  // Price filtering
+
   if (selectedPrice.value) {
     const [min, max] = selectedPrice.value.split('-').map(Number)
-    result = max 
-      ? result.filter(p => p.price >= min && p.price <= max) 
-      : result.filter(p => p.price >= min)
+    result = max
+      ? result.filter(product => typeof product.price === 'number' && product.price >= min && product.price <= max)
+      : result.filter(product => typeof product.price === 'number' && product.price >= min)
   }
-  
+
+  if (inStockOnly.value) result = result.filter(product => product.inStock === true)
   return result
 })
 
-const resetFilters = () => { 
+const availableCount = computed(() => allCategoryProducts.value.filter(product => product.inStock === true).length)
+const hasFilters = computed(() => Boolean(selectedPrice.value || searchQuery.value || inStockOnly.value))
+
+const resetFilters = () => {
   selectedPrice.value = ''
   searchQuery.value = ''
+  inStockOnly.value = false
 }
 
-// Fetch on mount or when slug changes
 watch(() => currentSlug.value, () => {
+  resetFilters()
   fetchProducts()
 }, { immediate: true })
-
 </script>
 
 <style scoped>
-.filter-btn { @apply flex items-center gap-3 px-4 py-3 rounded-xl text-[var(--color-text-secondary)] transition-all duration-200; }
-.filter-btn:hover { @apply bg-amber-50 text-amber-600; }
-.filter-btn.active { @apply bg-amber-500/10 text-amber-700 font-bold border-l-4 border-amber-500 rounded-l-none; }
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
 </style>

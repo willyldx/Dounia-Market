@@ -18,9 +18,9 @@
         
         <!-- Contact Form — 3/5 width -->
         <div class="lg:col-span-3">
-          <div class="bg-card p-8 md:p-10 rounded-xl border border-border shadow-sm">
+          <div class="bg-card p-8 md:p-10 rounded-lg border border-border shadow-sm">
             <h2 class="text-2xl font-bold text-foreground tracking-tight mb-2">Écrivez-nous</h2>
-            <p class="text-muted-foreground text-sm mb-8">Notre équipe s'engage à vous répondre sous 24 heures.</p>
+            <p class="text-muted-foreground text-sm mb-8">Notre équipe traite les questions liées aux commandes et à la livraison locale.</p>
             
             <form @submit.prevent="submitForm" class="space-y-5">
               <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
@@ -40,7 +40,7 @@
                   <option value="" disabled>Sélectionnez un sujet</option>
                   <option value="commande">Suivi de ma commande</option>
                   <option value="livraison">Détails de livraison</option>
-                  <option value="paiement">Problème de paiement</option>
+                  <option value="validation">Question sur la validation d'une commande</option>
                   <option value="autre">Autre question</option>
                 </select>
               </div>
@@ -59,7 +59,7 @@
               <button 
                 type="submit" 
                 :disabled="isSubmitting"
-                class="inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground hover:bg-primary/90 h-10 px-4 py-2 w-full mt-2"
+                class="inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-brand text-brand-foreground hover:bg-brand/90 h-10 px-4 py-2 w-full mt-2"
               >
                 <Loader v-if="isSubmitting" class="w-4 h-4 mr-2 animate-spin" />
                 <Send v-else class="w-4 h-4 mr-2" />
@@ -72,17 +72,17 @@
         <!-- Contact Info — 2/5 width -->
         <div class="lg:col-span-2 space-y-6">
           
-          <!-- Quick response badge -->
-          <div class="bg-muted/50 border border-border rounded-xl p-5 flex items-start gap-4 mb-2">
+          <!-- Support context -->
+          <div class="bg-muted/50 border border-border rounded-lg p-5 flex items-start gap-4 mb-2">
             <Zap class="w-5 h-5 text-foreground mt-0.5" />
             <div>
-              <p class="font-bold text-foreground text-sm tracking-wide mb-1">Assistance Prioritaire</p>
-              <p class="text-sm text-muted-foreground leading-relaxed">Prise en charge de votre dossier en moins de 24h ouvrées.</p>
+              <p class="font-bold text-foreground text-sm tracking-wide mb-1">Nous contacter</p>
+              <p class="text-sm text-muted-foreground leading-relaxed">Indiquez votre référence de commande lorsque vous en disposez.</p>
             </div>
           </div>
 
           <!-- Contact cards -->
-          <div class="bg-card rounded-xl border border-border shadow-sm p-1">
+          <div class="bg-card rounded-lg border border-border shadow-sm p-1">
             <div 
               v-for="(info, i) in contactInfo" :key="info.label"
               class="p-4 flex items-center gap-4 hover:bg-muted/50 rounded-lg transition-colors group"
@@ -98,23 +98,15 @@
             </div>
           </div>
 
-          <!-- Hours card -->
-          <div class="bg-card rounded-xl border border-border shadow-sm p-5">
+          <!-- Availability card -->
+          <div class="bg-card rounded-lg border border-border shadow-sm p-5">
             <div class="flex items-center gap-2 mb-4">
               <Clock class="w-4 h-4 text-foreground" />
-              <h3 class="font-bold text-foreground text-sm">Horaires d'ouverture</h3>
+              <h3 class="font-bold text-foreground text-sm">Disponibilité du support</h3>
             </div>
-            <div class="space-y-3">
-              <div v-for="h in hours" :key="h.day" class="flex justify-between items-center text-sm">
-                <span class="text-muted-foreground">{{ h.day }}</span>
-                <span 
-                  class="font-medium"
-                  :class="h.closed ? 'text-muted-foreground' : 'text-foreground'"
-                >
-                  {{ h.closed ? 'Fermé' : h.time }}
-                </span>
-              </div>
-            </div>
+            <p class="text-sm text-muted-foreground leading-relaxed">
+              Les canaux et horaires opérationnels seront indiqués avant ouverture publique.
+            </p>
           </div>
           
         </div>
@@ -124,7 +116,7 @@
 </template>
 
 <script setup lang="ts">
-import { Send, Mail, Phone, MapPin, Clock, Zap, MessageSquare, Loader } from 'lucide-vue-next'
+import { Send, Mail, MapPin, Clock, Zap, MessageSquare, Loader } from 'lucide-vue-next'
 
 const toast = useToast()
 // Keeping simple form logic for frontend phase
@@ -133,14 +125,8 @@ const isSubmitting = ref(false)
 
 const contactInfo = [
   { label: 'Email Support', value: 'contact@douniamarket.com', href: 'mailto:contact@douniamarket.com', icon: Mail },
-  { label: 'WhatsApp', value: '+33 X XX XX XX XX', href: '#', icon: MessageSquare },
+  { label: 'Formulaire en ligne', value: 'Utilisez le formulaire pour nous écrire', href: null, icon: MessageSquare },
   { label: 'Zone Logistique', value: 'N\'Djamena, Tchad', href: null, icon: MapPin },
-]
-
-const hours = [
-  { day: 'Lun - Ven', time: '09:00 - 18:00', closed: false },
-  { day: 'Samedi', time: '10:00 - 14:00', closed: false },
-  { day: 'Dimanche', time: '', closed: true },
 ]
 
 const submitForm = async () => {
@@ -155,11 +141,11 @@ const submitForm = async () => {
       message: form.value.message
     })
     
-    toast.add({ title: 'Message envoyé', description: 'Notre équipe logistique vous répondra sous 24h ouvrées.', icon: 'i-heroicons-paper-airplane', color: 'black' })
+    toast.add({ title: 'Message envoyé', description: 'Votre message a été transmis à notre équipe logistique.', icon: 'i-heroicons-paper-airplane', color: 'black' })
     form.value = { name: '', email: '', subject: '', message: '' }
   } catch (error) {
     console.error('Contact error:', error)
-    toast.add({ title: 'Erreur', description: 'Impossible d\'envoyer le message. Veuillez réessayer ou nous contacter par téléphone.', icon: 'i-heroicons-exclamation-circle', color: 'red' })
+    toast.add({ title: 'Erreur', description: 'Impossible d\'envoyer le message. Veuillez réessayer via ce formulaire.', icon: 'i-heroicons-exclamation-circle', color: 'red' })
   } finally {
     isSubmitting.value = false
   }
@@ -168,7 +154,7 @@ const submitForm = async () => {
 useHead({ 
   title: 'Contactez-nous | Dounia Market',
   meta: [
-    { name: 'description', content: 'Besoin d\'aide ? Contactez l\'équipe Dounia Market. Notre support est disponible pour toute question sur vos commandes vers N\'Djamena.' },
+    { name: 'description', content: 'Contactez l\'équipe Dounia Market au sujet de vos commandes et de la livraison locale à N\'Djamena.' },
   ]
 })
 </script>

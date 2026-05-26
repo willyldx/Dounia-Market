@@ -8,16 +8,16 @@
 
     <!-- Stats -->
     <div class="grid grid-cols-2 gap-3 mb-6">
-      <div class="bg-white rounded-xl p-4 shadow-sm border border-gray-100">
+      <div class="bg-white rounded-lg p-4 shadow-sm border border-gray-100">
         <p class="text-3xl font-bold text-gray-900">{{ totalDeliveries }}</p>
         <p class="text-sm text-gray-500">Livraisons totales</p>
       </div>
-      <div class="bg-white rounded-xl p-4 shadow-sm border border-gray-100">
+      <div class="bg-white rounded-lg p-4 shadow-sm border border-gray-100">
         <div class="flex items-center gap-1">
           <Icon name="lucide:star" class="w-6 h-6 text-amber-500 fill-current" />
-          <p class="text-3xl font-bold text-gray-900">{{ rating }}</p>
+          <p class="text-3xl font-bold text-gray-900">{{ rating ?? '--' }}</p>
         </div>
-        <p class="text-sm text-gray-500">Note moyenne</p>
+        <p class="text-sm text-gray-500">{{ rating ? 'Note moyenne' : 'Note indisponible' }}</p>
       </div>
     </div>
 
@@ -33,7 +33,7 @@
 
     <!-- Loading -->
     <div v-if="loading" class="flex items-center justify-center py-12">
-      <UIcon name="i-lucide-loader-2" class="w-8 h-8 animate-spin text-green-500" />
+      <UIcon name="i-lucide-loader-2" class="w-8 h-8 animate-spin text-amber-600" />
     </div>
 
     <!-- Deliveries List -->
@@ -41,14 +41,14 @@
       <div
         v-for="delivery in filteredHistory"
         :key="delivery.id"
-        class="bg-white rounded-xl p-4 shadow-sm border border-gray-100"
+        class="bg-white rounded-lg p-4 shadow-sm border border-gray-100"
       >
         <div class="flex items-start justify-between mb-2">
           <div>
             <span class="font-semibold text-gray-900">#{{ delivery.displayId }}</span>
             <p class="text-sm text-gray-500">{{ formatDate(delivery.deliveredAt) }}</p>
           </div>
-          <span class="font-bold text-green-600">{{ formatPrice(delivery.total) }}</span>
+          <span class="font-bold text-dounia-500">{{ formatPrice(delivery.total) }}</span>
         </div>
         
         <div class="flex items-center gap-2 text-sm text-gray-600">
@@ -62,7 +62,7 @@
         </div>
 
         <div v-if="delivery.deliveryPhoto" class="mt-3">
-          <img :src="delivery.deliveryPhoto" alt="Preuve" class="w-full h-24 object-cover rounded-lg" />
+          <img :src="delivery.deliveryPhoto" alt="Photo de remise" class="w-full h-24 object-cover rounded-lg" />
         </div>
       </div>
     </div>
@@ -92,7 +92,7 @@ const authStore = useAuthStore()
 const loading = ref(true)
 const history = ref<Order[]>([])
 const totalDeliveries = ref(0)
-const rating = ref('5.0')
+const rating = ref<string | null>(null)
 const selectedMonth = ref<string | null>(null)
 
 // Month options
@@ -165,7 +165,7 @@ const mapOrder = (o: any): Order => ({
 
 // Helpers
 const formatPrice = (amount: number) => {
-  return new Intl.NumberFormat('fr-FR', { style: 'currency', currency: 'EUR' }).format(amount)
+  return useCartStore().formatPrice(amount || 0)
 }
 
 const formatDate = (date: string | undefined) => {

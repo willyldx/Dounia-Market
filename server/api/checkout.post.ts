@@ -5,6 +5,14 @@
 import type { CheckoutPaymentInitialization } from '~/types'
 
 export default defineEventHandler(async (event) => {
+  const config = useRuntimeConfig()
+  if (String(config.public.checkoutPaymentEnabled) !== 'true') {
+    throw createError({
+      statusCode: 503,
+      statusMessage: 'La validation de commande n’est pas ouverte.',
+    })
+  }
+
   const body = await readBody<{
     user_id?: string
     email: string
@@ -47,7 +55,6 @@ export default defineEventHandler(async (event) => {
     })
   }
 
-  const config = useRuntimeConfig()
   const apiUrl = (config.public.apiUrl as string || 'https://api.douniamarket.com/api').replace(/\/+$/, '')
   const authToken = getCookie(event, 'tchadbox_auth_token')
 

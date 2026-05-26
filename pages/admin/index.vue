@@ -2,12 +2,12 @@
   <div class="space-y-6">
     <div class="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
       <div>
-        <p class="mb-2 text-xs font-semibold uppercase text-emerald-700">Opérations · {{ todayLabel }}</p>
+        <p class="mb-2 text-xs font-semibold uppercase text-amber-700">Opérations · {{ todayLabel }}</p>
         <h1 class="text-2xl font-semibold text-zinc-950 sm:text-3xl">Vue d'ensemble</h1>
         <p class="mt-1 text-sm text-zinc-500">Bonjour {{ authStore.fullName }}. Voici les commandes et livraisons à traiter.</p>
       </div>
       <div class="flex gap-2">
-        <NuxtLink to="/admin/commandes" class="inline-flex h-10 items-center gap-2 rounded-lg bg-[#15251f] px-4 text-sm font-medium text-white hover:bg-[#20372e]">
+        <NuxtLink to="/admin/commandes" class="inline-flex h-10 items-center gap-2 rounded-lg bg-[#111a31] px-4 text-sm font-medium text-white hover:bg-[#0f172a]">
           <Icon name="lucide:package" class="h-4 w-4" />
           Commandes
         </NuxtLink>
@@ -40,7 +40,7 @@
             <h2 class="font-semibold text-zinc-950">Commandes en attente</h2>
             <p class="mt-0.5 text-xs text-zinc-500">Paiements confirmés à préparer</p>
           </div>
-          <NuxtLink to="/admin/commandes" class="inline-flex items-center gap-1 text-sm font-medium text-emerald-700 hover:text-emerald-800">
+          <NuxtLink to="/admin/commandes" class="inline-flex items-center gap-1 text-sm font-medium text-amber-700 hover:text-amber-800">
             Toutes
             <Icon name="lucide:arrow-right" class="h-4 w-4" />
           </NuxtLink>
@@ -63,7 +63,7 @@
           </div>
         </div>
         <div v-else class="flex min-h-[180px] flex-col items-center justify-center px-5 py-8 text-center">
-          <Icon name="lucide:package-check" class="mb-3 h-8 w-8 text-emerald-600" />
+          <Icon name="lucide:package-check" class="mb-3 h-8 w-8 text-dounia-500" />
           <p class="text-sm font-medium text-zinc-800">Aucune commande en attente</p>
           <p class="mt-1 text-xs text-zinc-500">Les nouvelles commandes confirmées apparaîtront ici.</p>
         </div>
@@ -72,15 +72,15 @@
       <section class="overflow-hidden rounded-lg border border-zinc-200 bg-white">
         <div class="flex items-center justify-between border-b border-zinc-100 px-4 py-4 sm:px-5">
           <h2 class="font-semibold text-zinc-950">Livraisons en cours</h2>
-          <span class="min-w-6 rounded-full bg-emerald-50 px-2 py-1 text-center text-xs font-semibold text-emerald-700">
+          <span class="min-w-6 rounded-full bg-sky-50 px-2 py-1 text-center text-xs font-semibold text-sky-700">
             {{ activeDeliveries.length }}
           </span>
         </div>
         <div v-if="activeDeliveries.length > 0" class="divide-y divide-zinc-100">
           <div v-for="delivery in activeDeliveries" :key="delivery.id" class="p-4 sm:px-5">
             <div class="flex items-center gap-3">
-              <div class="flex h-9 w-9 items-center justify-center rounded-lg bg-emerald-50">
-                <Icon name="lucide:truck" class="h-5 w-5 text-emerald-700" />
+              <div class="flex h-9 w-9 items-center justify-center rounded-lg bg-sky-50">
+                <Icon name="lucide:truck" class="h-5 w-5 text-sky-700" />
               </div>
               <div class="min-w-0 flex-1">
                 <p class="font-medium text-zinc-950">#{{ delivery.display_id || delivery.id.slice(0, 8).toUpperCase() }}</p>
@@ -116,9 +116,9 @@ const todayLabel = new Intl.DateTimeFormat('fr-FR', {
 
 // Stats
 const stats = ref([
-  { label: "Commandes aujourd'hui", value: '0', icon: 'lucide:shopping-bag', bgColor: 'bg-sky-50', iconColor: 'text-sky-700', subtext: '0 EUR de CA' },
+  { label: "Commandes aujourd'hui", value: '0', icon: 'lucide:shopping-bag', bgColor: 'bg-sky-50', iconColor: 'text-sky-700', subtext: 'Montant selon commandes' },
   { label: 'En attente', value: '0', icon: 'lucide:clock', bgColor: 'bg-amber-50', iconColor: 'text-amber-700' },
-  { label: 'En livraison', value: '0', icon: 'lucide:truck', bgColor: 'bg-emerald-50', iconColor: 'text-emerald-700' },
+  { label: 'En livraison', value: '0', icon: 'lucide:truck', bgColor: 'bg-sky-50', iconColor: 'text-sky-700' },
   { label: 'Livrées ce mois', value: '0', icon: 'lucide:package-check', bgColor: 'bg-zinc-100', iconColor: 'text-zinc-700' },
 ])
 

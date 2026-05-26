@@ -1,5 +1,5 @@
 /**
- * useCurrency — Composable multi-devise pour TchadBox
+ * useCurrency - Composable multi-devise pour Dounia Market
  *
  * Architecture A+ : conversion côté frontend, migration-ready vers microservice.
  * Le jour où on passe à l'Approche C (Python FastAPI), on change UNE fonction ici.

@@ -1,127 +1,103 @@
 <template>
   <div class="min-h-screen bg-background">
-    <main class="container mx-auto px-4 py-12">
-      <!-- Hero Section from v0 -->
-      <section class="text-center mb-20 relative">
-        <!-- Deco -->
-        <div class="absolute top-0 right-10 w-64 h-64 bg-accent/10 rounded-full blur-3xl -z-10" />
-        <div class="absolute bottom-0 left-10 w-48 h-48 bg-primary/10 rounded-full blur-2xl -z-10" />
-
-        <UiBadge class="mb-4 bg-accent/10 text-accent border-accent/20 hover:bg-accent/20">
-          Dounia Market — Diaspora
-        </UiBadge>
-        <h1 class="font-serif text-4xl md:text-5xl lg:text-7xl font-bold mb-6 text-foreground max-w-4xl mx-auto leading-tight">
-          Le meilleur pour votre famille,
-          <span class="block text-accent">sans compromis.</span>
-        </h1>
-        <p class="text-lg text-muted-foreground max-w-2xl mx-auto leading-relaxed">
-          Commandez les meilleurs produits pour vos proches au Tchad. 
-          Livraison sécurisée, suivi clair, qualité garantie. Une logistique pensée pour la diaspora.
-        </p>
-        <div class="mt-8 flex justify-center gap-4">
-          <NuxtLink to="/catalogue">
-            <UiButton size="lg" class="bg-accent text-accent-foreground hover:bg-accent/90  rounded-xl text-lg px-8">
-              Explorer le catalogue
-              <ArrowRight class="ml-2 h-5 w-5" />
-            </UiButton>
-          </NuxtLink>
+    <main class="mx-auto max-w-7xl px-4 py-8 sm:px-6 sm:py-12 lg:px-8">
+      <section class="grid items-stretch gap-6 lg:grid-cols-[1.08fr_0.92fr]">
+        <div class="rounded-lg border border-border bg-card p-6 sm:p-10 lg:p-12">
+          <p class="mb-4 inline-flex rounded-md bg-amber-50 px-3 py-1.5 text-xs font-semibold uppercase tracking-[0.14em] text-amber-800">
+            Dounia Market | Diaspora tchadienne
+          </p>
+          <h1 class="max-w-2xl text-4xl font-bold tracking-tight text-foreground sm:text-5xl lg:text-6xl">
+            Commandez à distance, votre famille reçoit à N'Djamena.
+          </h1>
+          <p class="mt-5 max-w-xl text-base leading-relaxed text-muted-foreground sm:text-lg">
+            Choisissez des produits du catalogue local. Dounia Market prépare la commande au Tchad
+            et organise la livraison au bénéficiaire selon les zones couvertes.
+          </p>
+          <div class="mt-8 flex flex-col gap-3 sm:flex-row">
+            <NuxtLink
+              to="/catalogue"
+              class="inline-flex h-12 items-center justify-center gap-2 rounded-md bg-brand px-6 text-sm font-semibold text-brand-foreground transition-colors hover:bg-brand/90"
+            >
+              Voir les produits
+              <ArrowRight class="h-4 w-4" />
+            </NuxtLink>
+            <NuxtLink
+              to="/suivi"
+              class="inline-flex h-12 items-center justify-center rounded-md border border-border bg-background px-6 text-sm font-semibold text-foreground transition-colors hover:bg-muted"
+            >
+              Suivre une commande
+            </NuxtLink>
+          </div>
         </div>
-      </section>
 
-      <!-- Trust Badges (v0 style) -->
-      <section class="mb-20 flex justify-center">
-        <div class="rounded-xl p-6 shadow-sm border border-border bg-card/80 backdrop-blur-md flex flex-wrap justify-center gap-6 md:gap-12 w-full max-w-4xl">
-          <div class="flex items-center gap-3">
-            <div class="w-10 h-10 rounded-full bg-success/10 flex items-center justify-center">
-              <ShieldCheck class="w-5 h-5 text-success" />
+        <div class="grid gap-3 sm:grid-cols-3 lg:grid-cols-1">
+          <div
+            v-for="(step, index) in serviceSteps"
+            :key="step.title"
+            class="flex gap-4 rounded-lg border border-border bg-card p-5"
+          >
+            <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-md bg-amber-50 text-amber-700">
+              <component :is="step.icon" class="h-5 w-5" />
             </div>
-            <div class="text-left">
-              <p class="font-bold text-foreground">Paiement Sécurisé</p>
-              <p class="text-xs text-muted-foreground">Visa, Mastercard via Paystack</p>
-            </div>
-          </div>
-          <div class="flex items-center gap-3">
-            <div class="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">
-              <Truck class="w-5 h-5 text-primary" />
-            </div>
-            <div class="text-left">
-              <p class="font-bold text-foreground">Livraison 3-5 jours</p>
-              <p class="text-xs text-muted-foreground">Directement à N'Djamena</p>
-            </div>
-          </div>
-          <div class="flex items-center gap-3">
-            <div class="w-10 h-10 rounded-full bg-accent/10 flex items-center justify-center">
-              <Camera class="w-5 h-5 text-accent" />
-            </div>
-            <div class="text-left">
-              <p class="font-bold text-foreground">Preuve Photo</p>
-              <p class="text-xs text-muted-foreground">À la réception de la commande</p>
+            <div>
+              <p class="text-xs font-semibold uppercase tracking-[0.14em] text-muted-foreground">
+                Étape {{ index + 1 }}
+              </p>
+              <h2 class="mt-1 text-base font-semibold text-foreground">{{ step.title }}</h2>
+              <p class="mt-1 text-sm leading-relaxed text-muted-foreground">{{ step.text }}</p>
             </div>
           </div>
         </div>
       </section>
 
-      <!-- Feature Showcase (v0 Style) -->
-      <section id="features" class="mb-20">
-        <div class="mb-8 text-center">
-          <h2 class="font-serif text-3xl font-bold mb-2 text-foreground">Pourquoi choisir Dounia Market ?</h2>
-          <p class="text-muted-foreground">Une expérience premium pour la diaspora.</p>
+      <section class="mt-8 grid gap-3 sm:grid-cols-3" aria-label="Informations de service">
+        <div class="flex items-center gap-3 rounded-lg border border-border bg-card p-4">
+          <PackageCheck class="h-5 w-5 shrink-0 text-amber-700" />
+          <p class="text-sm font-medium text-foreground">Disponibilité locale indiquée par produit</p>
         </div>
-
-        <div class="grid md:grid-cols-3 gap-6 max-w-6xl mx-auto">
-          <UiCard class="shadow-sm border border-border bg-card hover:-translate-y-1 transition-transform duration-300">
-            <div class="p-6">
-              <div class="w-14 h-14 rounded-2xl bg-accent/10 flex items-center justify-center mb-4">
-                <Globe class="h-7 w-7 text-accent" />
-              </div>
-              <h3 class="font-serif text-xl font-bold mb-2">Connexion Globale</h3>
-              <p class="text-muted-foreground leading-relaxed">
-                Envoyez l'essentiel à votre famille depuis n'importe où dans le monde. Nous gérons la logistique locale.
-              </p>
-            </div>
-          </UiCard>
-
-          <UiCard class="shadow-sm border border-border bg-card hover:-translate-y-1 transition-transform duration-300">
-            <div class="p-6">
-              <div class="w-14 h-14 rounded-2xl bg-success/10 flex items-center justify-center mb-4">
-                <ShieldCheck class="h-7 w-7 text-success" />
-              </div>
-              <h3 class="font-serif text-xl font-bold mb-2">Livraison Vérifiée</h3>
-              <p class="text-muted-foreground leading-relaxed">
-                Preuve photo à chaque livraison. Suivez votre colis en temps réel pour une tranquillité d'esprit totale.
-              </p>
-            </div>
-          </UiCard>
-
-          <UiCard class="shadow-sm border border-border bg-card hover:-translate-y-1 transition-transform duration-300">
-            <div class="p-6">
-              <div class="w-14 h-14 rounded-2xl bg-primary/10 flex items-center justify-center mb-4">
-                <Users class="h-7 w-7 text-primary" />
-              </div>
-              <h3 class="font-serif text-xl font-bold mb-2">La Famille d'Abord</h3>
-              <p class="text-muted-foreground leading-relaxed">
-                Construit par la diaspora, pour la diaspora. Nous comprenons exactement ce dont votre famille a besoin.
-              </p>
-            </div>
-          </UiCard>
+        <div class="flex items-center gap-3 rounded-lg border border-border bg-card p-4">
+          <MapPin class="h-5 w-5 shrink-0 text-amber-700" />
+          <p class="text-sm font-medium text-foreground">Livraison locale à N'Djamena selon zone</p>
+        </div>
+        <div class="flex items-center gap-3 rounded-lg border border-border bg-card p-4">
+          <ReceiptText class="h-5 w-5 shrink-0 text-slate-700" />
+          <p class="text-sm font-medium text-foreground">Zones et frais à confirmer avant ouverture</p>
         </div>
       </section>
 
-      <!-- Products Section (Keeping real logic but v0 style) -->
-      <section v-if="featuredProducts.length > 0" class="mb-20">
-        <div class="mb-8 flex items-center justify-between max-w-6xl mx-auto">
+      <section class="mt-14 sm:mt-16">
+        <div class="mb-6 flex flex-col justify-between gap-3 sm:flex-row sm:items-end">
           <div>
-            <h2 class="font-serif text-3xl font-bold text-foreground">Top tendances</h2>
-            <p class="text-muted-foreground mt-1">Sélectionnés pour vos proches</p>
+            <p class="text-xs font-semibold uppercase tracking-[0.14em] text-amber-700">Catalogue local</p>
+            <h2 class="mt-2 text-2xl font-bold text-foreground sm:text-3xl">Produits pour vos proches</h2>
+            <p class="mt-2 text-sm text-muted-foreground">
+              Consultez le prix et l'état de disponibilité avant d'ajouter au panier.
+            </p>
           </div>
-          <NuxtLink to="/catalogue" class="hidden items-center gap-2 text-sm font-semibold text-primary hover:text-primary/80 md:flex">
-            Voir tout le catalogue
+          <NuxtLink
+            to="/catalogue"
+            class="inline-flex items-center gap-2 text-sm font-semibold text-brand hover:text-brand/80"
+          >
+            Tout le catalogue
             <ArrowRight class="h-4 w-4" />
           </NuxtLink>
         </div>
-        
-        <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4 max-w-6xl mx-auto">
-          <ProductCard v-for="(product, i) in featuredProducts" :key="product.id" :product="product" :delay="i * 100" />
+
+        <div v-if="loading" class="grid grid-cols-1 gap-3 min-[380px]:grid-cols-2 sm:gap-5 lg:grid-cols-4">
+          <ProductSkeleton v-for="i in 4" :key="i" />
+        </div>
+        <div v-else-if="featuredProducts.length" class="grid grid-cols-1 gap-3 min-[380px]:grid-cols-2 sm:gap-5 lg:grid-cols-4">
+          <ProductCard
+            v-for="product in featuredProducts"
+            :key="product.id"
+            :product="product"
+          />
+        </div>
+        <div v-else class="rounded-lg border border-border bg-card px-6 py-10 text-center">
+          <p class="text-sm text-muted-foreground">Le catalogue sera disponible ici prochainement.</p>
+          <NuxtLink to="/catalogue" class="mt-4 inline-flex text-sm font-semibold text-brand">
+            Ouvrir le catalogue
+          </NuxtLink>
         </div>
       </section>
     </main>
@@ -129,21 +105,36 @@
 </template>
 
 <script setup lang="ts">
-import {
-  ArrowRight,
-  ShieldCheck,
-  Truck,
-  Camera,
-  Globe,
-  Users
-} from 'lucide-vue-next'
-import UiButton from '~/components/ui/Button.vue'
-import UiBadge from '~/components/ui/Badge.vue'
-import UiCard from '~/components/ui/Card.vue'
+import { ArrowRight, MapPin, PackageCheck, ReceiptText, ShoppingBasket, Truck } from 'lucide-vue-next'
 import ProductCard from '~/components/product/ProductCard.vue'
+import ProductSkeleton from '~/components/product/ProductSkeleton.vue'
+
+const serviceSteps = [
+  {
+    icon: ShoppingBasket,
+    title: 'Vous choisissez',
+    text: 'Depuis l’étranger, sélectionnez les produits utiles à votre proche.',
+  },
+  {
+    icon: PackageCheck,
+    title: 'Nous préparons localement',
+    text: 'Dounia Market rassemble les articles disponibles sur place.',
+  },
+  {
+    icon: Truck,
+    title: 'Votre famille reçoit',
+    text: 'La livraison est organisée à N’Djamena dans les zones couvertes.',
+  },
+]
 
 const featuredProducts = ref<any[]>([])
 const loading = ref(true)
+const normalizePrice = (value: unknown): number | undefined => (
+  typeof value === 'number' && Number.isFinite(value) ? value : undefined
+)
+const normalizeAvailability = (value: unknown): boolean | undefined => (
+  value === true ? true : value === false ? false : undefined
+)
 
 onMounted(() => {
   fetchFeaturedProducts()
@@ -159,11 +150,12 @@ const fetchFeaturedProducts = async () => {
       title: p.title,
       handle: p.slug,
       subtitle: p.subtitle || '',
-      price: p.price || 0,
+      price: normalizePrice(p.price),
       thumbnail: p.thumbnail || '',
+      images: p.images || [],
       category: p.category || '',
       categoryHandle: p.category_handle || '',
-      inStock: p.in_stock,
+      inStock: normalizeAvailability(p.in_stock),
     }))
   } catch (e) {
     featuredProducts.value = []
@@ -172,10 +164,13 @@ const fetchFeaturedProducts = async () => {
   }
 }
 
-useHead({ 
-  title: 'Dounia Market — Le marché de la diaspora tchadienne',
+useHead({
+  title: 'Dounia Market | Produits livrés à vos proches à N’Djamena',
   meta: [
-    { name: 'description', content: 'Dounia Market, le marché de référence pour la diaspora tchadienne.' },
-  ]
+    {
+      name: 'description',
+      content: 'Commandez à distance des produits disponibles localement pour une livraison à N’Djamena selon les zones couvertes.',
+    },
+  ],
 })
 </script>

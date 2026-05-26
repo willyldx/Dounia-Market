@@ -21,7 +21,7 @@
     >
       <div v-if="cartStore.isOpen" class="fixed top-0 right-0 h-full w-full max-w-md bg-white shadow-2xl z-[110] flex flex-col">
         <!-- Header -->
-        <div class="flex items-center justify-between px-8 py-6 border-b border-gray-100">
+        <div class="flex items-center justify-between px-5 sm:px-6 py-5 border-b border-gray-100">
           <div class="flex items-center gap-4">
             <h2 class="text-2xl font-black text-gray-900 tracking-tight">Panier</h2>
             <div v-if="cartStore.itemCount > 0" class="px-2.5 py-1 rounded-full bg-gray-100 text-gray-900 text-xs font-bold">
@@ -31,36 +31,6 @@
           <button @click="cartStore.closeCart" class="w-10 h-10 rounded-full flex items-center justify-center hover:bg-gray-100 transition-colors group">
             <X class="w-5 h-5 text-gray-400 group-hover:text-gray-900 transition-colors" />
           </button>
-        </div>
-
-        <!-- Free Shipping Progress -->
-        <div v-if="!cartStore.isEmpty" class="px-8 py-5 bg-gray-50/50 border-b border-gray-100">
-          <div class="flex items-center justify-between mb-3">
-            <span class="text-xs font-bold text-gray-900 flex items-center gap-2 tracking-wide uppercase">
-              <template v-if="cartStore.amountToFreeShipping > 0">
-                <Truck class="w-4 h-4 text-gray-400" />
-                <span class="text-gray-500">Plus que</span> {{ cartStore.formatPrice(cartStore.amountToFreeShipping) }}
-              </template>
-              <template v-else>
-                <div class="w-5 h-5 rounded-full bg-[var(--color-accent)] flex items-center justify-center shadow-sm">
-                  <Check class="w-3 h-3 text-white" />
-                </div>
-                Livraison <span class="text-[var(--color-accent)]">Offerte</span>
-              </template>
-            </span>
-            <span v-if="cartStore.amountToFreeShipping > 0" class="text-[10px] font-bold text-gray-400">
-              Objectif: {{ cartStore.formatPrice(cartStore.freeShippingThreshold) }}
-            </span>
-          </div>
-          <div class="h-1.5 w-full bg-gray-200 rounded-full overflow-hidden">
-            <div 
-              class="h-full bg-gray-900 transition-all duration-1000 ease-out relative"
-              :class="{'bg-[var(--color-accent)]': cartStore.amountToFreeShipping <= 0}"
-              :style="{ width: `${cartStore.freeShippingProgress}%` }"
-            >
-              <div class="absolute inset-0 bg-white/20 animate-pulse" />
-            </div>
-          </div>
         </div>
 
         <!-- Content -->
@@ -75,18 +45,18 @@
             </div>
             <h3 class="text-2xl font-black text-gray-900 mb-3 tracking-tight">Votre panier est vide</h3>
             <p class="text-gray-500 font-medium mb-10 leading-relaxed max-w-xs">
-              Mettez le nécessaire dans le panier, et TchadBox s'occupe de l'atterrissage à N'Djamena.
+              Choisissez des produits à livrer localement par Dounia Market à vos proches à N'Djamena.
             </p>
-            <NuxtLink to="/catalogue" class="flex items-center justify-center gap-2 px-8 py-4 bg-gray-900 text-white font-bold rounded-xl hover:bg-gray-800 transition-all shadow-md w-full" @click="cartStore.closeCart">
+            <NuxtLink to="/catalogue" class="flex items-center justify-center gap-2 px-8 py-4 bg-brand text-brand-foreground font-bold rounded-lg hover:bg-brand/90 transition-all shadow-md w-full" @click="cartStore.closeCart">
               Découvrir le catalogue
             </NuxtLink>
           </div>
 
           <!-- Items -->
-          <div v-else class="p-6 space-y-4">
-            <div v-for="item in cartStore.items" :key="item.id" class="flex gap-5 p-4 rounded-2xl bg-white border border-gray-100 hover:border-gray-200 transition-colors shadow-sm group">
+          <div v-else class="p-4 sm:p-5 space-y-4">
+            <div v-for="item in cartStore.items" :key="item.id" class="flex gap-3 sm:gap-4 p-3 sm:p-4 rounded-lg bg-white border border-gray-100 hover:border-gray-200 transition-colors shadow-sm group">
               <!-- Item Image -->
-              <div class="w-20 h-20 rounded-xl bg-gray-50 flex items-center justify-center flex-shrink-0 overflow-hidden relative">
+              <div class="w-16 h-16 sm:w-20 sm:h-20 rounded-lg bg-gray-50 flex items-center justify-center flex-shrink-0 overflow-hidden relative">
                 <img
                   v-if="item.thumbnail"
                   :src="resolveThumb(item.thumbnail)"
@@ -126,27 +96,32 @@
         </div>
 
         <!-- Footer Checkout Action -->
-        <div v-if="!cartStore.isEmpty" class="border-t border-gray-100 p-8 bg-white shrink-0 z-10">
-          <div class="space-y-4 mb-8">
+        <div v-if="!cartStore.isEmpty" class="border-t border-gray-100 p-5 sm:p-6 bg-white shrink-0 z-10">
+          <div class="space-y-4 mb-6">
             <div class="flex justify-between text-gray-500 text-sm font-medium">
               <span>Sous-total</span>
               <span class="text-gray-900">{{ cartStore.formattedSubtotal }}</span>
             </div>
             <div class="flex justify-between text-gray-500 text-sm font-medium">
-              <span class="flex items-center gap-2"><Truck class="w-4 h-4 text-gray-400" />Taxes & Fret aérien</span>
-              <span class="text-gray-900">{{ cartStore.formattedShipping }}</span>
+              <span class="flex items-center gap-2"><Truck class="w-4 h-4 text-gray-400" />Livraison locale</span>
+              <span class="text-gray-900">À confirmer</span>
             </div>
             <div class="border-t border-gray-100 pt-4 flex justify-between items-end">
-              <span class="font-black text-gray-900 uppercase tracking-widest text-xs">Total TTC</span>
+              <span class="font-bold text-gray-900 text-xs">Sous-total produits</span>
               <div class="text-right">
-                <span class="text-3xl font-black text-gray-900 tracking-tight">{{ cartStore.formattedTotal }}</span>
-                <p v-if="cartStore.currency !== 'XAF'" class="text-xs text-[var(--color-accent)] font-bold mt-1 tracking-wide">≈ {{ cartStore.totalXAF }} FCFA</p>
+                <span class="text-3xl font-black text-gray-900 tracking-tight">{{ cartStore.formattedSubtotal }}</span>
               </div>
             </div>
+            <p class="text-xs text-gray-500 leading-relaxed">
+              Zones couvertes et frais de livraison confirmés avant l'ouverture publique du service.
+            </p>
           </div>
           
-          <NuxtLink to="/checkout" class="w-full flex items-center justify-center gap-3 py-4.5 bg-gray-900 text-white font-bold rounded-xl hover:bg-gray-800 transition-all shadow-lg hover:shadow-xl active:scale-[0.98]" @click="cartStore.closeCart">
-            <Lock class="w-4 h-4 text-gray-400" /> Valider ma commande sécurisée
+          <NuxtLink v-if="checkoutPaymentEnabled" to="/checkout" class="w-full flex items-center justify-center gap-3 py-4 bg-brand text-brand-foreground font-bold rounded-lg hover:bg-brand/90 transition-all shadow-sm active:scale-[0.98]" @click="cartStore.closeCart">
+            <MapPin class="w-4 h-4 text-brand-foreground/70" /> Indiquer la livraison
+          </NuxtLink>
+          <NuxtLink v-else to="/contact" class="w-full flex items-center justify-center gap-3 py-4 bg-brand text-brand-foreground font-bold rounded-lg hover:bg-brand/90 transition-all shadow-sm active:scale-[0.98]" @click="cartStore.closeCart">
+            Contacter Dounia Market
           </NuxtLink>
         </div>
       </div>
@@ -155,10 +130,12 @@
 </template>
 
 <script setup lang="ts">
-import { ShoppingBag, X, Package, Trash2, Minus, Plus, Truck, Check, Lock } from 'lucide-vue-next'
+import { ShoppingBag, X, Package, Trash2, Minus, Plus, Truck, MapPin } from 'lucide-vue-next'
 import { useCartStore } from '~/stores/cart'
 
 const cartStore = useCartStore()
+const config = useRuntimeConfig()
+const checkoutPaymentEnabled = computed(() => String(config.public.checkoutPaymentEnabled) === 'true')
 
 const resolveThumb = (path: string | undefined) => {
   if (!path) return ''

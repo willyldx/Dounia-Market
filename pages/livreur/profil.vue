@@ -6,40 +6,40 @@
     </div>
 
     <!-- Profile Card -->
-    <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-100 mb-6">
+    <div class="bg-white rounded-lg p-6 shadow-sm border border-gray-100 mb-6">
       <div class="flex items-center gap-4 mb-6">
-        <div class="w-20 h-20 rounded-full bg-green-100 flex items-center justify-center">
-          <span class="text-2xl font-bold text-green-700">{{ authStore.initials }}</span>
+        <div class="w-20 h-20 rounded-full bg-amber-100 flex items-center justify-center">
+          <span class="text-2xl font-bold text-amber-800">{{ authStore.initials }}</span>
         </div>
         <div>
           <h2 class="text-xl font-bold text-gray-900">{{ authStore.fullName }}</h2>
           <p class="text-gray-500">{{ authStore.user?.email }}</p>
-          <UBadge color="green" variant="soft" class="mt-1">🚚 Livreur</UBadge>
+          <UBadge color="amber" variant="soft" class="mt-1">🚚 Livreur</UBadge>
         </div>
       </div>
 
       <!-- Stats -->
-      <div class="grid grid-cols-3 gap-4 p-4 bg-gray-50 rounded-xl">
+      <div class="grid grid-cols-3 gap-4 p-4 bg-gray-50 rounded-lg">
         <div class="text-center">
-          <p class="text-2xl font-bold text-gray-900">{{ agentStats.totalDeliveries }}</p>
+          <p class="text-2xl font-bold text-gray-900">{{ agentStats.totalDeliveries ?? '--' }}</p>
           <p class="text-xs text-gray-500">Livraisons</p>
         </div>
         <div class="text-center">
           <div class="flex items-center justify-center gap-1">
             <Icon name="lucide:star" class="w-5 h-5 text-amber-500 fill-current" />
-            <p class="text-2xl font-bold text-gray-900">{{ agentStats.rating }}</p>
+            <p class="text-2xl font-bold text-gray-900">{{ agentStats.rating ?? '--' }}</p>
           </div>
           <p class="text-xs text-gray-500">Note</p>
         </div>
         <div class="text-center">
-          <p class="text-2xl font-bold text-gray-900">{{ agentStats.zone }}</p>
+          <p class="text-2xl font-bold text-gray-900">{{ agentStats.zone || '--' }}</p>
           <p class="text-xs text-gray-500">Zone</p>
         </div>
       </div>
     </div>
 
     <!-- Contact Info -->
-    <div class="bg-white rounded-xl p-4 shadow-sm border border-gray-100 mb-6">
+    <div class="bg-white rounded-lg p-4 shadow-sm border border-gray-100 mb-6">
       <h3 class="font-semibold text-gray-900 mb-4">Informations de contact</h3>
       
       <div class="space-y-4">
@@ -69,7 +69,7 @@
           </div>
           <div>
             <p class="text-xs text-gray-500">Zone de livraison</p>
-            <p class="font-medium text-gray-900">{{ agentStats.zone }}</p>
+            <p class="font-medium text-gray-900">{{ agentStats.zone || 'Non renseignée' }}</p>
           </div>
         </div>
       </div>
@@ -79,10 +79,10 @@
     <div class="space-y-3">
       <button 
         @click="showEditModal = true"
-        class="w-full flex items-center gap-3 p-4 bg-white rounded-xl shadow-sm border border-gray-100"
+        class="w-full flex items-center gap-3 p-4 bg-white rounded-lg shadow-sm border border-gray-100"
       >
-        <div class="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center">
-          <Icon name="lucide:edit" class="w-5 h-5 text-blue-600" />
+        <div class="w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center">
+          <Icon name="lucide:edit" class="w-5 h-5 text-dounia-500" />
         </div>
         <span class="flex-1 text-left font-medium text-gray-900">Modifier mon profil</span>
         <Icon name="lucide:chevron-right" class="w-5 h-5 text-gray-400" />
@@ -90,7 +90,7 @@
 
       <button 
         @click="authStore.logout()"
-        class="w-full flex items-center gap-3 p-4 bg-white rounded-xl shadow-sm border border-gray-100"
+        class="w-full flex items-center gap-3 p-4 bg-white rounded-lg shadow-sm border border-gray-100"
       >
         <div class="w-10 h-10 rounded-full bg-red-100 flex items-center justify-center">
           <Icon name="lucide:log-out" class="w-5 h-5 text-red-600" />
@@ -145,9 +145,9 @@ const toast = useToast()
 const showEditModal = ref(false)
 const saving = ref(false)
 const agentStats = ref({
-  totalDeliveries: 0,
-  rating: '5.0',
-  zone: "N'Djamena",
+  totalDeliveries: null as number | null,
+  rating: null as string | null,
+  zone: null as string | null,
   phone: ''
 })
 
@@ -159,20 +159,11 @@ const editForm = ref({
 })
 
 // Fetch agent stats
-const fetchAgentStats = async () => {
+const fetchAgentStats = () => {
   if (!authStore.user) return
 
-  try {
-    // TODO: Fetch agent stats from Laravel
-    agentStats.value = {
-      totalDeliveries: 0,
-      rating: '5.0',
-      zone: "N'Djamena",
-      phone: authStore.user.phone || ''
-    }
-  } catch (error) {
-    console.error('Error fetching agent stats:', error)
-  }
+  // TODO: Populate delivery statistics once a backend source is available.
+  agentStats.value.phone = authStore.user.phone || ''
 }
 
 // Save profile

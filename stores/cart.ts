@@ -65,30 +65,10 @@ export const useCartStore = defineStore('cart', {
     isEmpty(): boolean { return this.items.length === 0 },
     itemCount(): number { return this.items.reduce((total, item) => total + item.quantity, 0) },
     subtotal(): number { return this.items.reduce((total, item) => total + item.price * item.quantity, 0) },
-    shipping(): number {
-      if (this.isEmpty) return 0
-      return this.subtotal >= 150 ? 0 : 15
-    },
-    total(): number { return this.subtotal + this.shipping },
-    freeShippingThreshold(): number { return 150 },
-    freeShippingProgress(): number { return Math.min(100, (this.subtotal / this.freeShippingThreshold) * 100) },
-    amountToFreeShipping(): number { return Math.max(0, this.freeShippingThreshold - this.subtotal) },
-    totalXAF(): number { return Math.round(this.total * this.rates.XAF) },
 
-    // Formatted strings for UI
+    // Only products are priced until delivery policy is confirmed.
     subtotalFormatted(): string { return getFormattedPrice(this.subtotal, this.currency, this.rates) },
-    shippingFormatted(): string { 
-      return this.shipping === 0 ? 'Gratuit' : getFormattedPrice(this.shipping, this.currency, this.rates) 
-    },
-    totalFormatted(): string { return getFormattedPrice(this.total, this.currency, this.rates) },
-    totalFCFA(): string { 
-      return new Intl.NumberFormat('fr-FR').format(this.totalXAF) + ' FCFA'
-    },
-
-    // Aliases
-    formattedSubtotal(): string { return this.subtotalFormatted },
-    formattedShipping(): string { return this.shippingFormatted },
-    formattedTotal(): string { return this.totalFormatted }
+    formattedSubtotal(): string { return this.subtotalFormatted }
   },
 
   actions: {

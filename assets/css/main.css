@@ -21,14 +21,14 @@
   --color-primary-dark: #020617;
 
   /* Accent — Warm Amber/Gold (Sahel, Sun, Family) */
-  --color-accent: #d4872c;
-  --color-accent-light: #f0a94e;
-  --color-accent-dark: #b5721f;
-  --color-accent-hover: #c27a25;
+  --color-accent: #c9872b;
+  --color-accent-light: #e5ad64;
+  --color-accent-dark: #a76b21;
+  --color-accent-hover: #b97824;
 
   /* Links */
-  --color-link: #b5721f;
-  --color-link-hover: #9a5f15;
+  --color-link: #a76b21;
+  --color-link-hover: #8d591c;
 
   /* Alerts / Danger */
   --color-danger: #dc2626;
@@ -50,9 +50,9 @@
   --shadow-md: 0 4px 16px rgba(15, 23, 42, 0.06), 0 2px 4px rgba(15, 23, 42, 0.04);
   --shadow-lg: 0 12px 40px rgba(15, 23, 42, 0.08), 0 4px 12px rgba(15, 23, 42, 0.04);
   --shadow-xl: 0 24px 64px rgba(15, 23, 42, 0.10), 0 8px 24px rgba(15, 23, 42, 0.06);
-  --shadow-accent: 0 8px 24px rgba(212, 135, 44, 0.25);
+  --shadow-accent: 0 8px 24px rgba(201, 135, 43, 0.25);
   --shadow-primary: 0 8px 24px rgba(15, 23, 42, 0.18);
-  --shadow-glow: 0 0 28px rgba(212, 135, 44, 0.18);
+  --shadow-glow: 0 0 28px rgba(201, 135, 43, 0.18);
 
   /* Typography */
   --font-display: "Sora", "Manrope", system-ui, -apple-system, sans-serif;
@@ -65,18 +65,18 @@
   --ease-spring: cubic-bezier(0.175, 0.885, 0.32, 1.275);
 
   /* Nuxt UI overrides */
-  --ui-primary: #0f172a;
-  --ui-color-primary-50: #faf8f5;
-  --ui-color-primary-100: #f5f0e8;
-  --ui-color-primary-200: #e8dfd2;
-  --ui-color-primary-300: #d4c8b4;
-  --ui-color-primary-400: #b5a48a;
-  --ui-color-primary-500: #8c7a62;
-  --ui-color-primary-600: #6b5c46;
-  --ui-color-primary-700: #4a3f30;
-  --ui-color-primary-800: #2d261c;
-  --ui-color-primary-900: #0f172a;
-  --ui-color-primary-950: #020617;
+  --ui-primary: #c9872b;
+  --ui-color-primary-50: #fff8ee;
+  --ui-color-primary-100: #ffedd5;
+  --ui-color-primary-200: #fbd6ae;
+  --ui-color-primary-300: #efbd81;
+  --ui-color-primary-400: #dfa155;
+  --ui-color-primary-500: #c9872b;
+  --ui-color-primary-600: #a76b21;
+  --ui-color-primary-700: #8d591c;
+  --ui-color-primary-800: #73491d;
+  --ui-color-primary-900: #5e3c1b;
+  --ui-color-primary-950: #33200d;
 }
 
 /* ============================================
@@ -92,7 +92,7 @@
   body {
     font-family: var(--font-body);
     background:
-      radial-gradient(circle at 0% 0%, rgba(212, 135, 44, 0.06), transparent 35%),
+      radial-gradient(circle at 0% 0%, rgba(201, 135, 43, 0.06), transparent 35%),
       radial-gradient(circle at 100% 0%, rgba(15, 23, 42, 0.04), transparent 40%),
       var(--color-bg);
     color: var(--color-text);
@@ -311,7 +311,7 @@
     @apply relative overflow-hidden;
     background: var(--color-bg-card);
     border: 1px solid var(--color-border);
-    border-radius: 16px;
+    border-radius: 8px;
     box-shadow: var(--shadow-sm);
     transition: all 0.2s;
   }
@@ -344,7 +344,7 @@
   }
 
   .card-stat {
-    @apply relative rounded-2xl overflow-hidden p-6;
+    @apply relative rounded-lg overflow-hidden p-6;
     background: var(--color-bg-card);
     border: 1px solid var(--color-border);
     box-shadow: var(--shadow-sm);
@@ -904,7 +904,7 @@ body {
   --border: 0.88 0.008 265;
   --input: 0.88 0.008 265;
   --ring: 0.68 0.165 55;
-  --radius: 0.75rem;
+  --radius: 0.5rem;
 }
 
 @layer utilities {

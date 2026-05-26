@@ -1,6 +1,6 @@
 export default defineEventHandler(async (event) => {
   try {
-    // On récupère les taux avec l'EUR comme base (monnaie de référence de TchadBox)
+    // On récupère les taux avec l'EUR comme base (monnaie de référence de Dounia Market)
     const response = await $fetch<any>('https://open.er-api.com/v6/latest/EUR')
     
     if (!response || response.result !== 'success') {

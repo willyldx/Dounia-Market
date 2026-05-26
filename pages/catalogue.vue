@@ -1,124 +1,161 @@
 <template>
-  <div class="bg-background min-h-screen pb-16">
-    <!-- Slim Hero Header -->
-    <section class="bg-background pt-24 pb-12 px-4 border-b border-border reveal-up">
-      <div class="container-main">
-        <div class="flex flex-col md:flex-row md:items-end justify-between gap-6">
-          <div>
-            <div class="flex items-center gap-2 text-muted-foreground text-xs mb-4 uppercase tracking-widest font-bold">
-              <NuxtLink to="/" class="hover:text-foreground transition-colors">Accueil</NuxtLink>
-              <ChevronRight class="w-3 h-3" />
-              <span class="text-foreground">Catalogue</span>
-            </div>
-            <h1 class="text-3xl md:text-5xl font-bold tracking-tight text-foreground">L'essentiel pour vos proches</h1>
-            <p class="text-muted-foreground text-sm md:text-base mt-2 max-w-xl">
-              Faites livrer le meilleur de l'alimentaire, de la santé et de la construction à N'Djamena. Sans intermédiaire, avec preuve de remise.
+  <div class="min-h-screen bg-background pb-14">
+    <header class="border-b border-border bg-card">
+      <div class="mx-auto max-w-7xl px-4 py-8 sm:px-6 sm:py-10 lg:px-8">
+        <nav class="mb-4 flex items-center gap-2 text-xs font-medium text-muted-foreground">
+          <NuxtLink to="/" class="hover:text-foreground">Accueil</NuxtLink>
+          <ChevronRight class="h-3.5 w-3.5" />
+          <span class="text-foreground">Catalogue</span>
+        </nav>
+        <div class="flex flex-col gap-5 lg:flex-row lg:items-end lg:justify-between">
+          <div class="max-w-2xl">
+            <p class="text-xs font-semibold uppercase tracking-[0.14em] text-amber-700">Produits locaux</p>
+            <h1 class="mt-2 text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
+              Choisissez pour votre famille
+            </h1>
+            <p class="mt-3 text-sm leading-relaxed text-muted-foreground sm:text-base">
+              Produits préparés localement par Dounia Market et livrés à N'Djamena selon les zones couvertes.
+              La disponibilité et le prix sont indiqués sur chaque article.
             </p>
           </div>
-          <div class="w-full md:w-96 text-right">
-             <div class="relative w-full group">
-                <Search class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground transition-colors" />
-                <input v-model="searchQuery" type="text" placeholder="Rechercher (ex: Lait, Sucre)..." class="w-full bg-background border border-input focus:border-primary focus:ring-1 focus:ring-primary py-2.5 pl-10 pr-4 rounded-md text-sm transition-all shadow-sm focus:outline-none" />
-             </div>
+          <label class="relative block w-full lg:max-w-sm">
+            <span class="sr-only">Rechercher un produit</span>
+            <Search class="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+            <input
+              v-model="searchQuery"
+              type="search"
+              placeholder="Rechercher un produit"
+              class="h-11 w-full rounded-md border border-input bg-background pl-10 pr-4 text-sm text-foreground outline-none transition-colors placeholder:text-muted-foreground focus:border-brand focus:ring-1 focus:ring-brand"
+            />
+          </label>
+        </div>
+      </div>
+    </header>
+
+    <main class="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
+      <section class="mb-7 rounded-lg border border-border bg-card p-4 sm:p-5" aria-label="Filtres du catalogue">
+        <div class="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
+          <div class="scrollbar-hide flex gap-2 overflow-x-auto pb-1">
+            <button
+              type="button"
+              class="shrink-0 rounded-md border px-3 py-2 text-sm font-medium transition-colors"
+              :class="!selectedCategory ? 'border-brand bg-brand text-brand-foreground' : 'border-border bg-background text-muted-foreground hover:text-foreground'"
+              @click="selectedCategory = ''"
+            >
+              Tous <span class="ml-1 opacity-75">{{ allProducts.length }}</span>
+            </button>
+            <button
+              v-for="cat in categories"
+              :key="cat.handle"
+              type="button"
+              class="inline-flex shrink-0 items-center gap-2 rounded-md border px-3 py-2 text-sm font-medium transition-colors"
+              :class="selectedCategory === cat.handle ? 'border-brand bg-brand text-brand-foreground' : 'border-border bg-background text-muted-foreground hover:text-foreground'"
+              @click="selectedCategory = cat.handle"
+            >
+              <component :is="cat.icon" class="h-4 w-4" />
+              {{ cat.name }}
+              <span v-if="getCount(cat.handle)" class="opacity-75">{{ getCount(cat.handle) }}</span>
+            </button>
+          </div>
+          <div class="flex flex-wrap items-center gap-2">
+            <label class="inline-flex h-10 items-center gap-2 rounded-md border border-border bg-background px-3 text-sm text-foreground">
+              <input v-model="inStockOnly" type="checkbox" class="h-4 w-4 accent-amber-700" />
+              Disponibles uniquement
+            </label>
+            <label class="relative">
+              <span class="sr-only">Filtrer par prix</span>
+              <select
+                v-model="selectedPrice"
+                class="h-10 appearance-none rounded-md border border-input bg-background py-2 pl-3 pr-9 text-sm text-foreground outline-none focus:border-brand"
+              >
+                <option v-for="range in priceRanges" :key="range.value" :value="range.value">
+                  {{ range.label }}
+                </option>
+              </select>
+              <ChevronDown class="pointer-events-none absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+            </label>
+            <button
+              v-if="hasFilters"
+              type="button"
+              class="inline-flex h-10 items-center gap-1.5 rounded-md border border-border px-3 text-sm font-medium text-muted-foreground hover:text-foreground"
+              @click="resetFilters"
+            >
+              <RotateCcw class="h-4 w-4" />
+              Effacer
+            </button>
           </div>
         </div>
-      </div>
-    </section>
+      </section>
 
-    <!-- Horizontal Tools Bar -->
-    <div class="sticky top-[72px] z-30 bg-background/80 backdrop-blur-md border-b transition-all duration-300">
-      <div class="container-main py-4 flex flex-col sm:flex-row gap-4 justify-between items-center">
-        
-        <!-- Category Chips (Luxury Tabs) -->
-        <div class="flex items-center gap-6 overflow-x-auto w-full sm:w-auto pb-2 sm:pb-0 scrollbar-hide snap-x">
-          <button @click="selectedCategory = ''" class="flex items-center gap-2 py-3 border-b-2 text-sm font-medium transition-all whitespace-nowrap snap-start" :class="!selectedCategory ? 'border-primary text-foreground' : 'border-transparent text-muted-foreground hover:text-foreground hover:border-border/50'">
-            <span>Toutes les catégories</span>
-            <span class="ml-1 text-[10px] font-bold px-1.5 py-0.5 rounded-full transition-colors" :class="!selectedCategory ? 'bg-primary/10 text-primary' : 'bg-muted text-muted-foreground'">{{ products.length }}</span>
-          </button>
-          <button v-for="cat in categories" :key="cat.handle" @click="selectedCategory = cat.handle" class="flex items-center gap-2 py-3 border-b-2 text-sm font-medium transition-all whitespace-nowrap snap-start" :class="selectedCategory === cat.handle ? 'border-primary text-foreground' : 'border-transparent text-muted-foreground hover:text-foreground hover:border-border/50'">
-            <component :is="cat.icon" class="w-4 h-4" />
-            <span>{{ cat.name }}</span>
-            <span class="ml-1 text-[10px] font-bold px-1.5 py-0.5 rounded-full transition-colors" v-if="getCount(cat.handle) > 0" :class="selectedCategory === cat.handle ? 'bg-primary/10 text-primary' : 'bg-muted text-muted-foreground'">{{ getCount(cat.handle) }}</span>
-          </button>
-        </div>
-
-        <!-- Price Drops & Reset -->
-        <div class="flex items-center gap-3 w-full sm:w-auto shrink-0 justify-between sm:justify-end">
-          <div class="relative group">
-            <select v-model="selectedPrice" class="appearance-none bg-background border border-input text-foreground font-medium py-2 pl-3 pr-8 rounded-md focus:outline-none focus:ring-1 focus:ring-ring cursor-pointer hover:bg-muted transition-colors text-sm shadow-sm">
-              <optgroup label="Budget">
-                <option v-for="r in priceRanges" :key="r.value" :value="r.value">{{ r.label }}</option>
-              </optgroup>
-            </select>
-            <ChevronDown class="w-4 h-4 text-muted-foreground absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none" />
-          </div>
-
-          <button v-if="hasFilters" @click="resetFilters" class="inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 hover:bg-destructive/10 hover:text-destructive h-9 px-3" title="Effacer les filtres">
-            <RotateCcw class="w-4 h-4" />
-          </button>
-        </div>
-      </div>
-    </div>
-
-    <!-- Main Content -->
-    <div class="container-main py-8 reveal-up">
-      
-      <!-- Top info line -->
-      <div class="flex items-center justify-between mb-6">
-        <div class="text-sm font-medium text-muted-foreground flex items-center gap-2">
-           <LayoutGrid class="w-4 h-4" />
-           <span class="text-foreground font-bold">{{ filteredProducts.length }}</span> résultats trouvés
-        </div>
+      <div class="mb-5 flex items-center justify-between gap-3">
+        <p class="inline-flex items-center gap-2 text-sm text-muted-foreground">
+          <LayoutGrid class="h-4 w-4" />
+          <strong class="text-foreground">{{ filteredProducts.length }}</strong>
+          produit{{ filteredProducts.length > 1 ? 's' : '' }}
+        </p>
+        <p class="hidden text-xs text-muted-foreground sm:block">Zones et frais à confirmer avant ouverture publique</p>
       </div>
 
-      <!-- Loading state -->
-      <div v-if="isLoading" class="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6">
-        <div v-for="i in 8" :key="i" class="bg-card border border-border rounded-xl p-4 animate-pulse shadow-sm">
-          <div class="aspect-[4/3] bg-muted rounded-lg mb-4"></div>
-          <div class="h-4 bg-muted rounded w-full mb-2"></div>
-          <div class="h-4 bg-muted rounded w-2/3 mb-4"></div>
-          <div class="flex justify-between items-end mt-4">
-             <div class="h-6 bg-muted rounded w-1/3"></div>
-             <div class="w-10 h-10 bg-muted rounded-md"></div>
-          </div>
-        </div>
+      <div v-if="isLoading" class="grid grid-cols-1 gap-3 min-[380px]:grid-cols-2 sm:gap-5 lg:grid-cols-3 xl:grid-cols-4">
+        <ProductSkeleton v-for="i in 8" :key="i" />
       </div>
 
-      <!-- Error state -->
-      <div v-else-if="error" class="bg-card rounded-xl border border-destructive/20 shadow-sm p-12 text-center max-w-2xl mx-auto mt-10">
-        <AlertCircle class="w-12 h-12 text-destructive mx-auto mb-4" />
-        <h3 class="text-xl font-bold text-foreground mb-2">Chargement impossible</h3>
-        <p class="text-muted-foreground mb-6">{{ error }}</p>
-        <button @click="fetchProducts" class="inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground hover:bg-primary/90 h-10 px-4 py-2">
+      <div v-else-if="error" class="mx-auto max-w-xl rounded-lg border border-red-100 bg-card p-8 text-center">
+        <AlertCircle class="mx-auto mb-3 h-8 w-8 text-red-600" />
+        <h2 class="text-lg font-semibold text-foreground">Catalogue indisponible</h2>
+        <p class="mt-2 text-sm text-muted-foreground">{{ error }}</p>
+        <button
+          type="button"
+          class="mt-5 inline-flex h-10 items-center rounded-md bg-brand px-4 text-sm font-semibold text-brand-foreground"
+          @click="fetchProducts"
+        >
           Réessayer
         </button>
       </div>
 
-      <!-- Products grid -->
-      <div v-else-if="filteredProducts.length > 0" class="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6">
-        <ProductCard v-for="(p, i) in filteredProducts" :key="p.id" :product="p" :delay="(i % 12) * 50" />
+      <div v-else-if="filteredProducts.length" class="grid grid-cols-1 gap-3 min-[380px]:grid-cols-2 sm:gap-5 lg:grid-cols-3 xl:grid-cols-4">
+        <ProductCard v-for="product in filteredProducts" :key="product.id" :product="product" />
       </div>
 
-      <!-- Empty state -->
-      <div v-else class="bg-card rounded-xl border border-border shadow-sm p-12 text-center max-w-2xl mx-auto mt-10">
-        <SearchX class="w-12 h-12 text-muted-foreground mx-auto mb-4" />
-        <h3 class="text-xl font-bold text-foreground mb-2">Aucun produit trouvé</h3>
-        <p class="text-muted-foreground mb-6">Essayez d'ajuster vos filtres de recherche ou vérifiez l'orthographe.</p>
-        <button @click="resetFilters" class="inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2">
-          Réinitialiser la recherche
+      <div v-else class="mx-auto max-w-xl rounded-lg border border-border bg-card p-8 text-center">
+        <SearchX class="mx-auto mb-3 h-8 w-8 text-muted-foreground" />
+        <h2 class="text-lg font-semibold text-foreground">Aucun produit trouvé</h2>
+        <p class="mt-2 text-sm text-muted-foreground">
+          Modifiez la recherche ou les filtres pour voir d'autres produits.
+        </p>
+        <button
+          type="button"
+          class="mt-5 inline-flex h-10 items-center rounded-md border border-border px-4 text-sm font-semibold text-foreground"
+          @click="resetFilters"
+        >
+          Réinitialiser
         </button>
       </div>
-    </div>
+    </main>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ChevronRight, LayoutGrid, RotateCcw, Search, SearchX, AlertCircle, Wheat, BookOpen, Heart, Gift, ChevronDown } from 'lucide-vue-next'
+import { AlertCircle, BookOpen, ChevronDown, ChevronRight, Gift, Heart, LayoutGrid, RotateCcw, Search, SearchX, Wheat } from 'lucide-vue-next'
 import ProductCard from '~/components/product/ProductCard.vue'
+import ProductSkeleton from '~/components/product/ProductSkeleton.vue'
 import type { Product } from '~/types'
 
 const route = useRoute()
+const cartStore = useCartStore()
 const { getProducts } = useProducts()
+
+type CatalogueProduct = Omit<Product, 'price' | 'inStock'> & {
+  price?: number
+  inStock?: boolean
+}
+
+const normalizePrice = (value: unknown): number | undefined => (
+  typeof value === 'number' && Number.isFinite(value) ? value : undefined
+)
+const normalizeAvailability = (value: unknown): boolean | undefined => (
+  value === true ? true : value === false ? false : undefined
+)
 
 const resolveThumb = (path: string | undefined) => {
   if (!path) return ''
@@ -128,13 +165,12 @@ const resolveThumb = (path: string | undefined) => {
   return path
 }
 
-// State
-const products = ref<Product[]>([])
+const products = ref<CatalogueProduct[]>([])
+const allProducts = ref<CatalogueProduct[]>([])
 const isLoading = ref(true)
 const error = ref<string | null>(null)
-const isSearchMode = ref(false) // true when using Meilisearch results
+const isSearchMode = ref(false)
 
-// Categories
 const categories = [
   { name: 'Alimentaire', handle: 'alimentaire', icon: Wheat },
   { name: 'Scolarité', handle: 'scolarite', icon: BookOpen },
@@ -142,88 +178,69 @@ const categories = [
   { name: 'Fêtes', handle: 'fetes', icon: Gift },
 ]
 
-const priceRanges = [
+const priceRanges = computed(() => [
   { label: 'Tous les prix', value: '' },
-  { label: 'Moins de 30€', value: '0-30' },
-  { label: '30€ - 60€', value: '30-60' },
-  { label: 'Plus de 60€', value: '60+' },
-]
+  { label: `Moins de ${cartStore.formatPrice(30)}`, value: '0-30' },
+  { label: `${cartStore.formatPrice(30)} à ${cartStore.formatPrice(60)}`, value: '30-60' },
+  { label: `Plus de ${cartStore.formatPrice(60)}`, value: '60+' },
+])
 
-const selectedCategory = ref(route.query.categorie as string || '')
+const selectedCategory = ref((route.query.categorie as string) || '')
 const selectedPrice = ref('')
 const searchQuery = ref('')
+const inStockOnly = ref(false)
 
-// Keep a copy of the full product list from Laravel (for counts + reset)
-const allProducts = ref<Product[]>([])
-
-// Fetch products from Laravel API (initial load)
 const fetchProducts = async () => {
   isLoading.value = true
   error.value = null
-  
+
   try {
     const response = await getProducts({ limit: 100 })
-    
     const mapped = response.products.map((p: any) => ({
       id: p.id.toString(),
       title: p.title,
       handle: p.slug,
       subtitle: p.subtitle || '',
       description: p.description || '',
-      price: p.price || 0,
+      price: normalizePrice(p.price),
       thumbnail: p.thumbnail || '',
       images: p.images || [],
       category: p.category || '',
       categoryHandle: p.category_handle || '',
-      inStock: p.in_stock,
+      inStock: normalizeAvailability(p.in_stock),
     }))
 
     allProducts.value = mapped
     products.value = mapped
   } catch (e: any) {
     console.error('Error fetching products:', e)
-    error.value = 'Impossible de charger le catalogue. Vérifiez votre connexion internet et réessayez.'
+    error.value = 'Impossible de charger les produits. Veuillez réessayer.'
   } finally {
     isLoading.value = false
   }
 }
 
-// Build Meilisearch filter string from active filters
 const buildMeilisearchFilter = (): string[] => {
   const filters: string[] = []
-  
-  if (selectedCategory.value) {
-    filters.push(`category_handle = "${selectedCategory.value}"`)
-  }
-  
+  if (selectedCategory.value) filters.push(`category_handle = "${selectedCategory.value}"`)
+
   if (selectedPrice.value) {
     const [min, max] = selectedPrice.value.split('-').map(Number)
-    if (max) {
-      filters.push(`price >= ${min}`)
-      filters.push(`price <= ${max}`)
-    } else {
-      // "60+" case
-      filters.push(`price >= ${min}`)
-    }
+    filters.push(`price >= ${min}`)
+    if (max) filters.push(`price <= ${max}`)
   }
 
-  // Always filter active products
   filters.push('is_active = true')
-
   return filters
 }
 
-// Perform Meilisearch search
 const doMeilisearch = async (query: string) => {
   isLoading.value = true
-  
   try {
     const { performSearch } = useMeilisearch()
-    const filter = buildMeilisearchFilter()
-    
     const results = await performSearch(query, {
       limit: 50,
-      filter,
+      filter: buildMeilisearchFilter(),
     })
 
     products.value = (results.hits || []).map((p: any) => ({
@@ -232,111 +249,102 @@ const doMeilisearch = async (query: string) => {
       handle: p.slug || p.id.toString(),
       subtitle: p.subtitle || '',
       description: p.description || '',
-      price: p.price || 0,
+      price: normalizePrice(p.price),
       thumbnail: resolveThumb(p.thumbnail),
       images: [],
       category: p.category || '',
       categoryHandle: p.category_handle || '',
-      inStock: p.in_stock ?? true,
+      inStock: normalizeAvailability(p.in_stock),
     }))
-
     isSearchMode.value = true
   } catch (e) {
     console.error('Meilisearch error, falling back to frontend filter:', e)
-    // Fallback: filter from allProducts
     isSearchMode.value = false
   } finally {
     isLoading.value = false
   }
 }
 
-// Debounced search watcher
 let searchTimeout: ReturnType<typeof setTimeout> | null = null
 
-watch(searchQuery, (q) => {
+watch(searchQuery, (query) => {
   if (searchTimeout) clearTimeout(searchTimeout)
 
-  if (!q || q.length < 2) {
-    // Revert to full list from Laravel
+  if (!query || query.length < 2) {
     isSearchMode.value = false
     products.value = [...allProducts.value]
     return
   }
 
-  searchTimeout = setTimeout(() => doMeilisearch(q), 300)
+  searchTimeout = setTimeout(() => doMeilisearch(query), 300)
 })
 
-// When category or price filters change while searching, re-run Meilisearch
 watch([selectedCategory, selectedPrice], () => {
-  if (searchQuery.value && searchQuery.value.length >= 2) {
-    // Re-run search with new filters
+  if (searchQuery.value.length >= 2) {
     if (searchTimeout) clearTimeout(searchTimeout)
     searchTimeout = setTimeout(() => doMeilisearch(searchQuery.value), 150)
   }
 })
 
-// Filtered products (frontend filtering when NOT in search mode)
 const filteredProducts = computed(() => {
-  // If Meilisearch handled the query + filters, just return the results as-is
-  if (isSearchMode.value) {
-    return products.value
+  let result = [...products.value]
+
+  if (!isSearchMode.value) {
+    if (selectedCategory.value) result = result.filter(product => product.categoryHandle === selectedCategory.value)
+
+    if (searchQuery.value.length >= 2) {
+      const query = searchQuery.value.toLowerCase()
+      result = result.filter(product => (
+        product.title.toLowerCase().includes(query)
+        || (product.description || '').toLowerCase().includes(query)
+      ))
+    }
+
+    if (selectedPrice.value) {
+      const [min, max] = selectedPrice.value.split('-').map(Number)
+      result = max
+        ? result.filter(product => typeof product.price === 'number' && product.price >= min && product.price <= max)
+        : result.filter(product => typeof product.price === 'number' && product.price >= min)
+    }
   }
 
-  // Frontend filtering for initial load / no search query
-  let result = [...products.value]
-  
-  if (selectedCategory.value) {
-    result = result.filter(p => p.categoryHandle === selectedCategory.value)
-  }
-  
-  // Apply fallback text search if there is a query but Meilisearch failed
-  if (searchQuery.value && searchQuery.value.length >= 2) {
-    const q = searchQuery.value.toLowerCase()
-    result = result.filter(p => p.title.toLowerCase().includes(q) || p.description.toLowerCase().includes(q))
-  }
-  
-  if (selectedPrice.value) {
-    const [min, max] = selectedPrice.value.split('-').map(Number)
-    result = max 
-      ? result.filter(p => p.price >= min && p.price <= max) 
-      : result.filter(p => p.price >= min)
-  }
-  
+  if (inStockOnly.value) result = result.filter(product => product.inStock === true)
   return result
 })
 
-const hasFilters = computed(() => selectedCategory.value || selectedPrice.value || searchQuery.value)
+const hasFilters = computed(() => Boolean(selectedCategory.value || selectedPrice.value || searchQuery.value || inStockOnly.value))
+const getCount = (handle: string) => allProducts.value.filter(product => product.categoryHandle === handle).length
 
-// Counts always use the full list from Laravel
-const getCount = (handle: string) => allProducts.value.filter(p => p.categoryHandle === handle).length
-
-const resetFilters = () => { 
+const resetFilters = () => {
   selectedCategory.value = ''
   selectedPrice.value = ''
   searchQuery.value = ''
+  inStockOnly.value = false
   isSearchMode.value = false
   products.value = [...allProducts.value]
 }
 
-// Watch route query
-watch(() => route.query.categorie, (v) => { 
-  selectedCategory.value = v as string || '' 
+watch(() => route.query.categorie, (value) => {
+  selectedCategory.value = (value as string) || ''
 }, { immediate: true })
 
-// Fetch on mount
 onMounted(() => {
   fetchProducts()
 })
 
-useHead({ title: 'Catalogue' })
+useHead({
+  title: 'Catalogue | Dounia Market',
+  meta: [
+    { name: 'description', content: 'Consultez les produits Dounia Market disponibles pour une livraison locale à N’Djamena selon les zones couvertes.' },
+  ],
+})
 </script>
 
 <style scoped>
-
-/* Hide scrollbar for chips */
 .scrollbar-hide::-webkit-scrollbar {
   display: none;
 }
+
 .scrollbar-hide {
   -ms-overflow-style: none;
   scrollbar-width: none;

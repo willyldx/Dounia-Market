@@ -37,7 +37,7 @@
                   </div>
                   <div>
                     <p class="font-bold pr-2 leading-tight">{{ authStore.fullName }}</p>
-                    <p class="text-xs text-slate-300">Bienvenue sur TchadBox</p>
+                    <p class="text-xs text-slate-300">Bienvenue sur Dounia Market</p>
                   </div>
                 </div>
               </template>

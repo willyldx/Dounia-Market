@@ -33,7 +33,7 @@ onMounted(async () => {
 
 useHead({
   titleTemplate: (titleChunk) => {
-    return titleChunk ? `${titleChunk} | TchadBox` : 'TchadBox - Envoyez des cadeaux au Tchad'
+    return titleChunk ? `${titleChunk} | Dounia Market` : 'Dounia Market - Livraison locale à N\'Djamena'
   }
 })
 </script>

@@ -1,19 +1,16 @@
 <template>
   <div class="min-h-screen bg-background pt-32 pb-24">
     <div class="max-w-7xl mx-auto px-6 lg:px-8">
-      <!-- Premium Header -->
       <div class="mb-12 border-b border-border pb-8 flex flex-col md:flex-row md:items-end justify-between gap-6">
         <div>
           <h1 class="text-4xl font-black text-foreground tracking-tight">Mon compte</h1>
-          <p class="text-muted-foreground font-medium mt-2">Services exclusifs et conciergerie pour <span class="font-bold text-foreground">{{ authStore.fullName || 'vous' }}</span></p>
+          <p class="text-muted-foreground font-medium mt-2">Commandes et adresses de livraison pour <span class="font-bold text-foreground">{{ authStore.fullName || 'vous' }}</span></p>
         </div>
       </div>
 
       <div class="grid xl:grid-cols-4 gap-8">
-        <!-- Luxury Sidebar Navigation -->
         <div class="xl:col-span-1">
-          <nav class="bg-card rounded-xl overflow-hidden shadow-sm border border-border sticky top-32">
-            <!-- Profile Avatar Block -->
+          <nav class="bg-card rounded-lg overflow-hidden shadow-sm border border-border sticky top-32">
             <div class="p-6 border-b border-border bg-muted/30">
               <div class="flex items-center gap-4">
                 <div class="w-12 h-12 bg-background border border-border rounded-full flex items-center justify-center text-foreground font-bold shadow-sm">
@@ -30,12 +27,12 @@
               <li v-for="item in navItems" :key="item.to">
                 <NuxtLink
                   :to="item.to"
-                  class="flex items-center gap-3 px-5 py-4 rounded-2xl text-muted-foreground font-medium hover:bg-muted hover:text-foreground transition-all group"
+                  class="flex items-center gap-3 px-5 py-4 rounded-md text-muted-foreground font-medium hover:bg-muted hover:text-foreground transition-all group"
                   :class="{ 'bg-muted !text-foreground font-bold shadow-sm': $route.path === item.to }"
                 >
                   <component :is="item.icon" class="w-5 h-5 transition-transform group-hover:scale-110" :class="{ 'text-foreground': $route.path === item.to }" />
                   <span>{{ item.label }}</span>
-                  <span v-if="item.badge" class="ml-auto bg-primary/10 text-primary border border-primary/20 text-[10px] font-bold px-2 py-0.5 rounded-md">
+                  <span v-if="item.badge" class="ml-auto bg-brand/10 text-brand border border-brand/20 text-[10px] font-bold px-2 py-0.5 rounded-md">
                     {{ item.badge }}
                   </span>
                 </NuxtLink>
@@ -45,7 +42,7 @@
             <div class="p-3 border-t border-border/50">
               <button
                 @click="handleLogout"
-                class="w-full flex items-center gap-3 px-5 py-4 rounded-2xl text-muted-foreground/80 font-medium hover:bg-red-500/10 hover:text-red-500 transition-all group"
+                class="w-full flex items-center gap-3 px-5 py-4 rounded-md text-muted-foreground/80 font-medium hover:bg-red-500/10 hover:text-red-500 transition-all group"
               >
                 <LogOutIcon class="w-5 h-5 transition-transform group-hover:scale-110" />
                 <span>Déconnexion</span>
@@ -54,11 +51,9 @@
           </nav>
         </div>
 
-        <!-- Main Content (Conciergerie) -->
         <div class="xl:col-span-3 space-y-6">
-          <!-- Quick Status Board (Sleek Grayscale UI) -->
           <div class="grid sm:grid-cols-3 gap-4">
-            <div class="bg-card rounded-xl shadow-sm border border-border p-6 transition-colors">
+            <div class="bg-card rounded-lg shadow-sm border border-border p-6 transition-colors">
               <div class="flex items-center justify-between mb-6">
                 <div class="w-10 h-10 bg-muted rounded-full flex items-center justify-center shrink-0">
                   <PackageIcon class="w-4 h-4 text-foreground" />
@@ -69,7 +64,7 @@
               <p class="text-sm text-muted-foreground mt-1">Commandes totales</p>
             </div>
 
-            <div class="bg-card rounded-xl shadow-sm border border-border p-6 transition-colors">
+            <div class="bg-card rounded-lg shadow-sm border border-border p-6 transition-colors">
               <div class="flex items-center justify-between mb-6">
                 <div class="relative w-10 h-10 bg-muted rounded-full flex items-center justify-center shrink-0">
                   <div v-if="stats.inProgress > 0" class="absolute top-0 right-0 w-2.5 h-2.5 bg-orange-500 rounded-full border-2 border-card animate-ping"></div>
@@ -79,10 +74,10 @@
                 <span class="text-[10px] font-bold uppercase tracking-widest text-orange-600 bg-orange-500/10 px-2.5 py-1 rounded-md border border-orange-500/20">En cours</span>
               </div>
               <p class="text-3xl font-black text-foreground tracking-tighter">{{ stats.inProgress }}</p>
-              <p class="text-sm text-muted-foreground mt-1">Logistiques actives</p>
+              <p class="text-sm text-muted-foreground mt-1">Livraisons en cours</p>
             </div>
 
-            <div class="bg-card rounded-xl shadow-sm border border-border p-6 transition-colors">
+            <div class="bg-card rounded-lg shadow-sm border border-border p-6 transition-colors">
               <div class="flex items-center justify-between mb-6">
                 <div class="w-10 h-10 bg-muted rounded-full flex items-center justify-center shrink-0">
                   <CheckCircleIcon class="w-4 h-4 text-green-600" />
@@ -90,22 +85,21 @@
                 <span class="text-[10px] font-bold uppercase tracking-widest text-green-700 bg-green-500/10 px-2.5 py-1 rounded-md border border-green-500/20">Livrés</span>
               </div>
               <p class="text-3xl font-black text-foreground tracking-tighter">{{ stats.delivered }}</p>
-              <p class="text-sm text-muted-foreground mt-1">Expéditions terminées</p>
+              <p class="text-sm text-muted-foreground mt-1">Commandes livrées</p>
             </div>
           </div>
 
-          <!-- Quick Actions (Exclusive Access) -->
           <div class="grid sm:grid-cols-2 gap-4">
             <NuxtLink
               to="/catalogue"
-              class="bg-primary text-primary-foreground rounded-xl p-6 shadow-sm group hover:bg-primary/90 transition-colors"
+              class="bg-brand text-brand-foreground rounded-lg p-6 shadow-sm group hover:bg-brand/90 transition-colors"
             >
               <div class="flex items-start justify-between">
                 <div>
-                  <h3 class="font-bold text-xl mb-1 tracking-tight">Initier un envoi</h3>
-                  <p class="text-primary-foreground/80 text-sm leading-relaxed max-w-[200px]">Commandez maintenant, expédition demain.</p>
+                  <h3 class="font-bold text-xl mb-1 tracking-tight">Choisir des produits</h3>
+                  <p class="text-brand-foreground/80 text-sm leading-relaxed max-w-[230px]">Produits disponibles localement pour vos proches.</p>
                 </div>
-                <div class="w-10 h-10 bg-primary-foreground/10 rounded-full flex items-center justify-center group-hover:scale-105 transition-transform">
+                <div class="w-10 h-10 bg-brand-foreground/10 rounded-full flex items-center justify-center group-hover:scale-105 transition-transform">
                   <PlusIcon class="w-5 h-5" />
                 </div>
               </div>
@@ -113,12 +107,12 @@
 
             <NuxtLink
               to="/suivi"
-              class="bg-card rounded-xl p-6 border border-border group hover:bg-muted/50 shadow-sm transition-colors"
+              class="bg-card rounded-lg p-6 border border-border group hover:bg-muted/50 shadow-sm transition-colors"
             >
               <div class="flex items-start justify-between">
                 <div>
-                  <h3 class="font-bold text-xl text-foreground mb-1 tracking-tight">Tracking live</h3>
-                  <p class="text-muted-foreground text-sm leading-relaxed max-w-[200px]">Suivez en direct la progression de vos biens.</p>
+                  <h3 class="font-bold text-xl text-foreground mb-1 tracking-tight">Suivre une commande</h3>
+                  <p class="text-muted-foreground text-sm leading-relaxed max-w-[230px]">Consultez son avancement avec sa référence.</p>
                 </div>
                 <div class="w-10 h-10 bg-muted rounded-full border border-border flex items-center justify-center group-hover:bg-background transition-colors">
                   <SearchIcon class="w-4 h-4 text-foreground" />
@@ -127,15 +121,14 @@
             </NuxtLink>
           </div>
 
-          <!-- Recent Operations List -->
-          <div class="bg-card rounded-xl shadow-sm border border-border overflow-hidden">
+          <div class="bg-card rounded-lg shadow-sm border border-border overflow-hidden">
             <div class="flex items-center justify-between p-8 border-b border-border/50">
-              <h2 class="text-xl font-black text-foreground tracking-tight">Opérations récentes</h2>
+              <h2 class="text-xl font-black text-foreground tracking-tight">Commandes récentes</h2>
               <NuxtLink 
                 to="/compte/commandes" 
                 class="text-xs font-bold uppercase tracking-widest text-muted-foreground hover:text-foreground transition-colors flex items-center gap-1"
               >
-                Tout l'historique
+                Voir tout
                 <ChevronRightIcon class="w-4 h-4" />
               </NuxtLink>
             </div>
@@ -144,9 +137,9 @@
               <div class="w-20 h-20 bg-muted rounded-full flex items-center justify-center mx-auto mb-6">
                 <PackageIcon class="w-8 h-8 text-muted-foreground/40" />
               </div>
-              <h3 class="font-bold text-xl text-foreground mb-2">Historique vierge</h3>
-              <p class="text-muted-foreground mb-8">Votre registre de d'expéditions est actuellement vide.</p>
-              <NuxtLink to="/catalogue" class="inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground hover:bg-primary/90 h-10 px-4 py-2">
+              <h3 class="font-bold text-xl text-foreground mb-2">Aucune commande</h3>
+              <p class="text-muted-foreground mb-8">Vos prochaines commandes apparaîtront ici.</p>
+              <NuxtLink to="/catalogue" class="inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-brand text-brand-foreground hover:bg-brand/90 h-10 px-4 py-2">
                 <ShoppingBagIcon class="w-4 h-4 mr-2" /> Visiter la boutique
               </NuxtLink>
             </div>
@@ -159,7 +152,7 @@
                 class="flex flex-col sm:flex-row sm:items-center gap-5 p-6 hover:bg-muted/50 transition-colors group"
               >
                 <div class="flex items-center gap-5 flex-1 min-w-0">
-                   <div class="w-16 h-16 bg-card border border-border shadow-sm rounded-2xl flex items-center justify-center shrink-0">
+                   <div class="w-16 h-16 bg-card border border-border shadow-sm rounded-lg flex items-center justify-center shrink-0">
                      <img 
                        v-if="order.items[0]?.thumbnail" 
                        :src="order.items[0].thumbnail" 
@@ -176,11 +169,7 @@
                    </div>
                 </div>
 
-                <div class="flex items-center justify-between sm:justify-end gap-6 sm:w-auto mt-4 sm:mt-0 pl-21 sm:pl-0">
-                  <div class="text-left sm:text-right">
-                     <p class="font-black text-foreground">{{ formatPrice(order.total) }}</p>
-                  </div>
-                  
+                <div class="flex items-center justify-between sm:justify-end gap-6 sm:w-auto mt-4 sm:mt-0 pl-[5.25rem] sm:pl-0">
                   <span 
                     class="inline-flex items-center px-3 py-1.5 rounded-lg text-[10px] font-black uppercase tracking-widest border shrink-0"
                     :class="getStatusClass(order.fulfillmentStatus)"
@@ -196,8 +185,7 @@
             </div>
           </div>
 
-          <!-- Saved Addresses Preview (Concierge Style) -->
-          <div class="bg-card rounded-xl shadow-sm border border-border overflow-hidden">
+          <div class="bg-card rounded-lg shadow-sm border border-border overflow-hidden">
             <div class="flex items-center justify-between p-8 border-b border-border/50">
               <h2 class="text-xl font-black text-foreground tracking-tight">Adresses enregistrées</h2>
               <NuxtLink 
@@ -211,10 +199,10 @@
 
             <div v-if="!authStore.hasAddresses" class="p-12 text-center">
               <MapPinIcon class="w-12 h-12 text-muted-foreground/30 mx-auto mb-4" />
-              <p class="text-muted-foreground font-medium mb-6">Ajoutez les adresses de vos proches au Tchad pour faciliter vos envois.</p>
+              <p class="text-muted-foreground font-medium mb-6">Ajoutez l'adresse d'un proche à N'Djamena pour préparer une livraison locale.</p>
               <NuxtLink
                 to="/compte/adresses"
-                class="inline-flex items-center justify-center gap-2 px-6 py-3 bg-muted text-foreground font-bold rounded-xl hover:bg-muted/80 transition-colors"
+                class="inline-flex items-center justify-center gap-2 px-6 py-3 bg-muted text-foreground font-bold rounded-md hover:bg-muted/80 transition-colors"
               >
                 <PlusIcon class="w-4 h-4" /> Ajouter un destinataire
               </NuxtLink>
@@ -222,15 +210,15 @@
 
             <div v-else class="p-8">
               <div v-if="authStore.defaultAddress" class="flex items-start gap-5">
-                <div class="w-12 h-12 bg-muted border border-border rounded-2xl flex items-center justify-center shrink-0">
+                <div class="w-12 h-12 bg-muted border border-border rounded-lg flex items-center justify-center shrink-0">
                   <MapPinIcon class="w-5 h-5 text-foreground" />
                 </div>
-                <div class="flex-1 bg-muted/50 rounded-2xl p-6 border border-border">
+                <div class="flex-1 bg-muted/50 rounded-lg p-6 border border-border">
                   <div class="flex flex-wrap items-center gap-3 mb-3">
                     <p class="font-bold text-foreground text-lg">
                       {{ authStore.defaultAddress.firstName }} {{ authStore.defaultAddress.lastName }}
                     </p>
-                    <span class="text-[10px] font-bold tracking-widest uppercase bg-primary/10 text-primary px-2.5 py-1 rounded-md border border-primary/20">Principal</span>
+                    <span class="text-[10px] font-bold tracking-widest uppercase bg-brand/10 text-brand px-2.5 py-1 rounded-md border border-brand/20">Principal</span>
                   </div>
                   <p class="text-sm font-medium text-muted-foreground leading-relaxed">
                     {{ authStore.defaultAddress.address1 }}<br />
@@ -261,7 +249,6 @@ import {
   MapPin as MapPinIcon,
   User as UserIcon,
   Heart as HeartIcon,
-  Settings as SettingsIcon,
   LogOut as LogOutIcon
 } from 'lucide-vue-next'
 import type { Order, FulfillmentStatus } from '~/types'
@@ -277,13 +264,12 @@ useSeoMeta({
 
 const authStore = useAuthStore()
 
-// Luxury Navigation items
 const navItems = [
-  { to: '/compte', label: 'Espace Logistique', icon: PackageIcon },
-  { to: '/compte/commandes', label: 'Historique des envois', icon: ShoppingBagIcon, badge: null },
-  { to: '/compte/profil', label: 'Identité', icon: UserIcon },
-  { to: '/compte/adresses', label: 'Carnet d\'adresses', icon: MapPinIcon },
-  { to: '/favoris', label: 'Coup de cœur', icon: HeartIcon },
+  { to: '/compte', label: 'Vue d\'ensemble', icon: PackageIcon },
+  { to: '/compte/commandes', label: 'Mes commandes', icon: ShoppingBagIcon, badge: null },
+  { to: '/compte/profil', label: 'Mon profil', icon: UserIcon },
+  { to: '/compte/adresses', label: 'Mes adresses', icon: MapPinIcon },
+  { to: '/favoris', label: 'Mes favoris', icon: HeartIcon },
 ]
 
 // Stats
@@ -329,19 +315,12 @@ function formatDate(date: string): string {
   })
 }
 
-function formatPrice(amount: number): string {
-  return new Intl.NumberFormat('fr-FR', {
-    style: 'currency',
-    currency: 'EUR',
-  }).format(amount)
-}
-
 function getStatusLabel(status: FulfillmentStatus): string {
   const labels: Record<FulfillmentStatus, string> = {
     not_fulfilled: 'Préparation',
     partially_fulfilled: 'Partiel',
-    fulfilled: 'Expédié',
-    shipped: 'En Route',
+    fulfilled: 'Prête',
+    shipped: 'En livraison',
     delivered: 'Livré',
   }
   return labels[status] || status

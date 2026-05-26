@@ -1,142 +1,124 @@
 <template>
-  <div>
-    <!-- Header -->
-    <div class="mb-8 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+  <div class="space-y-6">
+    <header class="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
       <div>
-        <h1 class="text-3xl font-extrabold text-gray-900 tracking-tight">Stocks</h1>
-        <p class="text-sm text-gray-500 mt-1 font-medium">Gérez votre inventaire et ajoutez de nouveaux produits au catalogue.</p>
+        <p class="mb-2 text-xs font-semibold uppercase text-amber-700">Catalogue</p>
+        <h1 class="text-2xl font-semibold text-zinc-950 sm:text-3xl">Inventaire</h1>
+        <p class="mt-1 text-sm text-zinc-500">Suivi des produits du catalogue et de leurs niveaux de stock.</p>
       </div>
-      <div class="flex items-center gap-3">
-        <UButton @click="fetchProducts" color="gray" variant="ghost" icon="i-lucide-refresh-cw" :loading="loading" class="text-gray-500 hover:bg-gray-100" />
-        <UButton @click="showImportModal = true" color="gray" icon="i-lucide-upload-cloud" class="shadow-sm font-semibold px-4 ring-1 ring-gray-200">
-          Importer CSV
+      <div class="flex flex-wrap items-center gap-2">
+        <UButton
+          aria-label="Actualiser les stocks"
+          title="Actualiser les stocks"
+          @click="fetchProducts"
+          color="gray"
+          variant="outline"
+          icon="i-lucide-refresh-cw"
+          :loading="loading"
+          class="h-10"
+        />
+        <UButton @click="showImportModal = true" color="gray" variant="outline" icon="i-lucide-upload-cloud" class="h-10 font-medium">
+          Importer
         </UButton>
-        <UButton @click="showCreateModal = true" color="black" icon="i-lucide-plus" class="shadow-sm font-semibold px-4">
+        <UButton @click="showCreateModal = true" color="black" icon="i-lucide-plus" class="h-10 font-medium">
           Nouveau produit
         </UButton>
       </div>
-    </div>
+    </header>
 
-    <!-- Stats -->
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
-      <div class="bg-white rounded-2xl border border-gray-200/60 p-5 shadow-[0_2px_10px_rgba(0,0,0,0.02)]">
-        <div class="flex items-center gap-3 mb-2">
-          <div class="w-8 h-8 rounded-full bg-gray-50 flex items-center justify-center shrink-0">
-             <Icon name="lucide:package" class="w-4 h-4 text-gray-500" />
-          </div>
-          <p class="text-sm font-semibold text-gray-500">Total produits</p>
-        </div>
-        <p class="text-3xl font-black text-gray-900 mt-3">{{ products.length }}</p>
-      </div>
-      <div class="bg-white rounded-2xl border border-green-200/60 p-5 shadow-[0_2px_10px_rgba(34,197,94,0.04)] relative overflow-hidden">
-        <div class="absolute -right-4 -bottom-4 w-24 h-24 bg-green-50 rounded-full blur-2xl pointer-events-none"></div>
-        <div class="flex items-center gap-3 mb-2 relative z-10">
-          <div class="w-8 h-8 rounded-full bg-green-50 flex items-center justify-center shrink-0">
-             <Icon name="lucide:check-circle" class="w-4 h-4 text-green-500" />
-          </div>
-          <p class="text-sm font-semibold text-gray-500">En stock</p>
-        </div>
-        <p class="text-3xl font-black text-gray-900 mt-3 relative z-10">{{ inStockCount }}</p>
-      </div>
-      <div class="bg-white rounded-2xl border border-amber-200/60 p-5 shadow-[0_2px_10px_rgba(245,158,11,0.04)] relative overflow-hidden">
-        <div class="absolute -right-4 -bottom-4 w-24 h-24 bg-amber-50 rounded-full blur-2xl pointer-events-none"></div>
-        <div class="flex items-center gap-3 mb-2 relative z-10">
-          <div class="w-8 h-8 rounded-full bg-amber-50 flex items-center justify-center shrink-0">
-             <Icon name="lucide:alert-triangle" class="w-4 h-4 text-amber-500" />
-          </div>
-          <p class="text-sm font-semibold text-gray-500">Stock faible</p>
-        </div>
-        <p class="text-3xl font-black text-gray-900 mt-3 relative z-10">{{ lowStockCount }}</p>
-      </div>
-      <div class="bg-white rounded-2xl border border-red-200/60 p-5 shadow-[0_2px_10px_rgba(239,68,68,0.04)] relative overflow-hidden">
-        <div class="absolute -right-4 -bottom-4 w-24 h-24 bg-red-50 rounded-full blur-2xl pointer-events-none"></div>
-        <div class="flex items-center gap-3 mb-2 relative z-10">
-           <div class="w-8 h-8 rounded-full bg-red-50 flex items-center justify-center shrink-0">
-             <Icon name="lucide:x-circle" class="w-4 h-4 text-red-500" />
-          </div>
-          <p class="text-sm font-semibold text-gray-500">Rupture</p>
-        </div>
-        <p class="text-3xl font-black text-gray-900 mt-3 relative z-10">{{ outOfStockCount }}</p>
-      </div>
-    </div>
-
-    <!-- Toolbar / Filters -->
-    <div class="mb-6 flex flex-col sm:flex-row gap-4 items-center justify-between">
-      <UInput
-        v-model="search"
-        placeholder="Rechercher par nom ou référence..."
-        icon="i-lucide-search"
-        class="w-full sm:w-80"
-        size="lg"
-        :ui="{ icon: { trailing: { pointer: '' } } }"
+    <div class="grid grid-cols-2 gap-3 lg:grid-cols-4">
+      <div
+        v-for="stat in inventoryStats"
+        :key="stat.label"
+        class="relative min-h-[104px] rounded-lg border border-zinc-200 bg-white p-4"
       >
-        <template #trailing>
-           <UButton v-show="search" color="gray" variant="link" icon="i-lucide-x" :padded="false" @click="search = ''" />
-        </template>
-      </UInput>
-      <USelectMenu
-        v-model="stockFilter"
-        :options="stockFilterOptions"
-        placeholder="Tous les statuts"
-        class="w-full sm:w-48"
-        size="lg"
-      />
+        <p class="pr-10 text-xs font-medium text-zinc-500 sm:text-sm">{{ stat.label }}</p>
+        <p class="mt-3 text-2xl font-semibold text-zinc-950">{{ stat.value }}</p>
+        <div :class="['absolute right-4 top-4 flex h-9 w-9 items-center justify-center rounded-lg', stat.bgColor]">
+          <Icon :name="stat.icon" :class="['h-5 w-5', stat.iconColor]" />
+        </div>
+      </div>
     </div>
 
-    <!-- Products Table -->
-    <div class="bg-white rounded-2xl border border-gray-200/60 shadow-[0_2px_15px_rgba(0,0,0,0.02)] overflow-hidden">
-      <div v-if="loading" class="p-16 text-center">
-        <UIcon name="i-lucide-loader-2" class="w-8 h-8 animate-spin text-gray-400 mx-auto" />
-      </div>
-
-      <div v-else-if="filteredProducts.length === 0" class="p-16 text-center flex flex-col items-center">
-        <div class="w-16 h-16 bg-gray-50 rounded-full flex items-center justify-center mb-4">
-          <Icon name="lucide:package-open" class="w-8 h-8 text-gray-400" />
+    <section class="overflow-hidden rounded-lg border border-zinc-200 bg-white">
+      <div class="flex flex-col gap-3 border-b border-zinc-100 p-4 sm:flex-row sm:items-center sm:justify-between sm:p-5">
+        <div>
+          <h2 class="text-base font-semibold text-zinc-950">Produits</h2>
+          <p class="mt-0.5 text-xs text-zinc-500">{{ filteredProducts.length }} produit(s) affiché(s)</p>
         </div>
-        <p class="text-lg font-semibold text-gray-900">Aucun produit trouvé</p>
-        <p class="text-sm text-gray-500 mt-1 max-w-sm">Ajustez vos filtres de recherche ou ajoutez un nouveau produit au catalogue.</p>
-        <UButton @click="showCreateModal = true" color="black" icon="i-lucide-plus" class="mt-6">Nouveau produit</UButton>
+        <div class="flex w-full flex-col gap-2 sm:w-auto sm:flex-row">
+          <UInput
+            v-model="search"
+            placeholder="Nom ou référence"
+            icon="i-lucide-search"
+            class="w-full sm:w-64"
+            size="md"
+          >
+            <template #trailing>
+              <UButton v-show="search" color="gray" variant="link" icon="i-lucide-x" :padded="false" @click="search = ''" />
+            </template>
+          </UInput>
+          <USelectMenu
+            v-model="stockFilter"
+            :options="stockFilterOptions"
+            placeholder="Tous les statuts"
+            class="w-full sm:w-44"
+            size="md"
+          />
+        </div>
       </div>
 
-      <div v-else class="overflow-x-auto">
-        <table class="w-full text-sm text-left">
-          <thead class="bg-gray-50/50 text-gray-500 uppercase text-xs font-bold tracking-wider border-b border-gray-100">
+      <div v-if="loading" class="flex min-h-[200px] items-center justify-center">
+        <UIcon name="i-lucide-loader-2" class="h-7 w-7 animate-spin text-zinc-400" />
+      </div>
+
+      <div v-else-if="filteredProducts.length === 0" class="flex min-h-[220px] flex-col items-center justify-center p-8 text-center">
+        <Icon name="lucide:package-open" class="mb-3 h-8 w-8 text-zinc-300" />
+        <p class="text-sm font-medium text-zinc-800">Aucun produit trouvé</p>
+        <p class="mt-1 max-w-sm text-xs text-zinc-500">Modifiez les filtres ou ajoutez votre premier produit.</p>
+        <UButton @click="showCreateModal = true" color="black" icon="i-lucide-plus" class="mt-5">Nouveau produit</UButton>
+      </div>
+
+      <div v-else>
+        <div class="hidden overflow-x-auto md:block">
+          <table class="w-full text-left text-sm">
+          <thead class="border-b border-zinc-100 bg-zinc-50 text-xs font-semibold text-zinc-500">
             <tr>
-              <th scope="col" class="px-6 py-4">Produit</th>
-              <th scope="col" class="px-6 py-4">Prix</th>
-              <th scope="col" class="px-6 py-4">Inventaire</th>
-              <th scope="col" class="px-6 py-4">État</th>
-              <th scope="col" class="px-6 py-4 text-right">Actions</th>
+              <th scope="col" class="px-5 py-3">Produit</th>
+              <th scope="col" class="px-5 py-3">Prix</th>
+              <th scope="col" class="px-5 py-3">Quantité</th>
+              <th scope="col" class="px-5 py-3">État</th>
+              <th scope="col" class="px-5 py-3 text-right">Actions</th>
             </tr>
           </thead>
-          <tbody class="divide-y divide-gray-100 bg-white">
-            <tr v-for="product in filteredProducts" :key="product.id" class="hover:bg-gray-50/80 transition-colors group">
-              <td class="px-6 py-4 whitespace-nowrap">
-                <div class="flex items-center gap-4">
-                  <div class="w-12 h-12 rounded-xl bg-gray-50 border border-gray-100 flex items-center justify-center overflow-hidden shrink-0 transition-transform group-hover:scale-105">
-                    <img v-if="product.thumbnail" :src="product.thumbnail" :alt="product.title" class="w-full h-full object-cover mix-blend-multiply" />
-                    <Icon v-else name="lucide:image" class="w-5 h-5 text-gray-300" />
+          <tbody class="divide-y divide-zinc-100">
+            <tr v-for="product in filteredProducts" :key="product.id" class="group hover:bg-zinc-50">
+              <td class="px-5 py-3">
+                <div class="flex items-center gap-3">
+                  <div class="flex h-11 w-11 shrink-0 items-center justify-center overflow-hidden rounded-md border border-zinc-100 bg-zinc-50">
+                    <img v-if="product.thumbnail" :src="product.thumbnail" :alt="product.title" class="h-full w-full object-cover" />
+                    <Icon v-else name="lucide:image" class="h-5 w-5 text-zinc-300" />
                   </div>
                   <div class="min-w-0">
-                    <p class="font-semibold text-gray-900 truncate">{{ product.title }}</p>
-                    <p class="text-xs text-gray-500 font-mono mt-0.5 truncate">{{ product.handle }}</p>
+                    <p class="truncate font-medium text-zinc-950">{{ product.title }}</p>
+                    <p class="mt-0.5 truncate font-mono text-xs text-zinc-500">{{ product.handle }}</p>
                   </div>
                 </div>
               </td>
-              <td class="px-6 py-4 whitespace-nowrap font-semibold text-gray-900">{{ formatPrice(product.price) }}</td>
-              <td class="px-6 py-4 whitespace-nowrap">
-                <span class="font-bold text-base font-mono bg-gray-50 px-2 py-1 rounded" :class="getStockColor(product)">
+              <td class="whitespace-nowrap px-5 py-3 font-medium text-zinc-900">{{ formatPrice(product.price) }}</td>
+              <td class="whitespace-nowrap px-5 py-3">
+                <span class="font-mono text-sm font-semibold" :class="getStockColor(product)">
                   {{ product.stock_quantity ?? '∞' }}
                 </span>
-                <span class="text-xs text-gray-400 ml-2">unités</span>
+                <span class="ml-1 text-xs text-zinc-400">unités</span>
               </td>
-              <td class="px-6 py-4 whitespace-nowrap">
+              <td class="whitespace-nowrap px-5 py-3">
                 <UBadge :color="getStatusBadge(product).color" variant="subtle" class="font-semibold px-2.5 py-1">
                   {{ getStatusBadge(product).label }}
                 </UBadge>
               </td>
-              <td class="px-6 py-4 whitespace-nowrap text-right">
-                <div class="flex items-center justify-end gap-1 opacity-100 sm:opacity-0 sm:group-hover:opacity-100 transition-opacity">
+              <td class="whitespace-nowrap px-5 py-3 text-right">
+                <div class="flex items-center justify-end gap-1">
                   <UButton
                     size="sm"
                     color="gray"
@@ -157,9 +139,51 @@
               </td>
             </tr>
           </tbody>
-        </table>
+          </table>
+        </div>
+
+        <div class="divide-y divide-zinc-100 md:hidden">
+          <div v-for="product in filteredProducts" :key="product.id" class="p-4">
+            <div class="flex gap-3">
+              <div class="flex h-12 w-12 shrink-0 items-center justify-center overflow-hidden rounded-md border border-zinc-100 bg-zinc-50">
+                <img v-if="product.thumbnail" :src="product.thumbnail" :alt="product.title" class="h-full w-full object-cover" />
+                <Icon v-else name="lucide:image" class="h-5 w-5 text-zinc-300" />
+              </div>
+              <div class="min-w-0 flex-1">
+                <p class="truncate font-medium text-zinc-950">{{ product.title }}</p>
+                <p class="mt-0.5 truncate font-mono text-xs text-zinc-500">{{ product.handle }}</p>
+                <div class="mt-2 flex flex-wrap items-center gap-2">
+                  <UBadge :color="getStatusBadge(product).color" variant="subtle">
+                    {{ getStatusBadge(product).label }}
+                  </UBadge>
+                  <span class="text-sm font-medium text-zinc-800">{{ formatPrice(product.price) }}</span>
+                  <span class="text-sm text-zinc-500">{{ product.stock_quantity ?? '∞' }} unités</span>
+                </div>
+              </div>
+            </div>
+            <div class="mt-3 flex justify-end gap-2">
+              <UButton
+                size="sm"
+                color="gray"
+                variant="outline"
+                icon="i-lucide-edit-3"
+                @click="openEditModal(product)"
+              >
+                Modifier
+              </UButton>
+              <UButton
+                aria-label="Supprimer le produit"
+                size="sm"
+                color="red"
+                variant="ghost"
+                icon="i-lucide-trash-2"
+                @click="deleteProduct(product)"
+              />
+            </div>
+          </div>
+        </div>
       </div>
-    </div>
+    </section>
 
     <!-- Edit Stock Modal -->
     <UModal v-model="showEditModal">
@@ -206,7 +230,7 @@
             <UInput v-model="createForm.title" placeholder="Ex: Sac de riz 25kg" />
           </div>
 
-          <div class="grid grid-cols-2 gap-4">
+          <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
             <div>
               <label class="block text-sm font-medium text-gray-700 mb-1">Prix (€) *</label>
               <UInput v-model.number="createForm.price" type="number" min="0" step="0.01" placeholder="0.00" />
@@ -222,7 +246,7 @@
             <UInput v-model="createForm.subtitle" placeholder="Courte description d'accroche" />
           </div>
 
-          <div class="grid grid-cols-2 gap-4">
+          <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
             <div>
               <label class="block text-sm font-medium text-gray-700 mb-1">Catégorie *</label>
               <UInput v-model="createForm.category" placeholder="Ex: Alimentaire" />
@@ -283,11 +307,11 @@
           </div>
         </div>
 
-        <div class="flex justify-between items-center mt-6">
-          <UButton color="gray" variant="ghost" icon="i-lucide-download" to="/template_import_Dounia Market.csv" target="_blank" download class="text-xs">
+        <div class="mt-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+          <UButton color="gray" variant="ghost" icon="i-lucide-download" to="/template_import_dounia-market.csv" target="_blank" download class="text-xs">
             Modèle CSV
           </UButton>
-          <div class="flex gap-3">
+          <div class="flex flex-col gap-2 sm:flex-row sm:gap-3">
             <UButton color="gray" variant="outline" @click="showImportModal = false">Annuler</UButton>
             <UButton color="black" :loading="importing" :disabled="!csvFile" @click="processImportCSV">Lancer l'importation</UButton>
           </div>
@@ -344,8 +368,14 @@ const stockFilterOptions = [
 
 // Computed
 const inStockCount = computed(() => products.value.filter(p => p.in_stock && (p.stock_quantity ?? 1) > 0).length)
-const lowStockCount = computed(() => products.value.filter(p => p.stock_quantity !== null && p.stock_quantity > 0 && p.stock_quantity < 10).length)
+const lowStockCount = computed(() => products.value.filter(p => p.in_stock && p.stock_quantity !== null && p.stock_quantity > 0 && p.stock_quantity < 10).length)
 const outOfStockCount = computed(() => products.value.filter(p => !p.in_stock || p.stock_quantity === 0).length)
+const inventoryStats = computed(() => [
+  { label: 'Total produits', value: products.value.length, icon: 'lucide:package', bgColor: 'bg-zinc-100', iconColor: 'text-zinc-700' },
+  { label: 'En stock', value: inStockCount.value, icon: 'lucide:check-circle', bgColor: 'bg-emerald-50', iconColor: 'text-emerald-700' },
+  { label: 'Stock faible', value: lowStockCount.value, icon: 'lucide:alert-triangle', bgColor: 'bg-amber-50', iconColor: 'text-amber-700' },
+  { label: 'Rupture', value: outOfStockCount.value, icon: 'lucide:x-circle', bgColor: 'bg-red-50', iconColor: 'text-red-700' },
+])
 
 const filteredProducts = computed(() => {
   let result = [...products.value]
@@ -358,7 +388,7 @@ const filteredProducts = computed(() => {
   if (stockFilter.value === 'in_stock') {
     result = result.filter(p => p.in_stock && (p.stock_quantity ?? 1) > 0)
   } else if (stockFilter.value === 'low_stock') {
-    result = result.filter(p => p.stock_quantity !== null && p.stock_quantity > 0 && p.stock_quantity < 10)
+    result = result.filter(p => p.in_stock && p.stock_quantity !== null && p.stock_quantity > 0 && p.stock_quantity < 10)
   } else if (stockFilter.value === 'out_of_stock') {
     result = result.filter(p => !p.in_stock || p.stock_quantity === 0)
   }

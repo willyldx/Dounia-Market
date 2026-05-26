@@ -9,12 +9,15 @@
 
     <!-- Loading -->
     <div v-if="loading" class="flex items-center justify-center py-12">
-      <UIcon name="i-lucide-loader-2" class="w-8 h-8 animate-spin text-green-500" />
+      <UIcon name="i-lucide-loader-2" class="w-8 h-8 animate-spin text-amber-600" />
     </div>
 
-    <div v-else-if="delivery">
+    <div
+      v-else-if="delivery"
+      :class="delivery.fulfillmentStatus === 'delivered' && delivery.deliveryPhoto ? 'pb-72' : 'pb-20'"
+    >
       <!-- Header -->
-      <div class="bg-white rounded-xl p-4 shadow-sm border border-gray-100 mb-4">
+      <div class="bg-white rounded-lg p-4 shadow-sm border border-gray-100 mb-4">
         <div class="flex items-start justify-between mb-3">
           <div>
             <h1 class="text-xl font-bold text-gray-900">#{{ delivery.displayId }}</h1>
@@ -24,13 +27,13 @@
             {{ getStatusLabel(delivery.fulfillmentStatus) }}
           </UBadge>
         </div>
-        <div class="text-2xl font-bold text-green-600">
+        <div class="text-2xl font-bold text-dounia-500">
           {{ formatPrice(delivery.total) }}
         </div>
       </div>
 
       <!-- Recipient Card -->
-      <div class="bg-white rounded-xl p-4 shadow-sm border border-gray-100 mb-4">
+      <div class="bg-white rounded-lg p-4 shadow-sm border border-gray-100 mb-4">
         <h2 class="font-semibold text-gray-900 mb-3 flex items-center gap-2">
           <Icon name="lucide:user" class="w-5 h-5 text-gray-400" />
           Destinataire
@@ -41,9 +44,9 @@
             <p class="font-medium text-gray-900">{{ delivery.recipientName }}</p>
           </div>
           
-          <a :href="`tel:${delivery.recipientPhone}`" class="flex items-center gap-3 p-3 bg-green-50 rounded-lg">
-            <div class="w-10 h-10 rounded-full bg-green-100 flex items-center justify-center">
-              <Icon name="lucide:phone" class="w-5 h-5 text-green-600" />
+          <a :href="`tel:${delivery.recipientPhone}`" class="flex items-center gap-3 p-3 bg-amber-50 rounded-lg">
+            <div class="w-10 h-10 rounded-full bg-amber-100 flex items-center justify-center">
+              <Icon name="lucide:phone" class="w-5 h-5 text-amber-700" />
             </div>
             <div class="flex-1">
               <p class="text-sm text-gray-500">Téléphone</p>
@@ -55,15 +58,15 @@
       </div>
 
       <!-- Address Card -->
-      <div class="bg-white rounded-xl p-4 shadow-sm border border-gray-100 mb-4">
+      <div class="bg-white rounded-lg p-4 shadow-sm border border-gray-100 mb-4">
         <h2 class="font-semibold text-gray-900 mb-3 flex items-center gap-2">
           <Icon name="lucide:map-pin" class="w-5 h-5 text-gray-400" />
           Adresse de livraison
         </h2>
         
         <div v-if="delivery.shippingAddress" class="mb-4">
-          <p class="text-gray-900">{{ delivery.shippingAddress.address_1 }}</p>
-          <p v-if="delivery.shippingAddress.address_2" class="text-gray-600">{{ delivery.shippingAddress.address_2 }}</p>
+          <p class="text-gray-900">{{ delivery.shippingAddress.address1 }}</p>
+          <p v-if="delivery.shippingAddress.address2" class="text-gray-600">{{ delivery.shippingAddress.address2 }}</p>
           <p class="text-gray-600">{{ delivery.shippingAddress.city }}, {{ delivery.shippingAddress.country }}</p>
         </div>
         <p v-else class="text-gray-500">Adresse non spécifiée</p>
@@ -88,7 +91,7 @@
       </div>
 
       <!-- Items Card -->
-      <div class="bg-white rounded-xl p-4 shadow-sm border border-gray-100 mb-4">
+      <div class="bg-white rounded-lg p-4 shadow-sm border border-gray-100 mb-4">
         <h2 class="font-semibold text-gray-900 mb-3 flex items-center gap-2">
           <Icon name="lucide:package" class="w-5 h-5 text-gray-400" />
           Articles ({{ delivery.items?.length || 0 }})
@@ -114,7 +117,7 @@
         <UButton
           v-if="delivery.fulfillmentStatus === 'fulfilled'"
           @click="startDelivery"
-          color="blue"
+          color="primary"
           size="xl"
           class="w-full"
           :loading="updating"
@@ -136,11 +139,11 @@
         </UButton>
 
         <!-- Already delivered -->
-        <div v-if="delivery.fulfillmentStatus === 'delivered'" class="bg-green-50 rounded-xl p-4 text-center">
+        <div v-if="delivery.fulfillmentStatus === 'delivered'" class="bg-green-50 rounded-lg p-4 text-center">
           <Icon name="lucide:check-circle" class="w-12 h-12 mx-auto text-green-500 mb-2" />
           <p class="font-medium text-green-700">Livraison effectuée</p>
           <p class="text-sm text-green-600">{{ formatDateTime(delivery.deliveredAt) }}</p>
-          <img v-if="delivery.deliveryPhoto" :src="delivery.deliveryPhoto" alt="Preuve" class="mt-3 rounded-lg w-full max-h-40 object-cover" />
+          <img v-if="delivery.deliveryPhoto" :src="delivery.deliveryPhoto" alt="Photo de remise" class="mt-3 rounded-lg w-full max-h-40 object-cover" />
         </div>
       </div>
     </div>
@@ -150,7 +153,7 @@
       <div class="p-6">
         <h3 class="text-lg font-semibold text-gray-900 mb-2">Confirmer la livraison</h3>
         <p class="text-sm text-gray-500 mb-4">
-          Prenez une photo comme preuve de livraison
+          Ajoutez la photo de remise requise pour clôturer cette livraison
         </p>
 
         <!-- Photo capture -->
@@ -158,13 +161,13 @@
           <div 
             v-if="!photoPreview"
             @click="triggerCamera"
-            class="border-2 border-dashed border-gray-300 rounded-xl p-8 text-center cursor-pointer hover:border-green-500 transition-colors"
+            class="border-2 border-dashed border-gray-300 rounded-lg p-8 text-center cursor-pointer hover:border-amber-500 transition-colors"
           >
             <Icon name="lucide:camera" class="w-12 h-12 mx-auto text-gray-400 mb-2" />
             <p class="text-sm text-gray-500">Appuyez pour prendre une photo</p>
           </div>
           <div v-else class="relative">
-            <img :src="photoPreview" alt="Preview" class="w-full rounded-xl" />
+            <img :src="photoPreview" alt="Aperçu de la photo de remise" class="w-full rounded-lg" />
             <button 
               @click="clearPhoto"
               class="absolute top-2 right-2 w-8 h-8 bg-red-500 text-white rounded-full flex items-center justify-center"
@@ -283,7 +286,7 @@ const completeDelivery = async () => {
   if (!delivery.value) return
 
   if (!photoFile.value) {
-    toast.add({ title: 'Photo obligatoire', description: 'Veuillez prendre une photo de la livraison.', color: 'amber' })
+    toast.add({ title: 'Photo de remise requise', description: 'Ajoutez la photo de remise pour clôturer cette livraison.', color: 'amber' })
     return
   }
 
@@ -326,7 +329,7 @@ const completeDelivery = async () => {
 const openInMaps = () => {
   if (!delivery.value?.shippingAddress) return
   const addr = delivery.value.shippingAddress
-  const query = encodeURIComponent(`${addr.address_1}, ${addr.city}, ${addr.country}`)
+  const query = encodeURIComponent(`${addr.address1}, ${addr.city}, ${addr.country}`)
   window.open(`https://www.google.com/maps/search/?api=1&query=${query}`, '_blank')
 }
 
@@ -372,7 +375,7 @@ const formatDateTime = (date: string | undefined) => {
 const getStatusColor = (status: string) => {
   const colors: Record<string, string> = {
     fulfilled: 'amber',
-    shipped: 'blue',
+    shipped: 'primary',
     delivered: 'green'
   }
   return colors[status] || 'gray'

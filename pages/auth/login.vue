@@ -1,6 +1,5 @@
 <template>
   <div class="min-h-screen flex items-center justify-center relative bg-muted/30">
-    <!-- Centered Minimalist Card -->
     <div class="w-full max-w-md relative z-10 px-4 sm:px-0">
       
       <!-- Back to Home -->
@@ -8,9 +7,8 @@
         <ArrowLeft class="w-4 h-4" /> Retour à l'accueil
       </NuxtLink>
 
-      <div class="bg-card rounded-xl border border-border shadow-sm overflow-hidden">
+      <div class="bg-card rounded-lg border border-border shadow-sm overflow-hidden">
         
-        <!-- Logo -->
         <div class="pt-10 pb-2 flex justify-center">
           <img src="/logo-full.svg" alt="Dounia Market" class="h-8 sm:h-10 w-auto" />
         </div>
@@ -28,8 +26,8 @@
           >
             <div v-if="step === 'email'" class="w-full">
               <div class="text-center mb-8">
-                <h1 class="text-2xl font-bold text-foreground mb-2 tracking-tight">Bienvenue</h1>
-                <p class="text-muted-foreground text-sm">Entrez votre email pour recevoir votre code d'accès sécurisé.</p>
+                <h1 class="text-2xl font-bold text-foreground mb-2 tracking-tight">Accéder à mon compte</h1>
+                <p class="text-muted-foreground text-sm">Recevez un code de connexion par email pour consulter vos commandes.</p>
               </div>
 
               <form @submit.prevent="handleSendOtp" class="space-y-4">
@@ -60,7 +58,7 @@
                 <button
                   type="submit"
                   :disabled="!email || authStore.isLoading"
-                  class="inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground hover:bg-primary/90 h-10 px-4 py-2 w-full mt-2"
+                  class="inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-brand text-brand-foreground hover:bg-brand/90 h-10 px-4 py-2 w-full mt-2"
                 >
                   <Loader2 v-if="authStore.isLoading" class="w-4 h-4 mr-2 animate-spin" />
                   <ArrowRight v-else class="w-4 h-4 mr-2" />
@@ -87,7 +85,7 @@
 
               <div class="text-center mb-8">
                 <h1 class="text-2xl font-bold text-foreground mb-2 tracking-tight">Vos informations</h1>
-                <p class="text-muted-foreground text-sm">Dites-nous comment vous appeler pour continuer.</p>
+                <p class="text-muted-foreground text-sm">Indiquez votre nom pour votre espace Dounia Market.</p>
               </div>
 
               <form @submit.prevent="handleNameSubmit" class="space-y-4">
@@ -118,7 +116,7 @@
                 <button 
                   type="submit" 
                   :disabled="!firstName || !lastName" 
-                  class="inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground hover:bg-primary/90 h-10 px-4 py-2 w-full mt-2"
+                  class="inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-brand text-brand-foreground hover:bg-brand/90 h-10 px-4 py-2 w-full mt-2"
                 >
                   Suivant <ArrowRight class="w-4 h-4 ml-2" />
                 </button>
@@ -148,13 +146,12 @@
 
                 <h1 class="text-2xl font-bold text-foreground mb-2 tracking-tight">Code de sécurité</h1>
                 <p class="text-muted-foreground text-sm mb-6 max-w-xs">
-                  Envoyé à <strong class="text-foreground font-semibold">{{ email }}</strong>
+                  Code envoyé à <strong class="text-foreground font-semibold">{{ email }}</strong>
                 </p>
               </div>
 
               <form @submit.prevent="handleVerifyOtp" class="space-y-6">
-                <!-- Premium OTP Input boxes -->
-                <div class="flex justify-center gap-2 sm:gap-3">
+                <div class="grid grid-cols-6 gap-1.5 sm:gap-3">
                   <input
                     v-for="(_, i) in 6"
                     :key="i"
@@ -162,7 +159,7 @@
                     type="text"
                     inputmode="numeric"
                     maxlength="1"
-                    class="w-10 h-12 sm:w-12 sm:h-12 text-center text-xl font-bold rounded-md border border-input bg-background focus:outline-none focus:ring-2 focus:ring-ring transition-all text-foreground"
+                    class="min-w-0 w-full max-w-12 h-12 justify-self-center text-center text-xl font-bold rounded-md border border-input bg-background focus:outline-none focus:ring-2 focus:ring-ring transition-all text-foreground"
                     @input="onOtpInput(i, $event)"
                     @keydown="onOtpKeydown(i, $event)"
                     @paste="onOtpPaste($event)"
@@ -184,7 +181,7 @@
                 <button
                   type="submit"
                   :disabled="otpCode.length < 6 || authStore.isLoading"
-                  class="inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground hover:bg-primary/90 h-10 px-4 py-2 w-full mt-2"
+                  class="inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-brand text-brand-foreground hover:bg-brand/90 h-10 px-4 py-2 w-full mt-2"
                 >
                   <Loader2 v-if="authStore.isLoading" class="w-4 h-4 mr-2 animate-spin" />
                   <LogIn v-else class="w-4 h-4 mr-2" />
@@ -215,8 +212,8 @@
       <!-- Footer Text -->
       <div class="text-center mt-6">
         <p class="text-xs text-muted-foreground">
-          En continuant, vous acceptez nos
-          <NuxtLink to="/conditions" class="text-foreground hover:underline transition-colors">CGV</NuxtLink>.
+          Vos informations sont utilisées pour gérer votre compte et vos commandes.
+          <NuxtLink to="/confidentialite" class="text-foreground hover:underline transition-colors">Confidentialité</NuxtLink>
         </p>
       </div>
 
@@ -226,8 +223,7 @@
 
 <script setup lang="ts">
 import {
-  Package, Mail, ArrowRight, ArrowLeft, Loader2, AlertCircle,
-  ShieldCheck, LogIn
+  ArrowRight, ArrowLeft, Loader2, AlertCircle, ShieldCheck, LogIn
 } from 'lucide-vue-next'
 
 definePageMeta({ layout: false, middleware: ['guest'] })

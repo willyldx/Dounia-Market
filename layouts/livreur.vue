@@ -5,10 +5,10 @@
       <div class="px-4 py-3 flex items-center justify-between">
         <div class="flex items-center gap-3">
           <NuxtLink to="/livreur" class="flex items-center gap-2">
-            <img src="/logo.png" alt="TchadBox" class="h-8 w-auto" />
+            <img src="/logo-full.svg" alt="Dounia Market" class="h-8 w-auto" />
             <div>
-              <span class="font-bold text-stone-800">TchadBox</span>
-              <span class="block text-xs text-green-600 font-medium">Livreur</span>
+              <span class="font-bold text-stone-800">Dounia Market</span>
+              <span class="block text-xs text-amber-700 font-medium">Livreur</span>
             </div>
           </NuxtLink>
         </div>
@@ -22,8 +22,8 @@
           
           <!-- User Menu -->
           <UDropdown :items="userMenuItems" :popper="{ placement: 'bottom-end' }">
-            <div class="w-9 h-9 rounded-full bg-green-100 flex items-center justify-center cursor-pointer">
-              <span class="text-sm font-semibold text-green-700">{{ authStore.initials }}</span>
+            <div class="w-9 h-9 rounded-full bg-amber-100 flex items-center justify-center cursor-pointer">
+              <span class="text-sm font-semibold text-amber-800">{{ authStore.initials }}</span>
             </div>
           </UDropdown>
         </div>
@@ -44,7 +44,7 @@
           :to="item.to"
           :class="[
             'flex flex-col items-center gap-1 px-4 py-2 rounded-lg transition-colors',
-            isActive(item.to) ? 'text-green-600' : 'text-stone-400'
+            isActive(item.to) ? 'text-dounia-500' : 'text-stone-400'
           ]"
         >
           <Icon :name="item.icon" class="w-6 h-6" />

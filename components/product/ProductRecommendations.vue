@@ -1,72 +1,71 @@
 <template>
-  <div v-if="recommendations.length > 0" class="mt-16">
-    <div class="flex items-center gap-4 mb-8">
-      <h2 class="text-2xl lg:text-3xl font-bold font-display text-[var(--color-primary)]">Vous aimerez aussi</h2>
-      <div class="h-px bg-gray-200 flex-1"></div>
+  <section v-if="recommendations.length" class="mt-12 border-t border-border pt-8 sm:mt-14">
+    <div class="mb-5 flex items-end justify-between gap-3">
+      <div>
+        <p class="text-xs font-semibold uppercase tracking-[0.14em] text-amber-700">À découvrir</p>
+        <h2 class="mt-2 text-xl font-bold text-foreground sm:text-2xl">Autres produits du catalogue</h2>
+      </div>
+      <NuxtLink to="/catalogue" class="hidden text-sm font-semibold text-brand hover:text-brand/80 sm:inline-flex">
+        Voir tout
+      </NuxtLink>
     </div>
-    
-    <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6">
-      <ProductCard 
-        v-for="product in recommendations" 
-        :key="product.id" 
-        :product="product" 
-      />
+    <div class="grid grid-cols-1 gap-3 min-[380px]:grid-cols-2 sm:gap-5 lg:grid-cols-4">
+      <ProductCard v-for="item in recommendations" :key="item.id" :product="item" />
     </div>
-  </div>
+  </section>
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
+import ProductCard from '~/components/product/ProductCard.vue'
 
-const props = defineProps({
-  product: {
-    type: Object,
-    required: true
-  }
-})
+const props = defineProps<{
+  product: Record<string, any>
+}>()
 
 const recommendations = ref<any[]>([])
+const normalizePrice = (value: unknown): number | undefined => (
+  typeof value === 'number' && Number.isFinite(value) ? value : undefined
+)
+const normalizeAvailability = (value: unknown): boolean | undefined => (
+  value === true ? true : value === false ? false : undefined
+)
 
 const fetchRecommendations = async () => {
   try {
     const config = useRuntimeConfig()
     const aiOrigin = String(config.public.aiApiUrl || 'https://ai.douniamarket.com').replace(/\/+$/, '')
     const apiOrigin = new URL(String(config.public.apiUrl || 'https://api.douniamarket.com/api')).origin
-    const aiEngineUrl = `${aiOrigin}/recommend`
-    
-    const response = await $fetch<any>(aiEngineUrl, {
+    const response = await $fetch<any>(`${aiOrigin}/recommend`, {
       method: 'POST',
       body: {
         viewed_product_ids: [props.product.id],
-        viewed_categories: [props.product.category_handle || props.product.category],
-        limit: 4
-      }
+        viewed_categories: [props.product.categoryHandle || props.product.category_handle || props.product.category],
+        limit: 4,
+      },
     })
-    
-    if (response && response.recommendations) {
-      // Map AI recommendations back to expected ProductCard format
-      recommendations.value = response.recommendations.map((p: any) => ({
-        id: p.id,
-        title: p.title,
-        price: p.price || 0,
-        handle: p.slug || p.id.toString(),
-        // Format thumbnail just like we did in Search!
-        thumbnail: p.thumbnail ? 
-          (p.thumbnail.startsWith('http') ? p.thumbnail : 
-          (p.thumbnail.startsWith('/') ? apiOrigin + p.thumbnail : apiOrigin + '/' + p.thumbnail))
+
+    if (response?.recommendations) {
+      recommendations.value = response.recommendations.map((item: any) => ({
+        id: item.id.toString(),
+        title: item.title,
+        price: normalizePrice(item.price),
+        handle: item.slug || item.id.toString(),
+        thumbnail: item.thumbnail
+          ? (item.thumbnail.startsWith('http')
+              ? item.thumbnail
+              : `${apiOrigin}${item.thumbnail.startsWith('/') ? '' : '/'}${item.thumbnail}`)
           : '',
-        category: p.category || '',
-        category_handle: p.category_handle || '',
+        category: item.category || '',
+        categoryHandle: item.category_handle || '',
+        inStock: normalizeAvailability(item.in_stock),
       }))
     }
   } catch (error) {
-    console.error('Failed to fetch AI recommendations:', error)
+    console.error('Failed to fetch recommendations:', error)
   }
 }
 
 onMounted(() => {
-  if (props.product) {
-    fetchRecommendations()
-  }
+  fetchRecommendations()
 })
 </script>
