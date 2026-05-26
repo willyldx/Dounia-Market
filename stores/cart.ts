@@ -137,13 +137,13 @@ export const useCartStore = defineStore('cart', {
 
     saveToStorage() {
       if (process.client) {
-        localStorage.setItem('tchadbox-cart', JSON.stringify(this.items))
+        localStorage.setItem('dounia_market_cart', JSON.stringify(this.items))
       }
     },
 
     loadFromStorage() {
       if (process.client) {
-        const saved = localStorage.getItem('tchadbox-cart')
+        const saved = localStorage.getItem('dounia_market_cart')
         if (saved) {
           try {
             this.items = JSON.parse(saved)

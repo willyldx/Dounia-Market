@@ -124,9 +124,9 @@ const form = ref({ name: '', email: '', subject: '', message: '' })
 const isSubmitting = ref(false)
 
 const contactInfo = [
-  { label: 'Email Support', value: 'contact@douniamarket.com', href: 'mailto:contact@douniamarket.com', icon: Mail },
+  { label: 'Email Support', value: 'support@douniamarket.com', href: 'mailto:support@douniamarket.com', icon: Mail },
   { label: 'Formulaire en ligne', value: 'Utilisez le formulaire pour nous écrire', href: null, icon: MessageSquare },
-  { label: 'Zone Logistique', value: 'N\'Djamena, Tchad', href: null, icon: MapPin },
+  { label: 'Livraison locale', value: 'N\'Djamena, selon zones couvertes', href: null, icon: MapPin },
 ]
 
 const submitForm = async () => {

@@ -56,7 +56,7 @@ export default defineEventHandler(async (event) => {
   }
 
   const apiUrl = (config.public.apiUrl as string || 'https://api.douniamarket.com/api').replace(/\/+$/, '')
-  const authToken = getCookie(event, 'tchadbox_auth_token')
+  const authToken = getCookie(event, 'dounia_market_auth_token')
 
   try {
     // Forward to Laravel backend

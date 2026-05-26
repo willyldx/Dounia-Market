@@ -20,10 +20,10 @@ engine = RecommendationEngine()
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     # Startup: Fetch all products from Laravel API and fit the model
-    print("Loading product catalogue from TchadBox Backend...")
+    print("Loading product catalogue from Dounia Market Tchad backend...")
     try:
-        # We try to use the VITE_API_URL or default to the production one
-        api_url = os.environ.get("TCHADBOX_API_URL", "https://api.douniamarket.com/api")
+        # Override the catalogue API endpoint when running outside production.
+        api_url = os.environ.get("DOUNIA_MARKET_API_URL", "https://api.douniamarket.com/api")
         async with httpx.AsyncClient() as client:
             response = await client.get(f"{api_url}/products?limit=500")
             response.raise_for_status()
@@ -38,7 +38,7 @@ async def lifespan(app: FastAPI):
     print("Shutting down AI engine.")
 
 
-app = FastAPI(title="TchadBox AI Subsystem", lifespan=lifespan)
+app = FastAPI(title="Dounia Market Tchad AI Subsystem", lifespan=lifespan)
 
 allowed_origins = [
     origin.strip()

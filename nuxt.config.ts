@@ -64,6 +64,7 @@ export default defineNuxtConfig({
       meilisearchHost: process.env.NUXT_PUBLIC_MEILISEARCH_HOST || '',
       meilisearchKey: process.env.NUXT_PUBLIC_MEILISEARCH_KEY || '',
       checkoutPaymentEnabled: process.env.NUXT_PUBLIC_CHECKOUT_PAYMENT_ENABLED === 'true',
+      searchIndexingEnabled: process.env.NUXT_PUBLIC_SEARCH_INDEXING_ENABLED === 'true',
     }
   },
   nitro: {

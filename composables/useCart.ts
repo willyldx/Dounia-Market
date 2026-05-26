@@ -1,7 +1,7 @@
 import { ConvexClient } from "convex/browser";
 import type { FunctionReference } from "convex/server";
 
-const VISITOR_ID_KEY = "tchadbox_visitor_id";
+const VISITOR_ID_KEY = "dounia_market_visitor_id";
 
 function getVisitorId(): string {
   if (typeof window === "undefined") return "";

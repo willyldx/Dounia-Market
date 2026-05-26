@@ -6,7 +6,7 @@ export const usePulse = () => {
   const trackProductView = (productId: number, category: string) => {
     if (!hasConsent.value) return
 
-    const pulseContext = useCookie<{ viewed_ids: number[], viewed_categories: string[] }>('tchadbox_pulse', {
+    const pulseContext = useCookie<{ viewed_ids: number[], viewed_categories: string[] }>('dounia_market_pulse', {
       maxAge: 60 * 60 * 24 * 30,
       default: () => ({ viewed_ids: [], viewed_categories: [] })
     })

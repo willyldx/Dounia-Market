@@ -111,7 +111,7 @@ export const useAuthStore = defineStore('auth', {
 
     _persistToken(token: string) {
       this.token = token
-      const authCookie = useCookie('tchadbox_auth_token', {
+      const authCookie = useCookie('dounia_market_auth_token', {
         maxAge: 60 * 60 * 24 * 30,
         path: '/',
         sameSite: 'lax',
@@ -128,7 +128,7 @@ export const useAuthStore = defineStore('auth', {
          existingCookie.value = null
       } else {
          try {
-           const authCookie = useCookie('tchadbox_auth_token', {
+           const authCookie = useCookie('dounia_market_auth_token', {
              path: '/',
              sameSite: 'lax',
              secure: !import.meta.dev,
@@ -146,7 +146,7 @@ export const useAuthStore = defineStore('auth', {
       this.sessionChecked = true
 
       // Lisez le jeton depuis les cookies (fonctionne SSR et CSR)
-      const authCookie = useCookie('tchadbox_auth_token', {
+      const authCookie = useCookie('dounia_market_auth_token', {
         path: '/',
         sameSite: 'lax',
         secure: !import.meta.dev,

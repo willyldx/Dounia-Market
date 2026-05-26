@@ -5,7 +5,7 @@
 import type { CheckoutPaymentInitialization, PublicOrderStatus } from '~/types'
 
 export function useBackendApi() {
-  const authCookie = useCookie('tchadbox_auth_token')
+  const authCookie = useCookie('dounia_market_auth_token')
 
   const getBaseUrl = () => {
     const config = useRuntimeConfig()

@@ -420,7 +420,7 @@ const productDescription = computed(() => {
 const productCanonical = computed(() => `${siteUrl}/produit/${encodeURIComponent(String(route.params.slug || ''))}`)
 const productImageUrl = computed(() => {
   const image = mainImage.value
-  if (!image) return `${siteUrl}/og-default.svg`
+  if (!image) return `${siteUrl}/og-default.png`
   if (/^https?:\/\//.test(image)) return image
   if (image.startsWith('storage/') || image.startsWith('/storage/')) {
     return `${apiOrigin}/${image.replace(/^\/+/, '')}`

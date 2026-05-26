@@ -32,7 +32,28 @@
           Il n'y a qu'une catégorie optionnelle au lancement : mesure d'audience et personnalisation associée.
           Aucun pays n'est déduit automatiquement de votre adresse IP.
         </p>
-        <div class="mt-5 overflow-x-auto">
+        <div class="mt-5 space-y-3 sm:hidden">
+          <dl
+            v-for="storage in storageRows"
+            :key="storage.name"
+            class="rounded-md border border-border/70 bg-background p-4 text-sm"
+          >
+            <dt class="break-all font-mono text-xs text-foreground">{{ storage.name }}</dt>
+            <dd class="mt-3 text-muted-foreground">
+              <span class="mb-1 block text-xs font-semibold uppercase tracking-wide text-foreground">Finalité</span>
+              {{ storage.purpose }}
+            </dd>
+            <dd class="mt-3 text-muted-foreground">
+              <span class="mb-1 block text-xs font-semibold uppercase tracking-wide text-foreground">Stockage / durée</span>
+              {{ storage.retention }}
+            </dd>
+            <dd class="mt-3" :class="storage.optional ? 'font-medium text-foreground' : 'text-muted-foreground'">
+              <span class="mb-1 block text-xs font-semibold uppercase tracking-wide text-foreground">Consentement</span>
+              {{ storage.consent }}
+            </dd>
+          </dl>
+        </div>
+        <div class="mt-5 hidden overflow-x-auto sm:block">
           <table class="min-w-[680px] w-full text-left text-sm">
             <thead>
               <tr class="border-b border-border text-xs uppercase tracking-wide text-muted-foreground">
@@ -43,53 +64,15 @@
               </tr>
             </thead>
             <tbody class="text-muted-foreground">
-              <tr class="border-b border-border/70">
-                <td class="py-4 pr-4 font-mono text-xs text-foreground">tchadbox_auth_token</td>
-                <td class="py-4 pr-4">Connexion sécurisée à votre compte</td>
-                <td class="py-4 pr-4">Cookie, jusqu'à 30 jours</td>
-                <td class="py-4">Nécessaire</td>
-              </tr>
-              <tr class="border-b border-border/70">
-                <td class="py-4 pr-4 font-mono text-xs text-foreground">tchadbox-cart</td>
-                <td class="py-4 pr-4">Conserver le panier demandé par l'utilisateur</td>
-                <td class="py-4 pr-4">Stockage local, jusqu'à suppression par le navigateur</td>
-                <td class="py-4">Nécessaire au panier</td>
-              </tr>
-              <tr class="border-b border-border/70">
-                <td class="py-4 pr-4 font-mono text-xs text-foreground">tchadbox-favorites</td>
-                <td class="py-4 pr-4">Conserver les favoris choisis par l'utilisateur</td>
-                <td class="py-4 pr-4">Stockage local, jusqu'à suppression par le navigateur</td>
-                <td class="py-4">Fonction demandée par l'utilisateur</td>
-              </tr>
-              <tr class="border-b border-border/70">
-                <td class="py-4 pr-4 font-mono text-xs text-foreground">tchadbox_currency / tchadbox_country</td>
-                <td class="py-4 pr-4">Mémoriser une préférence choisie volontairement</td>
-                <td class="py-4 pr-4">Stockage local, jusqu'à suppression par le navigateur</td>
-                <td class="py-4">Préférence fonctionnelle</td>
-              </tr>
-              <tr class="border-b border-border/70">
-                <td class="py-4 pr-4 font-mono text-xs text-foreground">dounia_analytics_consent</td>
-                <td class="py-4 pr-4">Mémoriser accepter ou refuser</td>
-                <td class="py-4 pr-4">Stockage local, 12 mois</td>
-                <td class="py-4">Nécessaire au respect du choix</td>
-              </tr>
-              <tr class="border-b border-border/70">
-                <td class="py-4 pr-4 font-mono text-xs text-foreground">chunk-reload-*</td>
-                <td class="py-4 pr-4">Éviter une boucle de rechargement en cas d'erreur technique</td>
-                <td class="py-4 pr-4">Stockage de session, effacé à la fin de la session</td>
-                <td class="py-4">Sécurité de fonctionnement</td>
-              </tr>
-              <tr class="border-b border-border/70">
-                <td class="py-4 pr-4 font-mono text-xs text-foreground">ph_*</td>
-                <td class="py-4 pr-4">Mesure d'audience via PostHog</td>
-                <td class="py-4 pr-4">Cookie / stockage local, selon configuration PostHog; supprimé au refus</td>
-                <td class="py-4 font-medium text-foreground">Accord requis</td>
-              </tr>
-              <tr>
-                <td class="py-4 pr-4 font-mono text-xs text-foreground">tchadbox_pulse</td>
-                <td class="py-4 pr-4">Personnaliser les suggestions à partir des produits consultés</td>
-                <td class="py-4 pr-4">Cookie, 30 jours; supprimé au refus</td>
-                <td class="py-4 font-medium text-foreground">Accord requis</td>
+              <tr
+                v-for="(storage, index) in storageRows"
+                :key="storage.name"
+                :class="index < storageRows.length - 1 ? 'border-b border-border/70' : ''"
+              >
+                <td class="py-4 pr-4 font-mono text-xs text-foreground">{{ storage.name }}</td>
+                <td class="py-4 pr-4">{{ storage.purpose }}</td>
+                <td class="py-4 pr-4">{{ storage.retention }}</td>
+                <td class="py-4" :class="storage.optional ? 'font-medium text-foreground' : ''">{{ storage.consent }}</td>
               </tr>
             </tbody>
           </table>
@@ -112,6 +95,72 @@
 
 <script setup lang="ts">
 const { status, accept, reject } = useAnalyticsConsent()
+
+const storageRows = [
+  {
+    name: 'dounia_market_auth_token',
+    purpose: 'Connexion sécurisée à votre compte',
+    retention: 'Cookie, jusqu\'à 30 jours',
+    consent: 'Nécessaire',
+    optional: false,
+  },
+  {
+    name: 'dounia_market_cart',
+    purpose: 'Conserver le panier demandé par l\'utilisateur',
+    retention: 'Stockage local, jusqu\'à suppression par le navigateur',
+    consent: 'Nécessaire au panier',
+    optional: false,
+  },
+  {
+    name: 'dounia_market_favorites',
+    purpose: 'Conserver les favoris choisis par l\'utilisateur',
+    retention: 'Stockage local, jusqu\'à suppression par le navigateur',
+    consent: 'Fonction demandée par l\'utilisateur',
+    optional: false,
+  },
+  {
+    name: 'dounia_market_currency / dounia_market_country',
+    purpose: 'Mémoriser une préférence choisie volontairement',
+    retention: 'Stockage local, jusqu\'à suppression par le navigateur',
+    consent: 'Préférence fonctionnelle',
+    optional: false,
+  },
+  {
+    name: 'dounia_market_analytics_consent',
+    purpose: 'Mémoriser accepter ou refuser',
+    retention: 'Stockage local, 12 mois',
+    consent: 'Nécessaire au respect du choix',
+    optional: false,
+  },
+  {
+    name: 'dounia_market_visitor_id',
+    purpose: 'Identifier un panier invité lorsque ce parcours est utilisé',
+    retention: 'Stockage local, jusqu\'à suppression par le navigateur',
+    consent: 'Nécessaire au panier invité',
+    optional: false,
+  },
+  {
+    name: 'chunk-reload-*',
+    purpose: 'Éviter une boucle de rechargement en cas d\'erreur technique',
+    retention: 'Stockage de session, effacé à la fin de la session',
+    consent: 'Sécurité de fonctionnement',
+    optional: false,
+  },
+  {
+    name: 'ph_*',
+    purpose: 'Mesure d\'audience via PostHog',
+    retention: 'Cookie / stockage local, selon configuration PostHog; supprimé au refus',
+    consent: 'Accord requis',
+    optional: true,
+  },
+  {
+    name: 'dounia_market_pulse',
+    purpose: 'Personnaliser les suggestions à partir des produits consultés',
+    retention: 'Cookie, 30 jours; supprimé au refus',
+    consent: 'Accord requis',
+    optional: true,
+  },
+] as const
 
 const consentLabel = computed(() => ({
   accepted: 'traceurs optionnels acceptés',

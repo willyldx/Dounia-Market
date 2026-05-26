@@ -25,7 +25,7 @@
           <p>
             Les informations d'identification juridiquement requises de l'éditeur et du responsable de publication
             seront complétées avant l'ouverture publique du service. Pour toute demande actuelle :
-            <strong>contact@douniamarket.com</strong>.
+            <strong>support@douniamarket.com</strong>.
           </p>
 
           <h2>3. Hébergement</h2>
@@ -56,7 +56,7 @@
           <h2>7. Contact</h2>
           <p>
             Pour une demande liée au site ou à vos informations, écrivez à
-            <strong>contact@douniamarket.com</strong> ou utilisez le
+            <strong>support@douniamarket.com</strong> ou utilisez le
             <NuxtLink to="/contact">formulaire de contact</NuxtLink>.
           </p>
         </div>

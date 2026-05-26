@@ -42,8 +42,8 @@ const COUNTRY_TO_CURRENCY: Record<string, CurrencyCode> = {
   CH: 'CHF',
 }
 
-const STORAGE_KEY = 'tchadbox_currency'
-const COUNTRY_STORAGE_KEY = 'tchadbox_country'
+const STORAGE_KEY = 'dounia_market_currency'
+const COUNTRY_STORAGE_KEY = 'dounia_market_country'
 
 export function useCurrency() {
   const cartStore = useCartStore()

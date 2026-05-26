@@ -107,13 +107,13 @@ export const useFavoritesStore = defineStore('favorites', {
     // LocalStorage persistence
     saveToStorage() {
       if (process.client) {
-        localStorage.setItem('tchadbox-favorites', JSON.stringify(this.items))
+        localStorage.setItem('dounia_market_favorites', JSON.stringify(this.items))
       }
     },
 
     loadFromStorage() {
       if (process.client) {
-        const saved = localStorage.getItem('tchadbox-favorites')
+        const saved = localStorage.getItem('dounia_market_favorites')
         if (saved) {
           try {
             this.items = JSON.parse(saved)

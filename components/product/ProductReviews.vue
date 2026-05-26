@@ -160,7 +160,7 @@ const props = defineProps<{
 }>()
 
 const config = useRuntimeConfig()
-const authCookie = useCookie('tchadbox_auth_token')
+const authCookie = useCookie('dounia_market_auth_token')
 
 const averageRating = ref(0)
 const totalReviews = ref(0)

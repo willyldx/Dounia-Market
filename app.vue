@@ -26,12 +26,14 @@ const brandName = 'Dounia Market Tchad'
 const siteUrl = String(config.public.siteUrl || 'https://douniamarket.com').replace(/\/+$/, '')
 const defaultDescription = 'Dounia Market Tchad permet à la diaspora tchadienne de consulter des produits disponibles localement pour livraison à N\'Djamena selon les zones couvertes.'
 const defaultTitle = `${brandName} - Produits pour vos proches à N'Djamena`
-const defaultImage = `${siteUrl}/og-default.svg`
+const defaultImage = `${siteUrl}/og-default.png`
+const searchIndexingEnabled = computed(() => String(config.public.searchIndexingEnabled) === 'true')
 const privatePrefixes = ['/admin', '/livreur', '/compte', '/auth', '/checkout']
-const isIndexableRoute = computed(() => (
+const isPublicRoute = computed(() => (
   !privatePrefixes.some(prefix => route.path === prefix || route.path.startsWith(`${prefix}/`))
   && !['/panier', '/favoris', '/suivi', '/403', '/404'].includes(route.path)
 ))
+const isIndexableRoute = computed(() => searchIndexingEnabled.value && isPublicRoute.value)
 const canonicalUrl = computed(() => `${siteUrl}${route.path === '/' ? '/' : route.path}`)
 
 onMounted(async () => {

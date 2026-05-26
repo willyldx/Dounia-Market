@@ -1,6 +1,6 @@
 type AnalyticsConsent = 'pending' | 'accepted' | 'rejected'
 
-const CONSENT_KEY = 'dounia_analytics_consent'
+const CONSENT_KEY = 'dounia_market_analytics_consent'
 const CONSENT_DURATION_MS = 365 * 24 * 60 * 60 * 1000
 const POSTHOG_PROJECT_KEY = 'phc_OVk9WPMAEcT92D890g1QJQkhxiEnJBwKU7e68idetNj'
 
@@ -40,7 +40,7 @@ function clearAnalyticsStorage() {
 function clearOptionalPersonalisation() {
   if (!import.meta.client) return
 
-  const pulseCookie = useCookie('tchadbox_pulse', { path: '/' })
+  const pulseCookie = useCookie('dounia_market_pulse', { path: '/' })
   pulseCookie.value = null
 }
 
@@ -103,6 +103,13 @@ export function useAnalyticsConsent() {
 
   function reopen() {
     status.value = 'pending'
+    if (!import.meta.client) return
+
+    localStorage.removeItem(CONSENT_KEY)
+    getPostHogClient()?.opt_out_capturing?.()
+    getPostHogClient()?.reset?.()
+    clearAnalyticsStorage()
+    clearOptionalPersonalisation()
   }
 
   function restore() {
@@ -111,6 +118,7 @@ export function useAnalyticsConsent() {
     const storedValue = localStorage.getItem(CONSENT_KEY)
     if (!storedValue) {
       clearAnalyticsStorage()
+      clearOptionalPersonalisation()
       return
     }
 
@@ -123,6 +131,7 @@ export function useAnalyticsConsent() {
       ) {
         localStorage.removeItem(CONSENT_KEY)
         clearAnalyticsStorage()
+        clearOptionalPersonalisation()
         return
       }
 
@@ -137,6 +146,7 @@ export function useAnalyticsConsent() {
     } catch {
       localStorage.removeItem(CONSENT_KEY)
       clearAnalyticsStorage()
+      clearOptionalPersonalisation()
     }
   }
 

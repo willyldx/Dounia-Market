@@ -39,6 +39,12 @@ function normalizeLastModified(value: unknown) {
 
 export default defineCachedEventHandler(async (event) => {
   const config = useRuntimeConfig(event)
+  if (String(config.public.searchIndexingEnabled) !== 'true') {
+    setResponseStatus(event, 404)
+    setHeader(event, 'content-type', 'text/plain; charset=utf-8')
+    return 'Sitemap indisponible avant ouverture publique.\n'
+  }
+
   const siteUrl = String(config.public.siteUrl || 'https://douniamarket.com').replace(/\/+$/, '')
   const apiUrl = String(config.public.apiUrl || 'https://api.douniamarket.com/api').replace(/\/+$/, '')
   const entries = new Map<string, SitemapEntry>(
