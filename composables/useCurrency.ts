@@ -1,5 +1,5 @@
 /**
- * useCurrency - Composable multi-devise pour Dounia Market
+ * useCurrency - Composable multi-devise pour Dounia Market Tchad
  *
  * Architecture A+ : conversion côté frontend, migration-ready vers microservice.
  * Le jour où on passe à l'Approche C (Python FastAPI), on change UNE fonction ici.
@@ -64,7 +64,7 @@ export function useCurrency() {
     }
   }
 
-  /** Changer de devise à partir du pays */
+  /** Appliquer le pays volontairement choisi par l'utilisateur, si une interface l'utilise. */
   function setCurrencyFromCountry(countryCode: string) {
     const upper = countryCode.toUpperCase()
     const currency = COUNTRY_TO_CURRENCY[upper] || 'EUR'
@@ -74,47 +74,20 @@ export function useCurrency() {
     }
   }
 
-  /** Récupérer le pays de l'utilisateur */
+  /** Récupérer uniquement le pays précédemment choisi par l'utilisateur. */
   function getUserCountry(): string | null {
     if (!process.client) return null
     return localStorage.getItem(COUNTRY_STORAGE_KEY)
   }
 
-  /** Auto-détection par IP (appelé 1 seule fois, pour les invités) */
+  /** Restaurer la devise choisie sans déduire de localisation depuis l'adresse IP. */
   async function autoDetect() {
     if (!process.client) return
 
-    // 1. Déjà une devise sauvegardée ? On la reprend
     const saved = localStorage.getItem(STORAGE_KEY)
     if (saved && saved in CURRENCIES) {
       cartStore.setCurrency(saved as CurrencyCode)
-      return
     }
-
-    // 2. Utilisateur connecté avec un pays sauvegardé ?
-    try {
-      const savedCountry = localStorage.getItem(COUNTRY_STORAGE_KEY)
-      if (savedCountry) {
-        setCurrencyFromCountry(savedCountry)
-        return
-      }
-    } catch { /* ignore */ }
-
-    // 3. Auto-détection par IP (gratuit, 1000 req/jour)
-    try {
-      const geo = await $fetch<{ country_code: string }>('https://ipapi.co/json/', {
-        timeout: 3000,
-      })
-      if (geo?.country_code) {
-        setCurrencyFromCountry(geo.country_code)
-        return
-      }
-    } catch {
-      // Fallback silencieux — EUR par défaut
-    }
-
-    // 4. Défaut : EUR
-    setCurrency('EUR')
   }
 
   /** Mapper un pays vers sa devise (utile pour le formulaire inscription) */

@@ -5,9 +5,9 @@
       <div class="px-4 py-3 flex items-center justify-between">
         <div class="flex items-center gap-3">
           <NuxtLink to="/livreur" class="flex items-center gap-2">
-            <img src="/logo-full.svg" alt="Dounia Market" class="h-8 w-auto" />
+            <img src="/logo-full.svg" alt="Dounia Market Tchad" class="h-8 w-auto" />
             <div>
-              <span class="font-bold text-stone-800">Dounia Market</span>
+              <span class="font-bold text-stone-800">Dounia Market Tchad</span>
               <span class="block text-xs text-amber-700 font-medium">Livreur</span>
             </div>
           </NuxtLink>

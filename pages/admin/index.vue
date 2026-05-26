@@ -190,6 +190,6 @@ onMounted(() => {
 })
 
 useHead({
-  title: 'Dashboard Admin - Dounia Market'
+  title: 'Tableau de bord - Administration'
 })
 </script>

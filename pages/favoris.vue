@@ -109,7 +109,7 @@
         </div>
         <div>
           <p class="text-sm font-bold text-foreground">Synchronisation active</p>
-          <p class="text-sm text-muted-foreground font-medium mt-1">Vos favoris sont enregistrés dans votre compte Dounia Market.</p>
+          <p class="text-sm text-muted-foreground font-medium mt-1">Vos favoris sont enregistrés dans votre compte Dounia Market Tchad.</p>
         </div>
       </div>
 
@@ -184,8 +184,9 @@ import {
 } from 'lucide-vue-next'
 
 useSeoMeta({
-  title: 'Mes favoris | Dounia Market',
-  description: 'Retrouvez tous vos produits favoris sur Dounia Market.',
+  title: 'Mes favoris | Dounia Market Tchad',
+  description: 'Retrouvez tous vos produits favoris sur Dounia Market Tchad.',
+  robots: 'noindex, nofollow, noarchive',
 })
 
 const favoritesStore = useFavoritesStore()

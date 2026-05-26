@@ -10,7 +10,7 @@
       <div class="bg-card rounded-lg border border-border shadow-sm overflow-hidden text-center">
         
         <div class="pt-10 pb-2 flex justify-center">
-          <img src="/logo-full.svg" alt="Dounia Market" class="h-8 sm:h-10 w-auto" />
+          <img src="/logo-full.svg" alt="Dounia Market Tchad" class="h-8 sm:h-10 w-auto" />
         </div>
 
         <div class="px-8 sm:px-10 pb-12 pt-6">
@@ -20,7 +20,7 @@
 
           <h1 class="text-2xl font-bold text-foreground mb-4 tracking-tight">Créer mon espace</h1>
           <p class="text-muted-foreground text-sm mb-8 leading-relaxed max-w-[280px] mx-auto">
-            Votre espace Dounia Market est créé lors de votre première connexion avec un code reçu par email.
+            Votre espace Dounia Market Tchad est créé lors de votre première connexion avec un code reçu par email.
           </p>
 
           <NuxtLink to="/auth/login" class="inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-brand text-brand-foreground hover:bg-brand/90 h-10 px-4 py-2 w-full">
@@ -53,8 +53,9 @@ import { UserPlus, Mail, ArrowLeft } from 'lucide-vue-next'
 definePageMeta({ layout: false, middleware: ['guest'] })
 
 useSeoMeta({
-  title: 'Créer un compte - Dounia Market',
-  description: 'Créez votre espace Dounia Market avec une connexion par code reçu par email.',
+  title: 'Créer un compte - Dounia Market Tchad',
+  description: 'Creez votre espace Dounia Market Tchad avec une connexion par code recu par email.',
+  robots: 'noindex, nofollow, noarchive',
 })
 
 // Redirect if already logged in

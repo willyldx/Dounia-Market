@@ -223,7 +223,7 @@
               </div>
               <div class="rounded-lg bg-muted/40 p-4">
                 <h3 class="text-sm font-semibold text-foreground">Préparation locale</h3>
-                <p class="mt-2 text-sm text-muted-foreground">Dounia Market prépare les articles disponibles localement.</p>
+                <p class="mt-2 text-sm text-muted-foreground">Dounia Market Tchad prépare les articles disponibles localement.</p>
               </div>
               <div class="rounded-lg bg-muted/40 p-4">
                 <h3 class="text-sm font-semibold text-foreground">Livraison au proche</h3>
@@ -315,6 +315,9 @@ import {
 import type { Product, ProductVariant } from '~/types'
 
 const route = useRoute()
+const config = useRuntimeConfig()
+const siteUrl = String(config.public.siteUrl || 'https://douniamarket.com').replace(/\/+$/, '')
+const apiOrigin = new URL(String(config.public.apiUrl || 'https://api.douniamarket.com/api')).origin
 const cartStore = useCartStore()
 const favoritesStore = useFavoritesStore()
 type DisplayVariant = Omit<ProductVariant, 'price' | 'inventory_quantity'> & {
@@ -407,10 +410,54 @@ const discountPercent = computed(() => {
   return Math.round((1 - (product.value.price as number) / product.value.compareAtPrice) * 100)
 })
 
-useSeoMeta({
-  title: () => product.value ? `${product.value.title} | Dounia Market` : 'Produit | Dounia Market',
-  description: () => product.value?.description || 'Consultez les informations de ce produit sur Dounia Market.',
+const productDescription = computed(() => {
+  const source = product.value?.description || product.value?.subtitle || 'Consultez les informations de ce produit disponible localement chez Dounia Market Tchad.'
+  const plainText = source.replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim()
+  if (plainText.length <= 155) return plainText
+  const shortened = plainText.slice(0, 152).replace(/\s+\S*$/, '').trim()
+  return `${shortened}...`
 })
+const productCanonical = computed(() => `${siteUrl}/produit/${encodeURIComponent(String(route.params.slug || ''))}`)
+const productImageUrl = computed(() => {
+  const image = mainImage.value
+  if (!image) return `${siteUrl}/og-default.svg`
+  if (/^https?:\/\//.test(image)) return image
+  if (image.startsWith('storage/') || image.startsWith('/storage/')) {
+    return `${apiOrigin}/${image.replace(/^\/+/, '')}`
+  }
+  return `${siteUrl}/${image.replace(/^\/+/, '')}`
+})
+
+useSeoMeta({
+  title: () => product.value?.title || 'Produit',
+  description: () => productDescription.value,
+  ogTitle: () => product.value ? `${product.value.title} | Dounia Market Tchad` : 'Produit | Dounia Market Tchad',
+  ogDescription: () => productDescription.value,
+  ogUrl: () => productCanonical.value,
+  ogImage: () => productImageUrl.value,
+  twitterTitle: () => product.value ? `${product.value.title} | Dounia Market Tchad` : 'Produit | Dounia Market Tchad',
+  twitterDescription: () => productDescription.value,
+  twitterImage: () => productImageUrl.value,
+})
+
+useHead(() => ({
+  link: [{ key: 'canonical', rel: 'canonical', href: productCanonical.value }],
+  script: product.value?.title && (product.value.description || product.value.subtitle)
+    ? [{
+        key: 'dounia-product-schema',
+        type: 'application/ld+json',
+        innerHTML: JSON.stringify({
+          '@context': 'https://schema.org',
+          '@type': 'Product',
+          name: product.value.title,
+          description: productDescription.value,
+          url: productCanonical.value,
+          ...(mainImage.value ? { image: [productImageUrl.value] } : {}),
+          brand: { '@id': `${siteUrl}/#organization` },
+        }),
+      }]
+    : [],
+}))
 
 const { trackProductView } = usePulse()
 

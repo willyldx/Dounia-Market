@@ -45,7 +45,7 @@
             </div>
             <h3 class="text-2xl font-black text-gray-900 mb-3 tracking-tight">Votre panier est vide</h3>
             <p class="text-gray-500 font-medium mb-10 leading-relaxed max-w-xs">
-              Choisissez des produits à livrer localement par Dounia Market à vos proches à N'Djamena.
+              Choisissez des produits à livrer localement par Dounia Market Tchad à vos proches à N'Djamena.
             </p>
             <NuxtLink to="/catalogue" class="flex items-center justify-center gap-2 px-8 py-4 bg-brand text-brand-foreground font-bold rounded-lg hover:bg-brand/90 transition-all shadow-md w-full" @click="cartStore.closeCart">
               Découvrir le catalogue
@@ -121,7 +121,7 @@
             <MapPin class="w-4 h-4 text-brand-foreground/70" /> Indiquer la livraison
           </NuxtLink>
           <NuxtLink v-else to="/contact" class="w-full flex items-center justify-center gap-3 py-4 bg-brand text-brand-foreground font-bold rounded-lg hover:bg-brand/90 transition-all shadow-sm active:scale-[0.98]" @click="cartStore.closeCart">
-            Contacter Dounia Market
+            Contacter Dounia Market Tchad
           </NuxtLink>
         </div>
       </div>

@@ -14,7 +14,7 @@
               Choisissez pour votre famille
             </h1>
             <p class="mt-3 text-sm leading-relaxed text-muted-foreground sm:text-base">
-              Produits préparés localement par Dounia Market et livrés à N'Djamena selon les zones couvertes.
+              Produits préparés localement par Dounia Market Tchad et livrés à N'Djamena selon les zones couvertes.
               Consultez les informations affichées sur chaque article.
             </p>
           </div>
@@ -344,11 +344,11 @@ onMounted(() => {
   fetchProducts()
 })
 
-useHead({
-  title: 'Catalogue | Dounia Market',
-  meta: [
-    { name: 'description', content: 'Consultez les produits Dounia Market disponibles pour une livraison locale à N’Djamena selon les zones couvertes.' },
-  ],
+useSeoMeta({
+  title: 'Catalogue',
+  description: 'Consultez les produits disponibles chez Dounia Market Tchad pour une livraison locale à N\'Djamena selon les zones couvertes.',
+  ogTitle: 'Catalogue | Dounia Market Tchad',
+  ogDescription: 'Consultez les produits disponibles localement pour vos proches à N\'Djamena selon les zones couvertes.',
 })
 </script>
 

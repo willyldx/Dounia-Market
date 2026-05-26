@@ -205,6 +205,6 @@ onMounted(() => {
 })
 
 useHead({
-  title: 'Mon profil - Dounia Market Livreur'
+  title: 'Mon profil - Espace livreur'
 })
 </script>

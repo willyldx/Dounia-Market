@@ -10,7 +10,7 @@
       <div class="bg-card rounded-lg border border-border shadow-sm overflow-hidden">
         
         <div class="pt-10 pb-2 flex justify-center">
-          <img src="/logo-full.svg" alt="Dounia Market" class="h-8 sm:h-10 w-auto" />
+          <img src="/logo-full.svg" alt="Dounia Market Tchad" class="h-8 sm:h-10 w-auto" />
         </div>
 
         <div class="px-8 sm:px-10 pb-10 pt-4 space-y-8">
@@ -85,7 +85,7 @@
 
               <div class="text-center mb-8">
                 <h1 class="text-2xl font-bold text-foreground mb-2 tracking-tight">Vos informations</h1>
-                <p class="text-muted-foreground text-sm">Indiquez votre nom pour votre espace Dounia Market.</p>
+                <p class="text-muted-foreground text-sm">Indiquez votre nom pour votre espace Dounia Market Tchad.</p>
               </div>
 
               <form @submit.prevent="handleNameSubmit" class="space-y-4">
@@ -229,8 +229,9 @@ import {
 definePageMeta({ layout: false, middleware: ['guest'] })
 
 useSeoMeta({
-  title: 'Connexion - Dounia Market',
-  description: 'Connectez-vous à votre espace Dounia Market sécurisé et sans mot de passe.',
+  title: 'Connexion - Dounia Market Tchad',
+  description: 'Connectez-vous a votre espace Dounia Market Tchad securise et sans mot de passe.',
+  robots: 'noindex, nofollow, noarchive',
 })
 
 const authStore = useAuthStore()

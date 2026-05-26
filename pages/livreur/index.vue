@@ -263,6 +263,6 @@ onMounted(() => {
 })
 
 useHead({
-  title: 'Mes livraisons - Dounia Market'
+  title: 'Mes livraisons - Dounia Market Tchad'
 })
 </script>

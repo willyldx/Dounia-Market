@@ -337,7 +337,8 @@ definePageMeta({
 })
 
 useSeoMeta({
-  title: 'Mes adresses | Dounia Market',
+  title: 'Mes adresses | Dounia Market Tchad',
+  robots: 'noindex, nofollow, noarchive',
   description: 'Gérez les adresses de livraison de vos bénéficiaires à N\'Djamena.',
 })
 

@@ -1,14 +1,16 @@
 import { useCookie } from '#app'
 
 export const usePulse = () => {
-  // Store a cookie with maximum 10 recent items
-  const pulseContext = useCookie<{ viewed_ids: number[], viewed_categories: string[] }>('tchadbox_pulse', {
-    maxAge: 60 * 60 * 24 * 30, // 30 days
-    default: () => ({ viewed_ids: [], viewed_categories: [] })
-  })
+  const { hasConsent } = useAnalyticsConsent()
 
-  // Add a product to the tracking context
   const trackProductView = (productId: number, category: string) => {
+    if (!hasConsent.value) return
+
+    const pulseContext = useCookie<{ viewed_ids: number[], viewed_categories: string[] }>('tchadbox_pulse', {
+      maxAge: 60 * 60 * 24 * 30,
+      default: () => ({ viewed_ids: [], viewed_categories: [] })
+    })
+
     // Only keep last 10
     const ids = pulseContext.value.viewed_ids.filter(id => id !== productId)
     ids.unshift(productId)
@@ -25,7 +27,6 @@ export const usePulse = () => {
   }
 
   return {
-    pulseContext,
     trackProductView
   }
 }

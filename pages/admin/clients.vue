@@ -225,6 +225,6 @@ onMounted(() => {
 })
 
 useHead({
-  title: 'Clients - Admin Dounia Market'
+  title: 'Clients - Administration'
 })
 </script>

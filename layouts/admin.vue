@@ -7,7 +7,7 @@
           <Icon name="lucide:menu" class="w-5 h-5" />
         </button>
         <NuxtLink to="/admin" class="flex items-center gap-2">
-          <img src="/logo-full.svg" alt="Dounia Market" class="h-7 w-auto" />
+          <img src="/logo-full.svg" alt="Dounia Market Tchad" class="h-7 w-auto" />
           <span class="hidden min-[380px]:inline text-xs font-semibold uppercase text-amber-700">Gestion</span>
         </NuxtLink>
       </div>
@@ -46,7 +46,7 @@
             <img src="/favicon.svg" alt="" class="w-7 h-7" />
           </div>
           <div>
-            <span class="font-semibold text-white">Dounia Market</span>
+            <span class="font-semibold text-white">Dounia Market Tchad</span>
             <span class="block text-xs text-amber-300 font-medium">Gestion</span>
           </div>
         </NuxtLink>

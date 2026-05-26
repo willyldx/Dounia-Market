@@ -151,8 +151,10 @@ const currentCategoryName = computed(() => {
 })
 
 useSeoMeta({
-  title: () => `${currentCategoryName.value} | Dounia Market`,
-  description: () => `Consultez les produits ${currentCategoryName.value} disponibles chez Dounia Market pour une livraison locale à N’Djamena selon zone couverte.`,
+  title: () => currentCategoryName.value,
+  description: () => `Consultez les produits ${currentCategoryName.value} disponibles chez Dounia Market Tchad pour une livraison locale à N'Djamena selon les zones couvertes.`,
+  ogTitle: () => `${currentCategoryName.value} | Dounia Market Tchad`,
+  ogDescription: () => `Produits ${currentCategoryName.value} disponibles localement pour une livraison à N'Djamena selon les zones couvertes.`,
 })
 
 const allCategoryProducts = ref<CatalogueProduct[]>([])

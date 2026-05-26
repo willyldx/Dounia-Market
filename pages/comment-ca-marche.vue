@@ -100,7 +100,7 @@
           <div class="relative z-10">
             <h2 class="text-4xl md:text-5xl font-black text-brand-foreground mb-6 tracking-tight">Commander pour un proche</h2>
             <p class="text-xl text-brand-foreground/70 mb-12 max-w-2xl mx-auto font-medium">
-              Consultez les produits disponibles et les informations de livraison affichées par Dounia Market.
+              Consultez les produits disponibles et les informations de livraison affichées par Dounia Market Tchad.
             </p>
             <div class="flex flex-col sm:flex-row gap-4 justify-center">
               <NuxtLink to="/catalogue" class="inline-flex flex-col items-center justify-center px-10 py-5 bg-background text-foreground font-bold rounded-md hover:bg-muted transition-all shadow-sm">
@@ -170,18 +170,17 @@ const steps = [
 ]
 
 const faqs = [
-  { question: 'Où la livraison est-elle proposée ?', answer: 'Dounia Market propose la livraison locale à N\'Djamena, selon les zones couvertes indiquées lors de la commande.' },
+  { question: 'Où la livraison est-elle proposée ?', answer: 'Dounia Market Tchad propose la livraison locale à N\'Djamena, selon les zones couvertes indiquées lors de la commande.' },
   { question: 'Quand connaîtrai-je les frais de livraison ?', answer: 'Les zones couvertes et les frais applicables seront confirmés avant l\'ouverture publique du service.' },
   { question: 'Comment suivre une commande ?', answer: 'Utilisez sa référence sur la page de suivi. N\'y saisissez jamais le nom, le téléphone ou l\'adresse du bénéficiaire.' },
   { question: 'Comment finaliser une commande ?', answer: 'Les modalités disponibles seront confirmées avant l\'ouverture publique du service et présentées avant toute validation.' },
   { question: 'Puis-je modifier une commande ?', answer: 'Contactez l\'assistance avec votre référence pour connaître les possibilités applicables à votre commande.' },
 ]
 
-useHead({ 
-  title: 'Comment ça marche ? — Dounia Market',
-  meta: [
-    { name: 'description', content: 'Découvrez comment commander à distance des produits disponibles localement pour un proche à N\'Djamena avec Dounia Market.' },
-    { property: 'og:title', content: 'Comment fonctionne Dounia Market ?' }
-  ]
+useSeoMeta({
+  title: 'Comment ça marche',
+  description: 'Découvrez comment choisir à distance des produits disponibles localement pour un proche à N\'Djamena avec Dounia Market Tchad.',
+  ogTitle: 'Comment fonctionne Dounia Market Tchad ?',
+  ogDescription: 'Choix des produits, bénéficiaire et livraison locale à N\'Djamena selon les zones couvertes.',
 })
 </script>

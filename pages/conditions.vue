@@ -23,7 +23,7 @@
           
           <h2>Article 1 — Objet</h2>
           <p>
-            Les présentes conditions décrivent le parcours proposé par Dounia Market pour commander des produits
+            Les présentes conditions décrivent le parcours proposé par Dounia Market Tchad pour commander des produits
             disponibles localement et demander leur livraison à un bénéficiaire à N'Djamena.
           </p>
           <p>
@@ -36,7 +36,7 @@
             présente les informations disponibles, notamment le produit, son prix affiché et son état de disponibilité.
           </p>
           <p>
-            En cas d'indisponibilité identifiée avant la préparation, Dounia Market contacte le client afin de déterminer
+            En cas d'indisponibilité identifiée avant la préparation, Dounia Market Tchad contacte le client afin de déterminer
             les suites possibles pour la commande.
           </p>
 
@@ -56,7 +56,7 @@
           <h2>Article 5 — Modalités de finalisation</h2>
           <p>
             Les modalités permettant de finaliser une commande seront confirmées avant l'ouverture publique du service.
-            Dounia Market n'annonce sur cette page aucun prestataire ni moyen spécifique.
+            Dounia Market Tchad n'annonce sur cette page aucun prestataire ni moyen spécifique.
           </p>
 
           <h2>Article 6 — Livraison locale</h2>
@@ -91,7 +91,7 @@
 
           <h2>Article 10 — Évolution des conditions</h2>
           <p>
-            Dounia Market peut mettre à jour ces conditions lorsque les modalités opérationnelles du service sont précisées.
+            Dounia Market Tchad peut mettre à jour ces conditions lorsque les modalités opérationnelles du service sont précisées.
             La version affichée au moment de la validation est celle présentée au client.
           </p>
         </div>
@@ -104,8 +104,10 @@
 import { ChevronRight as ChevronRightIcon } from 'lucide-vue-next'
 
 useSeoMeta({
-  title: 'Conditions Générales de Vente | Dounia Market',
-  description: 'Consultez les conditions de Dounia Market pour les commandes et livraisons locales à N\'Djamena.',
+  title: 'Conditions générales',
+  description: 'Consultez les conditions de Dounia Market Tchad pour les commandes et livraisons locales à N\'Djamena.',
+  ogTitle: 'Conditions générales | Dounia Market Tchad',
+  ogDescription: 'Conditions applicables au parcours de commande et à la livraison locale.',
 })
 
 const lastUpdated = '25 mai 2026'

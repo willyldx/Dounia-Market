@@ -413,6 +413,6 @@ onMounted(() => {
 })
 
 useHead({
-  title: computed(() => order.value ? `Commande #${order.value.display_id || order.value.id.slice(0, 8).toUpperCase()} - Admin Dounia Market` : 'Chargement...')
+  title: computed(() => order.value ? `Commande #${order.value.display_id || order.value.id.slice(0, 8).toUpperCase()} - Administration` : 'Chargement...')
 })
 </script>

@@ -45,7 +45,7 @@
               La validation en ligne n'est pas ouverte actuellement. Contactez l'équipe si vous avez besoin d'informations sur une commande.
             </p>
             <p v-else-if="confirmationState === 'awaiting' || confirmationState === 'checking'">
-              Cette page se met à jour automatiquement lorsque Dounia Market reçoit la confirmation associée à votre référence.
+              Cette page se met à jour automatiquement lorsque Dounia Market Tchad reçoit la confirmation associée à votre référence.
             </p>
             <p v-else>
               Aucune validation ne peut être rattachée à cette commande. Contactez le support avec votre référence si nécessaire.
@@ -102,7 +102,7 @@
 
       <div class="text-center mt-10">
          <p class="text-sm font-bold text-muted-foreground inline-flex items-center gap-2">
-           <MapPinIcon class="w-4 h-4" /> Livraison locale Dounia Market à N'Djamena
+           <MapPinIcon class="w-4 h-4" /> Livraison locale Dounia Market Tchad à N'Djamena
          </p>
       </div>
     </div>
@@ -210,8 +210,9 @@ onUnmounted(() => {
 })
 
 useSeoMeta({
-  title: `Commande ${orderId.value} | Dounia Market`,
-  description: 'Suivez la confirmation et la préparation locale de votre commande Dounia Market.',
+  title: `Commande ${orderId.value} | Dounia Market Tchad`,
+  description: 'Suivez la confirmation et la preparation locale de votre commande Dounia Market Tchad.',
+  robots: 'noindex, nofollow, noarchive',
 })
 </script>
 

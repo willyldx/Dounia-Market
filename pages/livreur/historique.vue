@@ -181,6 +181,6 @@ onMounted(() => {
 })
 
 useHead({
-  title: 'Historique - Dounia Market Livreur'
+  title: 'Historique - Espace livreur'
 })
 </script>

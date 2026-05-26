@@ -55,8 +55,8 @@ definePageMeta({
 })
 
 useSeoMeta({
-  title: 'Page introuvable - Dounia Market',
-  description: 'Cette page n\'existe pas sur Dounia Market.',
+  title: 'Page introuvable - Dounia Market Tchad',
+  description: 'Cette page n\'existe pas sur Dounia Market Tchad.',
 })
 </script>
 

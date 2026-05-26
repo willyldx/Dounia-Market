@@ -151,11 +151,11 @@ const submitForm = async () => {
   }
 }
 
-useHead({ 
-  title: 'Contactez-nous | Dounia Market',
-  meta: [
-    { name: 'description', content: 'Contactez l\'équipe Dounia Market au sujet de vos commandes et de la livraison locale à N\'Djamena.' },
-  ]
+useSeoMeta({
+  title: 'Contact',
+  description: 'Contactez l\'équipe Dounia Market Tchad au sujet des produits et de la livraison locale à N\'Djamena.',
+  ogTitle: 'Contact | Dounia Market Tchad',
+  ogDescription: 'Contactez l\'équipe au sujet des produits et de la livraison locale à N\'Djamena.',
 })
 </script>
 

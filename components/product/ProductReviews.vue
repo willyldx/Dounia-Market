@@ -51,7 +51,7 @@
               <X class="h-4 w-4" />
             </button>
             <h3 class="pr-12 text-xl font-bold text-foreground">Noter ce produit</h3>
-            <p class="mt-2 text-sm text-muted-foreground">Votre avis aide les clients Dounia Market.</p>
+            <p class="mt-2 text-sm text-muted-foreground">Votre avis aide les clients Dounia Market Tchad.</p>
 
             <div class="my-6 flex items-center justify-center gap-2 rounded-lg bg-muted/50 p-4">
               <button

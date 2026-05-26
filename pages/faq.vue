@@ -65,8 +65,10 @@ const faqs = [
 ]
 
 useSeoMeta({
-  title: 'Foire Aux Questions | Dounia Market',
-  description: 'Retrouvez les réponses concernant les commandes et livraisons locales à N\'Djamena via Dounia Market.',
+  title: 'Questions fréquentes',
+  description: 'Retrouvez les réponses concernant les commandes et livraisons locales à N\'Djamena via Dounia Market Tchad.',
+  ogTitle: 'Questions fréquentes | Dounia Market Tchad',
+  ogDescription: 'Informations utiles sur les produits et la livraison locale à N\'Djamena.',
 })
 </script>
 

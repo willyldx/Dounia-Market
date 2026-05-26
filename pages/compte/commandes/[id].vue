@@ -382,7 +382,8 @@ const timeline = computed(() => {
 
 // SEO
 useSeoMeta({
-  title: () => order.value ? `Commande ${order.value.displayId} - Dounia Market` : 'Commande - Dounia Market',
+  title: () => order.value ? `Commande ${order.value.displayId} - Dounia Market Tchad` : 'Commande - Dounia Market Tchad',
+  robots: 'noindex, nofollow, noarchive',
 })
 
 const { userOrderDetail } = useBackendApi()

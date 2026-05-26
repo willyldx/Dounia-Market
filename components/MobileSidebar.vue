@@ -12,7 +12,7 @@
         <div class="absolute inset-0 bg-brand/60" @click="close"></div>
         <aside class="absolute inset-y-0 right-0 flex w-[min(86vw,360px)] flex-col bg-card shadow-xl" aria-label="Navigation mobile">
           <div class="flex h-16 items-center justify-between border-b border-border px-5">
-            <span class="text-base font-bold text-foreground">Dounia Market</span>
+            <span class="text-base font-bold text-foreground">Dounia Market Tchad</span>
             <button
               type="button"
               aria-label="Fermer le menu"

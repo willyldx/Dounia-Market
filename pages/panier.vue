@@ -154,7 +154,7 @@
               Vérifier la livraison <ArrowRight class="w-4 h-4 ml-2" />
             </NuxtLink>
             <NuxtLink v-else to="/contact" class="inline-flex items-center justify-center w-full rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 bg-brand text-brand-foreground hover:bg-brand/90 h-11 px-8 mb-6">
-              Contacter Dounia Market <ArrowRight class="w-4 h-4 ml-2" />
+              Contacter Dounia Market Tchad <ArrowRight class="w-4 h-4 ml-2" />
             </NuxtLink>
             
             <!-- Logistics Badges -->
@@ -199,5 +199,5 @@ const trustBadges = [
   { icon: Truck, label: 'Zones et frais confirmés avant ouverture publique' },
 ]
 
-useHead({ title: 'Mon Panier | Dounia Market' })
+useSeoMeta({ title: 'Mon panier | Dounia Market Tchad', robots: 'noindex, nofollow, noarchive' })
 </script>

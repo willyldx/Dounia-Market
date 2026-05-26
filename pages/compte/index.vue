@@ -258,7 +258,8 @@ definePageMeta({
 })
 
 useSeoMeta({
-  title: 'Mon Espace | Dounia Market',
+  title: 'Mon espace | Dounia Market Tchad',
+  robots: 'noindex, nofollow, noarchive',
   description: 'Gérez vos commandes et votre profil depuis votre espace privé.',
 })
 

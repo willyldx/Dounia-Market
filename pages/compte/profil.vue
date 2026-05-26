@@ -190,8 +190,9 @@ definePageMeta({
 })
 
 useSeoMeta({
-  title: 'Mon profil | Dounia Market',
-  description: 'Gérez les coordonnées associées à votre compte Dounia Market.',
+  title: 'Mon profil | Dounia Market Tchad',
+  description: 'Gerez les coordonnees associees a votre compte Dounia Market Tchad.',
+  robots: 'noindex, nofollow, noarchive',
 })
 
 const authStore = useAuthStore()

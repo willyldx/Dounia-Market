@@ -7,7 +7,7 @@
       <!-- Header (Mobile & Desktop) -->
       <header class="mb-10 lg:mb-14">
         <NuxtLink to="/" class="flex items-center gap-3 w-max">
-          <img src="/logo-full.svg" alt="Dounia Market" class="h-10 w-auto" />
+          <img src="/logo-full.svg" alt="Dounia Market Tchad" class="h-10 w-auto" />
         </NuxtLink>
         
         <!-- Breadcrumbs / Steps -->
@@ -338,8 +338,9 @@ definePageMeta({
 })
 
 useSeoMeta({
-  title: 'Livraison et validation de commande | Dounia Market',
-  description: 'Confirmez le bénéficiaire, la livraison locale et le sous-total produits de votre commande Dounia Market.',
+  title: 'Livraison et validation de commande | Dounia Market Tchad',
+  description: 'Confirmez le beneficiaire, la livraison locale et le sous-total produits de votre commande Dounia Market Tchad.',
+  robots: 'noindex, nofollow, noarchive',
 })
 
 const cartStore = useCartStore()

@@ -9,8 +9,8 @@
     <header class="sticky top-0 z-40 border-b border-border bg-card/95 backdrop-blur-md">
       <div class="container-main">
         <div class="flex h-16 items-center gap-3 sm:h-[72px] lg:gap-7">
-          <NuxtLink to="/" class="shrink-0" aria-label="Dounia Market, accueil">
-            <img src="/logo-full.svg" alt="Dounia Market" class="h-7 w-auto sm:h-8" />
+          <NuxtLink to="/" class="shrink-0" aria-label="Dounia Market Tchad, accueil">
+            <img src="/logo-full.svg" alt="Dounia Market Tchad" class="h-7 w-auto sm:h-8" />
           </NuxtLink>
 
           <nav class="hidden items-center gap-5 text-sm font-medium text-foreground lg:flex">
@@ -109,8 +109,8 @@
     <footer class="border-t border-border bg-card">
       <div class="container-main grid gap-9 py-10 md:grid-cols-[1.35fr_1fr_1fr]">
         <div class="max-w-sm">
-          <NuxtLink to="/" aria-label="Dounia Market, accueil">
-            <img src="/logo-full.svg" alt="Dounia Market" class="h-8 w-auto" />
+          <NuxtLink to="/" aria-label="Dounia Market Tchad, accueil">
+            <img src="/logo-full.svg" alt="Dounia Market Tchad" class="h-8 w-auto" />
           </NuxtLink>
           <p class="mt-4 text-sm leading-relaxed text-muted-foreground">
             Commandez depuis l'étranger pour vos proches à N'Djamena, selon les zones couvertes.
@@ -132,12 +132,13 @@
             <NuxtLink to="/contact" class="hover:text-amber-700">Contact</NuxtLink>
             <NuxtLink to="/conditions" class="hover:text-amber-700">Conditions générales</NuxtLink>
             <NuxtLink to="/confidentialite" class="hover:text-amber-700">Confidentialité</NuxtLink>
+            <NuxtLink to="/cookies" class="hover:text-amber-700">Cookies</NuxtLink>
           </div>
         </nav>
       </div>
       <div class="border-t border-border">
         <div class="container-main flex flex-col gap-2 py-5 text-xs text-muted-foreground sm:flex-row sm:items-center sm:justify-between">
-          <p>© {{ new Date().getFullYear() }} Dounia Market. Tous droits réservés.</p>
+          <p>© {{ new Date().getFullYear() }} Dounia Market Tchad. Tous droits réservés.</p>
           <p>Livraison locale à N'Djamena selon zones couvertes.</p>
         </div>
       </div>

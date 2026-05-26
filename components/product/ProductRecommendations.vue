@@ -23,6 +23,7 @@ const props = defineProps<{
 }>()
 
 const recommendations = ref<any[]>([])
+const { hasConsent } = useAnalyticsConsent()
 const normalizePrice = (value: unknown): number | undefined => (
   typeof value === 'number' && Number.isFinite(value) ? value : undefined
 )
@@ -31,6 +32,11 @@ const normalizeAvailability = (value: unknown): boolean | undefined => (
 )
 
 const fetchRecommendations = async () => {
+  if (!hasConsent.value) {
+    recommendations.value = []
+    return
+  }
+
   try {
     const config = useRuntimeConfig()
     const aiOrigin = String(config.public.aiApiUrl || 'https://ai.douniamarket.com').replace(/\/+$/, '')
@@ -67,5 +73,13 @@ const fetchRecommendations = async () => {
 
 onMounted(() => {
   fetchRecommendations()
+})
+
+watch(hasConsent, (accepted) => {
+  if (accepted) {
+    fetchRecommendations()
+    return
+  }
+  recommendations.value = []
 })
 </script>

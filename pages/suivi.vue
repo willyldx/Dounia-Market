@@ -200,7 +200,10 @@ onMounted(() => {
   if (orderNumber.value) trackOrder()
 })
 
-useHead({ title: 'Suivi de commande | Dounia Market' })
+useSeoMeta({
+  title: 'Suivi de commande | Dounia Market Tchad',
+  robots: 'noindex, nofollow, noarchive',
+})
 </script>
 
 <style scoped>

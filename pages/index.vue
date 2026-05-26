@@ -17,7 +17,7 @@
             Le marché de la diaspora tchadienne
           </p>
           <h1 class="mt-4 text-4xl font-bold tracking-tight text-white sm:text-5xl lg:text-6xl">
-            Dounia Market
+            Dounia Market Tchad
           </h1>
           <p class="mt-5 max-w-lg text-base leading-relaxed text-white/90 sm:text-lg">
             Commandez depuis l'étranger. Vos proches reçoivent localement à N'Djamena.
@@ -40,7 +40,7 @@
       </div>
     </section>
 
-    <section class="border-b border-border bg-card" aria-label="Service Dounia Market">
+    <section class="border-b border-border bg-card" aria-label="Service Dounia Market Tchad">
       <div class="mx-auto grid max-w-7xl gap-0 px-4 sm:grid-cols-3 sm:px-6 lg:px-8">
         <div class="flex items-center gap-3 border-b border-border py-4 sm:border-b-0 sm:border-r sm:pr-6">
           <MapPin class="h-5 w-5 shrink-0 text-amber-700" :stroke-width="1.75" />
@@ -188,13 +188,10 @@ onMounted(async () => {
   }
 })
 
-useHead({
-  title: 'Dounia Market | Livraison locale à N\'Djamena',
-  meta: [
-    {
-      name: 'description',
-      content: 'Commandez depuis l\'étranger. Vos proches reçoivent localement à N\'Djamena selon les zones couvertes.',
-    },
-  ],
+useSeoMeta({
+  title: 'Produits pour vos proches à N\'Djamena',
+  description: 'Dounia Market Tchad permet à la diaspora tchadienne de consulter des produits disponibles localement pour livraison à N\'Djamena selon les zones couvertes.',
+  ogTitle: 'Dounia Market Tchad - Produits pour vos proches à N\'Djamena',
+  ogDescription: 'Depuis l\'étranger, consultez des produits disponibles localement pour vos proches à N\'Djamena selon les zones couvertes.',
 })
 </script>

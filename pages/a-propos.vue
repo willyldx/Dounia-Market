@@ -2,12 +2,12 @@
   <div class="bg-background min-h-screen pt-32 pb-24">
     <section class="max-w-7xl mx-auto px-6 mb-24">
       <div class="max-w-4xl">
-        <h1 class="text-xs font-bold tracking-[0.3em] text-muted-foreground/60 uppercase mb-6">Dounia Market</h1>
+        <h1 class="text-xs font-bold tracking-[0.3em] text-muted-foreground/60 uppercase mb-6">Dounia Market Tchad</h1>
         <h2 class="text-5xl md:text-7xl font-black text-foreground leading-[1.1] mb-10 tracking-tight">
           Commander ici, <br/> livrer là-bas.
         </h2>
         <p class="text-xl md:text-2xl text-muted-foreground font-medium leading-relaxed max-w-3xl">
-          Dounia Market permet à la diaspora tchadienne de commander à distance des produits disponibles localement pour leurs proches à N'Djamena.
+          Dounia Market Tchad permet à la diaspora tchadienne de commander à distance des produits disponibles localement pour leurs proches à N'Djamena.
         </p>
       </div>
     </section>
@@ -74,10 +74,10 @@
 </template>
 
 <script setup lang="ts">
-useHead({
-  title: 'Qui sommes-nous | Dounia Market',
-  meta: [
-    { name: 'description', content: 'Dounia Market permet à la diaspora de commander des produits disponibles localement pour livraison à N\'Djamena.' }
-  ]
+useSeoMeta({
+  title: 'À propos',
+  description: 'Dounia Market Tchad permet à la diaspora tchadienne de consulter des produits disponibles localement pour livraison à N\'Djamena.',
+  ogTitle: 'À propos | Dounia Market Tchad',
+  ogDescription: 'Un service destiné à la diaspora tchadienne pour ses proches à N\'Djamena.',
 })
 </script>

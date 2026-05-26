@@ -201,8 +201,9 @@ definePageMeta({
 })
 
 useSeoMeta({
-  title: 'Mes commandes | Dounia Market',
-  description: 'Consultez les commandes associées à votre compte Dounia Market.',
+  title: 'Mes commandes | Dounia Market Tchad',
+  description: 'Consultez les commandes associees a votre compte Dounia Market Tchad.',
+  robots: 'noindex, nofollow, noarchive',
 })
 
 const authStore = useAuthStore()
