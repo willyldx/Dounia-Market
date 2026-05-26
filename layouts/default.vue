@@ -1,30 +1,37 @@
 <template>
   <div class="flex min-h-screen flex-col bg-background">
-    <div class="bg-brand py-2 text-brand-foreground">
-      <p class="px-4 text-center text-xs font-medium sm:text-sm">
-        Livraison locale à N'Djamena selon zones couvertes
+    <a
+      href="#contenu-principal"
+      class="sr-only z-50 rounded-md bg-card px-4 py-2 text-sm font-semibold text-foreground focus:not-sr-only focus:fixed focus:left-4 focus:top-4"
+    >
+      Aller au contenu
+    </a>
+
+    <div class="bg-brand py-2.5 text-brand-foreground">
+      <p class="px-4 text-center text-xs font-medium tracking-wide sm:text-sm">
+        Les commandes ne sont pas encore ouvertes.
       </p>
     </div>
 
-    <header class="sticky top-0 z-40 border-b border-border bg-card/95 backdrop-blur-md">
+    <header class="sticky top-0 z-40 border-b border-border bg-card/90 backdrop-blur-lg">
       <div class="container-main">
         <div class="flex h-16 items-center gap-3 sm:h-[72px] lg:gap-7">
           <NuxtLink to="/" class="shrink-0" aria-label="Dounia Market Tchad, accueil">
             <img src="/logo-full.svg" alt="Dounia Market Tchad" class="h-7 w-auto sm:h-8" />
           </NuxtLink>
 
-          <nav class="hidden items-center gap-5 text-sm font-medium text-foreground lg:flex">
-            <NuxtLink to="/catalogue" class="transition-colors hover:text-amber-700" active-class="text-amber-700">
+          <nav class="hidden h-full items-center gap-1 text-sm font-medium text-foreground lg:flex" aria-label="Navigation principale">
+            <NuxtLink to="/catalogue" class="public-nav-link" active-class="public-nav-active">
               Catalogue
             </NuxtLink>
-            <NuxtLink to="/suivi" class="transition-colors hover:text-amber-700" active-class="text-amber-700">
+            <NuxtLink to="/suivi" class="public-nav-link" active-class="public-nav-active">
               Suivi
             </NuxtLink>
           </nav>
 
           <button
             type="button"
-            class="mx-auto hidden h-11 max-w-lg flex-1 items-center gap-3 rounded-md border border-input bg-background px-4 text-sm text-muted-foreground transition-colors hover:border-border hover:bg-muted/40 sm:flex"
+            class="mx-auto hidden h-11 max-w-lg flex-1 items-center gap-3 rounded-lg border border-input bg-background px-4 text-sm text-muted-foreground transition-colors hover:border-[#c9872b]/40 hover:bg-card sm:flex"
             aria-label="Ouvrir la recherche de produits"
             @click="isSearchOpen = true"
           >
@@ -38,7 +45,7 @@
             </ClientOnly>
             <NuxtLink
               to="/favoris"
-              class="relative hidden h-10 w-10 items-center justify-center rounded-md text-muted-foreground transition-colors hover:bg-muted hover:text-foreground md:flex"
+              class="relative hidden h-10 w-10 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:bg-muted hover:text-foreground md:flex"
               aria-label="Favoris"
             >
               <Heart class="h-5 w-5" :stroke-width="1.75" />
@@ -53,14 +60,14 @@
             </NuxtLink>
             <NuxtLink
               to="/compte"
-              class="hidden h-10 items-center gap-2 rounded-md px-2 text-sm font-medium text-foreground transition-colors hover:bg-muted md:flex"
+              class="hidden h-10 items-center gap-2 rounded-lg px-2 text-sm font-medium text-foreground transition-colors hover:bg-muted md:flex"
             >
               <User class="h-5 w-5 text-muted-foreground" :stroke-width="1.75" />
               <span class="hidden xl:inline">Compte</span>
             </NuxtLink>
             <button
               type="button"
-              class="relative flex h-10 w-10 items-center justify-center rounded-md text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
+              class="relative flex h-10 w-10 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
               aria-label="Panier"
               @click="cartStore.toggleCart"
             >
@@ -76,7 +83,7 @@
             </button>
             <button
               type="button"
-              class="flex h-10 w-10 items-center justify-center rounded-md text-foreground transition-colors hover:bg-muted lg:hidden"
+              class="flex h-10 w-10 items-center justify-center rounded-lg text-foreground transition-colors hover:bg-muted lg:hidden"
               :aria-expanded="isMobileMenuOpen"
               aria-label="Ouvrir le menu"
               @click="isMobileMenuOpen = true"
@@ -88,7 +95,7 @@
 
         <button
           type="button"
-          class="mb-3 flex h-11 w-full items-center gap-3 rounded-md border border-input bg-background px-4 text-sm text-muted-foreground sm:hidden"
+          class="mb-3 flex h-11 w-full items-center gap-3 rounded-lg border border-input bg-background px-4 text-sm text-muted-foreground sm:hidden"
           aria-label="Ouvrir la recherche de produits"
           @click="isSearchOpen = true"
         >
@@ -102,7 +109,7 @@
       </ClientOnly>
     </header>
 
-    <main class="flex-grow">
+    <main id="contenu-principal" class="flex-grow">
       <slot />
     </main>
 
@@ -113,7 +120,7 @@
             <img src="/logo-full.svg" alt="Dounia Market Tchad" class="h-8 w-auto" />
           </NuxtLink>
           <p class="mt-4 text-sm leading-relaxed text-muted-foreground">
-            Commandez depuis l'étranger pour vos proches à N'Djamena, selon les zones couvertes.
+            Consultez depuis l'étranger des produits destinés à vos proches à N'Djamena.
           </p>
         </div>
         <nav aria-label="Boutique">
@@ -139,7 +146,7 @@
       <div class="border-t border-border">
         <div class="container-main flex flex-col gap-2 py-5 text-xs text-muted-foreground sm:flex-row sm:items-center sm:justify-between">
           <p>© {{ new Date().getFullYear() }} Dounia Market Tchad. Tous droits réservés.</p>
-          <p>Livraison locale à N'Djamena selon zones couvertes.</p>
+          <p>Produits pour vos proches à N'Djamena.</p>
         </div>
       </div>
     </footer>
@@ -170,3 +177,29 @@ watch(() => route.path, () => {
   isSearchOpen.value = false
 })
 </script>
+
+<style scoped>
+.public-nav-link {
+  @apply relative inline-flex h-full items-center px-3 text-muted-foreground transition-colors hover:text-foreground;
+}
+
+.public-nav-link::after {
+  bottom: 0;
+  content: '';
+  height: 2px;
+  left: 0.75rem;
+  position: absolute;
+  right: 0.75rem;
+  transform: scaleX(0);
+  transition: transform 180ms ease;
+  background: var(--color-accent);
+}
+
+.public-nav-active {
+  @apply text-foreground;
+}
+
+.public-nav-active::after {
+  transform: scaleX(1);
+}
+</style>

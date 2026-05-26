@@ -27,18 +27,28 @@
           </div>
 
           <div v-if="query.length >= 2" class="max-h-80 overflow-y-auto">
-            <div v-if="isSearching" class="p-8 text-center">
-              <div class="mx-auto mb-3 h-8 w-8 animate-spin rounded-full border-2 border-border border-t-brand"></div>
-              <p class="text-sm text-muted-foreground">Recherche en cours...</p>
+            <div v-if="isSearching" class="space-y-2 p-3" aria-label="Recherche en cours">
+              <div v-for="item in 3" :key="item" class="flex animate-pulse items-center gap-3 rounded-lg p-2">
+                <div class="h-14 w-14 shrink-0 rounded-lg bg-muted"></div>
+                <div class="flex-1 space-y-2">
+                  <div class="h-4 w-2/3 rounded bg-muted"></div>
+                  <div class="h-3 w-1/3 rounded bg-muted"></div>
+                </div>
+              </div>
+            </div>
+            <div v-else-if="searchError" class="p-8 text-center">
+              <AlertCircle class="mx-auto mb-3 h-8 w-8 text-amber-700" :stroke-width="1.75" />
+              <p class="text-sm font-semibold text-foreground">Recherche indisponible</p>
+              <p class="mt-1 text-sm text-muted-foreground">{{ searchError }}</p>
             </div>
             <div v-else-if="searchResults.length > 0" class="p-2">
               <NuxtLink 
                 v-for="product in searchResults" :key="product.id"
                 :to="`/produit/${encodeURIComponent(product.handle)}`"
-                class="flex items-center gap-3 rounded-md p-3 transition-colors hover:bg-muted"
+                class="flex items-center gap-3 rounded-lg p-3 transition-colors hover:bg-muted"
                 @click="close"
               >
-                <div class="flex h-14 w-14 shrink-0 items-center justify-center overflow-hidden rounded-md border border-border bg-white">
+                <div class="flex h-14 w-14 shrink-0 items-center justify-center overflow-hidden rounded-lg border border-border bg-white">
                   <img v-if="product.thumbnail" :src="product.thumbnail" :alt="product.title" class="h-full w-full object-contain p-1" />
                   <span v-else class="text-[10px] text-muted-foreground">Sans visuel</span>
                 </div>
@@ -65,7 +75,7 @@
 </template>
 
 <script setup lang="ts">
-import { Search, SearchX, X } from 'lucide-vue-next'
+import { AlertCircle, Search, SearchX, X } from 'lucide-vue-next'
 import { useMeilisearch } from '~/composables/useMeilisearch'
 
 const props = defineProps<{ modelValue: boolean }>()
@@ -77,6 +87,7 @@ const query = ref('')
 const searchInput = ref<HTMLInputElement>()
 const searchResults = ref<any[]>([])
 const isSearching = ref(false)
+const searchError = ref('')
 
 // Instantiate Meilisearch once outside the watcher
 const { performSearch } = useMeilisearch()
@@ -91,11 +102,13 @@ watch(query, (q) => {
   if (!q || q.length < 2) {
     searchResults.value = []
     isSearching.value = false
+    searchError.value = ''
     return
   }
 
   const queryId = ++currentQueryId
   isSearching.value = true
+  searchError.value = ''
   
   searchTimeout = setTimeout(async () => {
     try {
@@ -115,6 +128,10 @@ watch(query, (q) => {
       }))
     } catch (e) {
       console.error('Search failed', e)
+      if (queryId === currentQueryId) {
+        searchResults.value = []
+        searchError.value = 'Impossible de rechercher dans le catalogue actuellement.'
+      }
     } finally {
       if (queryId === currentQueryId) {
         isSearching.value = false
@@ -139,7 +156,7 @@ const normalizeThumbnail = (thumbnail?: string) => {
   return ''
 }
 
-const close = () => { emit('update:modelValue', false); query.value = ''; searchResults.value = [] }
+const close = () => { emit('update:modelValue', false); query.value = ''; searchResults.value = []; searchError.value = '' }
 
 watch(() => props.modelValue, (open) => { if (open) nextTick(() => searchInput.value?.focus()) })
 </script>

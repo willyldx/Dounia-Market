@@ -1,9 +1,9 @@
 <template>
-  <article class="group flex h-full flex-col overflow-hidden rounded-lg border border-border bg-card">
+  <article class="group flex h-full flex-col overflow-hidden rounded-lg border border-border bg-card shadow-[0_1px_3px_rgba(15,23,42,0.04)] transition duration-200 hover:-translate-y-0.5 hover:border-[#c9872b]/25 hover:shadow-[0_8px_20px_rgba(15,23,42,0.07)]">
     <div class="relative">
       <NuxtLink
         :to="productUrl"
-        class="flex aspect-square w-full items-center justify-center overflow-hidden border-b border-border bg-white p-4 sm:p-5"
+        class="flex aspect-[4/5] w-full items-center justify-center overflow-hidden border-b border-border bg-white p-4 sm:p-6"
       >
         <NuxtImg
           v-if="productImage"
@@ -14,7 +14,7 @@
           format="webp"
           quality="85"
         />
-        <span v-else class="text-xs font-medium text-muted-foreground/75">Visuel indisponible</span>
+        <span v-else class="rounded-md bg-muted/45 px-3 py-2 text-xs font-medium text-muted-foreground">Visuel indisponible</span>
       </NuxtLink>
 
       <button
@@ -22,7 +22,7 @@
         :aria-label="isFavorite ? 'Retirer des favoris' : 'Ajouter aux favoris'"
         :aria-pressed="isFavorite"
         :disabled="!canToggleFavorite"
-        class="absolute right-3 top-3 flex h-9 w-9 items-center justify-center rounded-md border border-border bg-white/95 text-muted-foreground transition-colors hover:text-foreground disabled:cursor-not-allowed disabled:opacity-45"
+        class="absolute right-3 top-3 flex h-10 w-10 items-center justify-center rounded-lg border border-border bg-white/95 text-muted-foreground shadow-sm transition-colors hover:border-[#c9872b]/30 hover:text-foreground disabled:cursor-not-allowed disabled:opacity-45"
         :class="isFavorite ? 'text-amber-700' : ''"
         @click.prevent="toggleFavorite"
       >
@@ -30,27 +30,23 @@
       </button>
     </div>
 
-    <div class="flex flex-1 flex-col p-3 sm:p-4">
-      <p v-if="categoryName" class="mb-2 line-clamp-1 text-[11px] font-medium uppercase tracking-wide text-muted-foreground">
-        {{ categoryName }}
-      </p>
+    <div class="flex flex-1 flex-col p-3.5 sm:p-4">
+      <div class="mb-2.5 flex min-h-5 items-center justify-between gap-2">
+        <p v-if="categoryName" class="line-clamp-1 text-xs font-medium text-amber-800">{{ categoryName }}</p>
+        <span class="ml-auto inline-flex shrink-0 rounded-sm px-2 py-1 text-[11px] font-medium" :class="availability.classes">
+          {{ availability.label }}
+        </span>
+      </div>
       <NuxtLink :to="productUrl">
-        <h3 class="line-clamp-2 min-h-[2.5rem] text-sm font-semibold leading-5 text-foreground transition-colors group-hover:text-amber-800 sm:text-base">
+        <h3 class="line-clamp-2 min-h-[2.6rem] text-sm font-semibold leading-5 text-foreground transition-colors group-hover:text-amber-800 sm:text-base">
           {{ product.title }}
         </h3>
       </NuxtLink>
       <p v-if="product.subtitle" class="mt-1 line-clamp-1 text-xs text-muted-foreground">
         {{ product.subtitle }}
       </p>
-
-      <div class="mt-3">
-        <span class="inline-flex rounded-sm px-2 py-1 text-[11px] font-medium" :class="availability.classes">
-          {{ availability.label }}
-        </span>
-      </div>
-
       <div class="mt-auto pt-4">
-        <p v-if="hasKnownPrice" class="text-base font-bold text-foreground sm:text-lg">
+        <p v-if="hasKnownPrice" class="tabular-nums text-lg font-bold tracking-tight text-foreground">
           {{ cartStore.formatPrice(product.price as number) }}
         </p>
         <p v-else class="text-xs font-medium text-muted-foreground">
@@ -61,7 +57,7 @@
           v-if="canAddToCart"
           type="button"
           :aria-label="`Ajouter ${product.title} au panier`"
-          class="mt-3 inline-flex h-10 w-full items-center justify-center gap-2 rounded-md bg-[#c9872b] px-3 text-sm font-semibold text-white transition-colors hover:bg-[#b97824]"
+          class="mt-3 inline-flex h-11 w-full items-center justify-center gap-2 rounded-lg bg-[#c9872b] px-3 text-sm font-semibold text-white transition-colors hover:bg-[#b97824] active:translate-y-px"
           @click="addToCart"
         >
           <ShoppingBag class="h-4 w-4" :stroke-width="1.75" />
@@ -70,7 +66,7 @@
         <NuxtLink
           v-else
           :to="productUrl"
-          class="mt-3 inline-flex h-10 w-full items-center justify-center gap-1 rounded-md border border-border text-sm font-semibold text-foreground transition-colors hover:bg-muted"
+          class="mt-3 inline-flex h-11 w-full items-center justify-center gap-1 rounded-lg border border-border text-sm font-semibold text-foreground transition-colors hover:border-[#c9872b]/35 hover:bg-muted"
         >
           Voir le produit
           <ChevronRight class="h-4 w-4" :stroke-width="1.75" />
@@ -123,7 +119,7 @@ const availability = computed(() => {
   if (props.product.inStock === false) {
     return { label: 'Indisponible', classes: 'bg-red-50 text-red-700' }
   }
-  return { label: 'Disponibilité non indiquée', classes: 'bg-muted text-muted-foreground' }
+  return { label: 'À confirmer', classes: 'bg-muted text-muted-foreground' }
 })
 
 async function toggleFavorite() {
