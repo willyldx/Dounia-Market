@@ -15,7 +15,7 @@
             </h1>
             <p class="mt-3 text-sm leading-relaxed text-muted-foreground sm:text-base">
               Produits préparés localement par Dounia Market et livrés à N'Djamena selon les zones couvertes.
-              La disponibilité et le prix sont indiqués sur chaque article.
+              Consultez les informations affichées sur chaque article.
             </p>
           </div>
           <label class="relative block w-full lg:max-w-sm">
@@ -52,7 +52,6 @@
               :class="selectedCategory === cat.handle ? 'border-brand bg-brand text-brand-foreground' : 'border-border bg-background text-muted-foreground hover:text-foreground'"
               @click="selectedCategory = cat.handle"
             >
-              <component :is="cat.icon" class="h-4 w-4" />
               {{ cat.name }}
               <span v-if="getCount(cat.handle)" class="opacity-75">{{ getCount(cat.handle) }}</span>
             </button>
@@ -88,12 +87,11 @@
       </section>
 
       <div class="mb-5 flex items-center justify-between gap-3">
-        <p class="inline-flex items-center gap-2 text-sm text-muted-foreground">
-          <LayoutGrid class="h-4 w-4" />
+        <p class="text-sm text-muted-foreground">
           <strong class="text-foreground">{{ filteredProducts.length }}</strong>
           produit{{ filteredProducts.length > 1 ? 's' : '' }}
         </p>
-        <p class="hidden text-xs text-muted-foreground sm:block">Zones et frais à confirmer avant ouverture publique</p>
+        <p class="hidden text-xs text-muted-foreground sm:block">Livraison locale selon zones couvertes</p>
       </div>
 
       <div v-if="isLoading" class="grid grid-cols-1 gap-3 min-[380px]:grid-cols-2 sm:gap-5 lg:grid-cols-3 xl:grid-cols-4">
@@ -136,7 +134,7 @@
 </template>
 
 <script setup lang="ts">
-import { AlertCircle, BookOpen, ChevronDown, ChevronRight, Gift, Heart, LayoutGrid, RotateCcw, Search, SearchX, Wheat } from 'lucide-vue-next'
+import { AlertCircle, ChevronDown, ChevronRight, RotateCcw, Search, SearchX } from 'lucide-vue-next'
 import ProductCard from '~/components/product/ProductCard.vue'
 import ProductSkeleton from '~/components/product/ProductSkeleton.vue'
 import type { Product } from '~/types'
@@ -171,12 +169,12 @@ const isLoading = ref(true)
 const error = ref<string | null>(null)
 const isSearchMode = ref(false)
 
-const categories = [
-  { name: 'Alimentaire', handle: 'alimentaire', icon: Wheat },
-  { name: 'Scolarité', handle: 'scolarite', icon: BookOpen },
-  { name: 'Santé & Bébé', handle: 'sante', icon: Heart },
-  { name: 'Fêtes', handle: 'fetes', icon: Gift },
-]
+const categoryLabels: Record<string, string> = {
+  alimentaire: 'Épicerie et essentiels',
+  scolarite: 'Scolarité',
+  sante: 'Bébé et soins',
+  fetes: 'Fêtes',
+}
 
 const priceRanges = computed(() => [
   { label: 'Tous les prix', value: '' },
@@ -189,6 +187,20 @@ const selectedCategory = ref((route.query.categorie as string) || '')
 const selectedPrice = ref('')
 const searchQuery = ref('')
 const inStockOnly = ref(false)
+
+const categories = computed(() => {
+  const seen = new Set<string>()
+  return allProducts.value.reduce<Array<{ name: string; handle: string }>>((result, product) => {
+    const handle = product.categoryHandle
+    if (!handle || seen.has(handle)) return result
+    seen.add(handle)
+    result.push({
+      handle,
+      name: categoryLabels[handle] || product.category || handle.replace(/-/g, ' '),
+    })
+    return result
+  }, [])
+})
 
 const fetchProducts = async () => {
   isLoading.value = true

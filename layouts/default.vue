@@ -1,478 +1,171 @@
 <template>
-  <div class="min-h-screen flex flex-col bg-background">
-    <!-- Announcement Bar -->
-    <div
-      class="text-brand-foreground py-2.5 transition-all duration-500 border-b border-white/10"
-      :class="isScrolled ? 'bg-brand/90 backdrop-blur-md' : 'bg-brand'"
-    >
-      <div class="container-main">
-        <p class="lg:hidden text-center text-xs font-medium">
-          Livraison locale à N'Djamena selon zones couvertes
-        </p>
-        <div class="hidden lg:flex items-center justify-center gap-5 text-sm whitespace-nowrap">
-          <div class="flex items-center gap-2">
-            <Truck class="w-4 h-4 text-accent" />
-            <span>Livraison locale à N'Djamena selon les zones couvertes</span>
-          </div>
-          <span class="text-accent">•</span>
-          <span>Zones et frais à confirmer avant ouverture publique</span>
-        </div>
-      </div>
+  <div class="flex min-h-screen flex-col bg-background">
+    <div class="bg-brand py-2 text-brand-foreground">
+      <p class="px-4 text-center text-xs font-medium sm:text-sm">
+        Livraison locale à N'Djamena selon zones couvertes
+      </p>
     </div>
 
-    <!-- Header — Liquid Glass -->
-    <header 
-      class="sticky top-0 z-50 transition-all duration-500 header-glass"
-      :class="isScrolled ? 'header-glass--scrolled' : 'header-glass--top'"
-    >
+    <header class="sticky top-0 z-40 border-b border-border bg-card/95 backdrop-blur-md">
       <div class="container-main">
-        <div class="flex items-center justify-between h-20">
-          <!-- Logo -->
-          <NuxtLink to="/" class="flex-shrink-0 group">
-            <img 
-              src="/logo-full.svg" 
-              alt="Dounia Market" 
-              class="h-6 sm:h-8 lg:h-9 w-auto transition-transform duration-300 group-hover:scale-105"
-            />
+        <div class="flex h-16 items-center gap-3 sm:h-[72px] lg:gap-7">
+          <NuxtLink to="/" class="shrink-0" aria-label="Dounia Market, accueil">
+            <img src="/logo-full.svg" alt="Dounia Market" class="h-7 w-auto sm:h-8" />
           </NuxtLink>
 
-          <!-- Desktop Search Bar — Central Component -->
-          <div class="hidden md:flex flex-1 max-w-xl mx-4 lg:mx-8">
-            <div class="relative w-full group">
-              <input 
-                type="text"
-                placeholder="Rechercher un produit..."
-                class="w-full min-w-[180px] lg:min-w-[250px] h-11 pl-4 pr-14 rounded-xl border border-border focus:border-brand outline-none transition-all text-sm bg-card/90 focus:bg-card text-foreground shadow-sm backdrop-blur-md"
-                @click="isSearchOpen = true"
-                readonly
-              />
-              <button 
-                @click="isSearchOpen = true"
-                class="absolute right-0 top-0 h-full w-12 flex items-center justify-center bg-brand text-brand-foreground rounded-r-xl hover:bg-brand/90 transition-colors"
-              >
-                <Search class="w-5 h-5" />
-              </button>
-            </div>
-          </div>
+          <nav class="hidden items-center gap-5 text-sm font-medium text-foreground lg:flex">
+            <NuxtLink to="/catalogue" class="transition-colors hover:text-amber-700" active-class="text-amber-700">
+              Catalogue
+            </NuxtLink>
+            <NuxtLink to="/suivi" class="transition-colors hover:text-amber-700" active-class="text-amber-700">
+              Suivi
+            </NuxtLink>
+          </nav>
 
-          <!-- Actions -->
-          <div class="flex items-center gap-1 sm:gap-2">
-            <!-- Navigation (Desktop only) -->
-            <nav class="hidden xl:flex items-center gap-6 mr-4">
-              <!-- MegaMenu Categories -->
-              <div class="relative group" @mouseenter="isCategoryMenuOpen = true" @mouseleave="isCategoryMenuOpen = false">
-                <button class="relative font-medium text-muted-foreground transition-colors duration-300 hover:text-brand flex items-center gap-2 py-2 after:content-[''] after:absolute after:-bottom-1 after:left-0 after:w-0 after:h-0.5 after:rounded-full after:bg-brand after:transition-all after:duration-300 hover:after:w-full">
-                  <LayoutList class="w-4 h-4" /> Catégories <ChevronDown class="w-3 h-3 group-hover:rotate-180 transition-transform" />
-                </button>
-                <div 
-                  v-show="isCategoryMenuOpen"
-                  class="absolute top-full left-0 w-[400px] mt-2 bg-card rounded-lg shadow-md border border-border overflow-hidden z-[100] transition-opacity duration-200 backdrop-blur-sm"
-                >
-                  <div class="p-6 grid grid-cols-2 gap-4">
-                    <NuxtLink to="/catalogue?categorie=alimentaire" class="flex flex-col gap-1 p-3 rounded-lg hover:bg-muted/50 transition-colors group/link" @click="isCategoryMenuOpen = false">
-                      <div class="w-8 h-8 rounded-lg bg-amber-500/10 text-amber-700 flex items-center justify-center mb-1 group-hover/link:scale-110 transition-transform"><Wheat class="w-4 h-4"/></div>
-                      <span class="font-bold text-sm text-foreground">Alimentaire</span>
-                      <span class="text-[10px] text-muted-foreground/80">Marché & Supermarché</span>
-                    </NuxtLink>
-                    <NuxtLink to="/catalogue?categorie=scolarite" class="flex flex-col gap-1 p-3 rounded-lg hover:bg-muted/50 transition-colors group/link" @click="isCategoryMenuOpen = false">
-                      <div class="w-8 h-8 rounded-lg bg-blue-500/10 text-blue-500 flex items-center justify-center mb-1 group-hover/link:scale-110 transition-transform"><BookOpen class="w-4 h-4"/></div>
-                      <span class="font-bold text-sm text-foreground">Scolarité</span>
-                      <span class="text-[10px] text-muted-foreground/80">Kits & Fournitures</span>
-                    </NuxtLink>
-                    <NuxtLink to="/catalogue?categorie=sante" class="flex flex-col gap-1 p-3 rounded-lg hover:bg-muted/50 transition-colors group/link" @click="isCategoryMenuOpen = false">
-                      <div class="w-8 h-8 rounded-lg bg-pink-500/10 text-pink-500 flex items-center justify-center mb-1 group-hover/link:scale-110 transition-transform"><Heart class="w-4 h-4"/></div>
-                      <span class="font-bold text-sm text-foreground">Santé & Bébé</span>
-                      <span class="text-[10px] text-muted-foreground/80">Pharmacie & Soins</span>
-                    </NuxtLink>
-                    <NuxtLink to="/catalogue?categorie=btp" class="flex flex-col gap-1 p-3 rounded-lg hover:bg-muted/50 transition-colors group/link" @click="isCategoryMenuOpen = false">
-                      <div class="w-8 h-8 rounded-lg bg-orange-500/10 text-orange-500 flex items-center justify-center mb-1 group-hover/link:scale-110 transition-transform"><Hammer class="w-4 h-4"/></div>
-                      <span class="font-bold text-sm text-foreground">Construction</span>
-                      <span class="text-[10px] text-muted-foreground/80">Matériaux BTP</span>
-                    </NuxtLink>
-                  </div>
-                  <div class="bg-muted/30 p-4 border-t border-border/50">
-                    <NuxtLink to="/catalogue" class="text-sm text-brand font-medium flex items-center justify-center gap-2 hover:underline" @click="isCategoryMenuOpen = false">
-                      Voir tout le catalogue <ArrowRight class="w-4 h-4"/>
-                    </NuxtLink>
-                  </div>
-                </div>
-              </div>
+          <button
+            type="button"
+            class="mx-auto hidden h-11 max-w-lg flex-1 items-center gap-3 rounded-md border border-input bg-background px-4 text-sm text-muted-foreground transition-colors hover:border-border hover:bg-muted/40 sm:flex"
+            aria-label="Ouvrir la recherche de produits"
+            @click="isSearchOpen = true"
+          >
+            <Search class="h-4 w-4 shrink-0" :stroke-width="1.75" />
+            <span class="truncate">Rechercher un produit</span>
+          </button>
 
-              <NuxtLink to="/catalogue" class="relative font-medium text-muted-foreground transition-colors duration-300 hover:text-brand flex items-center gap-2 py-2 after:content-[''] after:absolute after:-bottom-1 after:left-0 after:w-0 after:h-0.5 after:rounded-full after:bg-brand after:transition-all after:duration-300 hover:after:w-full" active-class="text-brand after:w-full">
-                <Package class="w-4 h-4" /> Catalogue
-              </NuxtLink>
-            </nav>
-
-            <!-- Favorites -->
+          <div class="ml-auto flex shrink-0 items-center gap-1 sm:gap-2">
+            <ClientOnly>
+              <CurrencySelector class="hidden xl:block" />
+            </ClientOnly>
             <NuxtLink
               to="/favoris"
-              class="hidden md:flex relative p-2.5 rounded-xl hover:bg-muted transition-colors group border border-transparent hover:border-border/50"
+              class="relative hidden h-10 w-10 items-center justify-center rounded-md text-muted-foreground transition-colors hover:bg-muted hover:text-foreground md:flex"
+              aria-label="Favoris"
             >
-              <Heart class="w-5 h-5 text-muted-foreground group-hover:text-red-500 transition-colors" />
+              <Heart class="h-5 w-5" :stroke-width="1.75" />
               <ClientOnly>
-                <span 
+                <span
                   v-if="favoritesStore.count > 0"
-                  class="absolute -top-1 -right-1 w-5 h-5 bg-red-500 text-white text-xs font-bold rounded-full flex items-center justify-center"
+                  class="absolute right-0.5 top-0.5 flex h-4 min-w-[1rem] items-center justify-center rounded-full bg-[#c9872b] px-1 text-[10px] font-semibold text-white"
                 >
                   {{ favoritesStore.count }}
                 </span>
               </ClientOnly>
             </NuxtLink>
-
-            <!-- Help Dropdown -->
-            <div class="hidden md:block relative" ref="helpMenuRef" @mouseenter="isHelpMenuOpen = true" @mouseleave="isHelpMenuOpen = false">
-              <button class="flex items-center gap-1.5 px-3 py-2 rounded-xl hover:bg-muted transition-colors text-foreground font-medium text-sm border border-transparent hover:border-border/50">
-                <HelpCircle class="w-5 h-5 text-muted-foreground/80" />
-                <span>Aide</span>
-                <ChevronDown class="w-4 h-4 text-muted-foreground/60" :class="{ 'rotate-180': isHelpMenuOpen }" />
-              </button>
-              
-              <Transition
-                enter-active-class="transition-all duration-200"
-                enter-from-class="opacity-0 translate-y-2"
-                enter-to-class="opacity-100 translate-y-0"
-                leave-active-class="transition-all duration-150"
-                leave-from-class="opacity-100"
-                leave-to-class="opacity-0"
-              >
-                <div v-show="isHelpMenuOpen" class="absolute right-0 mt-1 w-64 bg-card rounded-lg shadow-md border border-border overflow-hidden z-50 pt-2 backdrop-blur-sm">
-                  <div class="flex flex-col">
-                    <NuxtLink to="/comment-ca-marche" class="flex flex-col px-5 py-3 hover:bg-muted/50 transition-colors border-b border-border/50">
-                      <span class="text-sm font-medium text-foreground">Centre d'aide</span>
-                      <span class="text-xs text-muted-foreground/80">Guides et questions fréquentes</span>
-                    </NuxtLink>
-                    <NuxtLink to="/suivi" class="flex flex-col px-5 py-3 hover:bg-muted/50 transition-colors border-b border-border/50">
-                      <span class="text-sm font-medium text-foreground">Suivre une commande</span>
-                      <span class="text-xs text-muted-foreground/80">Où se trouve mon colis ?</span>
-                    </NuxtLink>
-                    <NuxtLink to="/conditions" class="px-5 py-3 text-sm font-medium text-muted-foreground/90 hover:bg-muted/50 transition-colors border-b border-border/50">
-                      Politique de retour & Remboursement
-                    </NuxtLink>
-                    <div class="px-5 py-4 bg-muted/30 flex gap-2">
-                      <NuxtLink to="/contact" class="flex-1 btn-primary text-xs py-2 px-0 shadow-none border-none justify-center rounded-lg">
-                        Contact
-                      </NuxtLink>
-                      <NuxtLink to="/contact" class="flex-1 btn-outline text-xs py-2 px-0 shadow-none border-border justify-center rounded-lg">
-                        Email
-                      </NuxtLink>
-                    </div>
-                  </div>
-                </div>
-              </Transition>
-            </div>
-
-            <!-- User Menu Dropdown -->
-            <div class="hidden md:block relative" ref="userMenuRef" @mouseenter="isUserMenuOpen = true" @mouseleave="isUserMenuOpen = false">
+            <NuxtLink
+              to="/compte"
+              class="hidden h-10 items-center gap-2 rounded-md px-2 text-sm font-medium text-foreground transition-colors hover:bg-muted md:flex"
+            >
+              <User class="h-5 w-5 text-muted-foreground" :stroke-width="1.75" />
+              <span class="hidden xl:inline">Compte</span>
+            </NuxtLink>
+            <button
+              type="button"
+              class="relative flex h-10 w-10 items-center justify-center rounded-md text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
+              aria-label="Panier"
+              @click="cartStore.toggleCart"
+            >
+              <ShoppingBag class="h-5 w-5" :stroke-width="1.75" />
               <ClientOnly>
-                <button class="flex items-center gap-2 px-3 py-2 rounded-xl hover:bg-muted transition-colors text-foreground font-medium text-sm border border-transparent hover:border-border/50">
-                  <template v-if="authStore.isAuthenticated">
-                    <div class="w-7 h-7 bg-brand rounded-md flex items-center justify-center text-brand-foreground text-xs font-bold shadow-sm">
-                      {{ authStore.initials }}
-                    </div>
-                  </template>
-                  <template v-else>
-                    <User class="w-5 h-5 text-muted-foreground/80" />
-                  </template>
-                  <span>Compte</span>
-                  <ChevronDown class="w-4 h-4 text-muted-foreground/60" :class="{ 'rotate-180': isUserMenuOpen }" />
-                </button>
-
-                <Transition
-                  enter-active-class="transition-all duration-200"
-                  enter-from-class="opacity-0 translate-y-2"
-                  enter-to-class="opacity-100 translate-y-0"
-                  leave-active-class="transition-all duration-150"
-                  leave-from-class="opacity-100"
-                  leave-to-class="opacity-0"
-                >
-                  <div v-show="isUserMenuOpen" class="absolute right-0 mt-1 w-64 bg-card rounded-lg shadow-md border border-border overflow-hidden z-50 pt-2 backdrop-blur-sm">
-                    
-                    <!-- Not Logged In State -->
-                    <div v-if="!authStore.isAuthenticated" class="p-4 border-b border-border/50">
-                      <NuxtLink to="/auth/login" class="flex justify-center py-2.5 text-sm mb-2 px-4 bg-brand text-brand-foreground font-bold rounded-md hover:bg-brand/90 transition-all shadow-sm">
-                        Se connecter
-                      </NuxtLink>
-                      <p class="text-xs text-center text-muted-foreground">Nouveau client ? <NuxtLink to="/auth/login" class="font-bold text-brand hover:underline">Créer un compte</NuxtLink></p>
-                    </div>
-
-                    <!-- Logged In State -->
-                    <div v-else class="px-4 py-3 border-b border-border/50">
-                      <p class="font-bold text-foreground truncate">{{ authStore.fullName }}</p>
-                      <p class="text-xs text-muted-foreground/80 truncate">{{ authStore.user?.email }}</p>
-                    </div>
-
-                    <!-- Links -->
-                    <div class="py-2">
-                      <NuxtLink to="/compte" class="flex items-center gap-3 px-5 py-2.5 text-sm font-medium text-foreground hover:bg-muted hover:text-brand transition-colors">
-                        <LayoutDashboard class="w-4 h-4" /> Mon Compte
-                      </NuxtLink>
-                      <NuxtLink to="/compte/commandes" class="flex items-center gap-3 px-5 py-2.5 text-sm font-medium text-foreground hover:bg-muted hover:text-brand transition-colors">
-                        <Package class="w-4 h-4" /> Vos Commandes
-                      </NuxtLink>
-                      <NuxtLink to="/favoris" class="flex items-center gap-3 px-5 py-2.5 text-sm font-medium text-foreground hover:bg-muted hover:text-brand transition-colors">
-                        <Heart class="w-4 h-4" /> Votre Liste d'envies
-                      </NuxtLink>
-                      
-                      <div v-if="authStore.isAuthenticated" class="border-t border-border/50 mt-1 pt-1">
-                        <button @click="handleLogout" class="flex items-center gap-3 px-5 py-2.5 text-sm font-medium text-red-500 hover:bg-red-500/10 transition-colors w-full">
-                          <LogOut class="w-4 h-4" /> Déconnexion
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-                </Transition>
-              </ClientOnly>
-            </div>
-
-            <!-- Currency Selector -->
-            <ClientOnly>
-              <CurrencySelector />
-            </ClientOnly>
-
-            <!-- Cart -->
-              <button
-                @click="cartStore.toggleCart"
-                class="relative p-2.5 rounded-xl hover:bg-muted transition-colors group border border-transparent hover:border-border/50"
-              >
-                <ShoppingBag class="w-5 h-5 text-muted-foreground group-hover:text-brand transition-colors" />
-              <ClientOnly>
-                <span 
+                <span
                   v-if="cartStore.itemCount > 0"
-                  class="absolute -top-1 -right-1 w-5 h-5 bg-brand text-brand-foreground text-xs font-bold rounded-full flex items-center justify-center animate-scale-in shadow-sm"
+                  class="absolute right-0.5 top-0.5 flex h-4 min-w-[1rem] items-center justify-center rounded-full bg-[#c9872b] px-1 text-[10px] font-semibold text-white"
                 >
                   {{ cartStore.itemCount }}
                 </span>
               </ClientOnly>
-              </button>
-
-              <NuxtLink
-                to="/compte"
-                class="md:hidden p-2 sm:px-4 sm:py-2.5 rounded-md bg-brand text-brand-foreground font-bold hover:bg-brand/90 transition-all flex items-center gap-2 shadow-sm"
-              >
-                <User class="w-5 h-5" />
-                <span class="hidden sm:inline">Mon compte</span>
-              </NuxtLink>
-
-            <!-- Mobile Menu -->
-            <button 
-              @click="isMobileMenuOpen = !isMobileMenuOpen"
-              class="lg:hidden p-2.5 rounded-xl hover:bg-muted transition-colors"
+            </button>
+            <button
+              type="button"
+              class="flex h-10 w-10 items-center justify-center rounded-md text-foreground transition-colors hover:bg-muted lg:hidden"
+              :aria-expanded="isMobileMenuOpen"
+              aria-label="Ouvrir le menu"
+              @click="isMobileMenuOpen = true"
             >
-              <component :is="isMobileMenuOpen ? X : Menu" class="w-5 h-5 text-foreground" />
+              <Menu class="h-5 w-5" :stroke-width="1.75" />
             </button>
           </div>
         </div>
+
+        <button
+          type="button"
+          class="mb-3 flex h-11 w-full items-center gap-3 rounded-md border border-input bg-background px-4 text-sm text-muted-foreground sm:hidden"
+          aria-label="Ouvrir la recherche de produits"
+          @click="isSearchOpen = true"
+        >
+          <Search class="h-4 w-4" :stroke-width="1.75" />
+          Rechercher un produit
+        </button>
       </div>
 
-      <!-- Mobile Menu Sidebar -->
       <ClientOnly>
         <MobileSidebar v-model="isMobileMenuOpen" />
       </ClientOnly>
     </header>
 
-    <!-- Main -->
     <main class="flex-grow">
       <slot />
     </main>
 
-    <!-- Pre-Footer Trust Section -->
-    <div class="bg-muted/10 mt-20 border-t border-border/50">
-      <div class="container-main py-12">
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 text-center divide-y md:divide-y-0 md:divide-x divide-border/50">
-          <div class="flex flex-col items-center px-4 pt-4 md:pt-0">
-            <div class="w-12 h-12 bg-card rounded-full flex items-center justify-center text-brand shadow-sm mb-4 border border-border/50">
-              <Truck class="w-6 h-6" />
-            </div>
-            <h4 class="font-bold text-foreground mb-2">Livraison locale</h4>
-            <p class="text-sm text-muted-foreground/90">À N'Djamena selon les zones couvertes; modalités et frais confirmés avant ouverture publique.</p>
-          </div>
-          <div class="flex flex-col items-center px-4 pt-8 md:pt-0">
-            <div class="w-12 h-12 bg-card rounded-full flex items-center justify-center text-brand shadow-sm mb-4 border border-border/50">
-              <Shield class="w-6 h-6" />
-            </div>
-            <h4 class="font-bold text-foreground mb-2">Commande claire</h4>
-            <p class="text-sm text-muted-foreground/90">Produits, bénéficiaire et livraison sont récapitulés avant toute validation disponible.</p>
-          </div>
-          <div class="flex flex-col items-center px-4 pt-8 md:pt-0">
-            <div class="w-12 h-12 bg-card rounded-full flex items-center justify-center text-brand shadow-sm mb-4 border border-border/50">
-              <MapPinned class="w-6 h-6" />
-            </div>
-            <h4 class="font-bold text-foreground mb-2">Suivi privé</h4>
-            <p class="text-sm text-muted-foreground/90">Consultez l'avancement avec votre référence, sans publier de données personnelles.</p>
-          </div>
+    <footer class="border-t border-border bg-card">
+      <div class="container-main grid gap-9 py-10 md:grid-cols-[1.35fr_1fr_1fr]">
+        <div class="max-w-sm">
+          <NuxtLink to="/" aria-label="Dounia Market, accueil">
+            <img src="/logo-full.svg" alt="Dounia Market" class="h-8 w-auto" />
+          </NuxtLink>
+          <p class="mt-4 text-sm leading-relaxed text-muted-foreground">
+            Commandez depuis l'étranger pour vos proches à N'Djamena, selon les zones couvertes.
+          </p>
         </div>
+        <nav aria-label="Boutique">
+          <h2 class="text-xs font-semibold uppercase tracking-wide text-muted-foreground">Boutique</h2>
+          <div class="mt-4 flex flex-col gap-3 text-sm">
+            <NuxtLink to="/catalogue" class="hover:text-amber-700">Catalogue</NuxtLink>
+            <NuxtLink to="/suivi" class="hover:text-amber-700">Suivre une commande</NuxtLink>
+            <NuxtLink to="/favoris" class="hover:text-amber-700">Favoris</NuxtLink>
+            <NuxtLink to="/compte" class="hover:text-amber-700">Mon compte</NuxtLink>
+          </div>
+        </nav>
+        <nav aria-label="Informations">
+          <h2 class="text-xs font-semibold uppercase tracking-wide text-muted-foreground">Informations</h2>
+          <div class="mt-4 flex flex-col gap-3 text-sm">
+            <NuxtLink to="/a-propos" class="hover:text-amber-700">À propos</NuxtLink>
+            <NuxtLink to="/contact" class="hover:text-amber-700">Contact</NuxtLink>
+            <NuxtLink to="/conditions" class="hover:text-amber-700">Conditions générales</NuxtLink>
+            <NuxtLink to="/confidentialite" class="hover:text-amber-700">Confidentialité</NuxtLink>
+          </div>
+        </nav>
       </div>
-    </div>
-
-    <!-- Footer -->
-    <footer class="border-t border-border bg-card text-foreground pt-12">
-      <div class="container-main pb-12">
-        <div class="grid grid-cols-1 md:grid-cols-4 gap-12">
-          <!-- Brand (Visible on Mobile & Desktop) -->
-          <div class="rounded-lg border border-border bg-muted/50 p-6 shadow-sm">
-            <NuxtLink to="/" class="inline-block mb-6">
-              <img src="/logo-full.svg" alt="Dounia Market" class="h-8 md:h-10 w-auto" />
-            </NuxtLink>
-            <p class="text-muted-foreground text-sm leading-relaxed mb-6 font-medium">
-              La diaspora commande à distance; Dounia Market prépare les produits localement pour livraison aux proches à N'Djamena.
-            </p>
-          </div>
-
-          <!-- A PROPOS (Hidden on Mobile) -->
-          <div class="hidden md:block">
-            <h4 class="font-bold mb-6 text-foreground tracking-wide uppercase text-xs">Notre Engagement</h4>
-            <ul class="space-y-3">
-              <li><NuxtLink to="/a-propos" class="text-muted-foreground hover:text-foreground text-sm font-medium transition-colors">Notre Mission</NuxtLink></li>
-              <li><NuxtLink to="/comment-ca-marche" class="text-muted-foreground hover:text-foreground text-sm font-medium transition-colors">Notre Fonctionnement</NuxtLink></li>
-              <li><NuxtLink to="/conditions" class="text-muted-foreground hover:text-foreground text-sm font-medium transition-colors">Conditions Générales (CGV)</NuxtLink></li>
-              <li><NuxtLink to="/mentions-legales" class="text-muted-foreground hover:text-foreground text-sm font-medium transition-colors">Mentions Légales</NuxtLink></li>
-              <li><NuxtLink to="/confidentialite" class="text-muted-foreground hover:text-foreground text-sm font-medium transition-colors">Confidentialité</NuxtLink></li>
-            </ul>
-          </div>
-
-          <!-- ASSISTANCE (Hidden on Mobile) -->
-          <div class="hidden md:block">
-            <h4 class="font-bold mb-6 text-foreground tracking-wide uppercase text-xs">Accompagnement</h4>
-            <ul class="space-y-4">
-              <li><NuxtLink to="/faq" class="text-muted-foreground hover:text-foreground text-sm font-medium transition-colors">Centre d'aide & FAQ</NuxtLink></li>
-              <li><NuxtLink to="/contact" class="text-muted-foreground hover:text-foreground text-sm font-medium transition-colors">Service Client</NuxtLink></li>
-              <li><NuxtLink to="/suivi" class="text-muted-foreground hover:text-foreground text-sm font-medium transition-colors">Suivre ma commande</NuxtLink></li>
-              <li><NuxtLink to="/conditions#remboursement" class="text-muted-foreground hover:text-foreground text-sm font-medium transition-colors">Remboursement & Retours</NuxtLink></li>
-            </ul>
-          </div>
-
-          <!-- CONTACT (Visible on Desktop) -->
-          <div class="hidden md:block">
-            <h4 class="font-bold mb-6 text-foreground tracking-wide uppercase text-xs">Contact</h4>
-            <ul class="space-y-4 mb-6">
-              <li>
-                <a href="mailto:contact@douniamarket.com" class="group flex items-center gap-3 text-muted-foreground hover:text-foreground transition-colors">
-                  <div class="w-8 h-8 rounded-full bg-background border border-border flex items-center justify-center group-hover:bg-muted transition-all">
-                    <Mail class="w-4 h-4" />
-                  </div>
-                  <span class="text-sm font-medium">contact@douniamarket.com</span>
-                </a>
-              </li>
-              <li>
-                <NuxtLink to="/contact" class="group flex items-center gap-3 text-muted-foreground hover:text-foreground transition-colors">
-                  <div class="w-8 h-8 rounded-full bg-background border border-border flex items-center justify-center group-hover:bg-muted transition-all">
-                    <MessageCircle class="w-4 h-4" />
-                  </div>
-                  <span class="text-sm font-medium">Formulaire de contact</span>
-                </NuxtLink>
-              </li>
-            </ul>
-          </div>
-        </div>
-      </div>
-      
-      <!-- Bottom Bar -->
-      <div class="border-t border-border bg-muted/30">
-        <div class="container-main py-6 flex flex-col md:flex-row justify-between items-center gap-4">
-          <p class="text-muted-foreground text-xs text-center md:text-left font-medium">© {{ new Date().getFullYear() }} Dounia Market. Tous droits réservés.</p>
-          <p class="text-xs text-muted-foreground text-center md:text-right">Zones couvertes et frais confirmés avant ouverture publique.</p>
+      <div class="border-t border-border">
+        <div class="container-main flex flex-col gap-2 py-5 text-xs text-muted-foreground sm:flex-row sm:items-center sm:justify-between">
+          <p>© {{ new Date().getFullYear() }} Dounia Market. Tous droits réservés.</p>
+          <p>Livraison locale à N'Djamena selon zones couvertes.</p>
         </div>
       </div>
     </footer>
 
-    <!-- Search Modal -->
     <SearchModal v-model="isSearchOpen" />
   </div>
 </template>
 
 <script setup lang="ts">
-import { 
-  Search, ShoppingBag, Menu, X, Mail, Truck, Shield,
-  Home, Package, HelpCircle, MapPinned, MessageCircle,
-  Heart, User, ChevronDown,
-  LayoutDashboard, UserCircle, LogOut, UserPlus,
-  LayoutList, Wheat, BookOpen, Hammer, ArrowRight
-} from 'lucide-vue-next'
+import { Heart, Menu, Search, ShoppingBag, User } from 'lucide-vue-next'
 import { useCartStore } from '~/stores/cart'
-import { useAuthStore } from '~/stores/auth'
 import { useFavoritesStore } from '~/stores/favorites'
-import { onClickOutside } from '@vueuse/core'
 
 const cartStore = useCartStore()
-const authStore = useAuthStore()
 const favoritesStore = useFavoritesStore()
 const route = useRoute()
-
-// Currency auto-detection
 const { autoDetect } = useCurrency()
 
 const isMobileMenuOpen = ref(false)
 const isSearchOpen = ref(false)
-const isScrolled = ref(false)
-const isUserMenuOpen = ref(false)
-const isHelpMenuOpen = ref(false)
-const isCategoryMenuOpen = ref(false)
-
-const userMenuRef = ref<HTMLElement | null>(null)
-const helpMenuRef = ref<HTMLElement | null>(null)
-
-// Close user menu when clicking outside
-onClickOutside(userMenuRef, () => {
-  isUserMenuOpen.value = false
-})
-
-const navLinks = [
-  { label: 'Accueil', to: '/', icon: Home },
-  { label: 'Catalogue', to: '/catalogue', icon: Package },
-  { label: 'Comment ça marche', to: '/comment-ca-marche', icon: HelpCircle },
-  { label: 'Suivi', to: '/suivi', icon: MapPinned },
-  { label: 'Contact', to: '/contact', icon: MessageCircle },
-]
-
-const isActive = (path: string) => {
-  if (path === '/') return route.path === '/'
-  return route.path.startsWith(path)
-}
-
-async function handleLogout() {
-  isUserMenuOpen.value = false
-  await authStore.logout()
-}
-
-
 
 onMounted(() => {
-  window.addEventListener('scroll', () => {
-    isScrolled.value = window.scrollY > 20
-  })
-
-  // Auto-detect currency from IP / user profile
   autoDetect()
-
-  // Fetch live exchange rates
-  cartStore.fetchRates()
-
-
 })
 
 watch(() => route.path, () => {
   isMobileMenuOpen.value = false
-  isUserMenuOpen.value = false
+  isSearchOpen.value = false
 })
 </script>
-
-<style scoped>
-/* Liquid Glass Header */
-.header-glass {
-  border-bottom: 1px solid transparent;
-}
-
-.header-glass--top {
-  background: rgba(var(--color-card), 0.6);
-  backdrop-filter: blur(8px) saturate(120%);
-  -webkit-backdrop-filter: blur(8px) saturate(120%);
-}
-
-.header-glass--scrolled {
-  background: rgba(var(--color-card), 0.85);
-  backdrop-filter: blur(20px) saturate(180%);
-  -webkit-backdrop-filter: blur(20px) saturate(180%);
-  border-bottom: 1px solid rgba(var(--color-border), 0.5);
-  box-shadow: 0 4px 24px -2px rgba(0, 0, 0, 0.08);
-}
-</style>

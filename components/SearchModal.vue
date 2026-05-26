@@ -7,61 +7,56 @@
       leave-from-class="opacity-100"
       leave-to-class="opacity-0"
     >
-      <div v-if="modelValue" class="fixed inset-0 bg-black/40 backdrop-blur-sm z-50 flex items-start justify-center pt-24 px-4" @click.self="close">
+      <div v-if="modelValue" class="fixed inset-0 z-50 flex items-start justify-center bg-black/40 px-4 pt-20 backdrop-blur-sm sm:pt-24" @click.self="close">
         <div 
-          class="w-full max-w-2xl bg-white rounded-lg shadow-2xl overflow-hidden transform transition-all"
+          class="w-full max-w-2xl overflow-hidden rounded-lg bg-white shadow-2xl transition-all"
         >
-          <div class="relative border-b border-gray-100">
-            <Search class="absolute left-5 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
+          <div class="relative border-b border-border">
+            <Search class="absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 text-muted-foreground" :stroke-width="1.75" />
             <input 
               ref="searchInput"
               v-model="query"
               type="text"
               placeholder="Rechercher un produit..."
-              class="w-full pl-14 pr-12 py-5 text-lg focus:outline-none"
+              class="w-full py-4 pl-12 pr-12 text-base text-foreground focus:outline-none sm:py-5"
               @keydown.escape="close"
             />
-            <button @click="close" class="absolute right-4 top-1/2 -translate-y-1/2 p-1.5 rounded-full hover:bg-gray-100 transition-colors">
-              <X class="w-5 h-5 text-gray-400" />
+            <button @click="close" class="absolute right-3 top-1/2 flex h-9 w-9 -translate-y-1/2 items-center justify-center rounded-md hover:bg-muted">
+              <X class="h-5 w-5 text-muted-foreground" :stroke-width="1.75" />
             </button>
           </div>
 
           <div v-if="query.length >= 2" class="max-h-80 overflow-y-auto">
             <div v-if="isSearching" class="p-8 text-center">
-              <div class="w-8 h-8 border-3 border-gray-200 border-t-brand rounded-full animate-spin mx-auto mb-3"></div>
-              <p class="text-[currentColor]">Recherche en cours...</p>
+              <div class="mx-auto mb-3 h-8 w-8 animate-spin rounded-full border-2 border-border border-t-brand"></div>
+              <p class="text-sm text-muted-foreground">Recherche en cours...</p>
             </div>
             <div v-else-if="searchResults.length > 0" class="p-2">
               <NuxtLink 
                 v-for="product in searchResults" :key="product.id"
                 :to="`/produit/${encodeURIComponent(product.handle)}`"
-                class="flex items-center gap-4 p-3 rounded-lg hover:bg-gray-50 transition-colors"
+                class="flex items-center gap-3 rounded-md p-3 transition-colors hover:bg-muted"
                 @click="close"
               >
-                <div class="w-12 h-12 rounded-lg bg-gray-100 flex items-center justify-center overflow-hidden">
-                  <img v-if="product.thumbnail" :src="product.thumbnail" :alt="product.title" class="w-full h-full object-cover" />
-                  <Package v-else class="w-5 h-5 text-gray-400" />
+                <div class="flex h-14 w-14 shrink-0 items-center justify-center overflow-hidden rounded-md border border-border bg-white">
+                  <img v-if="product.thumbnail" :src="product.thumbnail" :alt="product.title" class="h-full w-full object-contain p-1" />
+                  <span v-else class="text-[10px] text-muted-foreground">Sans visuel</span>
                 </div>
-                <div class="flex-grow">
-                  <h4 class="font-medium text-foreground">{{ product.title }}</h4>
-                  <p class="text-sm text-[currentColor]">{{ product.category }}</p>
+                <div class="min-w-0 flex-grow">
+                  <h4 class="truncate text-sm font-semibold text-foreground">{{ product.title }}</h4>
+                  <p v-if="product.category" class="mt-0.5 truncate text-xs text-muted-foreground">{{ product.category }}</p>
                 </div>
-                <span class="font-semibold text-[currentColor]">{{ formatPrice(product.price) }}</span>
+                <span v-if="hasKnownPrice(product.price)" class="shrink-0 text-sm font-semibold text-foreground">{{ formatPrice(product.price) }}</span>
               </NuxtLink>
             </div>
             <div v-else class="p-8 text-center">
-              <SearchX class="w-12 h-12 text-gray-300 mx-auto mb-3" />
-              <p class="text-[currentColor]">Aucun résultat pour "{{ query }}"</p>
+              <SearchX class="mx-auto mb-3 h-8 w-8 text-muted-foreground" :stroke-width="1.75" />
+              <p class="text-sm text-muted-foreground">Aucun résultat pour "{{ query }}"</p>
             </div>
           </div>
 
           <div v-else class="p-5">
-            <p class="text-sm text-[currentColor] mb-3">Recherches populaires</p>
-            <div class="flex flex-wrap gap-2">
-              <button v-for="term in ['Riz', 'Kit scolaire', 'Ramadan', 'Huile', 'Bébé']" :key="term" @click="query = term" class="px-4 py-2 rounded-full bg-gray-100 hover:bg-[currentColor] hover:text-white text-sm transition-colors">
-                {{ term }}
-              </button>
-            </div>
+            <p class="text-sm text-muted-foreground">Saisissez au moins deux caractères pour rechercher dans le catalogue.</p>
           </div>
         </div>
       </div>
@@ -70,7 +65,7 @@
 </template>
 
 <script setup lang="ts">
-import { Search, X, Package, SearchX } from 'lucide-vue-next'
+import { Search, SearchX, X } from 'lucide-vue-next'
 import { useMeilisearch } from '~/composables/useMeilisearch'
 
 const props = defineProps<{ modelValue: boolean }>()
@@ -114,7 +109,7 @@ watch(query, (q) => {
         id: p.id,
         title: p.title || '',
         handle: p.slug || p.handle || p.id,
-        price: p.price,
+        price: normalizePrice(p.price),
         thumbnail: normalizeThumbnail(p.thumbnail),
         category: p.category || '',
       }))
@@ -128,6 +123,12 @@ watch(query, (q) => {
   }, 250) // Slightly faster debounce for snappier feel
 })
 
+const normalizePrice = (price: unknown): number | undefined => (
+  typeof price === 'number' && Number.isFinite(price) ? price : undefined
+)
+const hasKnownPrice = (price: unknown): price is number => (
+  typeof price === 'number' && Number.isFinite(price)
+)
 const formatPrice = (price: number) => cartStore.formatPrice(price)
 
 const normalizeThumbnail = (thumbnail?: string) => {

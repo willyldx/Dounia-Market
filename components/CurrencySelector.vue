@@ -6,17 +6,14 @@
       :class="{ 'bg-black/5 dark:bg-white/10': isOpen }"
       :aria-expanded="isOpen"
       aria-haspopup="listbox"
-      id="currency-selector"
     >
       <span class="text-base leading-none">{{ activeCurrency.flag }}</span>
       <span class="text-[var(--color-text-secondary)]">{{ activeCurrency.code }}</span>
-      <svg 
-        class="w-3.5 h-3.5 text-[var(--color-text-muted)] transition-transform duration-200" 
+      <ChevronDown
+        class="h-3.5 w-3.5 text-[var(--color-text-muted)] transition-transform duration-200"
         :class="{ 'rotate-180': isOpen }"
-        fill="none" stroke="currentColor" viewBox="0 0 24 24"
-      >
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
-      </svg>
+        :stroke-width="1.75"
+      />
     </button>
 
     <!-- Dropdown -->
@@ -51,14 +48,6 @@
               <span class="font-medium">{{ currency.code }}</span>
               <span class="text-xs text-[var(--color-text-muted)] ml-1">{{ currency.name }}</span>
             </div>
-            <!-- Check icon -->
-            <svg
-              v-if="currency.code === activeCurrency.code"
-              class="w-4 h-4 text-amber-500"
-              fill="none" stroke="currentColor" viewBox="0 0 24 24"
-            >
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-            </svg>
           </button>
         </div>
       </div>
@@ -67,6 +56,8 @@
 </template>
 
 <script setup lang="ts">
+import { ChevronDown } from 'lucide-vue-next'
+
 const { currencies, activeCurrency, setCurrency } = useCurrency()
 const isOpen = ref(false)
 const dropdownRef = ref<HTMLElement | null>(null)

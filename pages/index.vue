@@ -1,102 +1,123 @@
 <template>
-  <div class="min-h-screen bg-background">
-    <main class="mx-auto max-w-7xl px-4 py-8 sm:px-6 sm:py-12 lg:px-8">
-      <section class="grid items-stretch gap-6 lg:grid-cols-[1.08fr_0.92fr]">
-        <div class="rounded-lg border border-border bg-card p-6 sm:p-10 lg:p-12">
-          <p class="mb-4 inline-flex rounded-md bg-amber-50 px-3 py-1.5 text-xs font-semibold uppercase tracking-[0.14em] text-amber-800">
-            Dounia Market | Diaspora tchadienne
+  <div class="bg-background">
+    <section class="relative isolate h-[clamp(430px,62svh,620px)] overflow-hidden sm:h-[clamp(470px,64svh,640px)]">
+      <NuxtImg
+        src="/images/home/hero-marketplace.jpg"
+        alt=""
+        class="absolute inset-0 h-full w-full object-cover object-[68%_center] sm:object-center"
+        width="1792"
+        height="1024"
+        sizes="100vw"
+        preload
+      />
+      <div class="absolute inset-0 bg-gradient-to-r from-[#071124]/95 via-[#071124]/80 to-[#071124]/10"></div>
+      <div class="relative mx-auto flex h-full max-w-7xl items-center px-4 sm:px-6 lg:px-8">
+        <div class="max-w-xl text-white">
+          <p class="text-xs font-semibold uppercase tracking-[0.18em] text-amber-300">
+            Le marché de la diaspora tchadienne
           </p>
-          <h1 class="max-w-2xl text-4xl font-bold tracking-tight text-foreground sm:text-5xl lg:text-6xl">
-            Commandez à distance, votre famille reçoit à N'Djamena.
+          <h1 class="mt-4 text-4xl font-bold tracking-tight text-white sm:text-5xl lg:text-6xl">
+            Dounia Market
           </h1>
-          <p class="mt-5 max-w-xl text-base leading-relaxed text-muted-foreground sm:text-lg">
-            Choisissez des produits du catalogue local. Dounia Market prépare la commande au Tchad
-            et organise la livraison au bénéficiaire selon les zones couvertes.
+          <p class="mt-5 max-w-lg text-base leading-relaxed text-white/90 sm:text-lg">
+            Commandez depuis l'étranger. Vos proches reçoivent localement à N'Djamena.
           </p>
           <div class="mt-8 flex flex-col gap-3 sm:flex-row">
             <NuxtLink
               to="/catalogue"
-              class="inline-flex h-12 items-center justify-center gap-2 rounded-md bg-brand px-6 text-sm font-semibold text-brand-foreground transition-colors hover:bg-brand/90"
+              class="inline-flex h-12 items-center justify-center rounded-md bg-[#c9872b] px-6 text-sm font-semibold text-white transition-colors hover:bg-[#b97824]"
             >
-              Voir les produits
-              <ArrowRight class="h-4 w-4" />
+              Voir le catalogue
             </NuxtLink>
             <NuxtLink
               to="/suivi"
-              class="inline-flex h-12 items-center justify-center rounded-md border border-border bg-background px-6 text-sm font-semibold text-foreground transition-colors hover:bg-muted"
+              class="inline-flex h-12 items-center justify-center rounded-md border border-white/50 bg-white/5 px-6 text-sm font-semibold text-white transition-colors hover:bg-white/10"
             >
               Suivre une commande
             </NuxtLink>
           </div>
         </div>
+      </div>
+    </section>
 
-        <div class="grid gap-3 sm:grid-cols-3 lg:grid-cols-1">
-          <div
-            v-for="(step, index) in serviceSteps"
-            :key="step.title"
-            class="flex gap-4 rounded-lg border border-border bg-card p-5"
-          >
-            <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-md bg-amber-50 text-amber-700">
-              <component :is="step.icon" class="h-5 w-5" />
-            </div>
-            <div>
-              <p class="text-xs font-semibold uppercase tracking-[0.14em] text-muted-foreground">
-                Étape {{ index + 1 }}
-              </p>
-              <h2 class="mt-1 text-base font-semibold text-foreground">{{ step.title }}</h2>
-              <p class="mt-1 text-sm leading-relaxed text-muted-foreground">{{ step.text }}</p>
-            </div>
+    <section class="border-b border-border bg-card" aria-label="Service Dounia Market">
+      <div class="mx-auto grid max-w-7xl gap-0 px-4 sm:grid-cols-3 sm:px-6 lg:px-8">
+        <div class="flex items-center gap-3 border-b border-border py-4 sm:border-b-0 sm:border-r sm:pr-6">
+          <MapPin class="h-5 w-5 shrink-0 text-amber-700" :stroke-width="1.75" />
+          <p class="text-sm text-foreground">Livraison locale à N'Djamena selon zones couvertes</p>
+        </div>
+        <div class="flex items-center gap-3 border-b border-border py-4 sm:border-b-0 sm:px-6">
+          <PackageCheck class="h-5 w-5 shrink-0 text-amber-700" :stroke-width="1.75" />
+          <p class="text-sm text-foreground">Produits sélectionnés dans le catalogue local</p>
+        </div>
+        <div class="flex items-center gap-3 py-4 sm:border-l sm:pl-6">
+          <Truck class="h-5 w-5 shrink-0 text-amber-700" :stroke-width="1.75" />
+          <p class="text-sm text-foreground">Suivi de commande avec votre référence</p>
+        </div>
+      </div>
+    </section>
+
+    <main class="mx-auto max-w-7xl px-4 pb-14 pt-9 sm:px-6 sm:pb-16 sm:pt-12 lg:px-8">
+      <section v-if="featuredCategories.length" aria-labelledby="categories-title">
+        <div class="mb-5 flex items-end justify-between gap-4">
+          <div>
+            <p class="text-xs font-semibold uppercase tracking-[0.14em] text-amber-700">Parcourir</p>
+            <h2 id="categories-title" class="mt-2 text-2xl font-bold text-foreground sm:text-3xl">Catégories</h2>
           </div>
+          <NuxtLink to="/catalogue" class="hidden items-center gap-1.5 text-sm font-semibold text-brand hover:text-amber-700 sm:inline-flex">
+            Tout voir
+            <ChevronRight class="h-4 w-4" :stroke-width="1.75" />
+          </NuxtLink>
+        </div>
+        <div class="grid gap-3 sm:grid-cols-3">
+          <NuxtLink
+            v-for="category in featuredCategories"
+            :key="category.handle"
+            :to="`/catalogue?categorie=${category.handle}`"
+            class="group relative aspect-[5/3] overflow-hidden rounded-lg bg-brand"
+          >
+            <NuxtImg
+              :src="category.image"
+              :alt="category.name"
+              class="h-full w-full object-cover transition-transform duration-300 group-hover:scale-[1.03]"
+              loading="lazy"
+              width="640"
+              height="420"
+            />
+            <div class="absolute inset-0 bg-gradient-to-t from-brand/90 via-brand/15 to-transparent"></div>
+            <div class="absolute inset-x-0 bottom-0 flex items-center justify-between gap-3 p-4 text-white">
+              <span class="text-base font-semibold">{{ category.name }}</span>
+              <ChevronRight class="h-4 w-4 shrink-0" :stroke-width="1.75" />
+            </div>
+          </NuxtLink>
         </div>
       </section>
 
-      <section class="mt-8 grid gap-3 sm:grid-cols-3" aria-label="Informations de service">
-        <div class="flex items-center gap-3 rounded-lg border border-border bg-card p-4">
-          <PackageCheck class="h-5 w-5 shrink-0 text-amber-700" />
-          <p class="text-sm font-medium text-foreground">Disponibilité locale indiquée par produit</p>
-        </div>
-        <div class="flex items-center gap-3 rounded-lg border border-border bg-card p-4">
-          <MapPin class="h-5 w-5 shrink-0 text-amber-700" />
-          <p class="text-sm font-medium text-foreground">Livraison locale à N'Djamena selon zone</p>
-        </div>
-        <div class="flex items-center gap-3 rounded-lg border border-border bg-card p-4">
-          <ReceiptText class="h-5 w-5 shrink-0 text-slate-700" />
-          <p class="text-sm font-medium text-foreground">Zones et frais à confirmer avant ouverture</p>
-        </div>
-      </section>
-
-      <section class="mt-14 sm:mt-16">
-        <div class="mb-6 flex flex-col justify-between gap-3 sm:flex-row sm:items-end">
+      <section :class="featuredCategories.length ? 'mt-12 sm:mt-14' : ''" aria-labelledby="products-title">
+        <div class="mb-6 flex items-end justify-between gap-4">
           <div>
             <p class="text-xs font-semibold uppercase tracking-[0.14em] text-amber-700">Catalogue local</p>
-            <h2 class="mt-2 text-2xl font-bold text-foreground sm:text-3xl">Produits pour vos proches</h2>
-            <p class="mt-2 text-sm text-muted-foreground">
-              Consultez le prix et l'état de disponibilité avant d'ajouter au panier.
-            </p>
+            <h2 id="products-title" class="mt-2 text-2xl font-bold text-foreground sm:text-3xl">Produits disponibles</h2>
           </div>
-          <NuxtLink
-            to="/catalogue"
-            class="inline-flex items-center gap-2 text-sm font-semibold text-brand hover:text-brand/80"
-          >
-            Tout le catalogue
-            <ArrowRight class="h-4 w-4" />
+          <NuxtLink to="/catalogue" class="inline-flex items-center gap-1.5 text-sm font-semibold text-brand hover:text-amber-700">
+            Catalogue
+            <ChevronRight class="h-4 w-4" :stroke-width="1.75" />
           </NuxtLink>
         </div>
 
-        <div v-if="loading" class="grid grid-cols-1 gap-3 min-[380px]:grid-cols-2 sm:gap-5 lg:grid-cols-4">
+        <div v-if="loading" class="grid grid-cols-2 gap-3 sm:gap-5 lg:grid-cols-4">
           <ProductSkeleton v-for="i in 4" :key="i" />
         </div>
-        <div v-else-if="featuredProducts.length" class="grid grid-cols-1 gap-3 min-[380px]:grid-cols-2 sm:gap-5 lg:grid-cols-4">
-          <ProductCard
-            v-for="product in featuredProducts"
-            :key="product.id"
-            :product="product"
-          />
+        <div v-else-if="featuredProducts.length" class="grid grid-cols-2 gap-3 sm:gap-5 lg:grid-cols-4">
+          <ProductCard v-for="product in featuredProducts" :key="product.id" :product="product" />
         </div>
-        <div v-else class="rounded-lg border border-border bg-card px-6 py-10 text-center">
-          <p class="text-sm text-muted-foreground">Le catalogue sera disponible ici prochainement.</p>
-          <NuxtLink to="/catalogue" class="mt-4 inline-flex text-sm font-semibold text-brand">
-            Ouvrir le catalogue
+        <div v-else class="border-t border-border py-9 text-center sm:py-12">
+          <p class="text-sm text-muted-foreground">Aucun produit n'est affiché pour le moment.</p>
+          <NuxtLink
+            to="/catalogue"
+            class="mt-4 inline-flex h-11 items-center justify-center rounded-md border border-border bg-card px-5 text-sm font-semibold text-foreground transition-colors hover:bg-muted"
+          >
+            Consulter le catalogue
           </NuxtLink>
         </div>
       </section>
@@ -105,30 +126,37 @@
 </template>
 
 <script setup lang="ts">
-import { ArrowRight, MapPin, PackageCheck, ReceiptText, ShoppingBasket, Truck } from 'lucide-vue-next'
+import { ChevronRight, MapPin, PackageCheck, Truck } from 'lucide-vue-next'
 import ProductCard from '~/components/product/ProductCard.vue'
 import ProductSkeleton from '~/components/product/ProductSkeleton.vue'
 
-const serviceSteps = [
+const categoryPresentation = [
   {
-    icon: ShoppingBasket,
-    title: 'Vous choisissez',
-    text: 'Depuis l’étranger, sélectionnez les produits utiles à votre proche.',
+    handle: 'alimentaire',
+    name: 'Épicerie et essentiels',
+    image: '/images/home/category-essentiels.jpg',
   },
   {
-    icon: PackageCheck,
-    title: 'Nous préparons localement',
-    text: 'Dounia Market rassemble les articles disponibles sur place.',
+    handle: 'scolarite',
+    name: 'Scolarité',
+    image: '/images/home/category-scolarite.jpg',
   },
   {
-    icon: Truck,
-    title: 'Votre famille reçoit',
-    text: 'La livraison est organisée à N’Djamena dans les zones couvertes.',
+    handle: 'sante',
+    name: 'Bébé et soins',
+    image: '/images/home/category-bebe-soins.jpg',
   },
 ]
 
-const featuredProducts = ref<any[]>([])
+const catalogueProducts = ref<any[]>([])
 const loading = ref(true)
+
+const featuredProducts = computed(() => catalogueProducts.value.slice(0, 4))
+const featuredCategories = computed(() => {
+  const activeHandles = new Set(catalogueProducts.value.map(product => product.categoryHandle).filter(Boolean))
+  return categoryPresentation.filter(category => activeHandles.has(category.handle))
+})
+
 const normalizePrice = (value: unknown): number | undefined => (
   typeof value === 'number' && Number.isFinite(value) ? value : undefined
 )
@@ -136,40 +164,36 @@ const normalizeAvailability = (value: unknown): boolean | undefined => (
   value === true ? true : value === false ? false : undefined
 )
 
-onMounted(() => {
-  fetchFeaturedProducts()
-})
-
-const fetchFeaturedProducts = async () => {
+onMounted(async () => {
   loading.value = true
   try {
     const { getProducts } = useProducts()
-    const response = await getProducts({ limit: 4 })
-    featuredProducts.value = response.products.map((p: any) => ({
-      id: p.id.toString(),
-      title: p.title,
-      handle: p.slug,
-      subtitle: p.subtitle || '',
-      price: normalizePrice(p.price),
-      thumbnail: p.thumbnail || '',
-      images: p.images || [],
-      category: p.category || '',
-      categoryHandle: p.category_handle || '',
-      inStock: normalizeAvailability(p.in_stock),
+    const response = await getProducts({ limit: 100 })
+    catalogueProducts.value = response.products.map((product: any) => ({
+      id: product.id.toString(),
+      title: product.title,
+      handle: product.slug,
+      subtitle: product.subtitle || '',
+      price: normalizePrice(product.price),
+      thumbnail: product.thumbnail || '',
+      images: product.images || [],
+      category: product.category || '',
+      categoryHandle: product.category_handle || '',
+      inStock: normalizeAvailability(product.in_stock),
     }))
-  } catch (e) {
-    featuredProducts.value = []
+  } catch {
+    catalogueProducts.value = []
   } finally {
     loading.value = false
   }
-}
+})
 
 useHead({
-  title: 'Dounia Market | Produits livrés à vos proches à N’Djamena',
+  title: 'Dounia Market | Livraison locale à N\'Djamena',
   meta: [
     {
       name: 'description',
-      content: 'Commandez à distance des produits disponibles localement pour une livraison à N’Djamena selon les zones couvertes.',
+      content: 'Commandez depuis l\'étranger. Vos proches reçoivent localement à N\'Djamena selon les zones couvertes.',
     },
   ],
 })
