@@ -1,34 +1,47 @@
 <template>
   <div class="bg-background">
-    <section class="border-b border-border bg-[#f8f5ef]" aria-labelledby="home-title">
-      <div class="container-main grid gap-9 py-9 sm:py-12 lg:grid-cols-[0.88fr_1.12fr] lg:items-center lg:gap-14 lg:py-14">
+    <!-- ═══════════════════════════════════════════
+         HERO — Immersive dark gradient with orbs
+         ═══════════════════════════════════════════ -->
+    <section class="hero-gradient relative overflow-hidden" aria-labelledby="home-title">
+      <!-- Decorative orbs -->
+      <div class="orb orb-amber absolute -left-32 -top-32 h-96 w-96 animate-float-slow"></div>
+      <div class="orb orb-warm absolute -bottom-20 -right-20 h-80 w-80 animate-float"></div>
+      <div class="orb orb-amber absolute right-1/4 top-1/3 h-48 w-48 opacity-[0.06]"></div>
+
+      <div class="container-main relative z-10 grid gap-10 py-16 sm:py-20 lg:grid-cols-[1fr_1.05fr] lg:items-center lg:gap-16 lg:py-24">
+        <!-- Text content -->
         <div class="max-w-xl">
-          <p class="text-xs font-semibold uppercase tracking-[0.16em] text-amber-700">Dounia Market Tchad</p>
-          <h1 id="home-title" class="mt-4 text-balance text-4xl font-bold tracking-[-0.045em] text-foreground sm:text-5xl lg:text-[3.4rem] lg:leading-[1.08]">
-            Des produits locaux pour vos proches à N'Djamena
+          <p class="label text-amber-400/90">Dounia Market Tchad</p>
+          <h1
+            id="home-title"
+            class="heading-hero mt-5 text-white"
+          >
+            Des produits locaux pour vos proches
+            <span class="text-gradient-gold">à N'Djamena</span>
           </h1>
-          <p class="mt-5 max-w-[34rem] text-pretty text-base leading-relaxed text-muted-foreground sm:text-lg">
+          <p class="mt-6 max-w-[34rem] text-pretty text-base leading-relaxed text-white/70 sm:text-lg">
             Depuis l'étranger, parcourez les produits disponibles localement pour préparer ce dont vos proches ont besoin à N'Djamena.
           </p>
-          <div class="mt-8 flex flex-col gap-3 sm:flex-row">
-            <NuxtLink
-              to="/catalogue"
-              class="inline-flex h-12 items-center justify-center gap-2 rounded-lg bg-[#c9872b] px-6 text-sm font-semibold text-white transition-colors hover:bg-[#b97824]"
-            >
-              Consulter le catalogue
-              <ArrowRight class="h-4 w-4" :stroke-width="1.75" />
+          <div class="mt-9 flex flex-col gap-3 sm:flex-row">
+            <NuxtLink to="/catalogue" class="btn-primary">
+              <span>
+                Consulter le catalogue
+                <ArrowRight class="h-4 w-4" :stroke-width="1.75" />
+              </span>
             </NuxtLink>
             <NuxtLink
               to="/suivi"
-              class="inline-flex h-12 items-center justify-center rounded-lg border border-border bg-card px-6 text-sm font-semibold text-foreground transition-colors hover:border-[#c9872b]/40 hover:bg-white"
+              class="btn-outline !border-white/20 !bg-white/5 !text-white hover:!border-white/40 hover:!bg-white/10"
             >
               Suivre une référence
             </NuxtLink>
           </div>
         </div>
 
-        <div class="market-panel overflow-hidden p-2 sm:p-3">
-          <div class="relative aspect-[5/4] overflow-hidden rounded-lg bg-brand sm:aspect-[16/11]">
+        <!-- Hero image -->
+        <div class="relative">
+          <div class="relative aspect-[5/4] overflow-hidden rounded-2xl shadow-xl ring-1 ring-white/10 sm:aspect-[16/11]">
             <NuxtImg
               src="/images/home/hero-marketplace.jpg"
               alt="Produits présentés pour Dounia Market Tchad"
@@ -38,41 +51,110 @@
               sizes="100vw lg:54vw"
               preload
             />
-            <div class="absolute inset-0 bg-gradient-to-t from-[#071124]/70 via-transparent to-[#071124]/10"></div>
-            <div class="absolute inset-x-0 bottom-0 p-4 text-white sm:p-6">
-              <p class="text-xs font-medium tracking-wide text-white/70">Dounia Market Tchad</p>
+            <div class="absolute inset-0 bg-gradient-to-t from-[#071124]/60 via-transparent to-[#071124]/10"></div>
+            <div class="absolute inset-x-0 bottom-0 p-5 sm:p-7">
+              <p class="text-xs font-medium tracking-wide text-white/60">Dounia Market Tchad</p>
               <p class="mt-1 text-lg font-semibold text-white sm:text-xl">Pour vos proches à N'Djamena</p>
             </div>
           </div>
+          <!-- Glow behind image -->
+          <div class="absolute -inset-4 -z-10 rounded-3xl bg-amber-500/10 blur-3xl"></div>
         </div>
       </div>
     </section>
 
-    <section class="border-b border-border bg-card" aria-label="Repères du service">
-      <div class="container-main grid divide-y divide-border sm:grid-cols-3 sm:divide-x sm:divide-y-0">
-        <div class="flex items-center gap-3 py-4 sm:pr-6">
-          <Package class="h-5 w-5 shrink-0 text-amber-700" :stroke-width="1.75" />
-          <p class="text-sm text-foreground">Produits présentés dans le catalogue local</p>
-        </div>
-        <div class="flex items-center gap-3 py-4 sm:px-6">
-          <MapPin class="h-5 w-5 shrink-0 text-amber-700" :stroke-width="1.75" />
-          <p class="text-sm text-foreground">Service destiné aux proches à N'Djamena</p>
-        </div>
-        <div class="flex items-center gap-3 py-4 sm:pl-6">
-          <PackageCheck class="h-5 w-5 shrink-0 text-amber-700" :stroke-width="1.75" />
-          <p class="text-sm text-foreground">Suivi accessible avec une référence</p>
-        </div>
-      </div>
-    </section>
-
-    <div class="container-main pb-14 pt-9 sm:pb-16 sm:pt-12">
-      <section aria-labelledby="products-title">
-        <div class="mb-6 flex items-end justify-between gap-4">
-          <div>
-            <p class="text-xs font-semibold uppercase tracking-[0.14em] text-amber-700">Catalogue local</p>
-            <h2 id="products-title" class="mt-2 text-2xl font-bold text-foreground sm:text-3xl">Produits publiés</h2>
+    <!-- ═══════════════════════════════════════════
+         TRUST BAR — Key service highlights
+         ═══════════════════════════════════════════ -->
+    <section class="relative z-20 -mt-7 sm:-mt-8" aria-label="Repères du service">
+      <div class="container-main">
+        <div class="grid gap-3 sm:grid-cols-3 sm:gap-4">
+          <div class="flex items-center gap-4 rounded-xl border border-border bg-card px-5 py-4 shadow-premium">
+            <div class="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-amber-100 text-amber-700">
+              <Package class="h-5 w-5" :stroke-width="1.75" />
+            </div>
+            <p class="text-sm font-medium text-foreground">Produits présentés dans le catalogue local</p>
           </div>
-          <NuxtLink to="/catalogue" class="inline-flex items-center gap-1.5 text-sm font-semibold text-brand transition-colors hover:text-amber-700">
+          <div class="flex items-center gap-4 rounded-xl border border-border bg-card px-5 py-4 shadow-premium">
+            <div class="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-amber-100 text-amber-700">
+              <MapPin class="h-5 w-5" :stroke-width="1.75" />
+            </div>
+            <p class="text-sm font-medium text-foreground">Service destiné aux proches à N'Djamena</p>
+          </div>
+          <div class="flex items-center gap-4 rounded-xl border border-border bg-card px-5 py-4 shadow-premium">
+            <div class="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-amber-100 text-amber-700">
+              <PackageCheck class="h-5 w-5" :stroke-width="1.75" />
+            </div>
+            <p class="text-sm font-medium text-foreground">Suivi accessible avec une référence</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════
+         HOW IT WORKS — 3 simple steps
+         ═══════════════════════════════════════════ -->
+    <section class="py-16 sm:py-20" aria-labelledby="howto-title">
+      <div class="container-main">
+        <div class="mx-auto max-w-2xl text-center">
+          <p class="label">Simple et rapide</p>
+          <h2 id="howto-title" class="heading-section mt-3">Comment ça marche</h2>
+          <p class="mx-auto mt-4 max-w-lg text-base leading-relaxed text-muted-foreground">
+            En trois étapes simples, envoyez des produits de qualité à vos proches au Tchad.
+          </p>
+        </div>
+
+        <div class="mt-12 grid gap-6 sm:mt-14 sm:grid-cols-3 sm:gap-8">
+          <!-- Step 1 -->
+          <div class="group relative rounded-2xl border border-border bg-card p-7 text-center transition-all duration-300 hover:-translate-y-1 hover:border-amber-200 hover:shadow-premium-lg">
+            <div class="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-amber-100 text-amber-700 transition-all duration-300 group-hover:scale-110 group-hover:bg-amber-200">
+              <Search class="h-6 w-6" :stroke-width="1.75" />
+            </div>
+            <div class="absolute -right-2 -top-3 flex h-8 w-8 items-center justify-center rounded-full bg-[#c9872b] text-xs font-bold text-white shadow-md">1</div>
+            <h3 class="mt-5 text-lg font-bold text-foreground">Parcourez le catalogue</h3>
+            <p class="mt-2.5 text-sm leading-relaxed text-muted-foreground">
+              Explorez les produits disponibles localement à N'Djamena depuis votre pays.
+            </p>
+          </div>
+
+          <!-- Step 2 -->
+          <div class="group relative rounded-2xl border border-border bg-card p-7 text-center transition-all duration-300 hover:-translate-y-1 hover:border-amber-200 hover:shadow-premium-lg">
+            <div class="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-amber-100 text-amber-700 transition-all duration-300 group-hover:scale-110 group-hover:bg-amber-200">
+              <ShoppingBag class="h-6 w-6" :stroke-width="1.75" />
+            </div>
+            <div class="absolute -right-2 -top-3 flex h-8 w-8 items-center justify-center rounded-full bg-[#c9872b] text-xs font-bold text-white shadow-md">2</div>
+            <h3 class="mt-5 text-lg font-bold text-foreground">Passez commande</h3>
+            <p class="mt-2.5 text-sm leading-relaxed text-muted-foreground">
+              Ajoutez au panier, choisissez les options et validez en toute sécurité.
+            </p>
+          </div>
+
+          <!-- Step 3 -->
+          <div class="group relative rounded-2xl border border-border bg-card p-7 text-center transition-all duration-300 hover:-translate-y-1 hover:border-amber-200 hover:shadow-premium-lg">
+            <div class="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-amber-100 text-amber-700 transition-all duration-300 group-hover:scale-110 group-hover:bg-amber-200">
+              <Truck class="h-6 w-6" :stroke-width="1.75" />
+            </div>
+            <div class="absolute -right-2 -top-3 flex h-8 w-8 items-center justify-center rounded-full bg-[#c9872b] text-xs font-bold text-white shadow-md">3</div>
+            <h3 class="mt-5 text-lg font-bold text-foreground">Livraison avec preuve</h3>
+            <p class="mt-2.5 text-sm leading-relaxed text-muted-foreground">
+              Votre commande est livrée à vos proches avec confirmation photo.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════
+         PRODUCTS — Featured catalogue items
+         ═══════════════════════════════════════════ -->
+    <section class="border-y border-border bg-[#faf8f5] py-14 sm:py-16" aria-labelledby="products-title">
+      <div class="container-main">
+        <div class="mb-8 flex items-end justify-between gap-4">
+          <div>
+            <p class="label">Catalogue local</p>
+            <h2 id="products-title" class="heading-section mt-2">Produits publiés</h2>
+          </div>
+          <NuxtLink to="/catalogue" class="inline-flex items-center gap-1.5 text-sm font-semibold text-[#c9872b] transition-colors hover:text-amber-700">
             Tout voir
             <ArrowRight class="h-4 w-4" :stroke-width="1.75" />
           </NuxtLink>
@@ -88,8 +170,8 @@
           <p class="mx-auto mt-2 max-w-md text-sm leading-relaxed text-muted-foreground">
             Nous ne pouvons pas charger les produits publiés actuellement. Réessayez dans quelques instants.
           </p>
-          <button type="button" class="mt-6 inline-flex h-11 items-center rounded-lg bg-brand px-5 text-sm font-semibold text-brand-foreground" @click="loadCatalogue">
-            Réessayer
+          <button type="button" class="btn-primary mt-6" @click="loadCatalogue">
+            <span>Réessayer</span>
           </button>
         </div>
 
@@ -105,32 +187,37 @@
           </p>
           <NuxtLink
             to="/comment-ca-marche"
-            class="mt-6 inline-flex h-11 items-center rounded-lg border border-border bg-card px-5 text-sm font-semibold text-foreground transition-colors hover:border-[#c9872b]/40"
+            class="btn-outline mt-6"
           >
             Comprendre le service
           </NuxtLink>
         </div>
-      </section>
+      </div>
+    </section>
 
-      <section v-if="featuredCategories.length" class="mt-12 sm:mt-14" aria-labelledby="categories-title">
-        <div class="mb-5 flex items-end justify-between gap-4">
+    <!-- ═══════════════════════════════════════════
+         CATEGORIES — Browse by type
+         ═══════════════════════════════════════════ -->
+    <section v-if="featuredCategories.length" class="py-14 sm:py-16" aria-labelledby="categories-title">
+      <div class="container-main">
+        <div class="mb-8 flex items-end justify-between gap-4">
           <div>
-            <p class="text-xs font-semibold uppercase tracking-[0.14em] text-amber-700">Parcourir</p>
-            <h2 id="categories-title" class="mt-2 text-2xl font-bold text-foreground sm:text-3xl">Catégories publiées</h2>
+            <p class="label">Parcourir</p>
+            <h2 id="categories-title" class="heading-section mt-2">Catégories publiées</h2>
           </div>
         </div>
-        <div class="grid gap-3 sm:grid-cols-3">
+        <div class="grid gap-4 sm:grid-cols-3 sm:gap-5">
           <NuxtLink
             v-for="category in featuredCategories"
             :key="category.handle"
             :to="`/catalogue?categorie=${category.handle}`"
-            class="group relative aspect-[5/3] overflow-hidden rounded-lg bg-brand"
+            class="group relative aspect-[5/3] overflow-hidden rounded-2xl shadow-premium transition-all duration-300 hover:-translate-y-1 hover:shadow-premium-lg"
           >
             <NuxtImg
               v-if="category.image"
               :src="category.image"
               :alt="`Sélection de la catégorie ${category.name}`"
-              class="h-full w-full object-cover transition-transform duration-300 group-hover:scale-[1.03]"
+              class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
               loading="lazy"
               width="640"
               height="420"
@@ -138,20 +225,50 @@
             <div v-else class="flex h-full items-center justify-center bg-[#162139]">
               <Package class="h-9 w-9 text-white/45" :stroke-width="1.5" />
             </div>
-            <div class="absolute inset-0 bg-gradient-to-t from-brand/95 via-brand/20 to-transparent"></div>
-            <div class="absolute inset-x-0 bottom-0 flex items-center justify-between gap-3 p-4 text-white">
-              <span class="text-base font-semibold text-white">{{ category.name }}</span>
-              <ArrowRight class="h-4 w-4 shrink-0" :stroke-width="1.75" />
+            <div class="absolute inset-0 bg-gradient-to-t from-[#0f172a]/90 via-[#0f172a]/30 to-transparent transition-opacity duration-300 group-hover:from-[#0f172a]/95"></div>
+            <div class="absolute inset-x-0 bottom-0 flex items-center justify-between gap-3 p-5 text-white">
+              <span class="text-base font-bold text-white sm:text-lg">{{ category.name }}</span>
+              <div class="flex h-9 w-9 items-center justify-center rounded-full bg-white/15 backdrop-blur-sm transition-all duration-300 group-hover:bg-[#c9872b]">
+                <ArrowRight class="h-4 w-4" :stroke-width="2" />
+              </div>
             </div>
           </NuxtLink>
         </div>
-      </section>
-    </div>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════
+         CTA BANNER — Drive action
+         ═══════════════════════════════════════════ -->
+    <section class="hero-gradient relative overflow-hidden" aria-label="Appel à l'action">
+      <div class="orb orb-amber absolute -right-24 -top-24 h-64 w-64"></div>
+      <div class="orb orb-warm absolute -bottom-16 -left-16 h-52 w-52"></div>
+
+      <div class="container-main relative z-10 py-16 text-center sm:py-20">
+        <h2 class="heading-section mx-auto max-w-xl text-white">
+          Prêt à envoyer des produits à vos proches ?
+        </h2>
+        <p class="mx-auto mt-4 max-w-lg text-base leading-relaxed text-white/65 sm:text-lg">
+          Consultez notre catalogue et composez votre première commande en quelques minutes.
+        </p>
+        <div class="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
+          <NuxtLink to="/catalogue" class="btn-primary">
+            <span>
+              Voir le catalogue
+              <ArrowRight class="h-4 w-4" :stroke-width="1.75" />
+            </span>
+          </NuxtLink>
+          <NuxtLink to="/comment-ca-marche" class="btn-outline !border-white/20 !bg-white/5 !text-white hover:!border-white/40 hover:!bg-white/10">
+            En savoir plus
+          </NuxtLink>
+        </div>
+      </div>
+    </section>
   </div>
 </template>
 
 <script setup lang="ts">
-import { AlertCircle, ArrowRight, MapPin, Package, PackageCheck } from 'lucide-vue-next'
+import { AlertCircle, ArrowRight, MapPin, Package, PackageCheck, Search, ShoppingBag, Truck } from 'lucide-vue-next'
 import ProductCard from '~/components/product/ProductCard.vue'
 import ProductSkeleton from '~/components/product/ProductSkeleton.vue'
 

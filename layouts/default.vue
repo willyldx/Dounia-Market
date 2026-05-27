@@ -7,9 +7,9 @@
       Aller au contenu
     </a>
 
-    <div class="bg-brand py-2.5 text-brand-foreground">
+    <div class="bg-gradient-to-r from-[#0f172a] via-[#1e293b] to-[#0f172a] py-2.5 text-white">
       <p class="px-4 text-center text-xs font-medium tracking-wide sm:text-sm">
-        Les commandes ne sont pas encore ouvertes.
+        ✨ Bienvenue sur Dounia Market — Les commandes ouvriront très bientôt !
       </p>
     </div>
 
