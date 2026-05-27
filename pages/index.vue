@@ -1,5 +1,6 @@
 <template>
   <div class="bg-background">
+<<<<<<< HEAD
     <!-- ═══════════════════════════════════════════
          HERO — Immersive dark gradient with orbs
          ═══════════════════════════════════════════ -->
@@ -33,11 +34,46 @@
             <NuxtLink
               to="/suivi"
               class="btn-outline !border-white/20 !bg-white/5 !text-white hover:!border-white/40 hover:!bg-white/10"
+=======
+    <section class="relative isolate h-[clamp(430px,62svh,620px)] overflow-hidden sm:h-[clamp(470px,64svh,640px)]">
+      <NuxtImg
+        src="/images/home/hero-marketplace.jpg"
+        alt=""
+        class="absolute inset-0 h-full w-full object-cover object-[68%_center] sm:object-center"
+        width="1792"
+        height="1024"
+        sizes="100vw"
+        preload
+      />
+      <div class="absolute inset-0 bg-gradient-to-r from-[#071124]/95 via-[#071124]/80 to-[#071124]/10"></div>
+      <div class="relative mx-auto flex h-full max-w-7xl items-center px-4 sm:px-6 lg:px-8">
+        <div class="max-w-xl text-white">
+          <p class="text-xs font-semibold uppercase tracking-[0.18em] text-amber-300">
+            Le marché de la diaspora tchadienne
+          </p>
+          <h1 class="mt-4 text-4xl font-bold tracking-tight text-white sm:text-5xl lg:text-6xl">
+            Dounia Market Tchad
+          </h1>
+          <p class="mt-5 max-w-lg text-base leading-relaxed text-white/90 sm:text-lg">
+            Commandez depuis l'étranger. Vos proches reçoivent localement à N'Djamena.
+          </p>
+          <div class="mt-8 flex flex-col gap-3 sm:flex-row">
+            <NuxtLink
+              to="/catalogue"
+              class="inline-flex h-12 items-center justify-center rounded-md bg-[#c9872b] px-6 text-sm font-semibold text-white transition-colors hover:bg-[#b97824]"
             >
-              Suivre une référence
+              Voir le catalogue
+            </NuxtLink>
+            <NuxtLink
+              to="/suivi"
+              class="inline-flex h-12 items-center justify-center rounded-md border border-white/50 bg-white/5 px-6 text-sm font-semibold text-white transition-colors hover:bg-white/10"
+>>>>>>> parent of 1b546793 (UI: layout, product list and search improvements)
+            >
+              Suivre une commande
             </NuxtLink>
           </div>
         </div>
+<<<<<<< HEAD
 
         <!-- Hero image -->
         <div class="relative">
@@ -87,10 +123,29 @@
             </div>
             <p class="text-sm font-medium text-foreground">Suivi accessible avec une référence</p>
           </div>
+=======
+      </div>
+    </section>
+
+    <section class="border-b border-border bg-card" aria-label="Service Dounia Market Tchad">
+      <div class="mx-auto grid max-w-7xl gap-0 px-4 sm:grid-cols-3 sm:px-6 lg:px-8">
+        <div class="flex items-center gap-3 border-b border-border py-4 sm:border-b-0 sm:border-r sm:pr-6">
+          <MapPin class="h-5 w-5 shrink-0 text-amber-700" :stroke-width="1.75" />
+          <p class="text-sm text-foreground">Livraison locale à N'Djamena selon zones couvertes</p>
+        </div>
+        <div class="flex items-center gap-3 border-b border-border py-4 sm:border-b-0 sm:px-6">
+          <PackageCheck class="h-5 w-5 shrink-0 text-amber-700" :stroke-width="1.75" />
+          <p class="text-sm text-foreground">Produits sélectionnés dans le catalogue local</p>
+        </div>
+        <div class="flex items-center gap-3 py-4 sm:border-l sm:pl-6">
+          <Truck class="h-5 w-5 shrink-0 text-amber-700" :stroke-width="1.75" />
+          <p class="text-sm text-foreground">Suivi de commande avec votre référence</p>
+>>>>>>> parent of 1b546793 (UI: layout, product list and search improvements)
         </div>
       </div>
     </section>
 
+<<<<<<< HEAD
     <!-- ═══════════════════════════════════════════
          HOW IT WORKS — 3 simple steps
          ═══════════════════════════════════════════ -->
@@ -204,7 +259,19 @@
           <div>
             <p class="label">Parcourir</p>
             <h2 id="categories-title" class="heading-section mt-2">Catégories publiées</h2>
+=======
+    <main class="mx-auto max-w-7xl px-4 pb-14 pt-9 sm:px-6 sm:pb-16 sm:pt-12 lg:px-8">
+      <section v-if="featuredCategories.length" aria-labelledby="categories-title">
+        <div class="mb-5 flex items-end justify-between gap-4">
+          <div>
+            <p class="text-xs font-semibold uppercase tracking-[0.14em] text-amber-700">Parcourir</p>
+            <h2 id="categories-title" class="mt-2 text-2xl font-bold text-foreground sm:text-3xl">Catégories</h2>
+>>>>>>> parent of 1b546793 (UI: layout, product list and search improvements)
           </div>
+          <NuxtLink to="/catalogue" class="hidden items-center gap-1.5 text-sm font-semibold text-brand hover:text-amber-700 sm:inline-flex">
+            Tout voir
+            <ChevronRight class="h-4 w-4" :stroke-width="1.75" />
+          </NuxtLink>
         </div>
         <div class="grid gap-4 sm:grid-cols-3 sm:gap-5">
           <NuxtLink
@@ -214,14 +281,19 @@
             class="group relative aspect-[5/3] overflow-hidden rounded-2xl shadow-premium transition-all duration-300 hover:-translate-y-1 hover:shadow-premium-lg"
           >
             <NuxtImg
-              v-if="category.image"
               :src="category.image"
+<<<<<<< HEAD
               :alt="`Sélection de la catégorie ${category.name}`"
               class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+=======
+              :alt="category.name"
+              class="h-full w-full object-cover transition-transform duration-300 group-hover:scale-[1.03]"
+>>>>>>> parent of 1b546793 (UI: layout, product list and search improvements)
               loading="lazy"
               width="640"
               height="420"
             />
+<<<<<<< HEAD
             <div v-else class="flex h-full items-center justify-center bg-[#162139]">
               <Package class="h-9 w-9 text-white/45" :stroke-width="1.5" />
             </div>
@@ -264,38 +336,83 @@
         </div>
       </div>
     </section>
+=======
+            <div class="absolute inset-0 bg-gradient-to-t from-brand/90 via-brand/15 to-transparent"></div>
+            <div class="absolute inset-x-0 bottom-0 flex items-center justify-between gap-3 p-4 text-white">
+              <span class="text-base font-semibold">{{ category.name }}</span>
+              <ChevronRight class="h-4 w-4 shrink-0" :stroke-width="1.75" />
+            </div>
+          </NuxtLink>
+        </div>
+      </section>
+
+      <section :class="featuredCategories.length ? 'mt-12 sm:mt-14' : ''" aria-labelledby="products-title">
+        <div class="mb-6 flex items-end justify-between gap-4">
+          <div>
+            <p class="text-xs font-semibold uppercase tracking-[0.14em] text-amber-700">Catalogue local</p>
+            <h2 id="products-title" class="mt-2 text-2xl font-bold text-foreground sm:text-3xl">Produits disponibles</h2>
+          </div>
+          <NuxtLink to="/catalogue" class="inline-flex items-center gap-1.5 text-sm font-semibold text-brand hover:text-amber-700">
+            Catalogue
+            <ChevronRight class="h-4 w-4" :stroke-width="1.75" />
+          </NuxtLink>
+        </div>
+
+        <div v-if="loading" class="grid grid-cols-2 gap-3 sm:gap-5 lg:grid-cols-4">
+          <ProductSkeleton v-for="i in 4" :key="i" />
+        </div>
+        <div v-else-if="featuredProducts.length" class="grid grid-cols-2 gap-3 sm:gap-5 lg:grid-cols-4">
+          <ProductCard v-for="product in featuredProducts" :key="product.id" :product="product" />
+        </div>
+        <div v-else class="border-t border-border py-9 text-center sm:py-12">
+          <p class="text-sm text-muted-foreground">Aucun produit n'est affiché pour le moment.</p>
+          <NuxtLink
+            to="/catalogue"
+            class="mt-4 inline-flex h-11 items-center justify-center rounded-md border border-border bg-card px-5 text-sm font-semibold text-foreground transition-colors hover:bg-muted"
+          >
+            Consulter le catalogue
+          </NuxtLink>
+        </div>
+      </section>
+    </main>
+>>>>>>> parent of 1b546793 (UI: layout, product list and search improvements)
   </div>
 </template>
 
 <script setup lang="ts">
+<<<<<<< HEAD
 import { AlertCircle, ArrowRight, MapPin, Package, PackageCheck, Search, ShoppingBag, Truck } from 'lucide-vue-next'
+=======
+import { ChevronRight, MapPin, PackageCheck, Truck } from 'lucide-vue-next'
+>>>>>>> parent of 1b546793 (UI: layout, product list and search improvements)
 import ProductCard from '~/components/product/ProductCard.vue'
 import ProductSkeleton from '~/components/product/ProductSkeleton.vue'
 
-const categoryAssets: Record<string, string> = {
-  alimentaire: '/images/home/category-essentiels.jpg',
-  scolarite: '/images/home/category-scolarite.jpg',
-  sante: '/images/home/category-bebe-soins.jpg',
-}
+const categoryPresentation = [
+  {
+    handle: 'alimentaire',
+    name: 'Épicerie et essentiels',
+    image: '/images/home/category-essentiels.jpg',
+  },
+  {
+    handle: 'scolarite',
+    name: 'Scolarité',
+    image: '/images/home/category-scolarite.jpg',
+  },
+  {
+    handle: 'sante',
+    name: 'Bébé et soins',
+    image: '/images/home/category-bebe-soins.jpg',
+  },
+]
 
 const catalogueProducts = ref<any[]>([])
 const loading = ref(true)
-const catalogueError = ref(false)
 
 const featuredProducts = computed(() => catalogueProducts.value.slice(0, 4))
 const featuredCategories = computed(() => {
-  const seen = new Set<string>()
-  return catalogueProducts.value.reduce<Array<{ handle: string; name: string; image: string }>>((categories, product) => {
-    const handle = product.categoryHandle
-    if (!handle || seen.has(handle)) return categories
-    seen.add(handle)
-    categories.push({
-      handle,
-      name: product.category || handle.replace(/-/g, ' '),
-      image: categoryAssets[handle] || '',
-    })
-    return categories
-  }, []).slice(0, 3)
+  const activeHandles = new Set(catalogueProducts.value.map(product => product.categoryHandle).filter(Boolean))
+  return categoryPresentation.filter(category => activeHandles.has(category.handle))
 })
 
 const normalizePrice = (value: unknown): number | undefined => (
@@ -305,9 +422,8 @@ const normalizeAvailability = (value: unknown): boolean | undefined => (
   value === true ? true : value === false ? false : undefined
 )
 
-async function loadCatalogue() {
+onMounted(async () => {
   loading.value = true
-  catalogueError.value = false
   try {
     const { getProducts } = useProducts()
     const response = await getProducts({ limit: 100 })
@@ -325,13 +441,10 @@ async function loadCatalogue() {
     }))
   } catch {
     catalogueProducts.value = []
-    catalogueError.value = true
   } finally {
     loading.value = false
   }
-}
-
-onMounted(loadCatalogue)
+})
 
 useSeoMeta({
   title: 'Produits pour vos proches à N\'Djamena',

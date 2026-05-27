@@ -1,6 +1,6 @@
 <template>
   <div class="min-h-screen bg-background pb-12">
-    <div v-if="isLoading" class="container-main py-8">
+    <div v-if="isLoading" class="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
       <div class="grid animate-pulse gap-7 lg:grid-cols-2">
         <div class="aspect-square rounded-lg border border-border bg-muted"></div>
         <div class="space-y-4">
@@ -12,7 +12,7 @@
       </div>
     </div>
 
-    <article v-else-if="product" class="container-main py-6 sm:py-8">
+    <main v-else-if="product" class="mx-auto max-w-7xl px-4 py-6 sm:px-6 sm:py-8 lg:px-8">
       <nav class="mb-6 flex items-center gap-2 overflow-hidden text-xs font-medium text-muted-foreground sm:text-sm">
         <NuxtLink to="/" class="shrink-0 hover:text-foreground">Accueil</NuxtLink>
         <ChevronRightIcon class="h-3.5 w-3.5 shrink-0" />
@@ -23,7 +23,7 @@
 
       <div class="grid gap-7 lg:grid-cols-[minmax(360px,0.95fr)_minmax(420px,1.05fr)] lg:gap-10">
         <section aria-label="Images du produit">
-          <div class="relative flex aspect-square items-center justify-center overflow-hidden rounded-lg border border-border bg-white p-6 shadow-sm sm:p-10">
+          <div class="relative flex aspect-square items-center justify-center overflow-hidden rounded-lg border border-border bg-white p-6 sm:p-10">
             <img
               v-if="mainImage"
               :src="mainImage"
@@ -37,7 +37,7 @@
               :aria-label="isFavorite ? 'Retirer des favoris' : 'Ajouter aux favoris'"
               :aria-pressed="isFavorite"
               :disabled="!canToggleFavorite"
-              class="absolute right-3 top-3 flex h-10 w-10 items-center justify-center rounded-lg border border-border bg-white text-muted-foreground shadow-sm transition-colors hover:text-red-600"
+              class="absolute right-3 top-3 flex h-10 w-10 items-center justify-center rounded-md border border-border bg-white text-muted-foreground hover:text-red-600"
               :class="isFavorite ? 'text-red-600' : 'disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:text-muted-foreground'"
               @click="toggleFavorite"
             >
@@ -47,7 +47,7 @@
               v-if="mainImage"
               type="button"
               aria-label="Agrandir l'image"
-              class="absolute bottom-3 right-3 flex h-10 w-10 items-center justify-center rounded-lg border border-border bg-white text-muted-foreground shadow-sm transition-colors hover:text-foreground"
+              class="absolute bottom-3 right-3 flex h-10 w-10 items-center justify-center rounded-md border border-border bg-white text-muted-foreground hover:text-foreground"
               @click="showZoom = true"
             >
               <ZoomInIcon class="h-5 w-5" />
@@ -59,7 +59,7 @@
               v-for="(image, index) in product.images"
               :key="image"
               type="button"
-              class="flex h-20 w-20 shrink-0 items-center justify-center overflow-hidden rounded-lg border bg-white p-2 sm:h-24 sm:w-24"
+              class="flex h-20 w-20 shrink-0 items-center justify-center overflow-hidden rounded-md border bg-white p-2 sm:h-24 sm:w-24"
               :class="mainImage === image ? 'border-brand' : 'border-border'"
               @click="selectedImage = image"
             >
@@ -81,7 +81,7 @@
             </span>
           </div>
 
-          <h1 class="mt-4 text-balance text-3xl font-bold leading-tight tracking-[-0.04em] text-foreground sm:text-4xl">{{ product.title }}</h1>
+          <h1 class="mt-4 text-3xl font-bold leading-tight text-foreground sm:text-4xl">{{ product.title }}</h1>
           <p v-if="product.subtitle" class="mt-2 text-base leading-relaxed text-muted-foreground">
             {{ product.subtitle }}
           </p>
@@ -89,7 +89,7 @@
           <div class="mt-6 rounded-lg border border-border bg-card p-4 sm:p-5">
             <p class="text-xs font-semibold uppercase tracking-[0.12em] text-muted-foreground">Prix du produit</p>
             <div class="mt-2 flex flex-wrap items-baseline gap-3">
-              <span :class="hasCurrentPrice ? 'tabular-nums text-3xl font-bold tracking-tight text-foreground sm:text-4xl' : 'text-lg font-semibold text-amber-800'">
+              <span :class="hasCurrentPrice ? 'text-3xl font-bold text-foreground sm:text-4xl' : 'text-lg font-semibold text-amber-800'">
                 {{ displayedCurrentPrice }}
               </span>
               <span v-if="hasCurrentPrice && product.compareAtPrice && !selectedVariant" class="text-lg text-muted-foreground line-through">
@@ -155,7 +155,7 @@
               <button
                 type="button"
                 :disabled="!canAddToCart || isAddingToCart"
-                class="inline-flex h-12 flex-1 items-center justify-center gap-2 rounded-lg bg-brand px-5 text-sm font-semibold text-brand-foreground transition-colors hover:bg-brand/90 disabled:cursor-not-allowed disabled:bg-muted disabled:text-muted-foreground"
+                class="inline-flex h-12 flex-1 items-center justify-center gap-2 rounded-md bg-brand px-5 text-sm font-semibold text-brand-foreground hover:bg-brand/90 disabled:cursor-not-allowed disabled:bg-muted disabled:text-muted-foreground"
                 @click="addToCart"
               >
                 <LoaderIcon v-if="isAddingToCart" class="h-4 w-4 animate-spin" />
@@ -166,16 +166,13 @@
             <button
               type="button"
               :disabled="isGeneratingLink"
-              class="mt-3 inline-flex h-11 w-full items-center justify-center gap-2 rounded-lg border border-border text-sm font-medium text-foreground transition-colors hover:bg-muted disabled:opacity-60"
+              class="mt-3 inline-flex h-10 w-full items-center justify-center gap-2 rounded-md border border-border text-sm font-medium text-foreground hover:bg-muted disabled:opacity-60"
               @click="generateShareLink"
             >
               <CheckIcon v-if="linkCopied" class="h-4 w-4 text-emerald-700" />
               <Share2Icon v-else class="h-4 w-4" />
               {{ linkCopied ? 'Lien copié' : isGeneratingLink ? 'Création du lien...' : 'Partager ce produit' }}
             </button>
-            <p class="mt-3 text-xs leading-relaxed text-muted-foreground">
-              Le panier sert à préparer votre sélection. La validation des commandes n'est pas ouverte actuellement.
-            </p>
           </div>
 
           <div class="mt-4 grid gap-2 sm:grid-cols-3">
@@ -226,11 +223,11 @@
               </div>
               <div class="rounded-lg bg-muted/40 p-4">
                 <h3 class="text-sm font-semibold text-foreground">Préparation locale</h3>
-                <p class="mt-2 text-sm text-muted-foreground">Les articles validés localement seront identifiés dans le catalogue.</p>
+                <p class="mt-2 text-sm text-muted-foreground">Dounia Market Tchad prépare les articles disponibles localement.</p>
               </div>
               <div class="rounded-lg bg-muted/40 p-4">
-                <h3 class="text-sm font-semibold text-foreground">Remise au proche</h3>
-                <p class="mt-2 text-sm text-muted-foreground">Les modalités locales à N'Djamena seront précisées avant l'ouverture.</p>
+                <h3 class="text-sm font-semibold text-foreground">Livraison au proche</h3>
+                <p class="mt-2 text-sm text-muted-foreground">Livraison à N'Djamena dans les zones actuellement couvertes.</p>
               </div>
             </div>
           </div>
@@ -258,22 +255,13 @@
       </section>
 
       <ProductRecommendations :product="product" />
-    </article>
+    </main>
 
-    <div v-else-if="loadError" class="market-empty mx-auto my-12 max-w-xl px-6 py-12 text-center">
-      <AlertCircleIcon class="mx-auto h-10 w-10 text-amber-700" :stroke-width="1.75" />
-      <h1 class="mt-4 text-xl font-semibold text-foreground">Impossible de charger ce produit</h1>
-      <p class="mt-2 text-sm leading-relaxed text-muted-foreground">{{ loadError }}</p>
-      <button type="button" class="mt-6 inline-flex h-11 items-center rounded-lg bg-brand px-5 text-sm font-semibold text-brand-foreground" @click="fetchProduct">
-        Réessayer
-      </button>
-    </div>
-
-    <div v-else class="market-empty mx-auto my-12 max-w-xl px-6 py-12 text-center">
+    <div v-else class="mx-auto max-w-xl px-4 py-16 text-center">
       <PackageIcon class="mx-auto h-12 w-12 text-muted-foreground/40" />
       <h1 class="mt-4 text-xl font-semibold text-foreground">Produit introuvable</h1>
       <p class="mt-2 text-sm text-muted-foreground">Ce produit n'est pas disponible dans le catalogue.</p>
-      <NuxtLink to="/catalogue" class="mt-6 inline-flex h-11 items-center rounded-lg bg-brand px-5 text-sm font-semibold text-brand-foreground">
+      <NuxtLink to="/catalogue" class="mt-6 inline-flex h-11 items-center rounded-md bg-brand px-5 text-sm font-semibold text-brand-foreground">
         Retour au catalogue
       </NuxtLink>
     </div>
@@ -309,7 +297,6 @@
 
 <script setup lang="ts">
 import {
-  AlertCircle as AlertCircleIcon,
   Check as CheckIcon,
   ChevronRight as ChevronRightIcon,
   Heart as HeartIcon,
@@ -344,7 +331,6 @@ type DisplayProduct = Omit<Product, 'price' | 'inStock' | 'variants'> & {
 }
 
 const product = ref<DisplayProduct | null>(null)
-const loadError = ref<string | null>(null)
 const selectedVariant = ref<DisplayVariant | null>(null)
 const relatedProducts = ref<DisplayProduct[]>([])
 const isLoading = ref(true)
@@ -479,10 +465,6 @@ async function fetchProduct() {
   const slug = route.params.slug as string
   const { getProduct, getProducts } = useProducts()
 
-  isLoading.value = true
-  loadError.value = null
-  product.value = null
-
   try {
     const response = await getProduct(slug)
     const data = response.product
@@ -538,12 +520,8 @@ async function fetchProduct() {
         relatedProducts.value = []
       }
     }
-  } catch (e: any) {
+  } catch (e) {
     console.error('Failed to fetch product:', e)
-    const status = e?.statusCode || e?.status || e?.response?.status
-    if (status !== 404) {
-      loadError.value = 'Le produit ne peut pas être affiché pour le moment. Veuillez réessayer.'
-    }
   } finally {
     if (product.value) trackProductView(parseInt(product.value.id), product.value.category || '')
     isLoading.value = false

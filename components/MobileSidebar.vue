@@ -10,9 +10,9 @@
     >
       <div v-if="modelValue" class="fixed inset-0 z-50 lg:hidden">
         <div class="absolute inset-0 bg-brand/60" @click="close"></div>
-        <aside class="absolute inset-y-0 right-0 flex w-[min(88vw,376px)] flex-col bg-card shadow-xl" aria-label="Navigation mobile">
+        <aside class="absolute inset-y-0 right-0 flex w-[min(86vw,360px)] flex-col bg-card shadow-xl" aria-label="Navigation mobile">
           <div class="flex h-16 items-center justify-between border-b border-border px-5">
-            <img src="/logo-full.svg" alt="Dounia Market Tchad" class="h-7 w-auto" />
+            <span class="text-base font-bold text-foreground">Dounia Market Tchad</span>
             <button
               type="button"
               aria-label="Fermer le menu"
@@ -24,19 +24,19 @@
           </div>
 
           <nav class="flex-1 overflow-y-auto px-3 py-4">
-            <NuxtLink to="/catalogue" class="mobile-link" active-class="mobile-link-active" @click="close">
+            <NuxtLink to="/catalogue" class="mobile-link" @click="close">
               <ShoppingBag class="h-5 w-5" :stroke-width="1.75" />
               Catalogue
             </NuxtLink>
-            <NuxtLink to="/suivi" class="mobile-link" active-class="mobile-link-active" @click="close">
+            <NuxtLink to="/suivi" class="mobile-link" @click="close">
               <PackageCheck class="h-5 w-5" :stroke-width="1.75" />
               Suivre une commande
             </NuxtLink>
-            <NuxtLink to="/favoris" class="mobile-link" active-class="mobile-link-active" @click="close">
+            <NuxtLink to="/favoris" class="mobile-link" @click="close">
               <Heart class="h-5 w-5" :stroke-width="1.75" />
               Favoris
             </NuxtLink>
-            <NuxtLink to="/compte" class="mobile-link" active-class="mobile-link-active" @click="close">
+            <NuxtLink to="/compte" class="mobile-link" @click="close">
               <User class="h-5 w-5" :stroke-width="1.75" />
               Mon compte
             </NuxtLink>
@@ -100,23 +100,14 @@ async function handleLogout() {
 
 <style scoped>
 .mobile-link {
-  @apply flex h-12 items-center gap-3 rounded-lg px-3 text-sm font-medium text-foreground transition-colors hover:bg-muted;
+  @apply flex h-12 items-center gap-3 rounded-md px-3 text-sm font-medium text-foreground transition-colors hover:bg-muted;
 }
 
 .mobile-link svg {
   @apply text-muted-foreground;
 }
 
-.mobile-link-active {
-  @apply bg-muted font-semibold;
-  color: var(--color-accent-dark);
-}
-
-.mobile-link-active svg {
-  color: var(--color-accent-dark);
-}
-
 .mobile-text-link {
-  @apply block rounded-lg px-3 py-3 text-sm text-muted-foreground transition-colors hover:bg-muted hover:text-foreground;
+  @apply block rounded-md px-3 py-3 text-sm text-muted-foreground transition-colors hover:bg-muted hover:text-foreground;
 }
 </style>
