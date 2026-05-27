@@ -1,138 +1,154 @@
 <template>
-  <div class="min-h-screen bg-background pt-32 pb-24">
-    <div class="max-w-7xl mx-auto px-6 lg:px-8">
-      <!-- Header -->
-      <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-6 mb-12">
+  <div class="min-h-screen bg-background pb-20 pt-10 sm:pt-14">
+    <div class="container-main">
+      <!-- En-tête -->
+      <nav class="mb-6 flex items-center gap-2 text-xs font-medium text-muted-foreground" aria-label="Fil d'Ariane">
+        <NuxtLink to="/" class="transition-colors hover:text-foreground">Accueil</NuxtLink>
+        <ChevronRight class="h-3.5 w-3.5" :stroke-width="1.75" />
+        <span class="text-foreground">Favoris</span>
+      </nav>
+      
+      <div class="mb-10 flex flex-col sm:flex-row sm:items-end justify-between gap-6 reveal-up">
         <div>
-          <h1 class="text-4xl font-black text-foreground tracking-tight">Favoris</h1>
-          <p class="text-muted-foreground font-medium mt-2">{{ favoritesStore.count }} article{{ favoritesStore.count > 1 ? 's' : '' }} sauvegardé{{ favoritesStore.count > 1 ? 's' : '' }}</p>
+          <h1 class="heading-section flex items-center gap-4">
+            Vos Coups de Cœur
+            <span v-if="!favoritesStore.isEmpty" class="flex h-8 min-w-[2rem] items-center justify-center rounded-full bg-amber-100 px-3 text-sm font-bold text-amber-700">
+              {{ favoritesStore.count }}
+            </span>
+          </h1>
+          <p v-if="!favoritesStore.isEmpty" class="mt-3 text-sm font-medium text-muted-foreground">
+            Les produits que vous avez sélectionnés pour vos proches.
+          </p>
         </div>
 
-        <div v-if="!favoritesStore.isEmpty" class="flex gap-3">
+        <div v-if="!favoritesStore.isEmpty" class="flex flex-wrap gap-3">
           <button
             @click="showClearConfirm = true"
-            class="flex items-center gap-2 px-5 py-2.5 bg-card border border-border text-muted-foreground font-bold rounded-lg hover:bg-muted/50 hover:text-red-500 transition-all shadow-sm"
+            class="btn-ghost !border !border-border bg-card text-muted-foreground hover:border-red-200 hover:bg-red-50 hover:text-red-600"
           >
-            <TrashIcon class="w-4 h-4" /> Vider
+            <Trash2 class="h-4 w-4 mr-2" /> Vider la liste
           </button>
           <button
             @click="moveAllToCart"
-            class="flex items-center gap-2 px-6 py-2.5 bg-brand text-brand-foreground font-bold rounded-md hover:bg-brand/90 transition-all shadow-sm"
+            class="btn-primary"
           >
-            <ShoppingCartIcon class="w-4 h-4" /> Ajouter au panier
+            <span>
+              <ShoppingBag class="h-4 w-4" /> Tout ajouter au panier
+            </span>
           </button>
         </div>
       </div>
 
-      <!-- Premium Empty State -->
-      <div v-if="favoritesStore.isEmpty" class="bg-card rounded-lg border border-border shadow-sm p-16 text-center max-w-3xl mx-auto mt-10">
-        <div class="relative mb-10 group mx-auto w-max">
-           <div class="absolute inset-0 bg-muted rounded-full scale-150 opacity-50 blur-2xl"></div>
-           <div class="w-32 h-32 rounded-full border border-border bg-card shadow-sm flex items-center justify-center relative z-10">
-             <HeartIcon class="w-12 h-12 text-muted-foreground/30" />
-           </div>
+      <!-- État Vide -->
+      <div v-if="favoritesStore.isEmpty" class="mx-auto mt-8 max-w-2xl overflow-hidden rounded-2xl border border-border bg-card text-center shadow-sm sm:mt-12">
+        <div class="hero-gradient px-6 py-12 sm:px-12 sm:py-16 relative">
+          <div class="orb orb-amber absolute -right-10 -top-10 h-40 w-40 opacity-20"></div>
+          <div class="relative z-10 mx-auto flex h-24 w-24 items-center justify-center rounded-full bg-white/10 text-white backdrop-blur-md border border-white/20 shadow-xl">
+            <Heart class="h-10 w-10" :stroke-width="1.5" />
+          </div>
+          <h2 class="mt-6 text-2xl font-bold text-white sm:text-3xl">Votre sélection est vide</h2>
+          <p class="mx-auto mt-4 max-w-md text-base leading-relaxed text-white/70">
+            Enregistrez ici les produits qui vous font de l'œil pour vos proches à N'Djamena. Cliquez sur le petit cœur sur n'importe quel produit pour le sauvegarder !
+          </p>
+          <NuxtLink to="/catalogue" class="btn-primary mt-8">
+            <span>
+              Explorer le catalogue
+              <Sparkles class="h-4 w-4" :stroke-width="2" />
+            </span>
+          </NuxtLink>
         </div>
-        <h3 class="text-3xl font-black text-foreground mb-4 tracking-tight">Aucun coup de cœur</h3>
-        <p class="text-muted-foreground font-medium mb-12 max-w-lg mx-auto leading-relaxed">
-          Votre liste d'envies est vide. Cliquez sur le petit cœur des produits pour sauvegarder vos cadeaux idéaux pour vos proches à N'Djamena.
-        </p>
-        <NuxtLink
-          to="/catalogue"
-          class="inline-flex items-center justify-center gap-3 px-10 py-4 bg-brand text-brand-foreground font-bold rounded-md hover:bg-brand/90 transition-all shadow-sm"
-        >
-          <SearchIcon class="w-5 h-5 opacity-70" /> Explorer la collection
-        </NuxtLink>
       </div>
 
-      <!-- Favorites Grid -->
-      <div v-else class="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-6 lg:gap-8">
+      <!-- Grille des Favoris -->
+      <div v-else class="grid grid-cols-2 gap-4 md:grid-cols-3 xl:grid-cols-4 sm:gap-6 lg:gap-8 stagger active">
         <div
           v-for="item in favoritesStore.items"
           :key="item.productId"
-          class="bg-card rounded-lg overflow-hidden border border-border shadow-sm group hover:border-border/80 hover:shadow-md transition-all duration-300"
+          class="group relative flex flex-col overflow-hidden rounded-2xl border border-border bg-card shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-amber-200 hover:shadow-premium"
         >
-          <!-- Product Image -->
-          <NuxtLink :to="`/produit/${item.productId}`" class="block relative aspect-[4/5] bg-muted/30 overflow-hidden">
+          <!-- Image -->
+          <NuxtLink :to="`/produit/${item.productId}`" class="relative block aspect-[4/5] bg-[#f8f5ef] overflow-hidden p-4">
             <img
               v-if="item.thumbnail"
               :src="item.thumbnail"
               :alt="item.title"
-              class="w-full h-full object-cover mix-blend-multiply group-hover:scale-105 transition-transform duration-700 ease-out"
+              class="h-full w-full object-contain transition-transform duration-500 ease-out group-hover:scale-105"
             />
-            <div v-else class="w-full h-full flex items-center justify-center">
-              <PackageIcon class="w-12 h-12 text-muted-foreground/30" />
+            <div v-else class="flex h-full w-full items-center justify-center">
+              <Package class="h-12 w-12 text-muted-foreground/30" />
             </div>
 
-            <!-- Remove Button -->
+            <!-- Bouton Supprimer -->
             <button
               @click.prevent="removeFromFavorites(item.productId)"
-              class="absolute top-4 right-4 w-10 h-10 bg-card/90 backdrop-blur-md rounded-full flex items-center justify-center shadow-sm hover:bg-red-500/10 hover:shadow-md transition-all group/btn z-10"
+              class="absolute right-3 top-3 flex h-9 w-9 items-center justify-center rounded-full bg-white/95 text-amber-600 shadow-sm transition-all hover:scale-110 hover:bg-red-500 hover:text-white"
+              aria-label="Retirer des favoris"
             >
-              <HeartIcon class="w-5 h-5 fill-foreground text-foreground group-hover/btn:fill-red-500 group-hover/btn:text-red-500 transition-colors" />
+              <Heart class="h-4 w-4 fill-current" :stroke-width="2" />
             </button>
             
-            <div class="absolute inset-x-0 bottom-0 p-4 bg-gradient-to-t from-black/20 to-transparent flex opacity-0 group-hover:opacity-100 transition-opacity">
-               <span v-if="item.category" class="text-[10px] font-bold tracking-widest uppercase bg-card/95 backdrop-blur-md text-foreground px-3 py-1.5 rounded-full shadow-sm">
+            <div class="absolute inset-x-0 bottom-0 flex p-3 opacity-0 transition-opacity duration-300 group-hover:opacity-100 bg-gradient-to-t from-black/40 to-transparent">
+               <span v-if="item.category" class="rounded-md bg-white/95 px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider text-foreground shadow-sm backdrop-blur-md">
                  {{ item.category }}
                </span>
             </div>
           </NuxtLink>
 
-          <!-- Product Info -->
-          <div class="p-6">
+          <!-- Infos Produit -->
+          <div class="flex flex-1 flex-col p-4 sm:p-5">
             <NuxtLink :to="`/produit/${item.productId}`">
-              <h3 class="font-bold text-foreground mb-1 line-clamp-1 group-hover:text-accent transition-colors">
+              <h3 class="line-clamp-2 text-sm font-bold text-foreground transition-colors group-hover:text-amber-700 sm:text-base">
                 {{ item.title }}
               </h3>
             </NuxtLink>
             
-            <div class="flex items-center justify-between mt-4">
-              <div class="flex flex-col">
-                <p class="text-[10px] text-muted-foreground/80 font-bold uppercase tracking-wider mb-0.5">Prix</p>
-                 <p class="font-black text-xl text-foreground">{{ formatPrice(item.price) }}</p>
+            <div class="mt-auto pt-4 flex items-end justify-between gap-2">
+              <div>
+                 <p class="text-lg font-black tracking-tight text-foreground sm:text-xl">{{ formatPrice(item.price) }}</p>
               </div>
               <button
                 @click="addToCart(item)"
-                class="w-12 h-12 bg-muted/50 hover:bg-brand text-muted-foreground/80 hover:text-brand-foreground rounded-lg flex items-center justify-center transition-colors shadow-sm"
+                class="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-amber-100 text-amber-700 shadow-sm transition-all hover:bg-[#c9872b] hover:text-white"
+                aria-label="Ajouter au panier"
               >
-                <ShoppingCartIcon class="w-5 h-5" />
+                <ShoppingBag class="h-4 w-4" :stroke-width="2" />
               </button>
             </div>
           </div>
         </div>
       </div>
 
-      <!-- Sync Notice for logged in users -->
-      <div v-if="authStore.isAuthenticated && !favoritesStore.isEmpty" class="mt-12 p-6 bg-card border border-border rounded-lg shadow-sm flex items-start gap-4">
-        <div class="w-10 h-10 rounded-full bg-accent/10 flex items-center justify-center shrink-0">
-          <CheckCircleIcon class="w-5 h-5 text-accent" />
+      <!-- Synchronisation (Connecté) -->
+      <div v-if="authStore.isAuthenticated && !favoritesStore.isEmpty" class="mt-12 flex items-start gap-4 rounded-2xl border border-amber-200 bg-amber-50 p-6 shadow-sm sm:items-center">
+        <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-amber-200/50 text-amber-700">
+          <Cloud class="h-5 w-5" />
         </div>
         <div>
-          <p class="text-sm font-bold text-foreground">Synchronisation active</p>
-          <p class="text-sm text-muted-foreground font-medium mt-1">Vos favoris sont enregistrés dans votre compte Dounia Market Tchad.</p>
+          <p class="text-sm font-bold text-foreground">Sauvegarde automatique activée</p>
+          <p class="mt-1 text-sm font-medium text-muted-foreground">Vos favoris sont liés à votre compte et resteront accessibles depuis n'importe quel appareil.</p>
         </div>
       </div>
 
-      <!-- Login prompt for guests -->
-      <div v-if="!authStore.isAuthenticated && !favoritesStore.isEmpty" class="mt-12 p-6 bg-card border border-border rounded-lg shadow-sm flex items-start flex-col md:flex-row md:items-center justify-between gap-6">
+      <!-- Synchronisation (Invité) -->
+      <div v-if="!authStore.isAuthenticated && !favoritesStore.isEmpty" class="mt-12 flex flex-col gap-6 rounded-2xl border border-border bg-card p-6 shadow-sm md:flex-row md:items-center md:justify-between">
         <div class="flex items-start gap-4">
-           <div class="w-10 h-10 rounded-full bg-muted flex items-center justify-center shrink-0">
-             <UserIcon class="w-5 h-5 text-muted-foreground" />
+           <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-muted text-muted-foreground">
+             <User class="h-5 w-5" />
            </div>
            <div>
              <p class="text-sm font-bold text-foreground">Ne perdez pas votre sélection</p>
-             <p class="text-sm text-muted-foreground font-medium mt-1">
-               Connectez-vous pour retrouver vos favoris sur votre téléphone ou votre ordinateur à tout moment.
+             <p class="mt-1 text-sm font-medium text-muted-foreground">
+               Connectez-vous à votre compte pour sauvegarder vos favoris et y accéder sur votre téléphone ou votre ordinateur.
              </p>
            </div>
         </div>
-        <NuxtLink to="/auth/login?redirect=/favoris" class="px-6 py-3 bg-muted text-foreground font-bold rounded-lg hover:bg-muted/80 transition-colors whitespace-nowrap">
-          S'identifier
+        <NuxtLink to="/auth/login?redirect=/favoris" class="btn-outline whitespace-nowrap">
+          Créer un compte ou s'identifier
         </NuxtLink>
       </div>
     </div>
 
-    <!-- Clear Confirmation Modal -->
+    <!-- Modal de confirmation de suppression -->
     <Teleport to="body">
       <Transition
         enter-active-class="transition-all duration-300"
@@ -142,25 +158,25 @@
         leave-from-class="opacity-100"
         leave-to-class="opacity-0"
       >
-        <div v-if="showClearConfirm" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-[200] flex items-center justify-center p-4">
-          <div class="bg-card rounded-lg max-w-sm w-full p-8 shadow-2xl relative border border-border">
-            <div class="w-20 h-20 bg-red-500/10 rounded-full flex items-center justify-center mx-auto mb-6">
-              <TrashIcon class="w-8 h-8 text-red-500" />
+        <div v-if="showClearConfirm" class="fixed inset-0 z-[200] flex items-center justify-center bg-black/60 p-4 backdrop-blur-sm">
+          <div class="relative w-full max-w-sm rounded-2xl border border-border bg-card p-8 shadow-2xl animate-scale-in">
+            <div class="mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-full bg-red-100">
+              <Trash2 class="h-8 w-8 text-red-600" />
             </div>
-            <h3 class="text-2xl font-black text-foreground text-center mb-3">Vider les favoris ?</h3>
-            <p class="text-muted-foreground font-medium text-center mb-8 leading-relaxed">
+            <h3 class="mb-2 text-center text-xl font-bold text-foreground">Vider la liste ?</h3>
+            <p class="mb-8 text-center text-sm font-medium leading-relaxed text-muted-foreground">
               Vos {{ favoritesStore.count }} coups de cœur seront définitivement effacés de votre sélection.
             </p>
             <div class="flex flex-col gap-3">
               <button
                 @click="clearAll"
-                class="w-full py-4 bg-red-500 text-white font-bold rounded-lg hover:bg-red-600 transition-colors shadow-md shadow-red-500/20"
+                class="flex h-12 w-full items-center justify-center rounded-xl bg-red-600 px-4 text-sm font-bold text-white shadow-md shadow-red-500/20 transition-colors hover:bg-red-700"
               >
-                Confirmer la suppression
+                Oui, tout effacer
               </button>
               <button
                 @click="showClearConfirm = false"
-                class="w-full py-4 bg-muted text-foreground font-bold rounded-lg hover:bg-muted/80 transition-colors border border-border"
+                class="btn-outline w-full !h-12"
               >
                 Annuler
               </button>
@@ -174,14 +190,21 @@
 
 <script setup lang="ts">
 import {
-  Heart as HeartIcon,
-  ShoppingCart as ShoppingCartIcon,
-  Trash as TrashIcon,
-  Search as SearchIcon,
-  Package as PackageIcon,
-  CheckCircle as CheckCircleIcon,
-  User as UserIcon,
+  Heart,
+  ShoppingBag,
+  Trash2,
+  Search,
+  Package,
+  CheckCircle,
+  User,
+  ChevronRight,
+  ArrowRight,
+  Sparkles,
+  Cloud
 } from 'lucide-vue-next'
+import { useCartStore } from '~/stores/cart'
+import { useFavoritesStore } from '~/stores/favorites'
+import { useAuthStore } from '~/stores/auth'
 
 useSeoMeta({
   title: 'Mes favoris | Dounia Market Tchad',
@@ -201,21 +224,6 @@ onMounted(() => {
 
 function formatPrice(amount: number): string {
   return cartStore.formatPrice(amount)
-}
-
-function formatDate(date: string): string {
-  const now = new Date()
-  const added = new Date(date)
-  const diffDays = Math.floor((now.getTime() - added.getTime()) / (1000 * 60 * 60 * 24))
-  
-  if (diffDays === 0) return "aujourd'hui"
-  if (diffDays === 1) return 'hier'
-  if (diffDays < 7) return `il y a ${diffDays} jours`
-  
-  return added.toLocaleDateString('fr-FR', {
-    day: 'numeric',
-    month: 'short',
-  })
 }
 
 function removeFromFavorites(productId: string) {

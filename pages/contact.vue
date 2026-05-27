@@ -1,57 +1,132 @@
 <template>
-  <div class="bg-background min-h-screen">
-    <!-- Minimalist Header -->
-    <section class="pt-32 pb-16 bg-background border-b border-border">
-      <div class="container-main text-center max-w-2xl mx-auto">
-        <h1 class="text-4xl md:text-5xl font-black text-foreground mb-4 tracking-tight">
+  <div class="min-h-screen bg-background pb-20 pt-10 sm:pt-14">
+    <div class="container-main">
+      <!-- En-tête -->
+      <nav class="mb-6 flex items-center gap-2 text-xs font-medium text-muted-foreground" aria-label="Fil d'Ariane">
+        <NuxtLink to="/" class="transition-colors hover:text-foreground">Accueil</NuxtLink>
+        <ChevronRight class="h-3.5 w-3.5" :stroke-width="1.75" />
+        <span class="text-foreground">Contact</span>
+      </nav>
+
+      <div class="mb-12 text-center reveal-up">
+        <div class="mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-2xl border border-amber-200 bg-amber-50 text-amber-700 shadow-sm">
+          <MessageCircleHeart class="h-8 w-8" :stroke-width="1.5" />
+        </div>
+        <h1 class="heading-section mb-4 text-3xl sm:text-4xl md:text-5xl">
           Contactez-nous
         </h1>
-        <p class="text-lg text-muted-foreground font-medium leading-relaxed">
-          Notre équipe dédiée est à votre écoute pour vous accompagner à chaque étape.
+        <p class="mx-auto max-w-2xl text-lg font-medium leading-relaxed text-muted-foreground">
+          Une question sur une commande ? Un besoin particulier ? Notre équipe est à votre écoute pour vous accompagner.
         </p>
       </div>
-    </section>
 
-    <!-- Support Content -->
-    <div class="container-main py-24 -mt-10 relative z-20">
-      <div class="grid grid-cols-1 lg:grid-cols-5 gap-12 lg:gap-16">
-        
-        <!-- Contact Form — 3/5 width -->
-        <div class="lg:col-span-3">
-          <div class="bg-card p-8 md:p-10 rounded-lg border border-border shadow-sm">
-            <h2 class="text-2xl font-bold text-foreground tracking-tight mb-2">Écrivez-nous</h2>
-            <p class="text-muted-foreground text-sm mb-8">Notre équipe traite les questions liées aux commandes et à la livraison locale.</p>
+      <!-- Contenu Support -->
+      <div class="mx-auto max-w-5xl reveal-up" style="animation-delay: 100ms;">
+        <div class="grid grid-cols-1 gap-8 lg:grid-cols-5 lg:gap-12">
+          
+          <!-- Informations de Contact (2 colonnes) -->
+          <div class="space-y-6 lg:col-span-2">
+            <!-- Message de réassurance -->
+            <div class="rounded-2xl border border-amber-200 bg-amber-50 p-6 shadow-sm">
+              <div class="mb-3 flex items-center gap-3 text-amber-800">
+                <LifeBuoy class="h-5 w-5" />
+                <h3 class="font-bold">Service Client Dounia Market</h3>
+              </div>
+              <p class="text-sm font-medium leading-relaxed text-amber-700">
+                Nous nous engageons à vous répondre dans les plus brefs délais. Si votre demande concerne une commande, merci de préciser la référence (Ex: CMD-12345).
+              </p>
+            </div>
+
+            <!-- Cartes de contact -->
+            <div class="overflow-hidden rounded-2xl border border-border bg-card shadow-sm">
+              <div class="divide-y divide-border">
+                <a href="mailto:support@douniamarket.com" class="group flex items-center gap-4 p-5 transition-colors hover:bg-muted/50">
+                  <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-amber-100 text-amber-700 transition-transform group-hover:scale-110 group-hover:bg-amber-200">
+                    <Mail class="h-4 w-4" :stroke-width="2" />
+                  </div>
+                  <div>
+                    <p class="text-sm font-bold text-foreground">Email Support</p>
+                    <p class="text-sm font-medium text-muted-foreground group-hover:text-amber-700 transition-colors">support@douniamarket.com</p>
+                  </div>
+                </a>
+                
+                <div class="flex items-center gap-4 p-5">
+                  <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-muted text-muted-foreground">
+                    <MapPin class="h-4 w-4" :stroke-width="2" />
+                  </div>
+                  <div>
+                    <p class="text-sm font-bold text-foreground">Livraison Locale</p>
+                    <p class="text-sm font-medium text-muted-foreground">N'Djamena, quartiers couverts</p>
+                  </div>
+                </div>
+
+                <div class="flex items-center gap-4 p-5">
+                  <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-muted text-muted-foreground">
+                    <Clock class="h-4 w-4" :stroke-width="2" />
+                  </div>
+                  <div>
+                    <p class="text-sm font-bold text-foreground">Horaires d'ouverture</p>
+                    <p class="text-sm font-medium text-muted-foreground">Du Lundi au Samedi</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Formulaire de Contact (3 colonnes) -->
+          <div class="rounded-3xl border border-border bg-card p-8 shadow-premium lg:col-span-3 sm:p-10">
+            <h2 class="mb-2 text-2xl font-bold text-foreground tracking-tight">Envoyez-nous un message</h2>
+            <p class="mb-8 text-sm font-medium text-muted-foreground">Remplissez le formulaire ci-dessous et nous vous recontacterons très vite.</p>
             
-            <form @submit.prevent="submitForm" class="space-y-5">
-              <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
-                <div class="space-y-1.5">
-                  <label class="text-sm font-medium leading-none text-foreground">Nom complet</label>
-                  <input v-model="form.name" type="text" placeholder="Ex: Jean Dupont" class="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring transition-colors" required />
+            <form @submit.prevent="submitForm" class="space-y-6">
+              <div class="grid grid-cols-1 gap-6 sm:grid-cols-2">
+                <div class="space-y-2">
+                  <label class="text-sm font-bold text-foreground">Nom complet</label>
+                  <input 
+                    v-model="form.name" 
+                    type="text" 
+                    placeholder="Ex: Jean Dupont" 
+                    class="h-12 w-full rounded-xl border border-input bg-background px-4 text-sm font-medium text-foreground outline-none transition-all focus:border-amber-500 focus:ring-2 focus:ring-amber-500/20" 
+                    required 
+                  />
                 </div>
-                <div class="space-y-1.5">
-                  <label class="text-sm font-medium leading-none text-foreground">Email</label>
-                  <input v-model="form.email" type="email" placeholder="votre@email.com" class="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring transition-colors" required />
+                <div class="space-y-2">
+                  <label class="text-sm font-bold text-foreground">Email</label>
+                  <input 
+                    v-model="form.email" 
+                    type="email" 
+                    placeholder="votre@email.com" 
+                    class="h-12 w-full rounded-xl border border-input bg-background px-4 text-sm font-medium text-foreground outline-none transition-all focus:border-amber-500 focus:ring-2 focus:ring-amber-500/20" 
+                    required 
+                  />
                 </div>
               </div>
               
-              <div class="space-y-1.5">
-                <label class="text-sm font-medium leading-none text-foreground">Sujet</label>
-                <select v-model="form.subject" class="flex h-10 w-full items-center justify-between rounded-md border border-input bg-background px-3 py-2 text-sm placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring transition-colors" required>
-                  <option value="" disabled>Sélectionnez un sujet</option>
-                  <option value="commande">Suivi de ma commande</option>
-                  <option value="livraison">Détails de livraison</option>
-                  <option value="validation">Question sur la validation d'une commande</option>
-                  <option value="autre">Autre question</option>
-                </select>
+              <div class="space-y-2">
+                <label class="text-sm font-bold text-foreground">Sujet de votre demande</label>
+                <div class="relative">
+                  <select 
+                    v-model="form.subject" 
+                    class="h-12 w-full appearance-none rounded-xl border border-input bg-background px-4 text-sm font-medium text-foreground outline-none transition-all focus:border-amber-500 focus:ring-2 focus:ring-amber-500/20" 
+                    required
+                  >
+                    <option value="" disabled>Sélectionnez un sujet</option>
+                    <option value="commande">Où en est ma commande ?</option>
+                    <option value="livraison">Question sur la livraison à N'Djamena</option>
+                    <option value="produit">Je cherche un produit spécifique</option>
+                    <option value="autre">Autre demande</option>
+                  </select>
+                  <ChevronDown class="pointer-events-none absolute right-4 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+                </div>
               </div>
               
-              <div class="space-y-1.5">
-                <label class="text-sm font-medium leading-none text-foreground">Message</label>
+              <div class="space-y-2">
+                <label class="text-sm font-bold text-foreground">Votre message</label>
                 <textarea 
                   v-model="form.message" 
                   rows="5" 
-                  placeholder="Décrivez votre question..."
-                  class="flex min-h-[80px] w-full rounded-md border border-input bg-background px-3 py-2 text-sm placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring transition-colors resize-y" 
+                  placeholder="Décrivez comment nous pouvons vous aider..."
+                  class="min-h-[120px] w-full resize-y rounded-xl border border-input bg-background p-4 text-sm font-medium text-foreground outline-none transition-all focus:border-amber-500 focus:ring-2 focus:ring-amber-500/20" 
                   required
                 ></textarea>
               </div>
@@ -59,54 +134,15 @@
               <button 
                 type="submit" 
                 :disabled="isSubmitting"
-                class="inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-brand text-brand-foreground hover:bg-brand/90 h-10 px-4 py-2 w-full mt-2"
+                class="btn-primary w-full !h-14"
               >
-                <Loader v-if="isSubmitting" class="w-4 h-4 mr-2 animate-spin" />
-                <Send v-else class="w-4 h-4 mr-2" />
-                {{ isSubmitting ? 'Envoi en cours...' : 'Envoyer le message' }}
+                <span>
+                  <Loader v-if="isSubmitting" class="mr-2 h-5 w-5 animate-spin" />
+                  <Send v-else class="mr-2 h-5 w-5" />
+                  {{ isSubmitting ? 'Envoi en cours...' : 'Envoyer le message' }}
+                </span>
               </button>
             </form>
-          </div>
-        </div>
-
-        <!-- Contact Info — 2/5 width -->
-        <div class="lg:col-span-2 space-y-6">
-          
-          <!-- Support context -->
-          <div class="bg-muted/50 border border-border rounded-lg p-5 flex items-start gap-4 mb-2">
-            <Zap class="w-5 h-5 text-foreground mt-0.5" />
-            <div>
-              <p class="font-bold text-foreground text-sm tracking-wide mb-1">Nous contacter</p>
-              <p class="text-sm text-muted-foreground leading-relaxed">Indiquez votre référence de commande lorsque vous en disposez.</p>
-            </div>
-          </div>
-
-          <!-- Contact cards -->
-          <div class="bg-card rounded-lg border border-border shadow-sm p-1">
-            <div 
-              v-for="(info, i) in contactInfo" :key="info.label"
-              class="p-4 flex items-center gap-4 hover:bg-muted/50 rounded-lg transition-colors group"
-            >
-              <component :is="info.icon" class="w-4 h-4 text-muted-foreground group-hover:text-foreground" />
-              <div>
-                <h3 class="font-medium text-foreground text-sm">{{ info.label }}</h3>
-                <a v-if="info.href" :href="info.href" class="text-muted-foreground text-sm hover:text-foreground transition-colors">
-                  {{ info.value }}
-                </a>
-                <p v-else class="text-muted-foreground text-sm">{{ info.value }}</p>
-              </div>
-            </div>
-          </div>
-
-          <!-- Availability card -->
-          <div class="bg-card rounded-lg border border-border shadow-sm p-5">
-            <div class="flex items-center gap-2 mb-4">
-              <Clock class="w-4 h-4 text-foreground" />
-              <h3 class="font-bold text-foreground text-sm">Disponibilité du support</h3>
-            </div>
-            <p class="text-sm text-muted-foreground leading-relaxed">
-              Les canaux et horaires opérationnels seront indiqués avant ouverture publique.
-            </p>
           </div>
           
         </div>
@@ -116,18 +152,11 @@
 </template>
 
 <script setup lang="ts">
-import { Send, Mail, MapPin, Clock, Zap, MessageSquare, Loader } from 'lucide-vue-next'
+import { Send, Mail, MapPin, Clock, LifeBuoy, MessageCircleHeart, ChevronRight, ChevronDown, Loader } from 'lucide-vue-next'
 
 const toast = useToast()
-// Keeping simple form logic for frontend phase
 const form = ref({ name: '', email: '', subject: '', message: '' })
 const isSubmitting = ref(false)
-
-const contactInfo = [
-  { label: 'Email Support', value: 'support@douniamarket.com', href: 'mailto:support@douniamarket.com', icon: Mail },
-  { label: 'Formulaire en ligne', value: 'Utilisez le formulaire pour nous écrire', href: null, icon: MessageSquare },
-  { label: 'Livraison locale', value: 'N\'Djamena, selon zones couvertes', href: null, icon: MapPin },
-]
 
 const submitForm = async () => {
   isSubmitting.value = true
@@ -141,24 +170,30 @@ const submitForm = async () => {
       message: form.value.message
     })
     
-    toast.add({ title: 'Message envoyé', description: 'Votre message a été transmis à notre équipe logistique.', icon: 'i-heroicons-paper-airplane', color: 'black' })
+    toast.add({ 
+      title: 'Message bien reçu !', 
+      description: 'Nous vous répondrons dans les plus brefs délais.', 
+      icon: 'i-heroicons-check-circle', 
+      color: 'green' 
+    })
     form.value = { name: '', email: '', subject: '', message: '' }
   } catch (error) {
     console.error('Contact error:', error)
-    toast.add({ title: 'Erreur', description: 'Impossible d\'envoyer le message. Veuillez réessayer via ce formulaire.', icon: 'i-heroicons-exclamation-circle', color: 'red' })
+    toast.add({ 
+      title: 'Petit souci technique', 
+      description: 'Impossible d\'envoyer le message. Veuillez réessayer ou nous écrire par email.', 
+      icon: 'i-heroicons-exclamation-circle', 
+      color: 'red' 
+    })
   } finally {
     isSubmitting.value = false
   }
 }
 
 useSeoMeta({
-  title: 'Contact',
-  description: 'Contactez l\'équipe Dounia Market Tchad au sujet des produits et de la livraison locale à N\'Djamena.',
+  title: 'Nous contacter | Dounia Market Tchad',
+  description: 'Une question ? Besoin d\'aide pour votre commande ? Contactez l\'équipe Dounia Market Tchad.',
   ogTitle: 'Contact | Dounia Market Tchad',
-  ogDescription: 'Contactez l\'équipe au sujet des produits et de la livraison locale à N\'Djamena.',
+  ogDescription: 'Contactez notre équipe pour toute question sur nos produits ou la livraison locale à N\'Djamena.',
 })
 </script>
-
-<style scoped>
-/* Scoped overrides if needed */
-</style>

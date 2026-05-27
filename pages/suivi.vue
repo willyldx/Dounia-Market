@@ -1,158 +1,169 @@
 <template>
-  <div class="min-h-screen bg-background pt-24 pb-24">
-    <section class="relative py-14 sm:py-16 overflow-hidden">
-      <div class="absolute inset-0 z-0 opacity-[0.03]" style="background-image: radial-gradient(circle at center, #000 1px, transparent 1px); background-size: 24px 24px;"></div>
-      
-      <div class="max-w-3xl mx-auto px-6 relative z-10 text-center">
-        <div 
-          v-motion :initial="{ opacity: 0, y: 10 }" :enter="{ opacity: 1, y: 0 }"
-          class="w-14 h-14 mx-auto rounded-lg bg-card border border-border shadow-sm flex items-center justify-center mb-6 relative"
-        >
-          <MapPin class="w-7 h-7 text-foreground relative z-10" />
-        </div>
-        <h1 
-          v-motion :initial="{ opacity: 0, y: 20 }" :enter="{ opacity: 1, y: 0, transition: { delay: 100 } }"
-          class="text-3xl sm:text-4xl font-bold text-foreground tracking-tight mb-4"
-        >
-          Suivi de commande
-        </h1>
-        <p 
-          v-motion :initial="{ opacity: 0, y: 20 }" :enter="{ opacity: 1, y: 0, transition: { delay: 200 } }"
-          class="text-base sm:text-lg text-muted-foreground max-w-xl mx-auto leading-relaxed"
-        >
-          Consultez l'avancement de votre commande livrée localement à N'Djamena.
-        </p>
-      </div>
-    </section>
+  <div class="min-h-screen bg-background pb-20 pt-10 sm:pt-14">
+    <div class="container-main">
+      <!-- En-tête -->
+      <nav class="mb-6 flex items-center gap-2 text-xs font-medium text-muted-foreground" aria-label="Fil d'Ariane">
+        <NuxtLink to="/" class="transition-colors hover:text-foreground">Accueil</NuxtLink>
+        <ChevronRight class="h-3.5 w-3.5" :stroke-width="1.75" />
+        <span class="text-foreground">Suivi</span>
+      </nav>
 
-    <div class="max-w-2xl mx-auto px-6 pb-20">
-      <div class="bg-card rounded-lg border border-border shadow-sm p-6 sm:p-8 mb-6">
-        <form @submit.prevent="trackOrder" class="relative">
-          <label class="block text-sm font-medium text-foreground mb-3">Référence de commande</label>
-          <div class="flex flex-col sm:flex-row gap-4">
-            <div class="relative flex-grow">
-              <Package class="absolute left-6 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground/60" />
-              <input 
-                v-model="orderNumber" 
-                type="text" 
-                placeholder="Saisissez votre référence"
-                class="block w-full pl-12 pr-4 h-12 bg-background border border-input rounded-md text-sm text-foreground focus:outline-none focus:ring-1 focus:ring-ring focus:border-brand transition-all shadow-sm"
-                required 
-              />
-            </div>
-            <button type="submit" :disabled="isSearching" class="inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-brand text-brand-foreground hover:bg-brand/90 h-12 px-8 sm:w-auto w-full shrink-0">
-              <Loader v-if="isSearching" class="w-4 h-4 animate-spin mr-2" />
-              <Search v-else class="w-4 h-4 mr-2" />
-              <span v-if="!isSearching">Rechercher</span>
-              <span v-else>Recherche...</span>
-            </button>
+      <section class="relative mb-10 overflow-hidden rounded-2xl border border-border bg-card px-6 py-12 text-center shadow-sm sm:px-12 sm:py-16">
+        <div class="hero-gradient absolute inset-0 opacity-5"></div>
+        <div class="relative z-10">
+          <div class="mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-2xl border border-amber-200 bg-amber-50 text-amber-700 shadow-sm">
+            <Truck class="h-8 w-8" :stroke-width="1.5" />
           </div>
-        </form>
-        <div class="mt-5 flex items-start gap-3 rounded-md bg-muted/50 p-4 text-sm text-muted-foreground">
-          <ShieldCheck class="mt-0.5 h-4 w-4 shrink-0 text-foreground" />
-          <p>Saisissez uniquement la référence de commande. Ne partagez pas ici de nom, adresse ou numéro de téléphone.</p>
+          <h1 class="heading-section mb-4 text-3xl sm:text-4xl">
+            Où en est votre livraison ?
+          </h1>
+          <p class="mx-auto max-w-xl text-base leading-relaxed text-muted-foreground sm:text-lg">
+            Saisissez votre référence pour suivre en temps réel l'acheminement de votre colis jusqu'à son destinataire à N'Djamena.
+          </p>
         </div>
-      </div>
+      </section>
 
-      <!-- Order Found Result -->
-      <Transition
-        enter-active-class="transition-all duration-500 ease-out"
-        enter-from-class="opacity-0 translate-y-8"
-        enter-to-class="opacity-100 translate-y-0"
-      >
-        <div v-if="order" class="bg-card rounded-lg border border-border shadow-sm overflow-hidden relative">
-           
-          <div class="p-6 sm:p-8 border-b border-border/50 relative z-10 flex flex-col sm:flex-row justify-between items-start gap-6 bg-muted/30">
-            <div>
-              <p class="text-xs font-medium text-muted-foreground mb-1">Commande</p>
-              <p class="text-2xl font-bold text-foreground tracking-tight">{{ order.reference }}</p>
+      <div class="mx-auto max-w-2xl pb-20">
+        <!-- Formulaire -->
+        <div class="mb-8 rounded-2xl border border-border bg-card p-6 shadow-premium sm:p-8">
+          <form @submit.prevent="trackOrder">
+            <label class="mb-3 block text-sm font-bold text-foreground">Référence de la commande</label>
+            <div class="flex flex-col gap-4 sm:flex-row">
+              <div class="relative flex-1">
+                <Package class="absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 text-muted-foreground" />
+                <input 
+                  v-model="orderNumber" 
+                  type="text" 
+                  placeholder="Ex: CMD-12345"
+                  class="block h-14 w-full rounded-xl border border-input bg-background pl-12 pr-4 text-sm font-medium text-foreground outline-none transition-all focus:border-amber-500 focus:ring-2 focus:ring-amber-500/20"
+                  required 
+                />
+              </div>
+              <button 
+                type="submit" 
+                :disabled="isSearching" 
+                class="btn-primary h-14 w-full sm:w-auto"
+              >
+                <span class="px-2">
+                  <Loader v-if="isSearching" class="h-4 w-4 animate-spin" />
+                  <Search v-else class="h-4 w-4" />
+                  {{ isSearching ? 'Recherche...' : 'Suivre mon colis' }}
+                </span>
+              </button>
+            </div>
+          </form>
+          <div class="mt-6 flex items-start gap-3 rounded-xl border border-amber-100 bg-amber-50 p-4 text-sm font-medium text-amber-800">
+            <ShieldCheck class="mt-0.5 h-4 w-4 shrink-0 text-amber-600" />
+            <p>Saisissez uniquement votre numéro de référence. Ne partagez jamais vos coordonnées personnelles ici.</p>
+          </div>
+        </div>
+
+        <!-- Résultat : Commande trouvée -->
+        <Transition
+          enter-active-class="transition-all duration-500 ease-out"
+          enter-from-class="opacity-0 translate-y-8"
+          enter-to-class="opacity-100 translate-y-0"
+        >
+          <div v-if="order" class="overflow-hidden rounded-2xl border border-border bg-card shadow-premium">
+            
+            <!-- En-tête de commande -->
+            <div class="border-b border-border/50 bg-[#faf8f5] p-6 sm:p-8 flex flex-col justify-between gap-4 sm:flex-row sm:items-center">
+              <div>
+                <p class="mb-1 text-xs font-bold uppercase tracking-wider text-muted-foreground">Commande n°</p>
+                <p class="text-2xl font-black tracking-tight text-foreground">{{ order.reference }}</p>
+              </div>
+              <span 
+                class="inline-flex items-center gap-1.5 rounded-md border px-3 py-1.5 text-[10px] font-bold uppercase tracking-widest shadow-sm"
+                :class="order.fulfillment_status === 'delivered' ? 'border-green-200 bg-green-50 text-green-700' : 'border-amber-200 bg-amber-50 text-amber-700'"
+              >
+                <span class="relative flex h-2 w-2">
+                  <span class="absolute inline-flex h-full w-full animate-ping rounded-full opacity-75" :class="order.fulfillment_status === 'delivered' ? 'bg-green-400' : 'bg-amber-400'"></span>
+                  <span class="relative inline-flex h-2 w-2 rounded-full" :class="order.fulfillment_status === 'delivered' ? 'bg-green-500' : 'bg-amber-500'"></span>
+                </span>
+                {{ order.fulfillment_status === 'delivered' ? 'Livrée avec succès' : 'En transit' }}
+              </span>
             </div>
             
-            <span class="px-3 py-1 rounded-md text-[10px] font-bold uppercase tracking-widest border"
-              :class="order.fulfillment_status === 'delivered' ? 'bg-green-500/10 text-green-600 border-green-500/20' : 'bg-brand/10 text-brand border-brand/20'"
-            >
-              {{ order.fulfillment_status === 'delivered' ? 'Livrée' : 'En cours' }}
-            </span>
-          </div>
-          
-          <div class="p-6 sm:p-8">
-             <div class="flex items-center justify-between mb-6">
-                <span class="text-xs font-medium text-muted-foreground">Avancement</span>
-                <span class="text-sm font-bold text-foreground">{{ Math.round(completedPercent) }}%</span>
-             </div>
-             
-             <div class="h-1.5 bg-muted rounded-full mb-10 overflow-hidden shadow-inner border border-border/50">
-                <div 
-                  class="h-full bg-brand rounded-full transition-all duration-1000 ease-out relative"
-                  :style="{ width: `${completedPercent}%` }"
-                >
-                </div>
-             </div>
+            <!-- Barre de progression -->
+            <div class="p-6 sm:p-8">
+               <div class="mb-4 flex items-center justify-between">
+                  <span class="text-xs font-bold uppercase tracking-wider text-muted-foreground">Avancement</span>
+                  <span class="text-sm font-black text-amber-700">{{ Math.round(completedPercent) }}%</span>
+               </div>
+               
+               <div class="mb-10 h-2 overflow-hidden rounded-full bg-muted shadow-inner">
+                  <div 
+                    class="h-full rounded-full bg-amber-500 transition-all duration-1000 ease-out"
+                    :style="{ width: `${completedPercent}%` }"
+                  ></div>
+               </div>
 
-            <div class="relative max-w-lg mx-auto">
-              <div class="absolute left-6 top-4 bottom-4 w-px bg-border" />
-              
-              <div v-for="(step, i) in order.timeline" :key="i" class="relative pl-14 pb-8 last:pb-0 group">
-                <div 
-                  class="absolute left-0 w-12 h-12 rounded-full flex items-center justify-center transition-all duration-500 border border-background shadow-sm"
-                  :class="step.completed 
-                    ? 'bg-brand text-brand-foreground'
-                    : 'bg-muted text-muted-foreground'"
-                >
-                  <component :is="timelineIcons[step.key] || Package" class="w-4 h-4" />
-                </div>
+              <!-- Timeline -->
+              <div class="relative mx-auto max-w-lg">
+                <div class="absolute bottom-4 left-6 top-4 w-px bg-border" />
                 
-                <div class="pt-1.5">
-                  <p class="text-base font-bold tracking-tight" :class="step.completed ? 'text-foreground' : 'text-muted-foreground'">
-                    {{ step.title }}
-                  </p>
-                  <p v-if="step.detail" class="text-sm font-medium leading-relaxed mt-1" :class="step.completed ? 'text-muted-foreground' : 'text-muted-foreground/40'">
-                    {{ step.detail }}
-                  </p>
-                  <p class="text-[10px] font-bold uppercase tracking-widest mt-2" :class="step.completed ? 'text-muted-foreground' : 'text-muted-foreground/40'">
-                    {{ step.date || 'En attente' }}
-                  </p>
+                <div v-for="(step, i) in order.timeline" :key="i" class="group relative pb-8 pl-14 last:pb-0">
+                  <div 
+                    class="absolute left-0 flex h-12 w-12 items-center justify-center rounded-full border-4 border-card transition-all duration-500"
+                    :class="step.completed ? 'bg-amber-100 text-amber-700' : 'bg-muted text-muted-foreground'"
+                  >
+                    <component :is="timelineIcons[step.key] || Package" class="h-5 w-5" :stroke-width="step.completed ? 2.5 : 1.5" />
+                  </div>
+                  
+                  <div class="pt-1">
+                    <p class="text-base font-bold tracking-tight" :class="step.completed ? 'text-foreground' : 'text-muted-foreground'">
+                      {{ step.title }}
+                    </p>
+                    <p v-if="step.detail" class="mt-1.5 text-sm font-medium leading-relaxed" :class="step.completed ? 'text-muted-foreground' : 'text-muted-foreground/50'">
+                      {{ step.detail }}
+                    </p>
+                    <p class="mt-2 text-[10px] font-bold uppercase tracking-widest" :class="step.completed ? 'text-amber-700' : 'text-muted-foreground/40'">
+                      {{ step.date || 'En attente' }}
+                    </p>
+                  </div>
                 </div>
               </div>
             </div>
+            
+            <!-- Actions -->
+            <div class="flex justify-center border-t border-border bg-muted/20 p-6 sm:p-8">
+              <NuxtLink to="/contact" class="btn-outline">
+                <MessageCircle class="h-4 w-4 mr-2" />
+                Contacter le service client
+              </NuxtLink>
+            </div>
           </div>
-          
-          <!-- Actions -->
-          <div class="p-6 sm:p-8 border-t border-border flex justify-center bg-muted/10">
-            <NuxtLink to="/contact" class="inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-11 px-8">
-              <MessageCircle class="w-4 h-4 mr-2" />
-              Contacter le support
+        </Transition>
+
+        <!-- Résultat : Erreur -->
+        <Transition
+          enter-active-class="transition-all duration-300"
+          enter-from-class="opacity-0 scale-95"
+          enter-to-class="opacity-100 scale-100"
+        >
+          <div v-if="notFound" class="rounded-2xl border border-red-100 bg-card p-8 text-center shadow-sm sm:p-12">
+            <div class="mx-auto mb-6 flex h-20 w-20 items-center justify-center rounded-full bg-red-50">
+              <SearchX class="h-10 w-10 text-red-500" />
+            </div>
+             <h3 class="mb-3 text-2xl font-bold text-foreground">Colis introuvable</h3>
+             <p class="mx-auto mb-8 max-w-md text-base text-muted-foreground">
+               Nous ne trouvons aucune commande avec cette référence. Vérifiez que vous avez bien saisi le code reçu par email.
+             </p>
+            <NuxtLink to="/contact" class="btn-primary">
+              <span>
+                <MessageCircle class="h-4 w-4 mr-2" />
+                Demander de l'aide
+              </span>
             </NuxtLink>
           </div>
-        </div>
-      </Transition>
-
-      <!-- Not Found Error State -->
-      <Transition
-        enter-active-class="transition-all duration-300"
-        enter-from-class="opacity-0 scale-95"
-        enter-to-class="opacity-100 scale-100"
-      >
-        <div v-if="notFound" class="bg-card rounded-lg border border-destructive/20 p-8 sm:p-12 text-center shadow-sm">
-          <div class="w-16 h-16 rounded-full bg-destructive/10 flex items-center justify-center mx-auto mb-6">
-            <SearchX class="w-8 h-8 text-destructive" />
-          </div>
-           <h3 class="text-xl font-bold text-foreground mb-2">Référence introuvable</h3>
-           <p class="text-muted-foreground mb-8 max-w-sm mx-auto">
-             Aucune commande ne correspond à cette référence. Vérifiez la saisie ou contactez l'assistance.
-           </p>
-          <NuxtLink to="/contact" class="inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-brand text-brand-foreground hover:bg-brand/90 h-11 px-8">
-            <MessageCircle class="w-4 h-4 mr-2" />
-            Contacter l'assistance
-          </NuxtLink>
-        </div>
-      </Transition>
+        </Transition>
+      </div>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { MapPin, Search, Check, SearchX, Package, MessageCircle, Loader, Clock, ShieldCheck } from 'lucide-vue-next'
+import { MapPin, Search, Check, SearchX, Package, MessageCircle, Loader, Clock, ShieldCheck, Truck, ChevronRight } from 'lucide-vue-next'
 import type { PublicOrderStatus } from '~/types'
 
 const route = useRoute()
@@ -165,8 +176,8 @@ const isSearching = ref(false)
 const timelineIcons = {
   payment: Check,
   processing: Package,
-  shipped: Clock,
-  delivered: Check,
+  shipped: Truck,
+  delivered: MapPin,
 }
 
 const completedPercent = computed(() => {
@@ -201,14 +212,8 @@ onMounted(() => {
 })
 
 useSeoMeta({
-  title: 'Suivi de commande | Dounia Market Tchad',
+  title: 'Suivi de livraison | Dounia Market Tchad',
+  description: 'Suivez en temps réel l\'acheminement de votre commande jusqu\'à N\'Djamena.',
   robots: 'noindex, nofollow, noarchive',
 })
 </script>
-
-<style scoped>
-@keyframes wiggle {
-  0%, 100% { transform: translateX(0); }
-  50% { transform: translateX(200%); }
-}
-</style>

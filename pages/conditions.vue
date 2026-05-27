@@ -1,98 +1,84 @@
 <template>
-  <div class="bg-background min-h-screen pt-32 pb-24">
-    <!-- Clean Minimalist Header -->
-    <section class="max-w-4xl mx-auto px-6 mb-16 text-center">
-      <nav class="flex items-center justify-center gap-2 text-sm font-medium text-muted-foreground mb-8">
-        <NuxtLink to="/" class="hover:text-foreground transition-colors">Accueil</NuxtLink>
-        <ChevronRightIcon class="w-4 h-4" />
+  <div class="min-h-screen bg-background pb-20 pt-10 sm:pt-14">
+    <div class="container-main max-w-4xl">
+      <!-- En-tête -->
+      <nav class="mb-6 flex items-center gap-2 text-xs font-medium text-muted-foreground" aria-label="Fil d'Ariane">
+        <NuxtLink to="/" class="transition-colors hover:text-foreground">Accueil</NuxtLink>
+        <ChevronRight class="h-3.5 w-3.5" :stroke-width="1.75" />
         <span class="text-foreground">Juridique</span>
       </nav>
-      
-      <h1 class="text-4xl md:text-5xl font-black text-foreground tracking-tight mb-6">
-        Conditions Générales de Vente
-      </h1>
-      <p class="text-lg text-muted-foreground/80 font-medium">
-        Dernière mise à jour : {{ lastUpdated }}
-      </p>
-    </section>
 
-    <!-- Content -->
-    <div class="container-main max-w-4xl mx-auto px-6">
-      <div class="bg-card border border-border shadow-sm rounded-lg p-8 md:p-12">
-        <div class="prose prose-lg max-w-none prose-headings:font-black prose-headings:text-foreground prose-heading:tracking-tight prose-p:text-muted-foreground/90 prose-p:leading-relaxed prose-a:text-accent hover:prose-a:text-brand prose-strong:text-foreground prose-ul:font-medium prose-ul:text-muted-foreground/90">
+      <section class="mb-10 rounded-3xl border border-border bg-[#faf8f5] px-6 py-12 text-center sm:px-12 sm:py-16">
+        <h1 class="heading-section mb-4 text-3xl sm:text-4xl md:text-5xl">
+          Conditions Générales de Vente
+        </h1>
+        <p class="text-lg font-medium text-muted-foreground">
+          Dernière mise à jour : {{ lastUpdated }}
+        </p>
+      </section>
+
+      <!-- Contenu -->
+      <div class="rounded-3xl border border-border bg-card p-8 shadow-premium sm:p-12 md:p-16">
+        <div class="prose prose-lg max-w-none prose-headings:font-black prose-headings:text-foreground prose-heading:tracking-tight prose-p:text-muted-foreground/90 prose-p:leading-relaxed prose-a:text-amber-700 hover:prose-a:text-amber-800 prose-strong:text-foreground prose-ul:font-medium prose-ul:text-muted-foreground/90">
           
           <h2>Article 1 — Objet</h2>
           <p>
-            Les présentes conditions décrivent le parcours proposé par Dounia Market Tchad pour commander des produits
-            disponibles localement et demander leur livraison à un bénéficiaire à N'Djamena.
+            Les présentes conditions décrivent le fonctionnement de Dounia Market Tchad. Notre plateforme vous permet de commander en ligne des produits disponibles localement et de les faire livrer directement à un bénéficiaire basé à N'Djamena.
           </p>
           <p>
-            Le client est invité à lire les informations présentées dans son récapitulatif avant de valider une commande.
+            Nous vous invitons à lire attentivement les informations présentées dans le récapitulatif de votre panier avant de valider toute commande.
           </p>
 
           <h2>Article 2 — Produits et disponibilité</h2>
           <p>
-            Les produits proposés sont ceux référencés dans le catalogue au moment de la consultation. La fiche produit
-            présente les informations disponibles, notamment le produit, son prix affiché et son état de disponibilité.
+            Les produits affichés sont ceux référencés dans notre catalogue au moment de votre visite. Chaque fiche produit présente les informations détaillées, son prix, ainsi que sa disponibilité en stock localement.
           </p>
           <p>
-            En cas d'indisponibilité identifiée avant la préparation, Dounia Market Tchad contacte le client afin de déterminer
-            les suites possibles pour la commande.
+            Dans le cas rare où un produit deviendrait indisponible après votre commande (lors de la préparation), notre équipe vous contactera immédiatement pour vous proposer une alternative ou un remboursement.
           </p>
 
           <h2>Article 3 — Prix et frais de livraison</h2>
           <p>
-            Les prix des produits sont présentés dans le catalogue et le parcours de commande.
-            Les zones couvertes et frais de livraison applicables seront confirmés avant l'ouverture publique du service.
+            Les prix des produits sont affichés clairement dans le catalogue et dans votre panier.
+            Les frais de livraison dépendent du quartier de destination à N'Djamena et sont ajoutés et visibles avant le paiement final de votre commande.
           </p>
 
           <h2>Article 4 — Processus de Commande</h2>
           <p>
-            Le client renseigne le bénéficiaire, son adresse et un contact local utile à la livraison, puis vérifie le
-            récapitulatif présenté avant toute validation. Une commande enregistrée peut être consultée depuis l'espace client
-            et suivie au moyen de sa référence.
+            Pour commander, il vous suffit de sélectionner vos articles, de renseigner l'identité et le numéro de téléphone local du bénéficiaire, ainsi que le quartier de livraison. Vous devrez ensuite vérifier le récapitulatif avant de procéder au paiement. Vous pourrez suivre l'état de votre livraison via votre espace client ou la page de Suivi.
           </p>
 
-          <h2>Article 5 — Modalités de finalisation</h2>
+          <h2>Article 5 — Paiement sécurisé</h2>
           <p>
-            Les modalités permettant de finaliser une commande seront confirmées avant l'ouverture publique du service.
-            Dounia Market Tchad n'annonce sur cette page aucun prestataire ni moyen spécifique.
+            Le règlement s'effectue en ligne via nos partenaires de paiement sécurisés. Aucune coordonnée bancaire n'est stockée sur nos serveurs.
           </p>
 
           <h2>Article 6 — Livraison locale</h2>
           <p>
-            La livraison sera proposée localement à N'Djamena selon les zones couvertes confirmées avant l'ouverture
-            publique du service. Les frais applicables seront communiqués dans ce même cadre.
+            La livraison est assurée localement à N'Djamena, dans les quartiers couverts par notre service logistique. Le destinataire sera contacté au numéro fourni afin d'organiser la remise en main propre.
           </p>
           <p>
-            Le bénéficiaire doit pouvoir être joint au numéro communiqué par le client afin de faciliter la livraison.
+            Il est impératif que le numéro du bénéficiaire soit joignable. Nos livreurs peuvent demander une preuve de remise (photo) avec l'accord de ce dernier.
           </p>
 
           <h2>Article 7 — Modification ou annulation</h2>
           <p>
-            Pour demander une modification ou une annulation, le client contacte l'assistance avec sa référence.
-            Les possibilités dépendent de l'état de préparation ou de livraison de la commande et des conditions confirmées au client.
+            Si vous souhaitez modifier ou annuler une commande, contactez immédiatement notre assistance via la page de Contact en fournissant votre référence. Toute annulation est possible tant que la commande n'a pas quitté notre centre de préparation.
           </p>
 
-          <h2>Article 8 — Réclamations</h2>
+          <h2>Article 8 — Service Client & Réclamations</h2>
           <p>
-            Toute question ou réclamation peut être adressée par la page de contact en indiquant la référence de commande,
-            sans publier les coordonnées du bénéficiaire.
-          </p>
-          <p>
-            L'équipe examine la demande et informe le client des éléments nécessaires à son traitement.
+            Notre équipe est à votre entière disposition. Pour toute question ou réclamation, utilisez notre formulaire de contact. Mentionnez votre référence de commande pour un traitement rapide.
           </p>
 
-          <h2>Article 9 — Confidentialité</h2>
+          <h2>Article 9 — Protection de vos données</h2>
           <p>
-            Les informations du bénéficiaire sont destinées au traitement de la commande et à l'organisation de sa
-            livraison locale. Les détails sont présentés dans la politique de confidentialité.
+            Les informations relatives au bénéficiaire ne sont utilisées que dans le cadre exclusif de la préparation et de la livraison de votre commande. Pour plus de détails, consultez notre politique de confidentialité.
           </p>
 
           <h2>Article 10 — Évolution des conditions</h2>
           <p>
-            Dounia Market Tchad peut mettre à jour ces conditions lorsque les modalités opérationnelles du service sont précisées.
-            La version affichée au moment de la validation est celle présentée au client.
+            Dounia Market Tchad se réserve le droit de mettre à jour ces conditions. Les conditions applicables à votre commande sont toujours celles en vigueur le jour de votre achat.
           </p>
         </div>
       </div>
@@ -101,13 +87,12 @@
 </template>
 
 <script setup lang="ts">
-import { ChevronRight as ChevronRightIcon } from 'lucide-vue-next'
+import { ChevronRight } from 'lucide-vue-next'
 
 useSeoMeta({
-  title: 'Conditions générales',
-  description: 'Consultez les conditions de Dounia Market Tchad pour les commandes et livraisons locales à N\'Djamena.',
-  ogTitle: 'Conditions générales | Dounia Market Tchad',
-  ogDescription: 'Conditions applicables au parcours de commande et à la livraison locale.',
+  title: 'Conditions Générales de Vente | Dounia Market Tchad',
+  description: 'Consultez les conditions générales de vente de Dounia Market Tchad pour les commandes et livraisons à N\'Djamena.',
+  robots: 'noindex, nofollow, noarchive',
 })
 
 const lastUpdated = '25 mai 2026'

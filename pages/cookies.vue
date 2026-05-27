@@ -1,177 +1,190 @@
 <template>
-  <div class="min-h-screen bg-background pb-20 pt-24 sm:pt-28">
-    <section class="mx-auto mb-10 max-w-4xl px-4 text-center sm:px-6">
-      <p class="text-xs font-semibold uppercase tracking-[0.16em] text-amber-700">Vie privée</p>
-      <h1 class="mt-3 text-3xl font-bold tracking-tight text-foreground sm:text-4xl">Cookies et préférences</h1>
-      <p class="mx-auto mt-4 max-w-2xl text-base leading-relaxed text-muted-foreground">
-        Dounia Market Tchad utilise les stockages indispensables au panier et à la connexion.
-        Les traceurs de mesure d'audience et de personnalisation ne sont activés qu'après votre accord.
-      </p>
-    </section>
+  <div class="min-h-screen bg-background pb-20 pt-10 sm:pt-14">
+    <div class="container-main max-w-4xl">
+      <!-- En-tête -->
+      <nav class="mb-6 flex items-center gap-2 text-xs font-medium text-muted-foreground" aria-label="Fil d'Ariane">
+        <NuxtLink to="/" class="transition-colors hover:text-foreground">Accueil</NuxtLink>
+        <ChevronRight class="h-3.5 w-3.5" :stroke-width="1.75" />
+        <span class="text-foreground">Juridique</span>
+      </nav>
 
-    <main class="mx-auto max-w-4xl space-y-6 px-4 sm:px-6">
-      <section class="rounded-lg border border-border bg-card p-5 sm:p-7">
-        <h2 class="text-lg font-semibold text-foreground">Votre choix</h2>
-        <p class="mt-2 text-sm text-muted-foreground">
-          Statut actuel : <strong class="text-foreground">{{ consentLabel }}</strong>.
-          Vous pouvez modifier ce choix à tout moment.
+      <section class="mb-10 rounded-3xl border border-border bg-[#faf8f5] px-6 py-12 text-center sm:px-12 sm:py-16">
+        <h1 class="heading-section mb-4 text-3xl sm:text-4xl md:text-5xl">
+          Cookies et Préférences
+        </h1>
+        <p class="mx-auto max-w-2xl text-lg font-medium leading-relaxed text-muted-foreground">
+          Dounia Market n'utilise que les cookies indispensables à votre panier et à votre sécurité. Les outils de statistiques ne s'activent qu'avec votre accord.
         </p>
-        <div class="mt-5 flex flex-col gap-3 sm:flex-row">
-          <button type="button" class="h-11 rounded-md bg-brand px-5 text-sm font-semibold text-brand-foreground hover:bg-brand/90" @click="accept">
-            Accepter les traceurs optionnels
-          </button>
-          <button type="button" class="h-11 rounded-md border border-border bg-background px-5 text-sm font-semibold text-foreground hover:bg-muted" @click="reject">
-            Refuser les traceurs optionnels
-          </button>
-        </div>
       </section>
 
-      <section class="rounded-lg border border-border bg-card p-5 sm:p-7">
-        <h2 class="text-lg font-semibold text-foreground">Stockages utilisés</h2>
-        <p class="mt-2 text-sm leading-relaxed text-muted-foreground">
-          Il n'y a qu'une catégorie optionnelle au lancement : mesure d'audience et personnalisation associée.
-          Aucun pays n'est déduit automatiquement de votre adresse IP.
-        </p>
-        <div class="mt-5 space-y-3 sm:hidden">
+      <!-- Paramètres de consentement -->
+      <div class="mb-10 rounded-3xl border border-border bg-card p-8 shadow-premium sm:p-12">
+        <h2 class="mb-4 text-2xl font-bold text-foreground">Votre choix actuel</h2>
+        <div class="mb-8 flex items-center gap-3">
+          <div 
+            class="flex h-3 w-3 rounded-full"
+            :class="{
+              'bg-green-500 shadow-[0_0_10px_rgba(34,197,94,0.5)]': status === 'accepted',
+              'bg-red-500 shadow-[0_0_10px_rgba(239,68,68,0.5)]': status === 'rejected',
+              'bg-amber-500 shadow-[0_0_10px_rgba(245,158,11,0.5)]': status === 'pending'
+            }"
+          ></div>
+          <p class="text-base font-bold text-foreground">
+            Statut : <span class="uppercase tracking-wider text-muted-foreground">{{ consentLabel }}</span>
+          </p>
+        </div>
+        
+        <div class="flex flex-col gap-4 sm:flex-row">
+          <button 
+            type="button" 
+            class="btn-primary flex-1" 
+            @click="accept"
+          >
+            <span>Accepter les cookies d'analyse</span>
+          </button>
+          <button 
+            type="button" 
+            class="btn-outline flex-1" 
+            @click="reject"
+          >
+            Refuser les cookies d'analyse
+          </button>
+        </div>
+      </div>
+
+      <!-- Détails techniques -->
+      <div class="rounded-3xl border border-border bg-card p-8 shadow-premium sm:p-12">
+        <h2 class="mb-8 text-2xl font-bold text-foreground">Détail des stockages utilisés</h2>
+        
+        <div class="space-y-6 sm:hidden">
           <dl
             v-for="storage in storageRows"
             :key="storage.name"
-            class="rounded-md border border-border/70 bg-background p-4 text-sm"
+            class="rounded-xl border border-border bg-[#faf8f5] p-5"
           >
-            <dt class="break-all font-mono text-xs text-foreground">{{ storage.name }}</dt>
-            <dd class="mt-3 text-muted-foreground">
-              <span class="mb-1 block text-xs font-semibold uppercase tracking-wide text-foreground">Finalité</span>
+            <dt class="mb-4 font-mono text-xs font-bold text-amber-700">{{ storage.name }}</dt>
+            <dd class="mb-3 text-sm text-muted-foreground">
+              <span class="mb-1 block text-[10px] font-bold uppercase tracking-wider text-foreground">Finalité</span>
               {{ storage.purpose }}
             </dd>
-            <dd class="mt-3 text-muted-foreground">
-              <span class="mb-1 block text-xs font-semibold uppercase tracking-wide text-foreground">Stockage / durée</span>
+            <dd class="mb-3 text-sm text-muted-foreground">
+              <span class="mb-1 block text-[10px] font-bold uppercase tracking-wider text-foreground">Durée de vie</span>
               {{ storage.retention }}
             </dd>
-            <dd class="mt-3" :class="storage.optional ? 'font-medium text-foreground' : 'text-muted-foreground'">
-              <span class="mb-1 block text-xs font-semibold uppercase tracking-wide text-foreground">Consentement</span>
-              {{ storage.consent }}
+            <dd class="text-sm">
+              <span class="mb-1 block text-[10px] font-bold uppercase tracking-wider text-foreground">Requis ?</span>
+              <span 
+                class="inline-block rounded-md px-2 py-1 text-xs font-bold"
+                :class="storage.optional ? 'bg-amber-100 text-amber-700' : 'bg-green-100 text-green-700'"
+              >
+                {{ storage.consent }}
+              </span>
             </dd>
           </dl>
         </div>
-        <div class="mt-5 hidden overflow-x-auto sm:block">
-          <table class="min-w-[680px] w-full text-left text-sm">
-            <thead>
-              <tr class="border-b border-border text-xs uppercase tracking-wide text-muted-foreground">
-                <th class="pb-3 pr-4 font-semibold">Nom</th>
-                <th class="pb-3 pr-4 font-semibold">Finalité</th>
-                <th class="pb-3 pr-4 font-semibold">Stockage / durée</th>
-                <th class="pb-3 font-semibold">Consentement</th>
+        
+        <div class="hidden overflow-x-auto rounded-xl border border-border sm:block">
+          <table class="w-full text-left text-sm">
+            <thead class="bg-[#faf8f5]">
+              <tr class="text-xs uppercase tracking-wider text-muted-foreground">
+                <th class="p-4 font-bold">Traceur technique</th>
+                <th class="p-4 font-bold">À quoi ça sert ?</th>
+                <th class="p-4 font-bold">Durée</th>
+                <th class="p-4 font-bold text-right">Statut</th>
               </tr>
             </thead>
-            <tbody class="text-muted-foreground">
+            <tbody class="divide-y divide-border text-foreground">
               <tr
-                v-for="(storage, index) in storageRows"
+                v-for="storage in storageRows"
                 :key="storage.name"
-                :class="index < storageRows.length - 1 ? 'border-b border-border/70' : ''"
+                class="transition-colors hover:bg-muted/30"
               >
-                <td class="py-4 pr-4 font-mono text-xs text-foreground">{{ storage.name }}</td>
-                <td class="py-4 pr-4">{{ storage.purpose }}</td>
-                <td class="py-4 pr-4">{{ storage.retention }}</td>
-                <td class="py-4" :class="storage.optional ? 'font-medium text-foreground' : ''">{{ storage.consent }}</td>
+                <td class="p-4 font-mono text-xs text-amber-700">{{ storage.name }}</td>
+                <td class="p-4 font-medium">{{ storage.purpose }}</td>
+                <td class="p-4 text-muted-foreground">{{ storage.retention }}</td>
+                <td class="p-4 text-right">
+                  <span 
+                    class="inline-block whitespace-nowrap rounded-md px-2 py-1 text-[10px] font-bold uppercase tracking-widest"
+                    :class="storage.optional ? 'bg-amber-100 text-amber-700' : 'bg-green-100 text-green-700'"
+                  >
+                    {{ storage.optional ? 'Optionnel' : 'Requis' }}
+                  </span>
+                </td>
               </tr>
             </tbody>
           </table>
         </div>
-      </section>
-
-      <section class="rounded-lg border border-border bg-card p-5 text-sm leading-relaxed text-muted-foreground sm:p-7">
-        <h2 class="text-lg font-semibold text-foreground">Prestataire optionnel</h2>
-        <p class="mt-2">
-          PostHog est chargé uniquement après acceptation afin de mesurer la consultation des pages.
-          Le refus conserve l'accès au catalogue, au panier et à la connexion.
-          Pour toute demande liée à vos informations, consultez la
-          <NuxtLink to="/confidentialite" class="font-medium text-foreground underline">politique de confidentialité</NuxtLink>
-          ou la page <NuxtLink to="/contact" class="font-medium text-foreground underline">contact</NuxtLink>.
-        </p>
-      </section>
-    </main>
+      </div>
+    </div>
   </div>
 </template>
 
 <script setup lang="ts">
+import { ChevronRight } from 'lucide-vue-next'
+
 const { status, accept, reject } = useAnalyticsConsent()
 
 const storageRows = [
   {
     name: 'dounia_market_auth_token',
-    purpose: 'Connexion sécurisée à votre compte',
-    retention: 'Cookie, jusqu\'à 30 jours',
+    purpose: 'Maintenir votre connexion sécurisée.',
+    retention: 'Jusqu\'à 30 jours',
     consent: 'Nécessaire',
     optional: false,
   },
   {
     name: 'dounia_market_cart',
-    purpose: 'Conserver le panier demandé par l\'utilisateur',
-    retention: 'Stockage local, jusqu\'à suppression par le navigateur',
-    consent: 'Nécessaire au panier',
+    purpose: 'Mémoriser les articles de votre panier.',
+    retention: 'Stockage local',
+    consent: 'Nécessaire',
     optional: false,
   },
   {
     name: 'dounia_market_favorites',
-    purpose: 'Conserver les favoris choisis par l\'utilisateur',
-    retention: 'Stockage local, jusqu\'à suppression par le navigateur',
-    consent: 'Fonction demandée par l\'utilisateur',
-    optional: false,
-  },
-  {
-    name: 'dounia_market_currency / dounia_market_country',
-    purpose: 'Mémoriser une préférence choisie volontairement',
-    retention: 'Stockage local, jusqu\'à suppression par le navigateur',
-    consent: 'Préférence fonctionnelle',
-    optional: false,
-  },
-  {
-    name: 'dounia_market_analytics_consent',
-    purpose: 'Mémoriser accepter ou refuser',
-    retention: 'Stockage local, 12 mois',
-    consent: 'Nécessaire au respect du choix',
+    purpose: 'Sauvegarder vos produits favoris.',
+    retention: 'Stockage local',
+    consent: 'Nécessaire',
     optional: false,
   },
   {
     name: 'dounia_market_visitor_id',
-    purpose: 'Identifier un panier invité lorsque ce parcours est utilisé',
-    retention: 'Stockage local, jusqu\'à suppression par le navigateur',
-    consent: 'Nécessaire au panier invité',
+    purpose: 'Identifier votre session anonyme pour le panier.',
+    retention: 'Stockage local',
+    consent: 'Nécessaire',
     optional: false,
   },
   {
-    name: 'chunk-reload-*',
-    purpose: 'Éviter une boucle de rechargement en cas d\'erreur technique',
-    retention: 'Stockage de session, effacé à la fin de la session',
-    consent: 'Sécurité de fonctionnement',
+    name: 'dounia_market_analytics_consent',
+    purpose: 'Mémoriser votre choix d\'accepter ou refuser les cookies.',
+    retention: '12 mois',
+    consent: 'Nécessaire',
     optional: false,
   },
   {
     name: 'ph_*',
-    purpose: 'Mesure d\'audience via PostHog',
-    retention: 'Cookie / stockage local, selon configuration PostHog; supprimé au refus',
+    purpose: 'Mesurer l\'audience de manière anonyme (PostHog).',
+    retention: 'Cookie local',
     consent: 'Accord requis',
     optional: true,
   },
   {
     name: 'dounia_market_pulse',
-    purpose: 'Personnaliser les suggestions à partir des produits consultés',
-    retention: 'Cookie, 30 jours; supprimé au refus',
+    purpose: 'Personnaliser les suggestions selon les visites.',
+    retention: '30 jours',
     consent: 'Accord requis',
     optional: true,
   },
 ] as const
 
 const consentLabel = computed(() => ({
-  accepted: 'traceurs optionnels acceptés',
-  rejected: 'traceurs optionnels refusés',
-  pending: 'aucun choix enregistré',
+  accepted: 'Acceptés',
+  rejected: 'Refusés',
+  pending: 'En attente de choix',
 }[status.value]))
 
 useSeoMeta({
-  title: 'Cookies et préférences',
-  description: 'Choix de consentement et informations sur les cookies et stockages utilisés par Dounia Market Tchad.',
-  ogTitle: 'Cookies et préférences | Dounia Market Tchad',
-  ogDescription: 'Choix de consentement et informations sur les cookies et stockages utilisés par Dounia Market Tchad.',
+  title: 'Cookies et préférences | Dounia Market Tchad',
+  description: 'Gérez vos préférences de cookies sur Dounia Market Tchad.',
+  robots: 'noindex, nofollow, noarchive',
 })
 </script>

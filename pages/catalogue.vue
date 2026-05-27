@@ -1,149 +1,176 @@
 <template>
   <div class="min-h-screen bg-background pb-14">
-    <section class="border-b border-border bg-card" aria-labelledby="catalogue-title">
-      <div class="container-main py-8 sm:py-11">
-        <nav class="mb-5 flex items-center gap-2 text-xs font-medium text-muted-foreground" aria-label="Fil d'Ariane">
-          <NuxtLink to="/" class="transition-colors hover:text-foreground">Accueil</NuxtLink>
+    <!-- HERO SECTION DU CATALOGUE -->
+    <section class="hero-gradient relative overflow-hidden border-b border-white/10" aria-labelledby="catalogue-title">
+      <div class="orb orb-amber absolute -right-20 -top-20 h-64 w-64 animate-float-slow opacity-20"></div>
+      <div class="orb orb-warm absolute -bottom-10 -left-10 h-48 w-48 animate-float opacity-10"></div>
+      
+      <div class="container-main relative z-10 py-10 sm:py-14">
+        <nav class="mb-6 flex items-center gap-2 text-xs font-medium text-white/60" aria-label="Fil d'Ariane">
+          <NuxtLink to="/" class="transition-colors hover:text-white">Accueil</NuxtLink>
           <ChevronRight class="h-3.5 w-3.5" :stroke-width="1.75" />
-          <span class="text-foreground">Catalogue</span>
+          <span class="text-amber-400">Catalogue</span>
         </nav>
-        <div class="flex flex-col gap-7 lg:flex-row lg:items-end lg:justify-between">
+        
+        <div class="flex flex-col gap-8 lg:flex-row lg:items-end lg:justify-between">
           <div class="max-w-2xl">
-            <p class="text-xs font-semibold uppercase tracking-[0.14em] text-amber-700">Catalogue local</p>
-            <h1 id="catalogue-title" class="mt-2 text-balance text-3xl font-bold tracking-[-0.04em] text-foreground sm:text-4xl">
-              Produits publiés pour N'Djamena
+            <div class="mb-3 inline-flex items-center gap-1.5 rounded-full bg-amber-500/10 px-3 py-1 text-xs font-semibold uppercase tracking-wider text-amber-400 border border-amber-500/20">
+              <Sparkles class="h-3.5 w-3.5" />
+              Catalogue local
+            </div>
+            <h1 id="catalogue-title" class="heading-hero text-3xl text-white sm:text-4xl lg:text-5xl">
+              Produits disponibles à <span class="text-gradient-gold">N'Djamena</span>
             </h1>
-            <p class="mt-3 text-pretty text-sm leading-relaxed text-muted-foreground sm:text-base">
-              Consultez les articles présentés par Dounia Market Tchad et leurs informations de disponibilité locale.
+            <p class="mt-4 text-pretty text-sm leading-relaxed text-white/70 sm:text-lg">
+              Faites plaisir à vos proches en commandant directement ce dont ils ont besoin. Livraison rapide et sécurisée avec preuve photo.
             </p>
           </div>
+          
           <label class="relative block w-full lg:max-w-sm">
             <span class="sr-only">Rechercher un produit</span>
-            <Search class="absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" :stroke-width="1.75" />
+            <div class="absolute inset-y-0 left-4 flex items-center pointer-events-none">
+              <Search class="h-5 w-5 text-muted-foreground" :stroke-width="1.75" />
+            </div>
             <input
               v-model="searchQuery"
               type="search"
               :disabled="Boolean(error) || (!isLoading && !allProducts.length)"
-              :placeholder="!isLoading && !allProducts.length ? 'Aucun produit publié' : 'Rechercher un produit'"
-              class="h-12 w-full rounded-lg border border-input bg-background pl-11 pr-4 text-sm text-foreground outline-none transition-colors placeholder:text-muted-foreground focus:border-[#c9872b] focus:ring-1 focus:ring-[#c9872b] disabled:cursor-not-allowed disabled:bg-muted/50"
+              :placeholder="!isLoading && !allProducts.length ? 'Catalogue vide pour le moment' : 'Que recherchez-vous ?'"
+              class="h-14 w-full rounded-xl border border-white/20 bg-white/10 pl-12 pr-4 text-sm text-white outline-none backdrop-blur-md transition-all placeholder:text-white/50 focus:border-amber-400 focus:bg-white/15 focus:ring-2 focus:ring-amber-400/20 disabled:cursor-not-allowed disabled:opacity-50"
             />
           </label>
         </div>
       </div>
     </section>
 
-    <div class="container-main py-7 sm:py-8">
-      <div v-if="isLoading" aria-live="polite">
-        <div class="mb-7 h-16 animate-pulse rounded-lg border border-border bg-card"></div>
-        <div class="grid grid-cols-1 gap-3 min-[380px]:grid-cols-2 sm:gap-5 lg:grid-cols-3 xl:grid-cols-4">
+    <!-- CONTENU PRINCIPAL -->
+    <div class="container-main py-8 sm:py-12">
+      <!-- État de chargement -->
+      <div v-if="isLoading" aria-live="polite" class="animate-pulse">
+        <div class="mb-8 h-16 w-full rounded-xl bg-muted/60"></div>
+        <div class="grid grid-cols-1 gap-4 min-[380px]:grid-cols-2 sm:gap-6 lg:grid-cols-3 xl:grid-cols-4">
           <ProductSkeleton v-for="i in 8" :key="i" />
         </div>
       </div>
 
-      <div v-else-if="error" class="market-empty mx-auto max-w-2xl px-6 py-12 text-center sm:px-10">
-        <AlertCircle class="mx-auto h-9 w-9 text-amber-700" :stroke-width="1.75" />
-        <h2 class="mt-4 text-xl font-semibold text-foreground">Catalogue indisponible</h2>
-        <p class="mx-auto mt-2 max-w-md text-sm leading-relaxed text-muted-foreground">{{ error }}</p>
+      <!-- État d'erreur -->
+      <div v-else-if="error" class="market-empty mx-auto max-w-2xl px-6 py-12 text-center sm:px-10 shadow-sm">
+        <div class="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-red-100 text-red-600">
+          <AlertCircle class="h-8 w-8" :stroke-width="1.75" />
+        </div>
+        <h2 class="mt-5 text-2xl font-bold text-foreground">Oups, petit souci technique !</h2>
+        <p class="mx-auto mt-3 max-w-md text-base leading-relaxed text-muted-foreground">{{ error }}</p>
         <button
           type="button"
-          class="mt-6 inline-flex h-11 items-center rounded-lg bg-brand px-5 text-sm font-semibold text-brand-foreground transition-colors hover:bg-brand/90"
+          class="btn-primary mt-8"
           @click="fetchProducts"
         >
-          Réessayer
+          <span><RotateCcw class="h-4 w-4" /> Réessayer</span>
         </button>
       </div>
 
       <template v-else>
-        <section v-if="allProducts.length" class="market-panel mb-7 p-4 sm:p-5" aria-label="Filtres du catalogue">
-          <div class="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
+        <!-- Filtres -->
+        <section v-if="allProducts.length" class="mb-8 rounded-xl border border-border bg-card p-4 shadow-sm sm:p-5" aria-label="Filtres du catalogue">
+          <div class="flex flex-col gap-5 lg:flex-row lg:items-center lg:justify-between">
+            <!-- Catégories (Pilules) -->
             <div class="scrollbar-hide flex gap-2 overflow-x-auto pb-1">
               <button
                 type="button"
-                class="shrink-0 rounded-lg border px-3.5 py-2 text-sm font-medium transition-colors"
-                :class="!selectedCategory ? 'border-brand bg-brand text-brand-foreground' : 'border-border bg-background text-muted-foreground hover:border-[#c9872b]/35 hover:text-foreground'"
+                class="shrink-0 rounded-full border px-4 py-2 text-sm font-semibold transition-all duration-200"
+                :class="!selectedCategory ? 'border-amber-500 bg-amber-500 text-white shadow-md' : 'border-border bg-background text-muted-foreground hover:border-amber-500/40 hover:bg-amber-50 hover:text-amber-800'"
                 @click="selectedCategory = ''"
               >
-                Tous <span class="ml-1 opacity-75">{{ allProducts.length }}</span>
+                Tous <span class="ml-1.5 opacity-80 text-xs bg-black/10 px-1.5 py-0.5 rounded-full">{{ allProducts.length }}</span>
               </button>
               <button
                 v-for="cat in categories"
                 :key="cat.handle"
                 type="button"
-                class="inline-flex shrink-0 items-center gap-2 rounded-lg border px-3.5 py-2 text-sm font-medium transition-colors"
-                :class="selectedCategory === cat.handle ? 'border-brand bg-brand text-brand-foreground' : 'border-border bg-background text-muted-foreground hover:border-[#c9872b]/35 hover:text-foreground'"
+                class="inline-flex shrink-0 items-center gap-2 rounded-full border px-4 py-2 text-sm font-semibold transition-all duration-200"
+                :class="selectedCategory === cat.handle ? 'border-amber-500 bg-amber-500 text-white shadow-md' : 'border-border bg-background text-muted-foreground hover:border-amber-500/40 hover:bg-amber-50 hover:text-amber-800'"
                 @click="selectedCategory = cat.handle"
               >
                 {{ cat.name }}
-                <span class="opacity-75">{{ getCount(cat.handle) }}</span>
+                <span class="opacity-80 text-xs bg-black/10 px-1.5 py-0.5 rounded-full">{{ getCount(cat.handle) }}</span>
               </button>
             </div>
-            <div class="flex flex-wrap items-center gap-2">
-              <label class="inline-flex h-11 items-center gap-2 rounded-lg border border-border bg-background px-3 text-sm text-foreground">
-                <input v-model="inStockOnly" type="checkbox" class="h-4 w-4 accent-amber-700" />
-                Disponibles uniquement
+            
+            <!-- Autres filtres -->
+            <div class="flex flex-wrap items-center gap-3">
+              <label class="inline-flex h-11 cursor-pointer items-center gap-2.5 rounded-lg border border-border bg-background px-4 text-sm font-medium text-foreground transition-colors hover:border-amber-200 hover:bg-amber-50/50">
+                <input v-model="inStockOnly" type="checkbox" class="h-4 w-4 rounded text-amber-600 accent-amber-600 focus:ring-amber-500" />
+                En stock
               </label>
-              <label class="relative">
-                <span class="sr-only">Filtrer par prix</span>
+              <div class="relative">
                 <select
                   v-model="selectedPrice"
-                  class="h-11 appearance-none rounded-lg border border-input bg-background py-2 pl-3 pr-9 text-sm text-foreground outline-none focus:border-[#c9872b]"
+                  class="h-11 cursor-pointer appearance-none rounded-lg border border-border bg-background py-2 pl-10 pr-10 text-sm font-medium text-foreground outline-none transition-colors hover:border-amber-200 focus:border-amber-500 focus:ring-1 focus:ring-amber-500"
+                  aria-label="Filtrer par prix"
                 >
                   <option v-for="range in priceRanges" :key="range.value" :value="range.value">
                     {{ range.label }}
                   </option>
                 </select>
+                <SlidersHorizontal class="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" :stroke-width="1.75" />
                 <ChevronDown class="pointer-events-none absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" :stroke-width="1.75" />
-              </label>
+              </div>
               <button
                 v-if="hasFilters"
                 type="button"
-                class="inline-flex h-11 items-center gap-1.5 rounded-lg border border-border px-3 text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
+                class="btn-ghost !px-3"
                 @click="resetFilters"
+                aria-label="Effacer les filtres"
               >
-                <RotateCcw class="h-4 w-4" :stroke-width="1.75" />
-                Effacer
+                <RotateCcw class="h-4 w-4" :stroke-width="2" />
               </button>
             </div>
           </div>
         </section>
 
-        <div v-if="allProducts.length" class="mb-5 flex items-center justify-between gap-3">
-          <p class="text-sm text-muted-foreground">
-            <strong class="font-semibold text-foreground">{{ filteredProducts.length }}</strong>
-            produit{{ filteredProducts.length > 1 ? 's' : '' }} affiché{{ filteredProducts.length > 1 ? 's' : '' }}
+        <!-- Résultats -->
+        <div v-if="allProducts.length" class="mb-6 flex items-center justify-between gap-3">
+          <p class="text-sm font-medium text-muted-foreground">
+            <strong class="font-bold text-foreground">{{ filteredProducts.length }}</strong>
+            produit{{ filteredProducts.length > 1 ? 's' : '' }} trouvé{{ filteredProducts.length > 1 ? 's' : '' }}
           </p>
-          <p class="hidden text-xs text-muted-foreground sm:block">Disponibilités indiquées produit par produit</p>
         </div>
 
-        <div v-if="filteredProducts.length" class="grid grid-cols-1 gap-3 min-[380px]:grid-cols-2 sm:gap-5 lg:grid-cols-3 xl:grid-cols-4">
+        <div v-if="filteredProducts.length" class="grid grid-cols-1 gap-4 min-[380px]:grid-cols-2 sm:gap-6 lg:grid-cols-3 xl:grid-cols-4 stagger active">
           <ProductCard v-for="product in filteredProducts" :key="product.id" :product="product" />
         </div>
 
-        <div v-else-if="!allProducts.length" class="market-empty mx-auto max-w-2xl px-6 py-12 text-center sm:px-10 sm:py-14">
-          <Package class="mx-auto h-10 w-10 text-amber-700" :stroke-width="1.5" />
-          <h2 class="mt-4 text-xl font-semibold text-foreground sm:text-2xl">Aucun produit publié actuellement</h2>
-          <p class="mx-auto mt-3 max-w-lg text-sm leading-relaxed text-muted-foreground sm:text-base">
-            Les produits disponibles à la consultation apparaîtront ici dès leur publication.
+        <!-- Aucun produit publié (Catalogue vide) -->
+        <div v-else-if="!allProducts.length" class="market-empty mx-auto max-w-2xl px-6 py-14 text-center sm:px-10 sm:py-20 shadow-sm">
+          <div class="mx-auto flex h-20 w-20 items-center justify-center rounded-full bg-amber-100 text-amber-700">
+            <Package class="h-10 w-10" :stroke-width="1.5" />
+          </div>
+          <h2 class="heading-section mt-6 text-2xl">Boutique en préparation</h2>
+          <p class="mx-auto mt-4 max-w-lg text-base leading-relaxed text-muted-foreground">
+            Nous sommes en train de garnir nos rayons ! Les meilleurs produits pour vos proches à N'Djamena seront très bientôt disponibles ici.
           </p>
-          <div class="mt-7 flex flex-col justify-center gap-3 sm:flex-row">
-            <NuxtLink to="/" class="inline-flex h-11 items-center justify-center rounded-lg border border-border bg-card px-5 text-sm font-semibold text-foreground">
+          <div class="mt-8 flex flex-col items-center justify-center gap-4 sm:flex-row">
+            <NuxtLink to="/" class="btn-outline">
               Retour à l'accueil
             </NuxtLink>
-            <NuxtLink to="/suivi" class="inline-flex h-11 items-center justify-center rounded-lg bg-brand px-5 text-sm font-semibold text-brand-foreground">
-              Accéder au suivi
+            <NuxtLink to="/comment-ca-marche" class="btn-primary">
+              <span>Découvrir le concept</span>
             </NuxtLink>
           </div>
         </div>
 
-        <div v-else class="market-empty mx-auto max-w-xl px-6 py-10 text-center">
-          <SearchX class="mx-auto h-9 w-9 text-amber-700" :stroke-width="1.75" />
-          <h2 class="mt-4 text-xl font-semibold text-foreground">Aucun résultat pour ces filtres</h2>
-          <p class="mt-2 text-sm text-muted-foreground">
-            Modifiez la recherche ou affichez de nouveau tous les produits publiés.
+        <!-- Aucun résultat (Filtres trop stricts) -->
+        <div v-else class="market-empty mx-auto max-w-xl px-6 py-12 text-center shadow-sm">
+          <div class="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-muted text-muted-foreground">
+            <SearchX class="h-8 w-8" :stroke-width="1.75" />
+          </div>
+          <h2 class="mt-5 text-xl font-bold text-foreground">Aucun produit ne correspond</h2>
+          <p class="mt-3 text-base text-muted-foreground">
+            Essayez d'adoucir vos filtres ou de chercher avec d'autres mots-clés.
           </p>
           <button
             type="button"
-            class="mt-6 inline-flex h-11 items-center rounded-lg border border-border bg-card px-5 text-sm font-semibold text-foreground"
+            class="btn-outline mt-7"
             @click="resetFilters"
           >
             Réinitialiser les filtres
@@ -155,7 +182,7 @@
 </template>
 
 <script setup lang="ts">
-import { AlertCircle, ChevronDown, ChevronRight, Package, RotateCcw, Search, SearchX } from 'lucide-vue-next'
+import { AlertCircle, ChevronDown, ChevronRight, Package, RotateCcw, Search, SearchX, SlidersHorizontal, Sparkles } from 'lucide-vue-next'
 import ProductCard from '~/components/product/ProductCard.vue'
 import ProductSkeleton from '~/components/product/ProductSkeleton.vue'
 import type { Product } from '~/types'
@@ -243,7 +270,7 @@ async function fetchProducts() {
     console.error('Error fetching products:', e)
     allProducts.value = []
     products.value = []
-    error.value = 'Impossible de charger les produits publiés pour le moment. Veuillez réessayer.'
+    error.value = 'Oups, nous n\'avons pas pu charger le catalogue. Notre équipe technique est sur le coup !'
   } finally {
     isLoading.value = false
   }
@@ -350,9 +377,9 @@ onMounted(fetchProducts)
 
 useSeoMeta({
   title: 'Catalogue',
-  description: 'Consultez les produits disponibles chez Dounia Market Tchad pour une livraison locale à N\'Djamena selon les zones couvertes.',
+  description: 'Découvrez notre sélection de produits disponibles pour une livraison rapide à N\'Djamena.',
   ogTitle: 'Catalogue | Dounia Market Tchad',
-  ogDescription: 'Consultez les produits disponibles localement pour vos proches à N\'Djamena selon les zones couvertes.',
+  ogDescription: 'Faites plaisir à vos proches au Tchad. Découvrez nos produits et commandez en toute sécurité.',
 })
 </script>
 

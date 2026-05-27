@@ -1,57 +1,62 @@
 <template>
-  <div class="bg-background min-h-screen">
-    <section class="pt-32 pb-16 bg-background border-b border-border">
-      <div class="container-main text-center max-w-3xl mx-auto">
-        <h1 class="text-4xl md:text-5xl font-black text-foreground mb-4 tracking-tight">
+  <div class="min-h-screen bg-background">
+    <!-- Hero Section -->
+    <section class="border-b border-border bg-[#faf8f5] pb-16 pt-32">
+      <div class="container-main mx-auto max-w-3xl text-center">
+        <h1 class="heading-hero mb-6 text-4xl text-foreground sm:text-5xl md:text-6xl">
           Comment ça marche ?
         </h1>
-        <p class="text-lg text-muted-foreground font-medium leading-relaxed">
-          Depuis l'étranger, choisissez des produits disponibles localement pour un proche à N'Djamena.
+        <p class="text-lg font-medium leading-relaxed text-muted-foreground sm:text-xl">
+          En 4 étapes simples, faites plaisir à vos proches restés au pays. Vous commandez, nous gérons la livraison à N'Djamena.
         </p>
       </div>
     </section>
 
-    <section class="py-32 relative bg-muted/10 border-t border-border/50">
-      <div class="container-main max-w-5xl relative">
-        <div class="hidden md:block absolute left-1/2 top-10 bottom-10 w-px bg-border -translate-x-1/2" />
+    <!-- Timeline des étapes -->
+    <section class="relative border-b border-border bg-background py-24 sm:py-32">
+      <div class="container-main relative mx-auto max-w-5xl">
+        <!-- Ligne verticale (Desktop) -->
+        <div class="absolute bottom-10 left-1/2 top-10 hidden w-0.5 -translate-x-1/2 bg-amber-100 md:block" />
         
-        <div class="space-y-32">
+        <div class="space-y-24 md:space-y-32">
           <div 
             v-for="(step, i) in steps" :key="i" 
-            class="relative grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-24 items-center"
-            v-motion 
-            :initial="{ opacity: 0, y: 40 }" 
-            :visibleOnce="{ opacity: 1, y: 0, transition: { delay: i * 100, duration: 600 } }"
+            class="relative grid grid-cols-1 items-center gap-12 md:grid-cols-2 md:gap-24 reveal-up"
           >
-            <div class="hidden md:flex absolute left-1/2 top-1/2 -translate-y-1/2 -translate-x-1/2 w-16 h-16 bg-card border-[6px] border-muted/50 rounded-full items-center justify-center shadow-sm z-10 text-foreground font-black text-xl">
+            <!-- Badge central (Desktop) -->
+            <div class="absolute left-1/2 top-1/2 z-10 hidden h-16 w-16 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full border-[6px] border-background bg-amber-500 text-xl font-black text-white shadow-sm md:flex">
               {{ i + 1 }}
             </div>
 
-            <div :class="{ 'md:order-2 md:pl-10': i % 2 === 1, 'md:pr-10 text-left md:text-right': i % 2 === 0 }">
-              <div class="flex items-center gap-4 mb-6" :class="{'md:flex-row-reverse': i % 2 === 0, 'flex-row': true}">
-                <span class="md:hidden w-12 h-12 rounded-full bg-brand text-brand-foreground flex items-center justify-center font-bold text-lg shadow-md shrink-0">
+            <!-- Contenu Texte -->
+            <div :class="{ 'md:order-2 md:pl-12': i % 2 === 1, 'md:pr-12 text-left md:text-right': i % 2 === 0 }">
+              <div class="mb-6 flex items-center gap-4" :class="{'md:flex-row-reverse': i % 2 === 0, 'flex-row': true}">
+                <span class="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-amber-500 text-lg font-bold text-white shadow-md md:hidden">
                   {{ i + 1 }}
                 </span>
-                <h2 class="text-3xl font-black text-foreground tracking-tight">{{ step.title }}</h2>
+                <h2 class="heading-section text-2xl sm:text-3xl">{{ step.title }}</h2>
               </div>
-              <p class="text-lg text-muted-foreground font-medium leading-relaxed mb-8">{{ step.description }}</p>
+              <p class="mb-8 text-lg font-medium leading-relaxed text-muted-foreground">{{ step.description }}</p>
               
               <div class="inline-block" :class="{'text-left': true}">
                 <ul class="space-y-4">
                   <li v-for="feature in step.features" :key="feature" class="flex items-center gap-3">
-                    <div class="w-1.5 h-1.5 rounded-full bg-accent shrink-0"></div>
-                    <span class="text-muted-foreground/90 font-medium text-base">{{ feature }}</span>
+                    <div class="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-amber-100 text-amber-600">
+                      <Check class="h-3.5 w-3.5" :stroke-width="2.5" />
+                    </div>
+                    <span class="text-base font-medium text-muted-foreground">{{ feature }}</span>
                   </li>
                 </ul>
               </div>
             </div>
             
+            <!-- Carte Visuelle -->
             <div :class="{ 'md:order-1': i % 2 === 1 }">
-              <div class="bg-card rounded-lg p-10 text-center border border-border shadow-sm transition-all duration-300 group">
-                <div class="w-20 h-20 mx-auto rounded-full bg-muted flex items-center justify-center mb-6 group-hover:scale-105 transition-all duration-300">
-                   <component :is="step.icon" class="w-8 h-8 text-muted-foreground group-hover:text-foreground transition-colors" />
+              <div class="group rounded-3xl border border-border bg-[#faf8f5] p-10 text-center shadow-sm transition-all duration-300 hover:-translate-y-2 hover:border-amber-200 hover:shadow-premium hover:bg-white">
+                <div class="mx-auto mb-6 flex h-24 w-24 items-center justify-center rounded-2xl bg-amber-100 text-amber-600 transition-transform duration-500 group-hover:scale-110 group-hover:rotate-3 shadow-sm">
+                   <component :is="step.icon" class="h-10 w-10" :stroke-width="1.5" />
                 </div>
-                <p class="text-lg font-semibold text-foreground">{{ step.subtitle }}</p>
+                <p class="text-xl font-bold text-foreground">{{ step.subtitle }}</p>
               </div>
             </div>
           </div>
@@ -59,20 +64,25 @@
       </div>
     </section>
 
-    <section class="py-24 bg-background">
-      <div class="container-main max-w-3xl">
-        <div class="text-center mb-16">
-          <h2 class="text-3xl md:text-4xl font-black tracking-tight text-foreground mb-4">Des questions ?</h2>
-          <p class="text-lg text-muted-foreground font-medium">Livraison, bénéficiaire et suivi de commande.</p>
+    <!-- Section FAQ Rapide -->
+    <section class="bg-[#faf8f5] py-24">
+      <div class="container-main mx-auto max-w-3xl">
+        <div class="mb-16 text-center">
+          <h2 class="heading-section mb-4 text-3xl sm:text-4xl">Questions Fréquentes</h2>
+          <p class="text-lg font-medium text-muted-foreground">Livraison, destinataire et sécurité.</p>
         </div>
-        <div class="border-t border-border">
+        
+        <div class="divide-y divide-border rounded-2xl border border-border bg-card shadow-sm">
           <div 
             v-for="(faq, i) in faqs" :key="i" 
-            class="border-b border-border"
+            class="group"
           >
-            <button @click="openFaq = openFaq === i ? null : i" class="w-full py-6 text-left flex justify-between items-center gap-4 group">
-              <span class="font-medium text-[15px] text-foreground group-hover:text-muted-foreground transition-colors">{{ faq.question }}</span>
-              <ChevronDown class="w-4 h-4 text-muted-foreground transition-transform duration-300" :class="openFaq === i ? 'rotate-180' : ''" />
+            <button @click="openFaq = openFaq === i ? null : i" class="flex w-full items-center justify-between gap-4 p-6 text-left transition-colors hover:bg-muted/30">
+              <span class="text-base font-bold text-foreground">{{ faq.question }}</span>
+              <ChevronDown 
+                class="h-5 w-5 shrink-0 text-muted-foreground transition-transform duration-300" 
+                :class="openFaq === i ? 'rotate-180 text-amber-600' : 'group-hover:text-amber-600'" 
+              />
             </button>
             <Transition
               enter-active-class="transition-all duration-300 ease-out"
@@ -82,8 +92,10 @@
               leave-from-class="opacity-100 max-h-40"
               leave-to-class="opacity-0 max-h-0"
             >
-              <div v-if="openFaq === i" class="pb-6 pr-8 text-muted-foreground text-sm leading-relaxed overflow-hidden">
-                {{ faq.answer }}
+              <div v-if="openFaq === i" class="overflow-hidden bg-muted/10 px-6 pb-6 text-sm font-medium leading-relaxed text-muted-foreground">
+                <div class="pt-2">
+                  {{ faq.answer }}
+                </div>
               </div>
             </Transition>
           </div>
@@ -91,22 +103,21 @@
       </div>
     </section>
 
-    <section class="py-24 mb-10 text-center">
-      <div class="container-main max-w-5xl">
-        <div 
-          v-motion :initial="{ opacity: 0, y: 20 }" :visibleOnce="{ opacity: 1, y: 0 }"
-          class="bg-brand rounded-lg p-12 md:p-24 relative overflow-hidden"
-        >
+    <!-- CTA Final -->
+    <section class="py-24 text-center">
+      <div class="container-main mx-auto max-w-5xl">
+        <div class="hero-gradient relative overflow-hidden rounded-3xl p-12 shadow-premium sm:p-20">
+          <div class="orb orb-amber absolute -bottom-20 -right-20 h-80 w-80 opacity-30"></div>
           <div class="relative z-10">
-            <h2 class="text-4xl md:text-5xl font-black text-brand-foreground mb-6 tracking-tight">Commander pour un proche</h2>
-            <p class="text-xl text-brand-foreground/70 mb-12 max-w-2xl mx-auto font-medium">
-              Consultez les produits disponibles et les informations de livraison affichées par Dounia Market Tchad.
+            <h2 class="heading-section mb-6 text-3xl text-white sm:text-4xl lg:text-5xl">Prêt à commander ?</h2>
+            <p class="mx-auto mb-10 max-w-2xl text-lg font-medium text-white/80">
+              Notre équipe à N'Djamena est prête à préparer votre commande avec soin.
             </p>
-            <div class="flex flex-col sm:flex-row gap-4 justify-center">
-              <NuxtLink to="/catalogue" class="inline-flex flex-col items-center justify-center px-10 py-5 bg-background text-foreground font-bold rounded-md hover:bg-muted transition-all shadow-sm">
-                Voir le catalogue
+            <div class="flex flex-col justify-center gap-4 sm:flex-row">
+              <NuxtLink to="/catalogue" class="btn-primary !h-14 !px-8 !text-base">
+                <span>Remplir mon panier</span>
               </NuxtLink>
-              <NuxtLink to="/contact" class="inline-flex flex-col items-center justify-center px-10 py-5 bg-brand-foreground/10 text-brand-foreground font-bold rounded-md hover:bg-brand-foreground/20 transition-all backdrop-blur-sm border border-brand-foreground/10">
+              <NuxtLink to="/contact" class="btn-outline !h-14 !px-8 !text-base !text-white !border-white/30 hover:!bg-white/10">
                 Nous contacter
               </NuxtLink>
             </div>
@@ -118,69 +129,68 @@
 </template>
 
 <script setup lang="ts">
-import { Package, MapPin, ClipboardCheck, Truck, ChevronDown } from 'lucide-vue-next'
+import { ShoppingBag, MapPin, CreditCard, Truck, ChevronDown, Check } from 'lucide-vue-next'
 
 const openFaq = ref<number | null>(null)
 
 const steps = [
   { 
-    title: 'Choisissez les produits',
-    description: 'Parcourez le catalogue et choisissez des produits disponibles localement pour votre proche.',
-    subtitle: 'Catalogue local',
-    icon: Package,
+    title: 'Faites votre marché',
+    description: 'Parcourez notre catalogue depuis votre téléphone ou votre ordinateur. Ajoutez au panier les produits dont vos proches ont besoin.',
+    subtitle: 'Sélection des produits',
+    icon: ShoppingBag,
     features: [
-      'Produits présentés dans le catalogue',
-      'Disponibilité indiquée sur la fiche produit',
-      'Ajout simple au panier',
+      'Produits de qualité en stock localement',
+      'Prix transparents sans frais cachés',
+      'Catalogue adapté aux besoins locaux',
     ]
   },
   { 
     title: 'Indiquez le bénéficiaire',
-    description: 'Renseignez la personne qui recevra la commande et son adresse de livraison à N\'Djamena.',
-    subtitle: 'Adresse locale',
+    description: 'Lors de la validation, renseignez simplement le nom et le numéro de téléphone de la personne qui doit recevoir les courses à N\'Djamena.',
+    subtitle: 'Détails du destinataire',
     icon: MapPin,
     features: [
-      'Nom et contact du bénéficiaire',
-      'Quartier et repère utiles à la livraison',
-      'Livraison selon les zones couvertes',
+      'Sélectionnez le quartier de livraison',
+      'Ajoutez des indications si nécessaire',
+      'Livraison directement à domicile',
     ]
   },
   { 
-    title: 'Vérifiez le récapitulatif',
-    description: 'Vérifiez les produits, le bénéficiaire et l\'adresse; les frais seront confirmés avant l\'ouverture publique.',
-    subtitle: 'Informations claires',
-    icon: ClipboardCheck,
+    title: 'Payez en toute sécurité',
+    description: 'Réglez votre commande en ligne de manière 100% sécurisée. Les frais de livraison sont calculés automatiquement.',
+    subtitle: 'Paiement sécurisé',
+    icon: CreditCard,
     features: [
-      'Adresse visible avant validation',
-      'Frais de livraison à confirmer avant ouverture',
-      'Conditions accessibles à tout moment',
+      'Paiement par carte bancaire',
+      'Transactions cryptées et protégées',
+      'Facture envoyée immédiatement',
     ]
   },
   { 
-    title: 'Suivez la livraison',
-    description: 'Une fois une commande enregistrée, consultez son avancement à partir de sa référence.',
-    subtitle: 'Suivi de commande',
+    title: 'Nous livrons votre proche',
+    description: 'Notre équipe locale prépare la commande et contacte le bénéficiaire pour organiser la remise en main propre.',
+    subtitle: 'Livraison & Preuve',
     icon: Truck,
     features: [
-      'Référence de commande uniquement',
-      'Aucune donnée personnelle à saisir',
-      'Assistance disponible en cas de question',
+      'Livreurs fiables et courtois',
+      'Suivi de commande disponible en ligne',
+      'Preuve de livraison avec photo (optionnel)',
     ]
   },
 ]
 
 const faqs = [
-  { question: 'Où la livraison est-elle proposée ?', answer: 'Dounia Market Tchad propose la livraison locale à N\'Djamena, selon les zones couvertes indiquées lors de la commande.' },
-  { question: 'Quand connaîtrai-je les frais de livraison ?', answer: 'Les zones couvertes et les frais applicables seront confirmés avant l\'ouverture publique du service.' },
-  { question: 'Comment suivre une commande ?', answer: 'Utilisez sa référence sur la page de suivi. N\'y saisissez jamais le nom, le téléphone ou l\'adresse du bénéficiaire.' },
-  { question: 'Comment finaliser une commande ?', answer: 'Les modalités disponibles seront confirmées avant l\'ouverture publique du service et présentées avant toute validation.' },
-  { question: 'Puis-je modifier une commande ?', answer: 'Contactez l\'assistance avec votre référence pour connaître les possibilités applicables à votre commande.' },
+  { question: 'Où la livraison est-elle disponible ?', answer: 'Nous livrons dans la grande majorité des quartiers de N\'Djamena. Lors de votre commande, vous pourrez sélectionner le quartier de votre proche.' },
+  { question: 'Quels sont les délais de livraison ?', answer: 'Généralement, les commandes sont livrées sous 24h à 48h ouvrées après validation du paiement, selon la disponibilité du bénéficiaire.' },
+  { question: 'Le bénéficiaire doit-il payer quelque chose ?', answer: 'Absolument rien. Vous réglez la totalité de la commande (produits + frais de livraison) en ligne. Votre proche n\'a qu\'à réceptionner le colis avec le sourire.' },
+  { question: 'Comment puis-je m\'assurer que la commande est bien arrivée ?', answer: 'Vous disposez d\'une page "Suivi" pour voir l\'état de votre commande. De plus, nos livreurs peuvent prendre une photo lors de la remise (avec l\'accord du bénéficiaire) pour vous rassurer.' },
 ]
 
 useSeoMeta({
-  title: 'Comment ça marche',
-  description: 'Découvrez comment choisir à distance des produits disponibles localement pour un proche à N\'Djamena avec Dounia Market Tchad.',
+  title: 'Comment ça marche | Dounia Market Tchad',
+  description: 'Découvrez les 4 étapes simples pour faire vos courses en ligne et les faire livrer à vos proches à N\'Djamena.',
   ogTitle: 'Comment fonctionne Dounia Market Tchad ?',
-  ogDescription: 'Choix des produits, bénéficiaire et livraison locale à N\'Djamena selon les zones couvertes.',
+  ogDescription: 'Sélectionnez, payez, et nous livrons à N\'Djamena. Découvrez notre fonctionnement.',
 })
 </script>
