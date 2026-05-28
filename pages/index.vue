@@ -36,17 +36,17 @@
             </NuxtLink>
           </div>
 
-          <div class="mt-9 flex flex-wrap items-center gap-x-6 gap-y-3 text-sm text-muted-foreground">
-            <span class="inline-flex items-center gap-2">
-              <MapPin class="h-4 w-4 text-gold-700" :stroke-width="1.75" />
+          <div class="mt-9 flex flex-wrap items-center gap-2.5">
+            <span class="inline-flex items-center gap-2 rounded-full border border-border bg-card px-3.5 py-1.5 text-sm font-medium text-foreground shadow-sm">
+              <MapPin class="h-4 w-4 text-gold-600" :stroke-width="1.75" />
               Livré à N'Djamena
             </span>
-            <span class="inline-flex items-center gap-2">
-              <PackageCheck class="h-4 w-4 text-gold-700" :stroke-width="1.75" />
+            <span class="inline-flex items-center gap-2 rounded-full border border-border bg-card px-3.5 py-1.5 text-sm font-medium text-foreground shadow-sm">
+              <PackageCheck class="h-4 w-4 text-gold-600" :stroke-width="1.75" />
               Produits d'ici
             </span>
-            <span class="inline-flex items-center gap-2">
-              <Truck class="h-4 w-4 text-gold-700" :stroke-width="1.75" />
+            <span class="inline-flex items-center gap-2 rounded-full border border-border bg-card px-3.5 py-1.5 text-sm font-medium text-foreground shadow-sm">
+              <Truck class="h-4 w-4 text-gold-600" :stroke-width="1.75" />
               Suivi de commande
             </span>
           </div>
@@ -241,6 +241,42 @@
                 <ArrowRight class="h-4 w-4" :stroke-width="2" />
               </div>
             </div>
+          </NuxtLink>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════
+         APPEL À L'ACTION — Bandeau de clôture
+         ═══════════════════════════════════════════ -->
+    <section class="relative overflow-hidden bg-dounia-500" aria-labelledby="cta-title">
+      <div class="pointer-events-none absolute inset-0" aria-hidden="true">
+        <div class="orb orb-amber absolute -right-16 -top-24 h-72 w-72"></div>
+        <div class="orb orb-warm absolute -left-20 bottom-0 h-72 w-72"></div>
+      </div>
+      <div class="container-main relative py-16 text-center sm:py-20">
+        <span class="badge border border-gold-300/30 bg-gold-400/10 text-gold-300">
+          <Heart class="mr-1.5 h-3.5 w-3.5" :stroke-width="2.25" />
+          Un geste qui compte
+        </span>
+        <h2 id="cta-title" class="heading-section mx-auto mt-5 max-w-2xl text-white">
+          Faites-leur plaisir, où que vous soyez
+        </h2>
+        <p class="mx-auto mt-4 max-w-xl text-base leading-relaxed text-white/70">
+          Composez votre commande en quelques minutes. Nous nous occupons de tout, jusqu'à la porte de votre famille à N'Djamena.
+        </p>
+        <div class="mt-9 flex flex-col items-center justify-center gap-3 sm:flex-row">
+          <NuxtLink to="/catalogue" class="btn-primary">
+            <span>
+              Parcourir le catalogue
+              <ArrowRight class="h-4 w-4" :stroke-width="1.75" />
+            </span>
+          </NuxtLink>
+          <NuxtLink
+            to="/suivi"
+            class="inline-flex h-12 items-center justify-center rounded-2xl border border-white/25 px-7 text-sm font-semibold text-white transition-colors hover:bg-white/10"
+          >
+            Suivre une commande
           </NuxtLink>
         </div>
       </div>
