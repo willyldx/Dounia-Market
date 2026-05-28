@@ -10,7 +10,7 @@
 
       <div class="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-6 mb-12 border-b border-border pb-8">
         <div>
-          <h1 class="text-4xl font-black text-foreground tracking-tight">Mes commandes</h1>
+          <h1 class="text-4xl font-bold text-foreground tracking-tight">Mes commandes</h1>
           <p class="text-muted-foreground font-medium mt-2">{{ orders.length }} commande{{ orders.length > 1 ? 's' : '' }} dans votre espace privé.</p>
         </div>
 
@@ -48,7 +48,7 @@
              <PackageIcon class="w-10 h-10 text-muted-foreground/30" />
            </div>
         </div>
-        <h3 class="text-3xl font-black text-foreground mb-3 tracking-tight">
+        <h3 class="text-3xl font-bold text-foreground mb-3 tracking-tight">
           {{ statusFilter === 'all' ? 'Aucune commande' : 'Aucun résultat' }}
         </h3>
         <p class="text-muted-foreground font-medium mb-12 max-w-sm mx-auto leading-relaxed">
@@ -113,7 +113,7 @@
                 </div>
                 <div
                   v-if="order.items.length > 3"
-                  class="w-20 h-20 bg-brand rounded-lg border-4 border-card flex items-center justify-center text-sm font-black text-brand-foreground shadow-sm z-0 relative overflow-hidden"
+                  class="w-20 h-20 bg-brand rounded-lg border-4 border-card flex items-center justify-center text-sm font-bold text-brand-foreground shadow-sm z-0 relative overflow-hidden"
                 >
                   <div class="absolute inset-0 bg-gradient-to-tr from-brand to-brand/80 opacity-50"></div>
                   <span class="relative z-10">+{{ order.items.length - 3 }}</span>

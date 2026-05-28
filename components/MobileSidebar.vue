@@ -54,7 +54,7 @@
             <NuxtLink
               v-if="!authStore.isAuthenticated"
               to="/auth/login"
-              class="flex h-11 items-center justify-center rounded-md bg-[#c9872b] px-5 text-sm font-semibold text-white"
+              class="flex h-11 items-center justify-center rounded-lg bg-accent px-5 text-sm font-semibold text-accent-foreground"
               @click="close"
             >
               Se connecter

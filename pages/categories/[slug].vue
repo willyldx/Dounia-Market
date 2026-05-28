@@ -9,7 +9,7 @@
           <ChevronRight class="h-3.5 w-3.5" />
           <span class="text-foreground">{{ currentCategoryName }}</span>
         </nav>
-        <p class="text-xs font-semibold uppercase tracking-[0.14em] text-amber-700">Catalogue local</p>
+        <p class="text-xs font-semibold uppercase tracking-[0.14em] text-gold-700">Catalogue local</p>
         <h1 class="mt-2 text-3xl font-bold text-foreground sm:text-4xl">{{ currentCategoryName }}</h1>
         <p class="mt-3 max-w-2xl text-sm leading-relaxed text-muted-foreground sm:text-base">
           Sélectionnez un produit pour votre proche à N'Djamena. La disponibilité locale est indiquée; les
@@ -52,7 +52,7 @@
               />
             </label>
             <label class="inline-flex h-11 items-center gap-2 rounded-md border border-border bg-background px-3 text-sm">
-              <input v-model="inStockOnly" type="checkbox" class="h-4 w-4 accent-amber-700" />
+              <input v-model="inStockOnly" type="checkbox" class="h-4 w-4 accent-gold-700" />
               Disponibles
             </label>
             <label class="relative">

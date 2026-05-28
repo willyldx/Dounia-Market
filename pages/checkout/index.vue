@@ -10,22 +10,45 @@
           <img src="/logo-full.svg" alt="Dounia Market Tchad" class="h-10 w-auto" />
         </NuxtLink>
         
-        <!-- Breadcrumbs / Steps -->
-        <nav class="mt-8 flex flex-wrap items-center gap-x-2 gap-y-2 text-[11px] sm:text-xs font-bold uppercase tracking-wide sm:tracking-widest">
-          <NuxtLink to="/panier" class="text-muted-foreground hover:text-foreground transition-colors">Panier</NuxtLink>
-          <span class="inline-flex items-center gap-2">
-            <ChevronRightIcon class="w-3 h-3 shrink-0 text-muted-foreground/50" />
-            <span :class="currentStep === 0 ? 'text-foreground' : 'text-muted-foreground'">Livraison</span>
-          </span>
-          <span class="inline-flex items-center gap-2">
-            <ChevronRightIcon class="w-3 h-3 shrink-0 text-muted-foreground/50" />
-            <span :class="currentStep === 1 ? 'text-foreground' : 'text-muted-foreground'">Récapitulatif</span>
-          </span>
-          <span class="inline-flex items-center gap-2">
-            <ChevronRightIcon class="w-3 h-3 shrink-0 text-muted-foreground/50" />
-            <span :class="currentStep === 2 ? 'text-foreground' : 'text-muted-foreground'">{{ checkoutPaymentEnabled ? 'Validation' : 'Contact' }}</span>
-          </span>
-        </nav>
+        <!-- Barre de progression -->
+        <ol class="mt-8 flex items-center">
+          <li
+            v-for="(step, i) in steps"
+            :key="step"
+            class="flex items-center"
+            :class="i < steps.length - 1 ? 'flex-1' : ''"
+          >
+            <button
+              type="button"
+              class="flex items-center gap-2.5 text-left"
+              :disabled="i >= currentStep"
+              @click="i < currentStep && goToStep(i)"
+            >
+              <span
+                class="flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-xs font-bold transition-all"
+                :class="i < currentStep
+                  ? 'bg-brand text-brand-foreground'
+                  : i === currentStep
+                    ? 'bg-brand text-brand-foreground ring-4 ring-brand/15'
+                    : 'border border-border bg-muted text-muted-foreground'"
+              >
+                <CheckIcon v-if="i < currentStep" class="h-4 w-4" />
+                <template v-else>{{ i + 1 }}</template>
+              </span>
+              <span
+                class="hidden text-xs font-bold uppercase tracking-wide sm:block"
+                :class="i <= currentStep ? 'text-foreground' : 'text-muted-foreground'"
+              >
+                {{ step }}
+              </span>
+            </button>
+            <span
+              v-if="i < steps.length - 1"
+              class="mx-2 h-0.5 flex-1 rounded-full transition-colors sm:mx-3"
+              :class="i < currentStep ? 'bg-brand' : 'bg-border'"
+            />
+          </li>
+        </ol>
       </header>
 
       <!-- Main Form Area -->
@@ -34,7 +57,7 @@
         <!-- Step 1: Information -->
         <div v-show="currentStep === 0" class="animate-fade-in">
           <div class="flex items-end justify-between border-b border-border pb-4 mb-8">
-            <h2 class="text-2xl font-black text-foreground tracking-tight">Contact de commande</h2>
+            <h2 class="text-2xl font-bold text-foreground tracking-tight">Contact de commande</h2>
             <NuxtLink v-if="!authStore.isAuthenticated" to="/auth/login?redirect=/checkout" class="text-xs font-bold text-muted-foreground hover:text-foreground uppercase tracking-wide transition-colors">
               Déjà client ?
             </NuxtLink>
@@ -53,19 +76,19 @@
             </div>
             
             <div class="relative">
-              <input v-model="form.email" type="email" id="email" class="peer checkout-input" placeholder=" " required />
+              <input v-model="form.email" type="email" id="email" class="peer checkout-input" placeholder=" " required @blur="validateEmailField" />
               <label for="email" class="checkout-label">Adresse e-mail</label>
             </div>
             <p v-if="errors.email" class="text-xs text-destructive">{{ errors.email }}</p>
             
             <div class="relative">
-              <input v-model="form.phone" type="tel" id="phone" class="peer checkout-input" placeholder=" " required />
+              <input v-model="form.phone" type="tel" id="phone" class="peer checkout-input" placeholder=" " required @blur="validatePhoneField" />
               <label for="phone" class="checkout-label">Téléphone (avec indicatif)</label>
             </div>
             <p v-if="errors.phone" class="text-xs text-destructive">{{ errors.phone }}</p>
           </div>
 
-          <h2 class="text-2xl font-black text-foreground tracking-tight mt-12 border-b border-border pb-4 mb-8">Bénéficiaire et livraison</h2>
+          <h2 class="text-2xl font-bold text-foreground tracking-tight mt-12 border-b border-border pb-4 mb-8">Bénéficiaire et livraison</h2>
           
           <div class="space-y-4">
             <label class="flex items-center gap-4 p-5 bg-card border border-border rounded-lg cursor-pointer hover:bg-muted transition-colors group shadow-sm">
@@ -82,7 +105,7 @@
                 <label for="rn" class="checkout-label bg-transparent">Nom du bénéficiaire</label>
               </div>
               <div class="relative">
-                <input v-model="form.recipientPhone" type="tel" id="rp" class="peer checkout-input bg-muted border-transparent focus:bg-card" placeholder=" " />
+                <input v-model="form.recipientPhone" type="tel" id="rp" class="peer checkout-input bg-muted border-transparent focus:bg-card" placeholder=" " @blur="validateRecipientPhoneField" />
                 <label for="rp" class="checkout-label bg-transparent">Portable du bénéficiaire</label>
               </div>
               <p v-if="errors.recipientPhone" class="sm:col-span-2 text-xs text-destructive">{{ errors.recipientPhone }}</p>
@@ -128,7 +151,7 @@
             <ArrowLeftIcon class="w-4 h-4" /> Modifier la livraison
           </div>
           
-          <h2 class="text-2xl font-black text-foreground tracking-tight mb-2">Livraison et sous-total</h2>
+          <h2 class="text-2xl font-bold text-foreground tracking-tight mb-2">Livraison et sous-total</h2>
           <p class="text-sm font-medium text-muted-foreground mb-8">
             Vérifiez le bénéficiaire et le quartier. Les frais de livraison restent à confirmer avant ouverture publique.
           </p>
@@ -151,7 +174,7 @@
               </div>
               <div class="flex justify-between gap-4 border-t border-border pt-3">
                 <span class="font-bold text-foreground">Sous-total produits</span>
-                <span class="font-black text-foreground">{{ cartStore.subtotalFormatted }}</span>
+                <span class="font-bold text-foreground">{{ cartStore.subtotalFormatted }}</span>
               </div>
             </div>
           </div>
@@ -174,7 +197,7 @@
             <ArrowLeftIcon class="w-4 h-4" /> Retour au récapitulatif
           </div>
           
-          <h2 class="text-2xl font-black text-foreground tracking-tight mb-8">{{ checkoutPaymentEnabled ? 'Validation de la commande' : 'Informations de livraison' }}</h2>
+          <h2 class="text-2xl font-bold text-foreground tracking-tight mb-8">{{ checkoutPaymentEnabled ? 'Validation de la commande' : 'Informations de livraison' }}</h2>
 
           <div class="border border-border rounded-lg p-0 overflow-hidden mb-8 text-sm font-medium shadow-sm bg-card">
             <div class="p-5 border-b border-border">
@@ -200,7 +223,7 @@
             </div>
             <div class="p-5 flex items-center justify-between gap-4">
               <span class="font-bold text-foreground">Sous-total produits</span>
-              <span class="text-lg font-black text-foreground">{{ cartStore.subtotalFormatted }}</span>
+              <span class="text-lg font-bold text-foreground">{{ cartStore.subtotalFormatted }}</span>
             </div>
           </div>
 
@@ -287,7 +310,7 @@
               <p class="font-bold text-foreground text-sm truncate">{{ item.title }}</p>
               <p v-if="item.variantTitle" class="text-xs font-bold uppercase tracking-wide text-muted-foreground mt-1">{{ item.variantTitle }}</p>
             </div>
-            <div class="text-sm font-black text-foreground shrink-0">
+            <div class="text-sm font-bold text-foreground shrink-0">
               {{ cartStore.formatPrice(item.price * item.quantity) }}
             </div>
           </div>
@@ -311,7 +334,7 @@
         <div class="flex items-center justify-between pt-8">
           <span class="text-sm font-bold text-muted-foreground mt-1">Sous-total produits</span>
           <div class="text-right flex flex-col items-end">
-            <span class="text-4xl font-black text-foreground tracking-tight">{{ cartStore.subtotalFormatted }}</span>
+            <span class="font-display text-4xl font-semibold text-foreground tracking-tight">{{ cartStore.subtotalFormatted }}</span>
           </div>
         </div>
       </div>
@@ -326,7 +349,7 @@ import {
   ArrowRight as ArrowRightIcon,
   Info as InfoIcon,
   Loader as LoaderIcon,
-  ChevronRight as ChevronRightIcon,
+  Check as CheckIcon,
   ChevronDown as ChevronDownIcon,
   Truck as TruckIcon,
 } from 'lucide-vue-next'
@@ -358,6 +381,16 @@ const resolveThumb = (path: string | undefined) => {
 
 const currentStep = ref(0)
 
+const steps = computed(() => ['Livraison', 'Récapitulatif', checkoutPaymentEnabled.value ? 'Validation' : 'Contact'])
+
+function goToStep(index: number) {
+  if (index < currentStep.value) {
+    invalidatePaymentSession()
+    currentStep.value = index
+    window.scrollTo({ top: 0, behavior: 'smooth' })
+  }
+}
+
 // Redirect if cart is empty (wait for hydration)
 watchEffect(() => {
   if (cartStore.isHydrated && cartStore.isEmpty) {
@@ -388,6 +421,18 @@ function validateStep1() {
 
   if (errors.email || errors.phone || errors.recipientPhone) isValid = false
   return isValid
+}
+
+function validateEmailField() {
+  errors.email = form.email && !emailRegex.test(form.email) ? 'Email invalide' : ''
+}
+function validatePhoneField() {
+  errors.phone = form.phone && !phoneRegex.test(form.phone) ? 'Téléphone invalide' : ''
+}
+function validateRecipientPhoneField() {
+  errors.recipientPhone = !sameAsCustomer.value && form.recipientPhone && !phoneRegex.test(form.recipientPhone)
+    ? 'Téléphone destinataire invalide'
+    : ''
 }
 
 function nextStep() {

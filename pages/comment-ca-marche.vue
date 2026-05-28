@@ -1,13 +1,14 @@
 <template>
   <div class="min-h-screen bg-background">
-    <!-- Hero Section -->
-    <section class="border-b border-border bg-[#faf8f5] pb-16 pt-32">
+    <!-- Hero -->
+    <section class="border-b border-border bg-card py-16 sm:py-20">
       <div class="container-main mx-auto max-w-3xl text-center">
-        <h1 class="heading-hero mb-6 text-4xl text-foreground sm:text-5xl md:text-6xl">
-          Comment ça marche ?
+        <p class="label mb-4">En toute simplicité</p>
+        <h1 class="heading-hero mb-6 text-foreground">
+          Comment ça marche
         </h1>
-        <p class="text-lg font-medium leading-relaxed text-muted-foreground sm:text-xl">
-          En 4 étapes simples, faites plaisir à vos proches restés au pays. Vous commandez, nous gérons la livraison à N'Djamena.
+        <p class="text-lg leading-relaxed text-muted-foreground sm:text-xl">
+          Quatre étapes, pas une de plus. Vous commandez depuis l'étranger, nous nous occupons de tout livrer à N'Djamena.
         </p>
       </div>
     </section>
@@ -16,7 +17,7 @@
     <section class="relative border-b border-border bg-background py-24 sm:py-32">
       <div class="container-main relative mx-auto max-w-5xl">
         <!-- Ligne verticale (Desktop) -->
-        <div class="absolute bottom-10 left-1/2 top-10 hidden w-0.5 -translate-x-1/2 bg-amber-100 md:block" />
+        <div class="absolute bottom-10 left-1/2 top-10 hidden w-0.5 -translate-x-1/2 bg-gold-100 md:block" />
         
         <div class="space-y-24 md:space-y-32">
           <div 
@@ -24,14 +25,14 @@
             class="relative grid grid-cols-1 items-center gap-12 md:grid-cols-2 md:gap-24 reveal-up"
           >
             <!-- Badge central (Desktop) -->
-            <div class="absolute left-1/2 top-1/2 z-10 hidden h-16 w-16 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full border-[6px] border-background bg-amber-500 text-xl font-black text-white shadow-sm md:flex">
+            <div class="absolute left-1/2 top-1/2 z-10 hidden h-16 w-16 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full border-[6px] border-background bg-gold-500 text-xl font-bold text-white shadow-sm md:flex">
               {{ i + 1 }}
             </div>
 
             <!-- Contenu Texte -->
             <div :class="{ 'md:order-2 md:pl-12': i % 2 === 1, 'md:pr-12 text-left md:text-right': i % 2 === 0 }">
               <div class="mb-6 flex items-center gap-4" :class="{'md:flex-row-reverse': i % 2 === 0, 'flex-row': true}">
-                <span class="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-amber-500 text-lg font-bold text-white shadow-md md:hidden">
+                <span class="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-gold-500 text-lg font-bold text-white shadow-md md:hidden">
                   {{ i + 1 }}
                 </span>
                 <h2 class="heading-section text-2xl sm:text-3xl">{{ step.title }}</h2>
@@ -41,7 +42,7 @@
               <div class="inline-block" :class="{'text-left': true}">
                 <ul class="space-y-4">
                   <li v-for="feature in step.features" :key="feature" class="flex items-center gap-3">
-                    <div class="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-amber-100 text-amber-600">
+                    <div class="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-gold-100 text-gold-600">
                       <Check class="h-3.5 w-3.5" :stroke-width="2.5" />
                     </div>
                     <span class="text-base font-medium text-muted-foreground">{{ feature }}</span>
@@ -52,8 +53,8 @@
             
             <!-- Carte Visuelle -->
             <div :class="{ 'md:order-1': i % 2 === 1 }">
-              <div class="group rounded-3xl border border-border bg-[#faf8f5] p-10 text-center shadow-sm transition-all duration-300 hover:-translate-y-2 hover:border-amber-200 hover:shadow-premium hover:bg-white">
-                <div class="mx-auto mb-6 flex h-24 w-24 items-center justify-center rounded-2xl bg-amber-100 text-amber-600 transition-transform duration-500 group-hover:scale-110 group-hover:rotate-3 shadow-sm">
+              <div class="group rounded-3xl border border-border bg-[#faf8f5] p-10 text-center shadow-sm transition-all duration-300 hover:-translate-y-2 hover:border-gold-200 hover:shadow-premium hover:bg-white">
+                <div class="mx-auto mb-6 flex h-24 w-24 items-center justify-center rounded-2xl bg-gold-100 text-gold-600 transition-transform duration-500 group-hover:scale-110 group-hover:rotate-3 shadow-sm">
                    <component :is="step.icon" class="h-10 w-10" :stroke-width="1.5" />
                 </div>
                 <p class="text-xl font-bold text-foreground">{{ step.subtitle }}</p>
@@ -81,7 +82,7 @@
               <span class="text-base font-bold text-foreground">{{ faq.question }}</span>
               <ChevronDown 
                 class="h-5 w-5 shrink-0 text-muted-foreground transition-transform duration-300" 
-                :class="openFaq === i ? 'rotate-180 text-amber-600' : 'group-hover:text-amber-600'" 
+                :class="openFaq === i ? 'rotate-180 text-gold-600' : 'group-hover:text-gold-600'" 
               />
             </button>
             <Transition
@@ -107,11 +108,10 @@
     <section class="py-24 text-center">
       <div class="container-main mx-auto max-w-5xl">
         <div class="hero-gradient relative overflow-hidden rounded-3xl p-12 shadow-premium sm:p-20">
-          <div class="orb orb-amber absolute -bottom-20 -right-20 h-80 w-80 opacity-30"></div>
           <div class="relative z-10">
-            <h2 class="heading-section mb-6 text-3xl text-white sm:text-4xl lg:text-5xl">Prêt à commander ?</h2>
-            <p class="mx-auto mb-10 max-w-2xl text-lg font-medium text-white/80">
-              Notre équipe à N'Djamena est prête à préparer votre commande avec soin.
+            <h2 class="heading-section mb-6 text-3xl text-white sm:text-4xl lg:text-5xl">Composez votre première commande</h2>
+            <p class="mx-auto mb-10 max-w-2xl text-lg leading-relaxed text-white/80">
+              Notre équipe à N'Djamena prépare chaque commande avec le même soin que si c'était pour sa propre famille.
             </p>
             <div class="flex flex-col justify-center gap-4 sm:flex-row">
               <NuxtLink to="/catalogue" class="btn-primary !h-14 !px-8 !text-base">

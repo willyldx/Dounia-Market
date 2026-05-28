@@ -35,9 +35,9 @@
             v-for="currency in currencies"
             :key="currency.code"
             @click="selectCurrency(currency.code)"
-            class="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm transition-all duration-150 hover:bg-amber-50 dark:hover:bg-amber-900/20"
+            class="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm transition-all duration-150 hover:bg-gold-50 dark:hover:bg-gold-900/20"
             :class="{
-              'bg-amber-50 dark:bg-amber-900/20 text-amber-700 dark:text-amber-400': currency.code === activeCurrency.code,
+              'bg-gold-50 dark:bg-gold-900/20 text-gold-700 dark:text-gold-400': currency.code === activeCurrency.code,
               'text-[var(--color-text-secondary)]': currency.code !== activeCurrency.code,
             }"
             role="option"

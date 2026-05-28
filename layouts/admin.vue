@@ -8,14 +8,14 @@
         </button>
         <NuxtLink to="/admin" class="flex items-center gap-2">
           <img src="/logo-full.svg" alt="Dounia Market Tchad" class="h-7 w-auto" />
-          <span class="hidden min-[380px]:inline text-xs font-semibold uppercase text-amber-700">Gestion</span>
+          <span class="hidden min-[380px]:inline text-xs font-semibold uppercase text-gold-700">Gestion</span>
         </NuxtLink>
       </div>
       <div class="flex items-center gap-2">
         <UDropdown :items="userMenuItems" :popper="{ placement: 'bottom-end' }">
           <UButton color="gray" variant="ghost" class="p-2">
-            <div class="w-9 h-9 rounded-full bg-amber-100 flex items-center justify-center">
-              <span class="text-sm font-semibold text-amber-800">{{ authStore.initials }}</span>
+            <div class="w-9 h-9 rounded-full bg-gold-100 flex items-center justify-center">
+              <span class="text-sm font-semibold text-gold-800">{{ authStore.initials }}</span>
             </div>
           </UButton>
         </UDropdown>
@@ -35,7 +35,7 @@
     <!-- Sidebar — Dark theme -->
     <aside
       :class="[
-        'fixed inset-y-0 left-0 z-50 w-[272px] bg-[#111a31] transform transition-transform duration-300 lg:translate-x-0',
+        'fixed inset-y-0 left-0 z-50 w-[272px] bg-dounia-500 transform transition-transform duration-300 lg:translate-x-0',
         sidebarOpen ? 'translate-x-0' : '-translate-x-full'
       ]"
     >
@@ -47,7 +47,7 @@
           </div>
           <div>
             <span class="font-semibold text-white">Dounia Market Tchad</span>
-            <span class="block text-xs text-amber-300 font-medium">Gestion</span>
+            <span class="block text-xs text-gold-300 font-medium">Gestion</span>
           </div>
         </NuxtLink>
         <button @click="sidebarOpen = false" class="lg:hidden p-2 rounded-lg hover:bg-white/10 text-white/60">
@@ -75,7 +75,7 @@
           >
             <Icon :name="item.icon" class="w-5 h-5" />
             {{ item.label }}
-            <span v-if="item.badge" class="ml-auto min-w-5 rounded-full bg-amber-400 px-1.5 py-0.5 text-center text-xs font-semibold text-zinc-950">
+            <span v-if="item.badge" class="ml-auto min-w-5 rounded-full bg-gold-400 px-1.5 py-0.5 text-center text-xs font-semibold text-zinc-950">
               {{ item.badge }}
             </span>
           </NuxtLink>
@@ -117,7 +117,7 @@
       <!-- User section -->
       <div class="border-t border-white/10 p-4">
         <div class="flex items-center gap-3">
-          <div class="w-10 h-10 rounded-full bg-amber-600 flex items-center justify-center">
+          <div class="w-10 h-10 rounded-full bg-gold-600 flex items-center justify-center">
             <span class="text-sm font-semibold text-white">{{ authStore.initials }}</span>
           </div>
           <div class="flex-1 min-w-0">

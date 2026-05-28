@@ -2,7 +2,7 @@
 import { computed } from 'vue'
 
 const props = withDefaults(defineProps<{
-  variant?: 'default' | 'destructive' | 'outline' | 'secondary' | 'ghost' | 'link'
+  variant?: 'default' | 'navy' | 'destructive' | 'outline' | 'secondary' | 'ghost' | 'link'
   size?: 'default' | 'sm' | 'lg' | 'icon'
   disabled?: boolean
   class?: string
@@ -14,9 +14,12 @@ const props = withDefaults(defineProps<{
 })
 
 const variantClasses = {
-  default: 'bg-brand text-brand-foreground hover:bg-brand/90',
+  // Primary CTA — Sahel gold with deep-ink text
+  default: 'bg-accent text-accent-foreground shadow-sm hover:bg-accent/90 hover:shadow-md',
+  // Structural — deep navy
+  navy: 'bg-brand text-brand-foreground hover:bg-brand/90',
   destructive: 'bg-destructive text-destructive-foreground hover:bg-destructive/90',
-  outline: 'border border-input hover:bg-accent/10 hover:text-accent-foreground',
+  outline: 'border border-input bg-card hover:border-accent hover:bg-accent/5 hover:text-accent-foreground',
   secondary: 'bg-secondary text-secondary-foreground hover:bg-secondary/80',
   ghost: 'hover:bg-accent/10 hover:text-accent-foreground',
   link: 'underline-offset-4 hover:underline text-brand'

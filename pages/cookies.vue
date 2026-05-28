@@ -26,7 +26,7 @@
             :class="{
               'bg-green-500 shadow-[0_0_10px_rgba(34,197,94,0.5)]': status === 'accepted',
               'bg-red-500 shadow-[0_0_10px_rgba(239,68,68,0.5)]': status === 'rejected',
-              'bg-amber-500 shadow-[0_0_10px_rgba(245,158,11,0.5)]': status === 'pending'
+              'bg-gold-500 shadow-[0_0_10px_rgba(245,158,11,0.5)]': status === 'pending'
             }"
           ></div>
           <p class="text-base font-bold text-foreground">
@@ -62,7 +62,7 @@
             :key="storage.name"
             class="rounded-xl border border-border bg-[#faf8f5] p-5"
           >
-            <dt class="mb-4 font-mono text-xs font-bold text-amber-700">{{ storage.name }}</dt>
+            <dt class="mb-4 font-mono text-xs font-bold text-gold-700">{{ storage.name }}</dt>
             <dd class="mb-3 text-sm text-muted-foreground">
               <span class="mb-1 block text-[10px] font-bold uppercase tracking-wider text-foreground">Finalité</span>
               {{ storage.purpose }}
@@ -75,7 +75,7 @@
               <span class="mb-1 block text-[10px] font-bold uppercase tracking-wider text-foreground">Requis ?</span>
               <span 
                 class="inline-block rounded-md px-2 py-1 text-xs font-bold"
-                :class="storage.optional ? 'bg-amber-100 text-amber-700' : 'bg-green-100 text-green-700'"
+                :class="storage.optional ? 'bg-gold-100 text-gold-700' : 'bg-green-100 text-green-700'"
               >
                 {{ storage.consent }}
               </span>
@@ -99,13 +99,13 @@
                 :key="storage.name"
                 class="transition-colors hover:bg-muted/30"
               >
-                <td class="p-4 font-mono text-xs text-amber-700">{{ storage.name }}</td>
+                <td class="p-4 font-mono text-xs text-gold-700">{{ storage.name }}</td>
                 <td class="p-4 font-medium">{{ storage.purpose }}</td>
                 <td class="p-4 text-muted-foreground">{{ storage.retention }}</td>
                 <td class="p-4 text-right">
                   <span 
                     class="inline-block whitespace-nowrap rounded-md px-2 py-1 text-[10px] font-bold uppercase tracking-widest"
-                    :class="storage.optional ? 'bg-amber-100 text-amber-700' : 'bg-green-100 text-green-700'"
+                    :class="storage.optional ? 'bg-gold-100 text-gold-700' : 'bg-green-100 text-green-700'"
                   >
                     {{ storage.optional ? 'Optionnel' : 'Requis' }}
                   </span>

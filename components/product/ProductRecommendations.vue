@@ -2,7 +2,7 @@
   <section v-if="recommendations.length" class="mt-12 border-t border-border pt-8 sm:mt-14">
     <div class="mb-5 flex items-end justify-between gap-3">
       <div>
-        <p class="text-xs font-semibold uppercase tracking-[0.14em] text-amber-700">À découvrir</p>
+        <p class="text-xs font-semibold uppercase tracking-[0.14em] text-gold-700">À découvrir</p>
         <h2 class="mt-2 text-xl font-bold text-foreground sm:text-2xl">Autres produits du catalogue</h2>
       </div>
       <NuxtLink to="/catalogue" class="hidden text-sm font-semibold text-brand hover:text-brand/80 sm:inline-flex">

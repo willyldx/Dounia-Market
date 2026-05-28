@@ -12,7 +12,7 @@
         <div>
           <h1 class="heading-section flex items-center gap-4">
             Vos Coups de Cœur
-            <span v-if="!favoritesStore.isEmpty" class="flex h-8 min-w-[2rem] items-center justify-center rounded-full bg-amber-100 px-3 text-sm font-bold text-amber-700">
+            <span v-if="!favoritesStore.isEmpty" class="flex h-8 min-w-[2rem] items-center justify-center rounded-full bg-gold-100 px-3 text-sm font-bold text-gold-700">
               {{ favoritesStore.count }}
             </span>
           </h1>
@@ -64,7 +64,7 @@
         <div
           v-for="item in favoritesStore.items"
           :key="item.productId"
-          class="group relative flex flex-col overflow-hidden rounded-2xl border border-border bg-card shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-amber-200 hover:shadow-premium"
+          class="group relative flex flex-col overflow-hidden rounded-2xl border border-border bg-card shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-gold-200 hover:shadow-premium"
         >
           <!-- Image -->
           <NuxtLink :to="`/produit/${item.productId}`" class="relative block aspect-[4/5] bg-[#f8f5ef] overflow-hidden p-4">
@@ -81,7 +81,7 @@
             <!-- Bouton Supprimer -->
             <button
               @click.prevent="removeFromFavorites(item.productId)"
-              class="absolute right-3 top-3 flex h-9 w-9 items-center justify-center rounded-full bg-white/95 text-amber-600 shadow-sm transition-all hover:scale-110 hover:bg-red-500 hover:text-white"
+              class="absolute right-3 top-3 flex h-9 w-9 items-center justify-center rounded-full bg-white/95 text-gold-600 shadow-sm transition-all hover:scale-110 hover:bg-red-500 hover:text-white"
               aria-label="Retirer des favoris"
             >
               <Heart class="h-4 w-4 fill-current" :stroke-width="2" />
@@ -97,18 +97,18 @@
           <!-- Infos Produit -->
           <div class="flex flex-1 flex-col p-4 sm:p-5">
             <NuxtLink :to="`/produit/${item.productId}`">
-              <h3 class="line-clamp-2 text-sm font-bold text-foreground transition-colors group-hover:text-amber-700 sm:text-base">
+              <h3 class="line-clamp-2 text-sm font-bold text-foreground transition-colors group-hover:text-gold-700 sm:text-base">
                 {{ item.title }}
               </h3>
             </NuxtLink>
             
             <div class="mt-auto pt-4 flex items-end justify-between gap-2">
               <div>
-                 <p class="text-lg font-black tracking-tight text-foreground sm:text-xl">{{ formatPrice(item.price) }}</p>
+                 <p class="font-display text-lg font-semibold tracking-tight text-foreground sm:text-xl">{{ formatPrice(item.price) }}</p>
               </div>
               <button
                 @click="addToCart(item)"
-                class="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-amber-100 text-amber-700 shadow-sm transition-all hover:bg-[#c9872b] hover:text-white"
+                class="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-gold-100 text-gold-700 shadow-sm transition-all hover:bg-accent hover:text-accent-foreground"
                 aria-label="Ajouter au panier"
               >
                 <ShoppingBag class="h-4 w-4" :stroke-width="2" />
@@ -119,8 +119,8 @@
       </div>
 
       <!-- Synchronisation (Connecté) -->
-      <div v-if="authStore.isAuthenticated && !favoritesStore.isEmpty" class="mt-12 flex items-start gap-4 rounded-2xl border border-amber-200 bg-amber-50 p-6 shadow-sm sm:items-center">
-        <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-amber-200/50 text-amber-700">
+      <div v-if="authStore.isAuthenticated && !favoritesStore.isEmpty" class="mt-12 flex items-start gap-4 rounded-2xl border border-gold-200 bg-gold-50 p-6 shadow-sm sm:items-center">
+        <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-gold-200/50 text-gold-700">
           <Cloud class="h-5 w-5" />
         </div>
         <div>

@@ -19,7 +19,7 @@
 
       <!-- Contenu -->
       <div class="rounded-3xl border border-border bg-card p-8 shadow-premium sm:p-12 md:p-16">
-        <div class="prose prose-lg max-w-none prose-headings:font-black prose-headings:text-foreground prose-p:leading-relaxed prose-p:text-muted-foreground/90 prose-a:text-amber-700 hover:prose-a:text-amber-800 prose-strong:text-foreground">
+        <div class="prose prose-lg max-w-none prose-headings:font-bold prose-headings:text-foreground prose-p:leading-relaxed prose-p:text-muted-foreground/90 prose-a:text-gold-700 hover:prose-a:text-gold-800 prose-strong:text-foreground">
           <h2>1. Nom du service</h2>
           <p>
             Le site <strong>douniamarket.com</strong> opère sous le nom commercial

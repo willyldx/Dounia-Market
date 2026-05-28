@@ -9,7 +9,7 @@
       </nav>
 
       <div class="mb-12 border-b border-border pb-8">
-        <h1 class="text-4xl font-black text-foreground tracking-tight">Mon profil</h1>
+        <h1 class="text-4xl font-bold text-foreground tracking-tight">Mon profil</h1>
         <p class="text-muted-foreground font-medium mt-2">Gérez vos coordonnées utilisées pour votre compte et vos commandes.</p>
       </div>
 
@@ -43,7 +43,7 @@
         <div class="lg:col-span-2 space-y-8">
           <div class="bg-card rounded-lg border border-border shadow-sm overflow-hidden">
             <div class="p-8 sm:p-10 border-b border-border/50 bg-muted/30">
-              <h3 class="text-xl font-black text-foreground tracking-tight">Coordonnées de base</h3>
+              <h3 class="text-xl font-bold text-foreground tracking-tight">Coordonnées de base</h3>
               <p class="text-sm font-medium text-muted-foreground mt-1">Utilisées pour identifier votre compte et traiter vos demandes.</p>
             </div>
 

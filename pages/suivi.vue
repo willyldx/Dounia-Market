@@ -11,7 +11,7 @@
       <section class="relative mb-10 overflow-hidden rounded-2xl border border-border bg-card px-6 py-12 text-center shadow-sm sm:px-12 sm:py-16">
         <div class="hero-gradient absolute inset-0 opacity-5"></div>
         <div class="relative z-10">
-          <div class="mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-2xl border border-amber-200 bg-amber-50 text-amber-700 shadow-sm">
+          <div class="mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-2xl border border-gold-200 bg-gold-50 text-gold-700 shadow-sm">
             <Truck class="h-8 w-8" :stroke-width="1.5" />
           </div>
           <h1 class="heading-section mb-4 text-3xl sm:text-4xl">
@@ -35,7 +35,7 @@
                   v-model="orderNumber" 
                   type="text" 
                   placeholder="Ex: CMD-12345"
-                  class="block h-14 w-full rounded-xl border border-input bg-background pl-12 pr-4 text-sm font-medium text-foreground outline-none transition-all focus:border-amber-500 focus:ring-2 focus:ring-amber-500/20"
+                  class="block h-14 w-full rounded-xl border border-input bg-background pl-12 pr-4 text-sm font-medium text-foreground outline-none transition-all focus:border-gold-500 focus:ring-2 focus:ring-gold-500/20"
                   required 
                 />
               </div>
@@ -52,8 +52,8 @@
               </button>
             </div>
           </form>
-          <div class="mt-6 flex items-start gap-3 rounded-xl border border-amber-100 bg-amber-50 p-4 text-sm font-medium text-amber-800">
-            <ShieldCheck class="mt-0.5 h-4 w-4 shrink-0 text-amber-600" />
+          <div class="mt-6 flex items-start gap-3 rounded-xl border border-gold-100 bg-gold-50 p-4 text-sm font-medium text-gold-800">
+            <ShieldCheck class="mt-0.5 h-4 w-4 shrink-0 text-gold-600" />
             <p>Saisissez uniquement votre numéro de référence. Ne partagez jamais vos coordonnées personnelles ici.</p>
           </div>
         </div>
@@ -70,15 +70,15 @@
             <div class="border-b border-border/50 bg-[#faf8f5] p-6 sm:p-8 flex flex-col justify-between gap-4 sm:flex-row sm:items-center">
               <div>
                 <p class="mb-1 text-xs font-bold uppercase tracking-wider text-muted-foreground">Commande n°</p>
-                <p class="text-2xl font-black tracking-tight text-foreground">{{ order.reference }}</p>
+                <p class="text-2xl font-bold tracking-tight text-foreground">{{ order.reference }}</p>
               </div>
               <span 
                 class="inline-flex items-center gap-1.5 rounded-md border px-3 py-1.5 text-[10px] font-bold uppercase tracking-widest shadow-sm"
-                :class="order.fulfillment_status === 'delivered' ? 'border-green-200 bg-green-50 text-green-700' : 'border-amber-200 bg-amber-50 text-amber-700'"
+                :class="order.fulfillment_status === 'delivered' ? 'border-green-200 bg-green-50 text-green-700' : 'border-gold-200 bg-gold-50 text-gold-700'"
               >
                 <span class="relative flex h-2 w-2">
-                  <span class="absolute inline-flex h-full w-full animate-ping rounded-full opacity-75" :class="order.fulfillment_status === 'delivered' ? 'bg-green-400' : 'bg-amber-400'"></span>
-                  <span class="relative inline-flex h-2 w-2 rounded-full" :class="order.fulfillment_status === 'delivered' ? 'bg-green-500' : 'bg-amber-500'"></span>
+                  <span class="absolute inline-flex h-full w-full animate-ping rounded-full opacity-75" :class="order.fulfillment_status === 'delivered' ? 'bg-green-400' : 'bg-gold-400'"></span>
+                  <span class="relative inline-flex h-2 w-2 rounded-full" :class="order.fulfillment_status === 'delivered' ? 'bg-green-500' : 'bg-gold-500'"></span>
                 </span>
                 {{ order.fulfillment_status === 'delivered' ? 'Livrée avec succès' : 'En transit' }}
               </span>
@@ -88,12 +88,12 @@
             <div class="p-6 sm:p-8">
                <div class="mb-4 flex items-center justify-between">
                   <span class="text-xs font-bold uppercase tracking-wider text-muted-foreground">Avancement</span>
-                  <span class="text-sm font-black text-amber-700">{{ Math.round(completedPercent) }}%</span>
+                  <span class="text-sm font-bold text-gold-700">{{ Math.round(completedPercent) }}%</span>
                </div>
                
                <div class="mb-10 h-2 overflow-hidden rounded-full bg-muted shadow-inner">
                   <div 
-                    class="h-full rounded-full bg-amber-500 transition-all duration-1000 ease-out"
+                    class="h-full rounded-full bg-gold-500 transition-all duration-1000 ease-out"
                     :style="{ width: `${completedPercent}%` }"
                   ></div>
                </div>
@@ -105,7 +105,7 @@
                 <div v-for="(step, i) in order.timeline" :key="i" class="group relative pb-8 pl-14 last:pb-0">
                   <div 
                     class="absolute left-0 flex h-12 w-12 items-center justify-center rounded-full border-4 border-card transition-all duration-500"
-                    :class="step.completed ? 'bg-amber-100 text-amber-700' : 'bg-muted text-muted-foreground'"
+                    :class="step.completed ? 'bg-gold-100 text-gold-700' : 'bg-muted text-muted-foreground'"
                   >
                     <component :is="timelineIcons[step.key] || Package" class="h-5 w-5" :stroke-width="step.completed ? 2.5 : 1.5" />
                   </div>
@@ -117,7 +117,7 @@
                     <p v-if="step.detail" class="mt-1.5 text-sm font-medium leading-relaxed" :class="step.completed ? 'text-muted-foreground' : 'text-muted-foreground/50'">
                       {{ step.detail }}
                     </p>
-                    <p class="mt-2 text-[10px] font-bold uppercase tracking-widest" :class="step.completed ? 'text-amber-700' : 'text-muted-foreground/40'">
+                    <p class="mt-2 text-[10px] font-bold uppercase tracking-widest" :class="step.completed ? 'text-gold-700' : 'text-muted-foreground/40'">
                       {{ step.date || 'En attente' }}
                     </p>
                   </div>

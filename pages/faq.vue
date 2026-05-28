@@ -9,7 +9,7 @@
       </nav>
 
       <div class="mb-12 text-center reveal-up">
-        <div class="mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-2xl border border-amber-200 bg-amber-50 text-amber-700 shadow-sm">
+        <div class="mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-2xl border border-gold-200 bg-gold-50 text-gold-700 shadow-sm">
           <MessageCircleQuestion class="h-8 w-8" :stroke-width="1.5" />
         </div>
         <h1 class="heading-section mb-4 text-3xl sm:text-4xl md:text-5xl">
@@ -31,7 +31,7 @@
               <span class="text-base font-bold text-foreground sm:text-lg">{{ faq.question }}</span>
               <div 
                 class="flex h-8 w-8 shrink-0 items-center justify-center rounded-full transition-colors"
-                :class="openFaq === i ? 'bg-amber-100 text-amber-600' : 'bg-muted text-muted-foreground group-hover:bg-amber-50 group-hover:text-amber-600'"
+                :class="openFaq === i ? 'bg-gold-100 text-gold-600' : 'bg-muted text-muted-foreground group-hover:bg-gold-50 group-hover:text-gold-600'"
               >
                 <ChevronDown 
                   class="h-5 w-5 transition-transform duration-300" 
@@ -60,10 +60,9 @@
       <!-- Contact Support CTA -->
       <div class="overflow-hidden rounded-2xl border border-border bg-[#faf8f5] text-center shadow-sm reveal-up" style="animation-delay: 200ms;">
         <div class="hero-gradient p-10 sm:p-14 relative">
-          <div class="orb orb-amber absolute -left-10 -top-10 h-40 w-40 opacity-20"></div>
           <div class="relative z-10">
-            <h2 class="mb-3 text-2xl font-bold text-white">Vous ne trouvez pas votre réponse ?</h2>
-            <p class="mx-auto mb-8 max-w-md text-base font-medium text-white/80">Notre équipe est disponible tous les jours pour vous accompagner personnellement à chaque étape.</p>
+            <h2 class="mb-3 text-2xl font-bold text-white">Une question sans réponse ?</h2>
+            <p class="mx-auto mb-8 max-w-md text-base font-medium text-white/80">Notre équipe vous répond chaque jour et vous accompagne à chaque étape, simplement.</p>
             <NuxtLink to="/contact" class="btn-primary">
               <span><MessageCircle class="mr-2 h-4 w-4" /> Contacter l'assistance</span>
             </NuxtLink>

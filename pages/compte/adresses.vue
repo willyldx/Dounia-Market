@@ -10,7 +10,7 @@
 
       <div class="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-6 mb-12 border-b border-border pb-8">
         <div>
-          <h1 class="text-4xl font-black text-foreground tracking-tight">Mes bénéficiaires</h1>
+          <h1 class="text-4xl font-bold text-foreground tracking-tight">Mes bénéficiaires</h1>
           <p class="text-muted-foreground font-medium mt-2">Gérez les adresses de livraison locale à N'Djamena.</p>
         </div>
         <button
@@ -35,7 +35,7 @@
         <div class="w-24 h-24 bg-muted rounded-full flex items-center justify-center mx-auto mb-6">
           <MapPinIcon class="w-10 h-10 text-muted-foreground/30" />
         </div>
-        <h3 class="text-2xl font-black text-foreground mb-3 tracking-tight">Aucune adresse enregistrée</h3>
+        <h3 class="text-2xl font-bold text-foreground mb-3 tracking-tight">Aucune adresse enregistrée</h3>
         <p class="text-muted-foreground font-medium mb-10 max-w-sm mx-auto">
           Ajoutez le quartier, un repère et un contact local pour votre bénéficiaire.
         </p>
@@ -72,7 +72,7 @@
           </div>
 
           <div class="mt-4 flex-1">
-            <p class="text-xl font-black text-foreground tracking-tight mb-2">
+            <p class="text-xl font-bold text-foreground tracking-tight mb-2">
               {{ address.firstName }} {{ address.lastName }}
             </p>
             <p class="text-sm font-medium text-muted-foreground leading-relaxed mb-4">

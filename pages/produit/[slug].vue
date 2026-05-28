@@ -1,5 +1,5 @@
 <template>
-  <div class="min-h-screen bg-background pb-12">
+  <div class="min-h-screen bg-background pb-24 lg:pb-12">
     <div v-if="isLoading" class="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
       <div class="grid animate-pulse gap-7 lg:grid-cols-2">
         <div class="aspect-square rounded-lg border border-border bg-muted"></div>
@@ -70,7 +70,7 @@
 
         <section class="flex flex-col">
           <div class="flex flex-wrap gap-2">
-            <span v-if="product.category" class="rounded-md bg-amber-50 px-2.5 py-1 text-xs font-semibold text-amber-800">
+            <span v-if="product.category" class="rounded-md bg-gold-50 px-2.5 py-1 text-xs font-semibold text-gold-800">
               {{ product.category }}
             </span>
             <span
@@ -89,13 +89,13 @@
           <div class="mt-6 rounded-lg border border-border bg-card p-4 sm:p-5">
             <p class="text-xs font-semibold uppercase tracking-[0.12em] text-muted-foreground">Prix du produit</p>
             <div class="mt-2 flex flex-wrap items-baseline gap-3">
-              <span :class="hasCurrentPrice ? 'text-3xl font-bold text-foreground sm:text-4xl' : 'text-lg font-semibold text-amber-800'">
+              <span :class="hasCurrentPrice ? 'font-display text-3xl font-semibold text-foreground sm:text-4xl' : 'text-lg font-semibold text-gold-800'">
                 {{ displayedCurrentPrice }}
               </span>
-              <span v-if="hasCurrentPrice && product.compareAtPrice && !selectedVariant" class="text-lg text-muted-foreground line-through">
-                {{ cartStore.formatPrice(product.compareAtPrice) }}
+              <span v-if="hasDiscount && !selectedVariant" class="text-lg text-muted-foreground line-through">
+                {{ cartStore.formatPrice(product.compareAtPrice as number) }}
               </span>
-              <span v-if="hasCurrentPrice && product.compareAtPrice && !selectedVariant" class="rounded-md bg-red-50 px-2 py-1 text-xs font-semibold text-red-700">
+              <span v-if="hasDiscount && !selectedVariant" class="rounded-md bg-red-50 px-2 py-1 text-xs font-semibold text-red-700">
                 -{{ discountPercent }}%
               </span>
             </div>
@@ -178,12 +178,12 @@
           <div class="mt-4 grid gap-2 sm:grid-cols-3">
             <div class="rounded-lg border border-border bg-card p-3">
               <PackageCheckIcon v-if="purchaseAvailability === true" class="h-5 w-5 text-emerald-700" />
-              <PackageIcon v-else :class="purchaseAvailability === false ? 'h-5 w-5 text-red-700' : 'h-5 w-5 text-amber-700'" />
+              <PackageIcon v-else :class="purchaseAvailability === false ? 'h-5 w-5 text-red-700' : 'h-5 w-5 text-gold-700'" />
               <p class="mt-2 text-sm font-semibold text-foreground">{{ stockSummaryTitle }}</p>
               <p class="mt-1 text-xs text-muted-foreground">{{ stockSummaryText }}</p>
             </div>
             <div class="rounded-lg border border-border bg-card p-3">
-              <MapPinIcon class="h-5 w-5 text-amber-700" />
+              <MapPinIcon class="h-5 w-5 text-gold-700" />
               <p class="mt-2 text-sm font-semibold text-foreground">N'Djamena</p>
               <p class="mt-1 text-xs text-muted-foreground">Selon zones couvertes</p>
             </div>
@@ -236,15 +236,15 @@
             <h2 class="text-lg font-bold text-foreground">Livraison locale</h2>
             <div class="mt-5 grid gap-3 md:grid-cols-3">
               <div class="rounded-lg border border-border p-4">
-                <p class="text-xs font-semibold uppercase tracking-wide text-amber-700">1. Bénéficiaire</p>
+                <p class="text-xs font-semibold uppercase tracking-wide text-gold-700">1. Bénéficiaire</p>
                 <p class="mt-2 text-sm text-muted-foreground">Indiquez le proche qui recevra la commande et son adresse à N'Djamena.</p>
               </div>
               <div class="rounded-lg border border-border p-4">
-                <p class="text-xs font-semibold uppercase tracking-wide text-amber-700">2. Zone et frais</p>
+                <p class="text-xs font-semibold uppercase tracking-wide text-gold-700">2. Zone et frais</p>
                 <p class="mt-2 text-sm text-muted-foreground">La zone couverte et les frais seront confirmés avant l'ouverture publique.</p>
               </div>
               <div class="rounded-lg border border-border p-4">
-                <p class="text-xs font-semibold uppercase tracking-wide text-amber-700">3. Suivi</p>
+                <p class="text-xs font-semibold uppercase tracking-wide text-gold-700">3. Suivi</p>
                 <p class="mt-2 text-sm text-muted-foreground">Consultez ensuite l'avancement de la commande depuis le suivi disponible.</p>
               </div>
             </div>
@@ -264,6 +264,32 @@
       <NuxtLink to="/catalogue" class="mt-6 inline-flex h-11 items-center rounded-md bg-brand px-5 text-sm font-semibold text-brand-foreground">
         Retour au catalogue
       </NuxtLink>
+    </div>
+
+    <!-- Barre d'achat sticky (mobile) -->
+    <div
+      v-if="product && !isLoading"
+      class="fixed inset-x-0 bottom-0 z-40 border-t border-border bg-card/95 px-4 py-3 backdrop-blur-md lg:hidden"
+      style="padding-bottom: calc(0.75rem + env(safe-area-inset-bottom))"
+    >
+      <div class="flex items-center gap-3">
+        <div class="min-w-0 flex-1">
+          <p class="truncate text-xs text-muted-foreground">{{ product.title }}</p>
+          <p :class="hasCurrentPrice ? 'font-display text-lg font-semibold text-foreground' : 'text-sm font-semibold text-gold-800'">
+            {{ displayedCurrentPrice }}
+          </p>
+        </div>
+        <button
+          type="button"
+          :disabled="!canAddToCart || isAddingToCart"
+          class="inline-flex h-12 min-w-[9rem] items-center justify-center gap-2 rounded-md bg-brand px-5 text-sm font-semibold text-brand-foreground hover:bg-brand/90 disabled:cursor-not-allowed disabled:bg-muted disabled:text-muted-foreground"
+          @click="addToCart"
+        >
+          <LoaderIcon v-if="isAddingToCart" class="h-4 w-4 animate-spin" />
+          <ShoppingCartIcon v-else class="h-4 w-4" />
+          {{ canAddToCart ? 'Ajouter' : cartActionLabel }}
+        </button>
+      </div>
     </div>
 
     <Teleport to="body">
@@ -320,6 +346,7 @@ const siteUrl = String(config.public.siteUrl || 'https://douniamarket.com').repl
 const apiOrigin = new URL(String(config.public.apiUrl || 'https://api.douniamarket.com/api')).origin
 const cartStore = useCartStore()
 const favoritesStore = useFavoritesStore()
+const toast = useToast()
 type DisplayVariant = Omit<ProductVariant, 'price' | 'inventory_quantity'> & {
   price?: number
   inventory_quantity?: number
@@ -383,7 +410,7 @@ const stockDisplay = computed(() => {
   if (purchaseAvailability.value === false) {
     return { label: 'Actuellement indisponible', classes: 'bg-red-50 text-red-700' }
   }
-  return { label: 'Disponibilité à confirmer', classes: 'bg-amber-50 text-amber-800' }
+  return { label: 'Disponibilité à confirmer', classes: 'bg-gold-50 text-gold-800' }
 })
 const canAddToCart = computed(() => purchaseAvailability.value === true && hasCurrentPrice.value)
 const canFavorite = computed(() => product.value?.inStock === true && hasProductPrice.value)
@@ -405,9 +432,14 @@ const stockSummaryText = computed(() => (
 const isVariantUnavailable = (variant: DisplayVariant): boolean => (
   typeof variant.inventory_quantity === 'number' && variant.inventory_quantity <= 0
 )
+const hasDiscount = computed(() => (
+  hasProductPrice.value
+  && typeof product.value?.compareAtPrice === 'number'
+  && product.value.compareAtPrice > (product.value.price as number)
+))
 const discountPercent = computed(() => {
-  if (!product.value?.compareAtPrice || !hasProductPrice.value) return 0
-  return Math.round((1 - (product.value.price as number) / product.value.compareAtPrice) * 100)
+  if (!hasDiscount.value) return 0
+  return Math.round((1 - (product.value!.price as number) / (product.value!.compareAtPrice as number)) * 100)
 })
 
 const productDescription = computed(() => {
@@ -477,7 +509,7 @@ async function fetchProduct() {
       description: data.description || '',
       subtitle: data.subtitle || '',
       price: normalizePrice(data.price),
-      compareAtPrice: undefined,
+      compareAtPrice: normalizePrice(data.compare_at_price),
       images: data.images || [],
       thumbnail: data.thumbnail || (data.images?.[0] ?? ''),
       category: data.category || '',
@@ -544,7 +576,7 @@ async function toggleFavorite() {
   })
 }
 
-function addToCart() {
+async function addToCart() {
   if (!product.value || !canAddToCart.value || !hasCurrentPrice.value) return
   isAddingToCart.value = true
   cartStore.addItem({
@@ -556,7 +588,14 @@ function addToCart() {
     thumbnail: product.value.thumbnail,
     category: product.value.category,
   }, quantity.value)
+  await new Promise(resolve => setTimeout(resolve, 350))
   isAddingToCart.value = false
+  toast.add({
+    title: 'Ajouté au panier',
+    description: `${product.value.title}${quantity.value > 1 ? ` × ${quantity.value}` : ''}`,
+    color: 'black',
+    timeout: 2500,
+  })
 }
 
 async function generateShareLink() {

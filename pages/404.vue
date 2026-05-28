@@ -3,9 +3,9 @@
     <div class="text-center max-w-lg w-full">
       <!-- Animated 404 -->
       <div class="relative mb-8 mx-auto w-full max-w-[280px]">
-        <h1 class="text-[150px] font-black text-border/40 leading-none select-none tracking-tighter">404</h1>
+        <h1 class="text-[150px] font-bold text-border/40 leading-none select-none tracking-tighter">404</h1>
         <div class="absolute inset-0 flex items-center justify-center">
-          <div class="flex h-28 w-28 items-center justify-center rounded-2xl bg-gradient-to-br from-amber-500 to-amber-600 shadow-xl shadow-amber-500/30 animate-float">
+          <div class="flex h-28 w-28 items-center justify-center rounded-2xl bg-gradient-to-br from-gold-500 to-gold-600 shadow-xl shadow-gold-500/30 animate-float">
             <Compass class="h-12 w-12 text-white" :stroke-width="2" />
           </div>
         </div>
@@ -33,7 +33,7 @@
       <!-- Aide -->
       <p class="mt-12 text-sm font-medium text-muted-foreground">
         Besoin d'aide ? 
-        <NuxtLink to="/contact" class="font-bold text-amber-700 hover:underline">Contactez-nous</NuxtLink>
+        <NuxtLink to="/contact" class="font-bold text-gold-700 hover:underline">Contactez-nous</NuxtLink>
       </p>
     </div>
   </div>

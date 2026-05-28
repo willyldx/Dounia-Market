@@ -1,21 +1,18 @@
 <template>
   <div class="min-h-screen bg-background">
-    <!-- Hero Section -->
-    <section class="hero-gradient relative overflow-hidden pt-32 pb-24 border-b border-white/10">
-      <div class="orb orb-amber absolute -right-40 -top-40 h-[500px] w-[500px] animate-float-slow opacity-20"></div>
-      <div class="orb orb-warm absolute -bottom-20 -left-20 h-[300px] w-[300px] animate-float opacity-10"></div>
-      
-      <div class="container-main relative z-10 text-center">
-        <div class="mx-auto mb-6 inline-flex items-center gap-2 rounded-full border border-amber-500/30 bg-amber-500/10 px-4 py-1.5 text-xs font-bold uppercase tracking-widest text-amber-400">
+    <!-- Hero -->
+    <section class="relative overflow-hidden border-b border-border/70 py-16 sm:py-24">
+      <div class="container-main text-center">
+        <div class="mx-auto mb-6 inline-flex items-center gap-2 rounded-full border border-gold-200 bg-gold-50 px-4 py-1.5 text-xs font-bold uppercase tracking-widest text-gold-700">
           <Heart class="h-4 w-4" />
-          Notre Histoire
+          Notre histoire
         </div>
-        <h1 class="heading-hero mx-auto max-w-4xl text-4xl text-white sm:text-5xl md:text-6xl lg:text-7xl">
+        <h1 class="heading-hero mx-auto max-w-4xl text-foreground">
           Vous commandez ici.<br/>
-          <span class="text-gradient-gold">Nous livrons là-bas.</span>
+          <span class="text-gold-700">Nous livrons là-bas.</span>
         </h1>
-        <p class="mx-auto mt-8 max-w-2xl text-lg font-medium leading-relaxed text-white/80 sm:text-xl">
-          Dounia Market est le pont entre la diaspora tchadienne et leurs proches au pays. Faites vos courses en ligne depuis l'étranger, nous livrons directement votre famille à N'Djamena.
+        <p class="mx-auto mt-7 max-w-2xl text-lg leading-relaxed text-muted-foreground">
+          Dounia Market relie la diaspora tchadienne à ceux qui comptent, restés au pays. Vous faites vos courses en ligne depuis l'étranger ; nous nous chargeons de livrer votre famille à N'Djamena.
         </p>
       </div>
     </section>
@@ -34,8 +31,8 @@
           </div>
 
           <div class="space-y-10 reveal-up">
-            <div class="group rounded-2xl border border-border bg-card p-6 shadow-sm transition-all hover:border-amber-200 hover:shadow-premium">
-              <div class="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-amber-50 text-amber-700">
+            <div class="group rounded-2xl border border-border bg-card p-6 shadow-sm transition-all hover:border-gold-200 hover:shadow-premium">
+              <div class="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-gold-50 text-gold-700">
                 <Store class="h-6 w-6" :stroke-width="1.5" />
               </div>
               <h3 class="mb-2 text-xl font-bold text-foreground">Produits locaux & de qualité</h3>
@@ -44,8 +41,8 @@
               </p>
             </div>
             
-            <div class="group rounded-2xl border border-border bg-card p-6 shadow-sm transition-all hover:border-amber-200 hover:shadow-premium">
-              <div class="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-amber-50 text-amber-700">
+            <div class="group rounded-2xl border border-border bg-card p-6 shadow-sm transition-all hover:border-gold-200 hover:shadow-premium">
+              <div class="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-gold-50 text-gold-700">
                 <ShieldCheck class="h-6 w-6" :stroke-width="1.5" />
               </div>
               <h3 class="mb-2 text-xl font-bold text-foreground">Livraison 100% sécurisée</h3>
@@ -54,8 +51,8 @@
               </p>
             </div>
             
-            <div class="group rounded-2xl border border-border bg-card p-6 shadow-sm transition-all hover:border-amber-200 hover:shadow-premium">
-              <div class="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-amber-50 text-amber-700">
+            <div class="group rounded-2xl border border-border bg-card p-6 shadow-sm transition-all hover:border-gold-200 hover:shadow-premium">
+              <div class="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-gold-50 text-gold-700">
                 <HeartHandshake class="h-6 w-6" :stroke-width="1.5" />
               </div>
               <h3 class="mb-2 text-xl font-bold text-foreground">Service client dédié</h3>
@@ -71,21 +68,18 @@
     <!-- CTA Final -->
     <section class="py-24 pt-0">
       <div class="container-main max-w-4xl text-center">
-        <div class="overflow-hidden rounded-3xl border border-border bg-[#faf8f5] p-10 shadow-premium sm:p-16 relative">
-          <div class="orb orb-amber absolute -left-20 -top-20 h-60 w-60 opacity-30"></div>
-          <div class="relative z-10">
-            <h2 class="heading-section mb-6 text-3xl sm:text-4xl">Prêt à faire plaisir à vos proches ?</h2>
-            <p class="mx-auto mb-10 max-w-xl text-lg font-medium text-muted-foreground">
-              Découvrez notre sélection de produits essentiels, alimentaires et bien plus encore, livrables directement à N'Djamena.
-            </p>
-            <div class="flex flex-col items-center justify-center gap-4 sm:flex-row">
-              <NuxtLink to="/catalogue" class="btn-primary">
-                <span>Explorer le catalogue</span>
-              </NuxtLink>
-              <NuxtLink to="/comment-ca-marche" class="btn-outline">
-                Voir comment ça marche
-              </NuxtLink>
-            </div>
+        <div class="overflow-hidden rounded-3xl border border-border bg-card p-10 shadow-premium sm:p-16">
+          <h2 class="heading-section mb-6 text-3xl sm:text-4xl">Un geste pour ceux qui comptent</h2>
+          <p class="mx-auto mb-10 max-w-xl text-lg leading-relaxed text-muted-foreground">
+            Parcourez notre sélection — essentiels, épicerie, et bien d'autres choses du quotidien — à faire livrer directement à N'Djamena.
+          </p>
+          <div class="flex flex-col items-center justify-center gap-4 sm:flex-row">
+            <NuxtLink to="/catalogue" class="btn-primary">
+              <span>Explorer le catalogue</span>
+            </NuxtLink>
+            <NuxtLink to="/comment-ca-marche" class="btn-outline">
+              Voir comment ça marche
+            </NuxtLink>
           </div>
         </div>
       </div>

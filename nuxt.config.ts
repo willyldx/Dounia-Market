@@ -24,7 +24,7 @@ export default defineNuxtConfig({
   googleFonts: {
     families: {
       Manrope: [400, 500, 600, 700, 800],
-      Sora: [500, 600, 700],
+      Sora: [400, 500, 600, 700, 800],
     },
     display: 'swap',
   },
@@ -49,7 +49,7 @@ export default defineNuxtConfig({
         { charset: 'utf-8' },
         { name: 'viewport', content: 'width=device-width, initial-scale=1' },
         { name: 'description', content: 'Dounia Market Tchad permet à la diaspora tchadienne de consulter des produits disponibles localement pour livraison à N\'Djamena selon les zones couvertes.' },
-        { name: 'theme-color', content: '#0F172A' },
+        { name: 'theme-color', content: '#15213B' },
       ],
       link: [
         { rel: 'icon', type: 'image/svg+xml', href: '/favicon.svg' }

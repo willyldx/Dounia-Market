@@ -3,56 +3,57 @@
 @tailwind utilities;
 
 /* ============================================
-   DOUNIA MARKET — Premium Warm Design System
-   Sahel-inspired, warm, modern, familial
+   DOUNIA MARKET — "Sahel Warm Premium" Design System
+   Warm ivory canvas · deep navy trust · Sahel gold warmth
+   Built for the Chadian diaspora — familial, modern, trustworthy
    ============================================ */
 
 :root {
-  /* Backgrounds — warm, clean retail */
-  --color-bg: #faf8f5;
+  /* Backgrounds — warm, sunlit retail */
+  --color-bg: #faf7f1;
   --color-bg-warm: #ffffff;
   --color-bg-card: #ffffff;
   --color-bg-elevated: #ffffff;
-  --color-bg-dark: #0f172a;
+  --color-bg-dark: #15213b;
 
-  /* Primary — Deep Navy (Trust, Authority) */
-  --color-primary: #0f172a;
-  --color-primary-light: #1e293b;
-  --color-primary-dark: #020617;
+  /* Primary — Deep Navy (Trust, Authority, Structure) */
+  --color-primary: #15213b;
+  --color-primary-light: #21304f;
+  --color-primary-dark: #0e1729;
 
-  /* Accent — Warm Amber/Gold (Sahel, Sun, Family) */
-  --color-accent: #c9872b;
-  --color-accent-light: #e5ad64;
-  --color-accent-dark: #a76b21;
-  --color-accent-hover: #b97824;
+  /* Accent — Sahel Gold (Sun, Warmth, Family, Calls-to-action) */
+  --color-accent: #dd8a1e;
+  --color-accent-light: #eca33f;
+  --color-accent-dark: #c2761a;
+  --color-accent-hover: #c2761a;
 
   /* Links */
-  --color-link: #a76b21;
-  --color-link-hover: #8d591c;
+  --color-link: #b5710f;
+  --color-link-hover: #99600c;
 
   /* Alerts / Danger */
-  --color-danger: #dc2626;
-  --color-danger-light: #fef2f2;
+  --color-danger: #d5503a;
+  --color-danger-light: #fbede9;
 
   /* Success */
-  --color-success: #16a34a;
-  --color-success-light: #f0fdf4;
+  --color-success: #1f9d5b;
+  --color-success-light: #eaf7f0;
 
   /* Text */
-  --color-text: #0f172a;
-  --color-text-secondary: #334155;
-  --color-text-muted: #64748b;
+  --color-text: #1b2233;
+  --color-text-secondary: #3a4256;
+  --color-text-muted: #6e6a63;
 
-  /* Borders & Shadows */
-  --color-border: #e2e0dc;
-  --color-border-hover: #c5c0b8;
-  --shadow-sm: 0 1px 3px rgba(15, 23, 42, 0.04), 0 1px 2px rgba(15, 23, 42, 0.03);
-  --shadow-md: 0 4px 16px rgba(15, 23, 42, 0.06), 0 2px 4px rgba(15, 23, 42, 0.04);
-  --shadow-lg: 0 12px 40px rgba(15, 23, 42, 0.08), 0 4px 12px rgba(15, 23, 42, 0.04);
-  --shadow-xl: 0 24px 64px rgba(15, 23, 42, 0.10), 0 8px 24px rgba(15, 23, 42, 0.06);
-  --shadow-accent: 0 8px 24px rgba(201, 135, 43, 0.25);
-  --shadow-primary: 0 8px 24px rgba(15, 23, 42, 0.18);
-  --shadow-glow: 0 0 28px rgba(201, 135, 43, 0.18);
+  /* Borders & Shadows (warm-tinted ink) */
+  --color-border: #ece6dc;
+  --color-border-hover: #dbd3c5;
+  --shadow-sm: 0 1px 3px rgba(27, 34, 51, 0.05), 0 1px 2px rgba(27, 34, 51, 0.03);
+  --shadow-md: 0 4px 16px rgba(27, 34, 51, 0.07), 0 2px 4px rgba(27, 34, 51, 0.04);
+  --shadow-lg: 0 12px 40px rgba(27, 34, 51, 0.09), 0 4px 12px rgba(27, 34, 51, 0.05);
+  --shadow-xl: 0 24px 64px rgba(27, 34, 51, 0.12), 0 8px 24px rgba(27, 34, 51, 0.07);
+  --shadow-accent: 0 8px 24px rgba(221, 138, 30, 0.28);
+  --shadow-primary: 0 8px 24px rgba(21, 33, 59, 0.18);
+  --shadow-glow: 0 0 28px rgba(221, 138, 30, 0.22);
 
   /* Typography */
   --font-display: "Sora", "Manrope", system-ui, -apple-system, sans-serif;
@@ -64,19 +65,19 @@
   --ease-out-back: cubic-bezier(0.34, 1.56, 0.64, 1);
   --ease-spring: cubic-bezier(0.175, 0.885, 0.32, 1.275);
 
-  /* Nuxt UI overrides */
-  --ui-primary: #c9872b;
-  --ui-color-primary-50: #fff8ee;
-  --ui-color-primary-100: #ffedd5;
-  --ui-color-primary-200: #fbd6ae;
-  --ui-color-primary-300: #efbd81;
-  --ui-color-primary-400: #dfa155;
-  --ui-color-primary-500: #c9872b;
-  --ui-color-primary-600: #a76b21;
-  --ui-color-primary-700: #8d591c;
-  --ui-color-primary-800: #73491d;
-  --ui-color-primary-900: #5e3c1b;
-  --ui-color-primary-950: #33200d;
+  /* Nuxt UI overrides — Sahel gold ramp (drives all U* components) */
+  --ui-primary: #dd8a1e;
+  --ui-color-primary-50: #fcf6ea;
+  --ui-color-primary-100: #f8e8c9;
+  --ui-color-primary-200: #f1d08d;
+  --ui-color-primary-300: #eab752;
+  --ui-color-primary-400: #e29f30;
+  --ui-color-primary-500: #dd8a1e;
+  --ui-color-primary-600: #c2761a;
+  --ui-color-primary-700: #9e5f15;
+  --ui-color-primary-800: #7c4b14;
+  --ui-color-primary-900: #663e15;
+  --ui-color-primary-950: #3a2109;
 }
 
 /* ============================================
@@ -92,8 +93,8 @@
   body {
     font-family: var(--font-body);
     background:
-      radial-gradient(circle at 0% 0%, rgba(201, 135, 43, 0.06), transparent 35%),
-      radial-gradient(circle at 100% 0%, rgba(15, 23, 42, 0.04), transparent 40%),
+      radial-gradient(circle at 0% 0%, rgba(221, 138, 30, 0.06), transparent 36%),
+      radial-gradient(circle at 100% 0%, rgba(21, 33, 59, 0.04), transparent 42%),
       var(--color-bg);
     color: var(--color-text);
     line-height: 1.6;
@@ -106,15 +107,15 @@
   h5,
   h6 {
     font-family: var(--font-display);
-    font-weight: 700;
-    line-height: 1.15;
-    letter-spacing: -0.03em;
+    font-weight: 600;
+    line-height: 1.18;
+    letter-spacing: -0.018em;
     color: var(--color-text);
   }
 
   ::selection {
     background: var(--color-accent);
-    color: white;
+    color: var(--color-primary);
   }
 
   /* Scrollbar */
@@ -143,18 +144,18 @@
 @layer components {
   .heading-hero {
     font-family: var(--font-display);
-    font-size: clamp(2.75rem, 7vw, 4.5rem);
-    font-weight: 800;
-    line-height: 1.08;
-    letter-spacing: -0.04em;
+    font-size: clamp(2.5rem, 6.5vw, 4rem);
+    font-weight: 700;
+    line-height: 1.1;
+    letter-spacing: -0.025em;
   }
 
   .heading-section {
     font-family: var(--font-display);
-    font-size: clamp(2rem, 4.5vw, 3rem);
-    font-weight: 700;
-    line-height: 1.15;
-    letter-spacing: -0.03em;
+    font-size: clamp(1.875rem, 4vw, 2.75rem);
+    font-weight: 600;
+    line-height: 1.16;
+    letter-spacing: -0.022em;
   }
 
   .text-gradient {
@@ -200,11 +201,12 @@
    ============================================ */
 
 @layer components {
+  /* Primary CTA — Sahel gold with deep-ink text (premium, high-contrast) */
   .btn-primary {
     @apply relative inline-flex items-center justify-center font-bold overflow-hidden;
     padding: 0.75rem 2rem;
     background: var(--color-accent);
-    color: white;
+    color: var(--color-primary);
     border-radius: 14px;
     transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
     box-shadow: var(--shadow-sm);
@@ -215,7 +217,7 @@
     position: absolute;
     inset: 0;
     transform: translateX(-120%);
-    background: linear-gradient(120deg, transparent 20%, rgba(255, 255, 255, 0.28) 50%, transparent 80%);
+    background: linear-gradient(120deg, transparent 20%, rgba(255, 255, 255, 0.35) 50%, transparent 80%);
     transition: transform 0.5s ease;
   }
 
@@ -241,6 +243,7 @@
     gap: 0.5rem;
   }
 
+  /* Secondary — deep navy, structural */
   .btn-secondary {
     @apply relative inline-flex items-center justify-center font-bold overflow-hidden;
     padding: 0.75rem 2rem;
@@ -271,7 +274,7 @@
   .btn-outline {
     @apply inline-flex items-center justify-center font-semibold;
     padding: 0.75rem 2rem;
-    background: #FFFFFF;
+    background: #ffffff;
     color: var(--color-text);
     border: 1px solid var(--color-border);
     border-radius: 14px;
@@ -281,7 +284,7 @@
 
   .btn-outline:hover {
     border-color: var(--color-accent);
-    background: rgba(212, 135, 44, 0.04);
+    background: rgba(221, 138, 30, 0.06);
     color: var(--color-accent-dark);
     transform: none;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
@@ -298,7 +301,7 @@
 
   .btn-ghost:hover {
     color: var(--color-accent-dark);
-    background: rgba(212, 135, 44, 0.08);
+    background: rgba(221, 138, 30, 0.1);
   }
 }
 
@@ -311,7 +314,7 @@
     @apply relative overflow-hidden;
     background: var(--color-bg-card);
     border: 1px solid var(--color-border);
-    border-radius: 8px;
+    border-radius: 14px;
     box-shadow: var(--shadow-sm);
     transition: all 0.2s;
   }
@@ -569,7 +572,7 @@
    ============================================ */
 
 .hero-gradient {
-  background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-light) 50%, #1e3a5f 100%);
+  background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-light) 55%, #2a3c63 100%);
   position: relative;
   overflow: hidden;
 }
@@ -593,9 +596,9 @@
   position: absolute;
   inset: 0;
   background: linear-gradient(135deg,
-      rgba(15, 23, 42, 0.85) 0%,
-      rgba(15, 23, 42, 0.6) 40%,
-      rgba(15, 23, 42, 0.4) 100%);
+      rgba(21, 33, 59, 0.85) 0%,
+      rgba(21, 33, 59, 0.6) 40%,
+      rgba(21, 33, 59, 0.4) 100%);
   z-index: 1;
 }
 
@@ -609,12 +612,12 @@
 
 .orb-amber {
   background: var(--color-accent);
-  opacity: 0.12;
+  opacity: 0.14;
 }
 
 .orb-warm {
-  background: #F97316;
-  opacity: 0.08;
+  background: var(--color-accent-light);
+  opacity: 0.1;
 }
 
 /* ============================================
@@ -653,21 +656,21 @@
 }
 
 .badge-primary {
-  background: rgba(15, 23, 42, 0.06);
+  background: rgba(21, 33, 59, 0.06);
   color: var(--color-primary);
-  border: 1px solid rgba(15, 23, 42, 0.1);
+  border: 1px solid rgba(21, 33, 59, 0.1);
 }
 
 .badge-gold {
-  background: rgba(212, 135, 44, 0.1);
+  background: rgba(221, 138, 30, 0.12);
   color: var(--color-accent-dark);
-  border: 1px solid rgba(212, 135, 44, 0.2);
+  border: 1px solid rgba(221, 138, 30, 0.25);
 }
 
 .badge-success {
-  background: rgba(22, 163, 74, 0.08);
-  color: #15803d;
-  border: 1px solid rgba(22, 163, 74, 0.15);
+  background: rgba(31, 157, 91, 0.1);
+  color: #157a44;
+  border: 1px solid rgba(31, 157, 91, 0.2);
 }
 
 /* ============================================
@@ -685,7 +688,7 @@
 .input:focus {
   outline: none;
   border-color: var(--color-accent);
-  box-shadow: 0 0 0 3px rgba(212, 135, 44, 0.12);
+  box-shadow: 0 0 0 3px rgba(221, 138, 30, 0.16);
 }
 
 .input::placeholder {
@@ -696,15 +699,9 @@
    TRUST INDICATORS
    ============================================ */
 
-.trust-badge {
-  @apply flex items-center gap-3 px-4 py-3 rounded-xl;
-  background: rgba(212, 135, 44, 0.04);
-  border: 1px solid rgba(212, 135, 44, 0.12);
-}
-
 .trust-badge-icon {
   @apply w-10 h-10 rounded-full flex items-center justify-center;
-  background: rgba(212, 135, 44, 0.08);
+  background: rgba(221, 138, 30, 0.1);
   color: var(--color-accent-dark);
 }
 
@@ -748,7 +745,7 @@
   letter-spacing: -0.02em;
   line-height: 1.3;
   padding-bottom: 0.5rem;
-  border-bottom: 2px solid rgba(212, 135, 44, 0.15);
+  border-bottom: 2px solid rgba(221, 138, 30, 0.2);
 }
 
 .prose h2:first-child {
@@ -872,39 +869,37 @@ body {
   .heading-section {
     font-size: clamp(1.5rem, 6vw, 2rem);
   }
-
-  /* Trust badges: stack on small screens */
-  .trust-badge {
-    padding: 0.625rem 0.75rem;
-  }
 }
+
 /* ============================================
-   v0 Design System Integration (OKLCH)
+   Semantic tokens (OKLCH) — single source of truth
+   Consumed by tailwind.config.ts: bg-background, text-foreground,
+   bg-accent, bg-brand (=primary), border-border, etc.
    ============================================ */
 
 :root {
-  --background: 0.985 0.002 247;
-  --foreground: 0.15 0.025 265;
-  --card: 1 0 0;
-  --card-foreground: 0.15 0.025 265;
+  --background: 0.982 0.006 85;      /* warm ivory  #faf7f1 */
+  --foreground: 0.255 0.03 264;      /* deep ink    #1b2233 */
+  --card: 1 0 0;                     /* white */
+  --card-foreground: 0.255 0.03 264;
   --popover: 1 0 0;
-  --popover-foreground: 0.15 0.025 265;
-  --primary: 0.18 0.035 265;
-  --primary-foreground: 0.98 0.002 90;
-  --secondary: 0.94 0.008 265;
-  --secondary-foreground: 0.18 0.035 265;
-  --accent: 0.68 0.165 55;
-  --accent-foreground: 0.15 0.025 265;
-  --muted: 0.94 0.008 265;
-  --muted-foreground: 0.52 0.015 265;
-  --destructive: 0.55 0.22 25;
-  --destructive-foreground: 0.98 0 0;
-  --success: 0.55 0.16 145;
-  --success-foreground: 0.98 0 0;
-  --border: 0.88 0.008 265;
-  --input: 0.88 0.008 265;
-  --ring: 0.68 0.165 55;
-  --radius: 0.5rem;
+  --popover-foreground: 0.255 0.03 264;
+  --primary: 0.235 0.05 264;         /* deep navy   #15213b */
+  --primary-foreground: 0.99 0.004 90;
+  --secondary: 0.955 0.006 80;       /* light warm sand */
+  --secondary-foreground: 0.235 0.05 264;
+  --accent: 0.70 0.14 65;            /* Sahel gold  #dd8a1e */
+  --accent-foreground: 0.235 0.05 264;  /* ink text on gold */
+  --muted: 0.955 0.006 80;
+  --muted-foreground: 0.52 0.012 75; /* warm grey   #6e6a63 */
+  --destructive: 0.58 0.18 30;       /* warm red    #d5503a */
+  --destructive-foreground: 0.99 0 0;
+  --success: 0.62 0.135 155;         /* warm green  #1f9d5b */
+  --success-foreground: 0.99 0 0;
+  --border: 0.915 0.008 80;          /* warm sand   #ece6dc */
+  --input: 0.915 0.008 80;
+  --ring: 0.70 0.14 65;              /* gold focus ring */
+  --radius: 0.75rem;
 }
 
 @layer utilities {
@@ -915,16 +910,16 @@ body {
     @apply bg-card/90 backdrop-blur-lg border border-border/60;
   }
   .shadow-premium {
-    box-shadow: 
-      0 1px 2px 0 rgb(0 0 0 / 0.03),
-      0 4px 8px -2px rgb(0 0 0 / 0.06),
-      0 12px 24px -4px rgb(0 0 0 / 0.08);
+    box-shadow:
+      0 1px 2px 0 rgb(27 34 51 / 0.04),
+      0 4px 8px -2px rgb(27 34 51 / 0.06),
+      0 12px 24px -4px rgb(27 34 51 / 0.08);
   }
   .shadow-premium-lg {
-    box-shadow: 
-      0 2px 4px 0 rgb(0 0 0 / 0.03),
-      0 8px 16px -4px rgb(0 0 0 / 0.08),
-      0 24px 48px -8px rgb(0 0 0 / 0.12);
+    box-shadow:
+      0 2px 4px 0 rgb(27 34 51 / 0.04),
+      0 8px 16px -4px rgb(27 34 51 / 0.08),
+      0 24px 48px -8px rgb(27 34 51 / 0.12);
   }
   .glow-accent {
     box-shadow: 0 0 20px -4px oklch(var(--accent));

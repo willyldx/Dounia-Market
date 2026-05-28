@@ -19,7 +19,7 @@
 
       <!-- Contenu -->
       <div class="rounded-3xl border border-border bg-card p-8 shadow-premium sm:p-12 md:p-16">
-        <div class="prose prose-lg max-w-none prose-headings:font-black prose-headings:text-foreground prose-heading:tracking-tight prose-p:text-muted-foreground/90 prose-p:leading-relaxed prose-a:text-amber-700 hover:prose-a:text-amber-800 prose-strong:text-foreground prose-ul:font-medium prose-ul:text-muted-foreground/90">
+        <div class="prose prose-lg max-w-none prose-headings:font-bold prose-headings:text-foreground prose-heading:tracking-tight prose-p:text-muted-foreground/90 prose-p:leading-relaxed prose-a:text-gold-700 hover:prose-a:text-gold-800 prose-strong:text-foreground prose-ul:font-medium prose-ul:text-muted-foreground/90">
           
           <h2>Article 1 — Objet</h2>
           <p>

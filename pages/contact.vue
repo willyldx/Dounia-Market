@@ -9,7 +9,7 @@
       </nav>
 
       <div class="mb-12 text-center reveal-up">
-        <div class="mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-2xl border border-amber-200 bg-amber-50 text-amber-700 shadow-sm">
+        <div class="mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-2xl border border-gold-200 bg-gold-50 text-gold-700 shadow-sm">
           <MessageCircleHeart class="h-8 w-8" :stroke-width="1.5" />
         </div>
         <h1 class="heading-section mb-4 text-3xl sm:text-4xl md:text-5xl">
@@ -27,12 +27,12 @@
           <!-- Informations de Contact (2 colonnes) -->
           <div class="space-y-6 lg:col-span-2">
             <!-- Message de réassurance -->
-            <div class="rounded-2xl border border-amber-200 bg-amber-50 p-6 shadow-sm">
-              <div class="mb-3 flex items-center gap-3 text-amber-800">
+            <div class="rounded-2xl border border-gold-200 bg-gold-50 p-6 shadow-sm">
+              <div class="mb-3 flex items-center gap-3 text-gold-800">
                 <LifeBuoy class="h-5 w-5" />
                 <h3 class="font-bold">Service Client Dounia Market</h3>
               </div>
-              <p class="text-sm font-medium leading-relaxed text-amber-700">
+              <p class="text-sm font-medium leading-relaxed text-gold-700">
                 Nous nous engageons à vous répondre dans les plus brefs délais. Si votre demande concerne une commande, merci de préciser la référence (Ex: CMD-12345).
               </p>
             </div>
@@ -41,12 +41,12 @@
             <div class="overflow-hidden rounded-2xl border border-border bg-card shadow-sm">
               <div class="divide-y divide-border">
                 <a href="mailto:support@douniamarket.com" class="group flex items-center gap-4 p-5 transition-colors hover:bg-muted/50">
-                  <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-amber-100 text-amber-700 transition-transform group-hover:scale-110 group-hover:bg-amber-200">
+                  <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-gold-100 text-gold-700 transition-transform group-hover:scale-110 group-hover:bg-gold-200">
                     <Mail class="h-4 w-4" :stroke-width="2" />
                   </div>
                   <div>
                     <p class="text-sm font-bold text-foreground">Email Support</p>
-                    <p class="text-sm font-medium text-muted-foreground group-hover:text-amber-700 transition-colors">support@douniamarket.com</p>
+                    <p class="text-sm font-medium text-muted-foreground group-hover:text-gold-700 transition-colors">support@douniamarket.com</p>
                   </div>
                 </a>
                 
@@ -86,7 +86,7 @@
                     v-model="form.name" 
                     type="text" 
                     placeholder="Ex: Jean Dupont" 
-                    class="h-12 w-full rounded-xl border border-input bg-background px-4 text-sm font-medium text-foreground outline-none transition-all focus:border-amber-500 focus:ring-2 focus:ring-amber-500/20" 
+                    class="h-12 w-full rounded-xl border border-input bg-background px-4 text-sm font-medium text-foreground outline-none transition-all focus:border-gold-500 focus:ring-2 focus:ring-gold-500/20" 
                     required 
                   />
                 </div>
@@ -96,7 +96,7 @@
                     v-model="form.email" 
                     type="email" 
                     placeholder="votre@email.com" 
-                    class="h-12 w-full rounded-xl border border-input bg-background px-4 text-sm font-medium text-foreground outline-none transition-all focus:border-amber-500 focus:ring-2 focus:ring-amber-500/20" 
+                    class="h-12 w-full rounded-xl border border-input bg-background px-4 text-sm font-medium text-foreground outline-none transition-all focus:border-gold-500 focus:ring-2 focus:ring-gold-500/20" 
                     required 
                   />
                 </div>
@@ -107,7 +107,7 @@
                 <div class="relative">
                   <select 
                     v-model="form.subject" 
-                    class="h-12 w-full appearance-none rounded-xl border border-input bg-background px-4 text-sm font-medium text-foreground outline-none transition-all focus:border-amber-500 focus:ring-2 focus:ring-amber-500/20" 
+                    class="h-12 w-full appearance-none rounded-xl border border-input bg-background px-4 text-sm font-medium text-foreground outline-none transition-all focus:border-gold-500 focus:ring-2 focus:ring-gold-500/20" 
                     required
                   >
                     <option value="" disabled>Sélectionnez un sujet</option>
@@ -126,7 +126,7 @@
                   v-model="form.message" 
                   rows="5" 
                   placeholder="Décrivez comment nous pouvons vous aider..."
-                  class="min-h-[120px] w-full resize-y rounded-xl border border-input bg-background p-4 text-sm font-medium text-foreground outline-none transition-all focus:border-amber-500 focus:ring-2 focus:ring-amber-500/20" 
+                  class="min-h-[120px] w-full resize-y rounded-xl border border-input bg-background p-4 text-sm font-medium text-foreground outline-none transition-all focus:border-gold-500 focus:ring-2 focus:ring-gold-500/20" 
                   required
                 ></textarea>
               </div>

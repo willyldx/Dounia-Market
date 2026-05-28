@@ -1,5 +1,5 @@
 <template>
-  <article class="group flex h-full flex-col overflow-hidden rounded-lg border border-border bg-card">
+  <article class="group flex h-full flex-col overflow-hidden rounded-xl border border-border bg-card shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-gold-200 hover:shadow-premium-lg">
     <div class="relative">
       <NuxtLink
         :to="productUrl"
@@ -9,7 +9,8 @@
           v-if="productImage"
           :src="productImage"
           :alt="product.title"
-          class="h-full w-full object-contain transition-transform duration-300 group-hover:scale-[1.03]"
+          class="h-full w-full object-contain transition-transform duration-500 group-hover:scale-105"
+          :class="product.inStock === false ? 'opacity-60 grayscale' : ''"
           loading="lazy"
           format="webp"
           quality="85"
@@ -17,13 +18,20 @@
         <span v-else class="text-xs font-medium text-muted-foreground/75">Visuel indisponible</span>
       </NuxtLink>
 
+      <span
+        v-if="product.inStock === false"
+        class="absolute left-3 top-3 rounded-full bg-foreground/85 px-2.5 py-1 text-[11px] font-semibold uppercase tracking-wide text-white backdrop-blur-sm"
+      >
+        Rupture
+      </span>
+
       <button
         type="button"
         :aria-label="isFavorite ? 'Retirer des favoris' : 'Ajouter aux favoris'"
         :aria-pressed="isFavorite"
         :disabled="!canToggleFavorite"
         class="absolute right-3 top-3 flex h-9 w-9 items-center justify-center rounded-md border border-border bg-white/95 text-muted-foreground transition-colors hover:text-foreground disabled:cursor-not-allowed disabled:opacity-45"
-        :class="isFavorite ? 'text-amber-700' : ''"
+        :class="isFavorite ? 'text-gold-700' : ''"
         @click.prevent="toggleFavorite"
       >
         <Heart class="h-4 w-4" :class="isFavorite ? 'fill-current' : ''" :stroke-width="1.75" />
@@ -35,7 +43,7 @@
         {{ categoryName }}
       </p>
       <NuxtLink :to="productUrl">
-        <h3 class="line-clamp-2 min-h-[2.5rem] text-sm font-semibold leading-5 text-foreground transition-colors group-hover:text-amber-800 sm:text-base">
+        <h3 class="line-clamp-2 min-h-[2.5rem] text-sm font-semibold leading-5 text-foreground transition-colors group-hover:text-gold-800 sm:text-base">
           {{ product.title }}
         </h3>
       </NuxtLink>
@@ -43,14 +51,13 @@
         {{ product.subtitle }}
       </p>
 
-      <div class="mt-3">
-        <span class="inline-flex rounded-sm px-2 py-1 text-[11px] font-medium" :class="availability.classes">
-          {{ availability.label }}
-        </span>
+      <div v-if="product.inStock === true" class="mt-3 inline-flex items-center gap-1.5 text-[11px] font-medium text-emerald-700">
+        <span class="h-1.5 w-1.5 rounded-full bg-emerald-500"></span>
+        Disponible
       </div>
 
       <div class="mt-auto pt-4">
-        <p v-if="hasKnownPrice" class="text-base font-bold text-foreground sm:text-lg">
+        <p v-if="hasKnownPrice" class="font-display text-lg font-semibold text-foreground sm:text-xl">
           {{ cartStore.formatPrice(product.price as number) }}
         </p>
         <p v-else class="text-xs font-medium text-muted-foreground">
@@ -61,7 +68,7 @@
           v-if="canAddToCart"
           type="button"
           :aria-label="`Ajouter ${product.title} au panier`"
-          class="mt-3 inline-flex h-10 w-full items-center justify-center gap-2 rounded-md bg-[#c9872b] px-3 text-sm font-semibold text-white transition-colors hover:bg-[#b97824]"
+          class="mt-3 inline-flex h-10 w-full items-center justify-center gap-2 rounded-md bg-accent px-3 text-sm font-semibold text-accent-foreground shadow-sm transition-all hover:bg-accent/90 hover:shadow-md"
           @click="addToCart"
         >
           <ShoppingBag class="h-4 w-4" :stroke-width="1.75" />
@@ -116,15 +123,6 @@ const isFavorite = computed(() => favoritesStore.isFavorite(props.product.id))
 const hasKnownPrice = computed(() => typeof props.product.price === 'number' && Number.isFinite(props.product.price))
 const canAddToCart = computed(() => props.product.inStock === true && hasKnownPrice.value)
 const canToggleFavorite = computed(() => isFavorite.value || canAddToCart.value)
-const availability = computed(() => {
-  if (props.product.inStock === true) {
-    return { label: 'Disponible', classes: 'bg-emerald-50 text-emerald-700' }
-  }
-  if (props.product.inStock === false) {
-    return { label: 'Indisponible', classes: 'bg-red-50 text-red-700' }
-  }
-  return { label: 'Disponibilité non indiquée', classes: 'bg-muted text-muted-foreground' }
-})
 
 async function toggleFavorite() {
   if (isFavorite.value) {

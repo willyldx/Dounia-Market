@@ -4,7 +4,7 @@
       <div>
         <h2 class="text-xl font-bold text-foreground">Avis publiés</h2>
         <div v-if="totalReviews > 0" class="mt-2 flex flex-wrap items-center gap-2">
-          <div class="flex items-center gap-0.5 text-amber-500">
+          <div class="flex items-center gap-0.5 text-gold-500">
             <Star
               v-for="value in 5"
               :key="value"
@@ -59,14 +59,14 @@
                 :key="value"
                 type="button"
                 :aria-label="`${value} étoile${value > 1 ? 's' : ''}`"
-                class="text-slate-300 transition-colors hover:text-amber-500"
+                class="text-slate-300 transition-colors hover:text-gold-500"
                 @click="form.rating = value"
                 @mouseenter="hoverRating = value"
                 @mouseleave="hoverRating = 0"
               >
                 <Star
                   class="h-9 w-9"
-                  :class="(hoverRating || form.rating) >= value ? 'fill-current text-amber-500' : ''"
+                  :class="(hoverRating || form.rating) >= value ? 'fill-current text-gold-500' : ''"
                 />
               </button>
             </div>
@@ -136,7 +136,7 @@
                 {{ new Date(review.created_at).toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' }) }}
               </p>
             </div>
-            <div class="flex items-center gap-0.5 text-amber-500">
+            <div class="flex items-center gap-0.5 text-gold-500">
               <Star
                 v-for="value in 5"
                 :key="value"

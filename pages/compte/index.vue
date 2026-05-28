@@ -3,7 +3,7 @@
     <div class="max-w-7xl mx-auto px-6 lg:px-8">
       <div class="mb-12 border-b border-border pb-8 flex flex-col md:flex-row md:items-end justify-between gap-6">
         <div>
-          <h1 class="text-4xl font-black text-foreground tracking-tight">Mon compte</h1>
+          <h1 class="text-4xl font-bold text-foreground tracking-tight">Mon compte</h1>
           <p class="text-muted-foreground font-medium mt-2">Commandes et adresses de livraison pour <span class="font-bold text-foreground">{{ authStore.fullName || 'vous' }}</span></p>
         </div>
       </div>
@@ -60,7 +60,7 @@
                 </div>
                 <span class="text-[10px] font-bold uppercase tracking-widest text-muted-foreground bg-muted/50 px-2.5 py-1 rounded-md border border-border/50">Activité</span>
               </div>
-              <p class="text-3xl font-black text-foreground tracking-tighter">{{ stats.totalOrders }}</p>
+              <p class="text-3xl font-bold text-foreground tracking-tighter">{{ stats.totalOrders }}</p>
               <p class="text-sm text-muted-foreground mt-1">Commandes totales</p>
             </div>
 
@@ -73,7 +73,7 @@
                 </div>
                 <span class="text-[10px] font-bold uppercase tracking-widest text-orange-600 bg-orange-500/10 px-2.5 py-1 rounded-md border border-orange-500/20">En cours</span>
               </div>
-              <p class="text-3xl font-black text-foreground tracking-tighter">{{ stats.inProgress }}</p>
+              <p class="text-3xl font-bold text-foreground tracking-tighter">{{ stats.inProgress }}</p>
               <p class="text-sm text-muted-foreground mt-1">Livraisons en cours</p>
             </div>
 
@@ -84,7 +84,7 @@
                 </div>
                 <span class="text-[10px] font-bold uppercase tracking-widest text-green-700 bg-green-500/10 px-2.5 py-1 rounded-md border border-green-500/20">Livrés</span>
               </div>
-              <p class="text-3xl font-black text-foreground tracking-tighter">{{ stats.delivered }}</p>
+              <p class="text-3xl font-bold text-foreground tracking-tighter">{{ stats.delivered }}</p>
               <p class="text-sm text-muted-foreground mt-1">Commandes livrées</p>
             </div>
           </div>
@@ -123,7 +123,7 @@
 
           <div class="bg-card rounded-lg shadow-sm border border-border overflow-hidden">
             <div class="flex items-center justify-between p-8 border-b border-border/50">
-              <h2 class="text-xl font-black text-foreground tracking-tight">Commandes récentes</h2>
+              <h2 class="text-xl font-bold text-foreground tracking-tight">Commandes récentes</h2>
               <NuxtLink 
                 to="/compte/commandes" 
                 class="text-xs font-bold uppercase tracking-widest text-muted-foreground hover:text-foreground transition-colors flex items-center gap-1"
@@ -162,7 +162,7 @@
                      <PackageIcon v-else class="w-6 h-6 text-muted-foreground/40" />
                    </div>
                    <div class="min-w-0 pr-4">
-                     <p class="font-black text-foreground tracking-tight">{{ order.displayId }}</p>
+                     <p class="font-bold text-foreground tracking-tight">{{ order.displayId }}</p>
                      <p class="text-sm font-medium text-muted-foreground truncate mt-0.5">
                        {{ formatDate(order.createdAt) }} • {{ order.items.length }} article{{ order.items.length > 1 ? 's' : '' }}
                      </p>
@@ -171,7 +171,7 @@
 
                 <div class="flex items-center justify-between sm:justify-end gap-6 sm:w-auto mt-4 sm:mt-0 pl-[5.25rem] sm:pl-0">
                   <span 
-                    class="inline-flex items-center px-3 py-1.5 rounded-lg text-[10px] font-black uppercase tracking-widest border shrink-0"
+                    class="inline-flex items-center px-3 py-1.5 rounded-lg text-[10px] font-bold uppercase tracking-widest border shrink-0"
                     :class="getStatusClass(order.fulfillmentStatus)"
                   >
                     {{ getStatusLabel(order.fulfillmentStatus) }}
@@ -187,7 +187,7 @@
 
           <div class="bg-card rounded-lg shadow-sm border border-border overflow-hidden">
             <div class="flex items-center justify-between p-8 border-b border-border/50">
-              <h2 class="text-xl font-black text-foreground tracking-tight">Adresses enregistrées</h2>
+              <h2 class="text-xl font-bold text-foreground tracking-tight">Adresses enregistrées</h2>
               <NuxtLink 
                 to="/compte/adresses" 
                 class="text-xs font-bold uppercase tracking-widest text-muted-foreground hover:text-foreground transition-colors flex items-center gap-1"

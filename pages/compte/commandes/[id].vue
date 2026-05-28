@@ -23,7 +23,7 @@
         <div class="w-16 h-16 bg-destructive/10 rounded-full flex items-center justify-center mx-auto mb-6">
           <AlertCircleIcon class="w-8 h-8 text-destructive" />
         </div>
-        <h3 class="font-black text-2xl text-foreground mb-3 tracking-tight">Commande introuvable</h3>
+        <h3 class="font-bold text-2xl text-foreground mb-3 tracking-tight">Commande introuvable</h3>
         <p class="text-muted-foreground font-medium mb-8">{{ error }}</p>
         <NuxtLink
           to="/compte/commandes"
@@ -42,7 +42,7 @@
               <div class="flex flex-wrap items-center gap-4 mb-2">
                 <h1 class="text-2xl font-bold text-foreground tracking-tight">{{ order.displayId }}</h1>
                 <span
-                class="inline-flex items-center px-4 py-2 rounded-lg text-[10px] font-black uppercase tracking-widest border"
+                class="inline-flex items-center px-4 py-2 rounded-lg text-[10px] font-bold uppercase tracking-widest border"
                   :class="getStatusClass(order.fulfillmentStatus)"
                 >
                   {{ getStatusLabel(order.fulfillmentStatus) }}

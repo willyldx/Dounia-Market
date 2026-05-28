@@ -25,7 +25,7 @@
 
       <div class="bg-card rounded-lg shadow-sm overflow-hidden border border-border">
         <div class="p-6 sm:p-10 text-center pb-8 border-b border-border/50">
-          <h1 class="text-3xl font-black text-foreground mb-3 tracking-tight">
+          <h1 class="text-3xl font-bold text-foreground mb-3 tracking-tight">
             {{ confirmationTitle }}
           </h1>
           <p class="text-muted-foreground font-medium leading-relaxed">
@@ -37,7 +37,7 @@
           <!-- Order Number -->
           <div class="bg-card border border-border rounded-lg p-5 sm:p-6 text-center shadow-sm">
             <p class="text-xs font-bold uppercase tracking-widest text-muted-foreground mb-2">Référence de commande</p>
-            <p class="text-xl sm:text-3xl font-black text-foreground font-mono tracking-wider break-all">{{ orderId }}</p>
+            <p class="text-xl sm:text-3xl font-bold text-foreground font-mono tracking-wider break-all">{{ orderId }}</p>
           </div>
 
           <div v-if="confirmationState !== 'captured'" class="rounded-lg border border-border bg-card p-5 text-sm text-muted-foreground">
@@ -53,7 +53,7 @@
           </div>
 
           <div v-else class="space-y-6 pt-4">
-            <h3 class="font-black text-foreground text-lg">Prochaines étapes</h3>
+            <h3 class="font-bold text-foreground text-lg">Prochaines étapes</h3>
             
             <div class="relative pl-4 space-y-8 border-l-2 border-border ml-4">
                <div class="absolute -left-[11px] top-0 w-5 h-5 rounded-full border-4 border-card bg-brand"></div>

@@ -1,5 +1,5 @@
 <template>
-  <div class="min-h-screen bg-stone-50">
+  <div class="min-h-screen bg-background">
     <!-- Header -->
     <header class="fixed top-0 left-0 right-0 z-50 bg-white/90 backdrop-blur-md border-b border-stone-200">
       <div class="px-4 py-3 flex items-center justify-between">
@@ -8,7 +8,7 @@
             <img src="/logo-full.svg" alt="Dounia Market Tchad" class="h-8 w-auto" />
             <div>
               <span class="font-bold text-stone-800">Dounia Market Tchad</span>
-              <span class="block text-xs text-amber-700 font-medium">Livreur</span>
+              <span class="block text-xs text-gold-700 font-medium">Livreur</span>
             </div>
           </NuxtLink>
         </div>
@@ -22,8 +22,8 @@
           
           <!-- User Menu -->
           <UDropdown :items="userMenuItems" :popper="{ placement: 'bottom-end' }">
-            <div class="w-9 h-9 rounded-full bg-amber-100 flex items-center justify-center cursor-pointer">
-              <span class="text-sm font-semibold text-amber-800">{{ authStore.initials }}</span>
+            <div class="w-9 h-9 rounded-full bg-gold-100 flex items-center justify-center cursor-pointer">
+              <span class="text-sm font-semibold text-gold-800">{{ authStore.initials }}</span>
             </div>
           </UDropdown>
         </div>
@@ -44,7 +44,7 @@
           :to="item.to"
           :class="[
             'flex flex-col items-center gap-1 px-4 py-2 rounded-lg transition-colors',
-            isActive(item.to) ? 'text-dounia-500' : 'text-stone-400'
+            isActive(item.to) ? 'text-gold-600' : 'text-stone-400'
           ]"
         >
           <Icon :name="item.icon" class="w-6 h-6" />

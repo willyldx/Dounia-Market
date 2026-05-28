@@ -1,23 +1,11 @@
 <template>
   <div class="flex min-h-screen flex-col bg-background">
-<<<<<<< HEAD
     <a
       href="#contenu-principal"
       class="sr-only z-50 rounded-md bg-card px-4 py-2 text-sm font-semibold text-foreground focus:not-sr-only focus:fixed focus:left-4 focus:top-4"
     >
       Aller au contenu
     </a>
-
-    <div class="bg-gradient-to-r from-[#0f172a] via-[#1e293b] to-[#0f172a] py-2.5 text-white">
-      <p class="px-4 text-center text-xs font-medium tracking-wide sm:text-sm">
-        ✨ Bienvenue sur Dounia Market — Les commandes ouvriront très bientôt !
-=======
-    <div class="bg-brand py-2 text-brand-foreground">
-      <p class="px-4 text-center text-xs font-medium sm:text-sm">
-        Livraison locale à N'Djamena selon zones couvertes
->>>>>>> parent of 1b546793 (UI: layout, product list and search improvements)
-      </p>
-    </div>
 
     <header class="sticky top-0 z-40 border-b border-border bg-card/95 backdrop-blur-md">
       <div class="container-main">
@@ -27,10 +15,13 @@
           </NuxtLink>
 
           <nav class="hidden items-center gap-5 text-sm font-medium text-foreground lg:flex">
-            <NuxtLink to="/catalogue" class="transition-colors hover:text-amber-700" active-class="text-amber-700">
+            <NuxtLink to="/catalogue" class="transition-colors hover:text-gold-700" active-class="text-gold-700">
               Catalogue
             </NuxtLink>
-            <NuxtLink to="/suivi" class="transition-colors hover:text-amber-700" active-class="text-amber-700">
+            <NuxtLink to="/comment-ca-marche" class="transition-colors hover:text-gold-700" active-class="text-gold-700">
+              Comment ça marche
+            </NuxtLink>
+            <NuxtLink to="/suivi" class="transition-colors hover:text-gold-700" active-class="text-gold-700">
               Suivi
             </NuxtLink>
           </nav>
@@ -47,7 +38,7 @@
 
           <div class="ml-auto flex shrink-0 items-center gap-1 sm:gap-2">
             <ClientOnly>
-              <CurrencySelector class="hidden xl:block" />
+              <CurrencySelector class="hidden md:block" />
             </ClientOnly>
             <NuxtLink
               to="/favoris"
@@ -58,7 +49,7 @@
               <ClientOnly>
                 <span
                   v-if="favoritesStore.count > 0"
-                  class="absolute right-0.5 top-0.5 flex h-4 min-w-[1rem] items-center justify-center rounded-full bg-[#c9872b] px-1 text-[10px] font-semibold text-white"
+                  class="absolute right-0.5 top-0.5 flex h-4 min-w-[1rem] items-center justify-center rounded-full bg-accent px-1 text-[10px] font-semibold text-accent-foreground"
                 >
                   {{ favoritesStore.count }}
                 </span>
@@ -81,7 +72,7 @@
               <ClientOnly>
                 <span
                   v-if="cartStore.itemCount > 0"
-                  class="absolute right-0.5 top-0.5 flex h-4 min-w-[1rem] items-center justify-center rounded-full bg-[#c9872b] px-1 text-[10px] font-semibold text-white"
+                  class="absolute right-0.5 top-0.5 flex h-4 min-w-[1rem] items-center justify-center rounded-full bg-accent px-1 text-[10px] font-semibold text-accent-foreground"
                 >
                   {{ cartStore.itemCount }}
                 </span>
@@ -120,32 +111,80 @@
     </main>
 
     <footer class="border-t border-border bg-card">
-      <div class="container-main grid gap-9 py-10 md:grid-cols-[1.35fr_1fr_1fr]">
+      <!-- Bande de réassurance -->
+      <div class="border-b border-border bg-muted/30">
+        <div class="container-main grid gap-4 py-6 sm:grid-cols-3">
+          <div class="flex items-center gap-3">
+            <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-gold-100 text-gold-700">
+              <ShieldCheck class="h-5 w-5" :stroke-width="1.75" />
+            </div>
+            <div>
+              <p class="text-sm font-semibold text-foreground">Commande en confiance</p>
+              <p class="text-xs text-muted-foreground">Vos informations restent protégées</p>
+            </div>
+          </div>
+          <div class="flex items-center gap-3">
+            <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-gold-100 text-gold-700">
+              <Truck class="h-5 w-5" :stroke-width="1.75" />
+            </div>
+            <div>
+              <p class="text-sm font-semibold text-foreground">Remis à vos proches</p>
+              <p class="text-xs text-muted-foreground">Livraison à N'Djamena, dans les zones desservies</p>
+            </div>
+          </div>
+          <div class="flex items-center gap-3">
+            <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-gold-100 text-gold-700">
+              <PackageCheck class="h-5 w-5" :stroke-width="1.75" />
+            </div>
+            <div>
+              <p class="text-sm font-semibold text-foreground">Toujours informé</p>
+              <p class="text-xs text-muted-foreground">Suivez votre commande à chaque étape</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="container-main grid gap-9 py-10 md:grid-cols-[1.35fr_1fr_1fr_1fr]">
         <div class="max-w-sm">
           <NuxtLink to="/" aria-label="Dounia Market Tchad, accueil">
             <img src="/logo-full.svg" alt="Dounia Market Tchad" class="h-8 w-auto" />
           </NuxtLink>
           <p class="mt-4 text-sm leading-relaxed text-muted-foreground">
-            Commandez depuis l'étranger pour vos proches à N'Djamena, selon les zones couvertes.
+            Où que vous soyez, offrez le nécessaire à ceux que vous aimez. Nous préparons votre commande et la remettons à votre famille à N'Djamena.
           </p>
+          <a
+            href="mailto:support@douniamarket.com"
+            class="mt-4 inline-flex items-center gap-2 text-sm font-medium text-foreground transition-colors hover:text-gold-700"
+          >
+            <Mail class="h-4 w-4 text-muted-foreground" :stroke-width="1.75" />
+            support@douniamarket.com
+          </a>
         </div>
         <nav aria-label="Boutique">
           <h2 class="text-xs font-semibold uppercase tracking-wide text-muted-foreground">Boutique</h2>
           <div class="mt-4 flex flex-col gap-3 text-sm">
-            <NuxtLink to="/catalogue" class="hover:text-amber-700">Catalogue</NuxtLink>
-            <NuxtLink to="/suivi" class="hover:text-amber-700">Suivre une commande</NuxtLink>
-            <NuxtLink to="/favoris" class="hover:text-amber-700">Favoris</NuxtLink>
-            <NuxtLink to="/compte" class="hover:text-amber-700">Mon compte</NuxtLink>
+            <NuxtLink to="/catalogue" class="hover:text-gold-700">Catalogue</NuxtLink>
+            <NuxtLink to="/suivi" class="hover:text-gold-700">Suivre une commande</NuxtLink>
+            <NuxtLink to="/favoris" class="hover:text-gold-700">Favoris</NuxtLink>
+            <NuxtLink to="/compte" class="hover:text-gold-700">Mon compte</NuxtLink>
           </div>
         </nav>
-        <nav aria-label="Informations">
-          <h2 class="text-xs font-semibold uppercase tracking-wide text-muted-foreground">Informations</h2>
+        <nav aria-label="Aide">
+          <h2 class="text-xs font-semibold uppercase tracking-wide text-muted-foreground">Aide</h2>
           <div class="mt-4 flex flex-col gap-3 text-sm">
-            <NuxtLink to="/a-propos" class="hover:text-amber-700">À propos</NuxtLink>
-            <NuxtLink to="/contact" class="hover:text-amber-700">Contact</NuxtLink>
-            <NuxtLink to="/conditions" class="hover:text-amber-700">Conditions générales</NuxtLink>
-            <NuxtLink to="/confidentialite" class="hover:text-amber-700">Confidentialité</NuxtLink>
-            <NuxtLink to="/cookies" class="hover:text-amber-700">Cookies</NuxtLink>
+            <NuxtLink to="/comment-ca-marche" class="hover:text-gold-700">Comment ça marche</NuxtLink>
+            <NuxtLink to="/faq" class="hover:text-gold-700">FAQ</NuxtLink>
+            <NuxtLink to="/contact" class="hover:text-gold-700">Contact</NuxtLink>
+            <NuxtLink to="/a-propos" class="hover:text-gold-700">À propos</NuxtLink>
+          </div>
+        </nav>
+        <nav aria-label="Informations légales">
+          <h2 class="text-xs font-semibold uppercase tracking-wide text-muted-foreground">Légal</h2>
+          <div class="mt-4 flex flex-col gap-3 text-sm">
+            <NuxtLink to="/conditions" class="hover:text-gold-700">Conditions générales</NuxtLink>
+            <NuxtLink to="/confidentialite" class="hover:text-gold-700">Confidentialité</NuxtLink>
+            <NuxtLink to="/cookies" class="hover:text-gold-700">Cookies</NuxtLink>
+            <NuxtLink to="/mentions-legales" class="hover:text-gold-700">Mentions légales</NuxtLink>
           </div>
         </nav>
       </div>
@@ -162,7 +201,7 @@
 </template>
 
 <script setup lang="ts">
-import { Heart, Menu, Search, ShoppingBag, User } from 'lucide-vue-next'
+import { Heart, Mail, Menu, PackageCheck, Search, ShieldCheck, ShoppingBag, Truck, User } from 'lucide-vue-next'
 import { useCartStore } from '~/stores/cart'
 import { useFavoritesStore } from '~/stores/favorites'
 

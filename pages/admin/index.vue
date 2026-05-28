@@ -7,7 +7,7 @@
         <p class="mt-1 text-sm text-zinc-500">Bonjour {{ authStore.fullName }}. Voici les commandes et livraisons à traiter.</p>
       </div>
       <div class="flex gap-2">
-        <NuxtLink to="/admin/commandes" class="inline-flex h-10 items-center gap-2 rounded-lg bg-[#111a31] px-4 text-sm font-medium text-white hover:bg-[#0f172a]">
+        <NuxtLink to="/admin/commandes" class="inline-flex h-10 items-center gap-2 rounded-lg bg-dounia-500 px-4 text-sm font-medium text-white hover:bg-dounia-600">
           <Icon name="lucide:package" class="h-4 w-4" />
           Commandes
         </NuxtLink>

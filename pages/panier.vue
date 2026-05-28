@@ -11,7 +11,7 @@
       <div class="mb-10 flex flex-col sm:flex-row sm:items-end justify-between gap-6 reveal-up">
         <h1 class="heading-section flex items-center gap-4">
           Votre Panier
-          <span v-if="!cartStore.isEmpty" class="flex h-8 min-w-[2rem] items-center justify-center rounded-full bg-amber-100 px-3 text-sm font-bold text-amber-700">
+          <span v-if="!cartStore.isEmpty" class="flex h-8 min-w-[2rem] items-center justify-center rounded-full bg-gold-100 px-3 text-sm font-bold text-gold-700">
             {{ cartStore.itemCount }}
           </span>
         </h1>
@@ -50,7 +50,7 @@
             class="relative flex flex-col gap-4 sm:gap-5"
             tag="div"
           >
-            <div v-for="item in cartStore.items" :key="item.id" class="group relative flex flex-col gap-4 rounded-2xl border border-border bg-card p-4 shadow-sm transition-all hover:border-amber-200 hover:shadow-md sm:flex-row sm:p-5">
+            <div v-for="item in cartStore.items" :key="item.id" class="group relative flex flex-col gap-4 rounded-2xl border border-border bg-card p-4 shadow-sm transition-all hover:border-gold-200 hover:shadow-md sm:flex-row sm:p-5">
               
               <!-- Image -->
               <NuxtLink :to="`/produit/${item.id}`" class="relative flex h-32 w-full shrink-0 items-center justify-center overflow-hidden rounded-xl bg-[#f8f5ef] sm:h-32 sm:w-32">
@@ -67,11 +67,11 @@
               <div class="flex flex-1 flex-col">
                 <div class="flex items-start justify-between gap-4">
                   <div>
-                    <span v-if="item.variantTitle || item.category" class="mb-1.5 inline-block rounded-md bg-amber-50 px-2 py-1 text-[10px] font-bold uppercase tracking-wider text-amber-700">
+                    <span v-if="item.variantTitle || item.category" class="mb-1.5 inline-block rounded-md bg-gold-50 px-2 py-1 text-[10px] font-bold uppercase tracking-wider text-gold-700">
                       {{ item.variantTitle || item.category }}
                     </span>
                     <NuxtLink :to="`/produit/${item.id}`">
-                      <h3 class="line-clamp-2 text-base font-bold text-foreground transition-colors hover:text-amber-700 sm:text-lg">
+                      <h3 class="line-clamp-2 text-base font-bold text-foreground transition-colors hover:text-gold-700 sm:text-lg">
                         {{ item.title }}
                       </h3>
                     </NuxtLink>
@@ -109,14 +109,14 @@
                   <!-- Prix -->
                   <div class="text-right">
                     <p v-if="item.quantity > 1" class="mb-0.5 text-xs font-medium text-muted-foreground">{{ cartStore.formatPrice(item.price) }} / unité</p>
-                    <span class="text-xl font-bold tracking-tight text-foreground sm:text-2xl">{{ cartStore.formatPrice(item.price * item.quantity) }}</span>
+                    <span class="font-display text-xl font-semibold tracking-tight text-foreground sm:text-2xl">{{ cartStore.formatPrice(item.price * item.quantity) }}</span>
                   </div>
                 </div>
               </div>
             </div>
           </TransitionGroup>
           
-          <NuxtLink to="/catalogue" class="mt-4 inline-flex items-center gap-2 self-start text-sm font-bold text-amber-700 transition-colors hover:text-amber-800">
+          <NuxtLink to="/catalogue" class="mt-4 inline-flex items-center gap-2 self-start text-sm font-bold text-gold-700 transition-colors hover:text-gold-800">
             <ArrowLeft class="h-4 w-4" :stroke-width="2.5" /> 
             Continuer mes achats
           </NuxtLink>
@@ -136,7 +136,7 @@
               </div>
               <div class="flex items-start justify-between text-sm text-muted-foreground">
                 <span class="flex items-center gap-2 pt-0.5">
-                  <Truck class="h-4 w-4 text-amber-600" />
+                  <Truck class="h-4 w-4 text-gold-600" />
                   Livraison à N'Djamena
                 </span>
                 <span class="font-medium text-foreground text-right">Calculée à l'étape suivante</span>
@@ -145,7 +145,7 @@
             
             <div class="mb-8 flex items-end justify-between border-t border-border pt-6">
               <span class="text-base font-bold text-foreground">Total estimé</span>
-              <span class="text-3xl font-black tracking-tight text-foreground">{{ cartStore.subtotalFormatted }}</span>
+              <span class="font-display text-3xl font-semibold tracking-tight text-foreground">{{ cartStore.subtotalFormatted }}</span>
             </div>
             
             <!-- Actions -->
@@ -173,7 +173,7 @@
           <div class="bg-muted/30 px-6 py-5 border-t border-border">
             <div class="space-y-4">
               <div v-for="badge in trustBadges" :key="badge.label" class="flex items-start gap-3">
-                <div class="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-white text-amber-700 shadow-sm">
+                <div class="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-white text-gold-700 shadow-sm">
                   <component :is="badge.icon" class="h-4 w-4" :stroke-width="2" />
                 </div>
                 <p class="pt-1.5 text-xs font-medium leading-snug text-muted-foreground">{{ badge.label }}</p>
