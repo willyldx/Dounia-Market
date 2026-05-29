@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import { Mail, PackageCheck, ShieldCheck, Truck, Sprout } from 'lucide-react'
+import { Mail, PackageCheck, ShieldCheck, Truck } from 'lucide-react'
 
 const COLS = [
   {
@@ -58,11 +58,9 @@ export function SiteFooter() {
 
       <div className="container-page grid gap-9 py-10 md:grid-cols-[1.4fr_1fr_1fr_1fr]">
         <div className="max-w-sm">
-          <Link href="/" className="flex items-center gap-2">
-            <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-primary text-primary-foreground">
-              <Sprout className="h-5 w-5" strokeWidth={2} />
-            </span>
-            <span className="font-display text-lg font-bold">Dounia Market</span>
+          <Link href="/" className="flex items-center" aria-label="Dounia Market, accueil">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src="/logo.svg" alt="Dounia Market" className="h-8 w-auto" />
           </Link>
           <p className="mt-4 text-sm leading-relaxed text-muted-foreground">
             Où que vous soyez, offrez le nécessaire à ceux que vous aimez. Nous préparons votre commande et la remettons à votre famille à N'Djamena.

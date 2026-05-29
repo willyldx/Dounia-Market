@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { Heart, Menu, Search, ShoppingBag, Sprout, User } from 'lucide-react'
+import { Heart, Menu, Search, ShoppingBag, User } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { Button } from '@/components/ui/button'
 import { Sheet, SheetContent, SheetTitle, SheetTrigger } from '@/components/ui/sheet'
@@ -43,11 +43,9 @@ export function SiteHeader() {
   return (
     <header className="sticky top-0 z-50 border-b border-border/70 bg-background/85 backdrop-blur-md">
       <div className="container-page flex h-16 items-center gap-4">
-        <Link href="/" className="flex shrink-0 items-center gap-2" aria-label="Dounia Market, accueil">
-          <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-primary text-primary-foreground">
-            <Sprout className="h-5 w-5" strokeWidth={2} />
-          </span>
-          <span className="font-display text-lg font-bold tracking-tight">Dounia Market</span>
+        <Link href="/" className="flex shrink-0 items-center" aria-label="Dounia Market, accueil">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src="/logo.svg" alt="Dounia Market" className="h-7 w-auto sm:h-8" />
         </Link>
 
         <nav className="hidden items-center gap-1 lg:flex">
