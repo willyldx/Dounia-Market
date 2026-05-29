@@ -215,30 +215,6 @@ export default function HomePage() {
           ))}
         </div>
       </section>
-
-      {/* Closing CTA band - contained rounded panel */}
-      <section className="container-page pb-16 md:pb-24">
-        <div className="overflow-hidden rounded-3xl bg-primary px-6 py-12 text-primary-foreground sm:px-12 md:py-16">
-          <div className="mx-auto flex max-w-2xl flex-col items-center text-center">
-            <h2 className="font-display text-3xl font-bold tracking-tight sm:text-4xl">
-              Prêt à faire plaisir à vos proches ?
-            </h2>
-            <p className="mt-3 max-w-md text-primary-foreground/85">
-              Choisissez vos produits aujourd'hui, nous nous occupons de la livraison à N'Djamena.
-            </p>
-            <Button
-              asChild
-              size="lg"
-              className="mt-7 bg-accent text-accent-foreground hover:bg-accent/90"
-            >
-              <Link href="/catalogue">
-                Commencer ma commande
-                <ArrowRight className="h-4 w-4" strokeWidth={1.75} />
-              </Link>
-            </Button>
-          </div>
-        </div>
-      </section>
     </div>
   )
 }
