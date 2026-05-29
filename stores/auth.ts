@@ -1,417 +1,149 @@
-import { defineStore } from 'pinia'
-import type { UserRole, Address } from '~/types'
+import { create } from 'zustand'
+import type { Address, AuthUser, UserRole } from '@/lib/types'
+import { getClientToken, setClientToken } from '@/lib/api'
+import {
+  fetchUser,
+  login as loginReq,
+  logoutRequest,
+  parseUser,
+  patchUser,
+  saveAddresses as saveAddrReq,
+  sendOtp as sendOtpReq,
+  verifyOtp as verifyOtpReq,
+} from '@/lib/auth'
 
-interface AuthUser {
-  id: string | number
-  name: string
-  email: string
-  firstName: string
-  lastName: string
-  phone: string
-  role: UserRole
-  addresses: Address[]
-  createdAt: string
-}
+type Status = 'idle' | 'loading' | 'authenticated' | 'guest'
 
 interface AuthState {
   user: AuthUser | null
   token: string | null
-  isAuthenticated: boolean
-  isLoading: boolean
+  status: Status
   error: string | null
-  sessionChecked: boolean
+  role: () => UserRole
+  checkSession: () => Promise<void>
+  sendOtp: (email: string, firstName?: string, lastName?: string) => Promise<{ success: boolean; error?: string }>
+  verifyOtp: (
+    email: string,
+    code: string,
+    firstName?: string,
+    lastName?: string,
+    phone?: string,
+  ) => Promise<{ success: boolean; role?: UserRole; error?: string }>
+  login: (email: string, password: string) => Promise<{ success: boolean; role?: UserRole; error?: string }>
+  logout: () => Promise<void>
+  updateProfile: (u: Partial<Pick<AuthUser, 'firstName' | 'lastName' | 'phone'>>) => Promise<{ success: boolean; error?: string }>
+  saveAddresses: (addresses: Address[]) => Promise<{ success: boolean }>
 }
 
-export const useAuthStore = defineStore('auth', {
-  state: (): AuthState => ({
-    user: null,
-    token: null,
-    isAuthenticated: false,
-    isLoading: false,
-    error: null,
-    sessionChecked: false,
-  }),
+export const useAuth = create<AuthState>((set, get) => ({
+  user: null,
+  token: null,
+  status: 'idle',
+  error: null,
 
-  getters: {
-    fullName: (state): string => {
-      if (!state.user) return ''
-      return `${state.user.firstName} ${state.user.lastName || ''}`.trim()
-    },
+  role: () => get().user?.role ?? 'client',
 
-    initials: (state): string => {
-      if (!state.user) return '?'
-      const first = state.user.firstName?.[0] || ''
-      const last = state.user.lastName?.[0] || ''
-      return (first + last).toUpperCase() || '?'
-    },
-
-    userRole: (state): UserRole => {
-      return (state.user?.role as UserRole) || 'client'
-    },
-
-    isClient(): boolean {
-      return this.userRole === 'client'
-    },
-
-    isLivreur(): boolean {
-      return this.userRole === 'livreur'
-    },
-
-    isAdmin(): boolean {
-      return this.userRole === 'admin' || this.userRole === 'super_admin'
-    },
-
-    isSuperAdmin(): boolean {
-      return this.userRole === 'super_admin'
-    },
-
-    canAccessAdmin(): boolean {
-      return ['admin', 'super_admin'].includes(this.userRole)
-    },
-
-    canAccessLivreur(): boolean {
-      return ['livreur', 'admin', 'super_admin'].includes(this.userRole)
-    },
+  checkSession: async () => {
+    if (get().status === 'authenticated' || get().status === 'loading') return
+    const token = getClientToken()
+    if (!token) {
+      set({ status: 'guest' })
+      return
+    }
+    set({ status: 'loading', token })
+    try {
+      const { user } = await fetchUser(token)
+      if (user) set({ user: parseUser(user), status: 'authenticated' })
+      else {
+        setClientToken(null)
+        set({ user: null, token: null, status: 'guest' })
+      }
+    } catch {
+      setClientToken(null)
+      set({ user: null, token: null, status: 'guest' })
+    }
   },
 
-  actions: {
-    // =============================================
-    // INTERNAL HELPERS
-    // =============================================
-    _getApiUrl(): string {
-      const config = useRuntimeConfig()
-      return config.public.apiUrl
-    },
+  sendOtp: async (email, firstName, lastName) => {
+    set({ error: null })
+    try {
+      await sendOtpReq(email, firstName, lastName)
+      return { success: true }
+    } catch (e: any) {
+      set({ error: e.message })
+      return { success: false, error: e.message }
+    }
+  },
 
-    _getHeaders(): Record<string, string> {
-      const headers: Record<string, string> = {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
+  verifyOtp: async (email, code, firstName, lastName, phone) => {
+    set({ error: null })
+    try {
+      const res = await verifyOtpReq(email, code, firstName, lastName, phone)
+      if (res.token && res.user) {
+        setClientToken(res.token)
+        const user = parseUser(res.user)
+        set({ user, token: res.token, status: 'authenticated' })
+        return { success: true, role: user.role }
       }
-      if (this.token) {
-        headers['Authorization'] = `Bearer ${this.token}`
-      }
-      return headers
-    },
+      return { success: false, error: 'Réponse inattendue du serveur' }
+    } catch (e: any) {
+      set({ error: e.message })
+      return { success: false, error: e.message }
+    }
+  },
 
-    _parseUser(apiUser: any): AuthUser {
-      const nameParts = (apiUser.name || '').split(' ')
-      return {
-        id: apiUser.id,
-        name: apiUser.name || '',
-        email: apiUser.email || '',
-        firstName: apiUser.first_name || nameParts[0] || '',
-        lastName: apiUser.last_name || nameParts.slice(1).join(' ') || '',
-        phone: apiUser.phone || '',
-        role: apiUser.role || 'client',
-        addresses: apiUser.addresses || [],
-        createdAt: apiUser.created_at || new Date().toISOString(),
+  login: async (email, password) => {
+    set({ error: null })
+    try {
+      const res = await loginReq(email, password)
+      if (res.token && res.user) {
+        setClientToken(res.token)
+        const user = parseUser(res.user)
+        set({ user, token: res.token, status: 'authenticated' })
+        return { success: true, role: user.role }
       }
-    },
+      return { success: false, error: 'Réponse inattendue du serveur' }
+    } catch (e: any) {
+      set({ error: e.message })
+      return { success: false, error: e.message }
+    }
+  },
 
-    _persistToken(token: string) {
-      this.token = token
-      const authCookie = useCookie('dounia_market_auth_token', {
-        maxAge: 60 * 60 * 24 * 30,
-        path: '/',
-        sameSite: 'lax',
-        secure: !import.meta.dev,
+  logout: async () => {
+    const token = get().token
+    if (token) await logoutRequest(token)
+    setClientToken(null)
+    set({ user: null, token: null, status: 'guest' })
+  },
+
+  updateProfile: async (updates) => {
+    const { token, user } = get()
+    if (!token || !user) return { success: false, error: 'Non connecté' }
+    try {
+      const res = await patchUser(token, {
+        first_name: updates.firstName ?? user.firstName,
+        last_name: updates.lastName ?? user.lastName,
+        phone: updates.phone ?? user.phone,
       })
-      authCookie.value = token
-    },
-
-    _clearSession(existingCookie?: any) {
-      this.user = null
-      this.token = null
-      this.isAuthenticated = false
-      if (existingCookie) {
-         existingCookie.value = null
-      } else {
-         try {
-           const authCookie = useCookie('dounia_market_auth_token', {
-             path: '/',
-             sameSite: 'lax',
-             secure: !import.meta.dev,
-           })
-           authCookie.value = null
-         } catch(e) {}
+      if (res.user) {
+        set({ user: parseUser(res.user) })
+        return { success: true }
       }
-    },
+      return { success: false, error: 'Réponse inattendue' }
+    } catch (e: any) {
+      return { success: false, error: e.message }
+    }
+  },
 
-    // =============================================
-    // SESSION CHECK (on app mount)
-    // =============================================
-    async checkSession() {
-      if (this.sessionChecked) return
-      this.sessionChecked = true
-
-      // Lisez le jeton depuis les cookies (fonctionne SSR et CSR)
-      const authCookie = useCookie('dounia_market_auth_token', {
-        path: '/',
-        sameSite: 'lax',
-        secure: !import.meta.dev,
-      })
-      const savedToken = authCookie.value
-      
-      if (!savedToken) return
-
-      this.token = savedToken
-
-      try {
-        const response: any = await $fetch(`${this._getApiUrl()}/user`, {
-          headers: this._getHeaders(),
-        })
-
-        if (response.user) {
-          this.user = this._parseUser(response.user)
-          this.isAuthenticated = true
-        } else {
-          this._clearSession(authCookie)
-        }
-      } catch (e) {
-        // Token expired or invalid
-        this._clearSession(authCookie)
-      }
-    },
-
-    // =============================================
-    // OTP LOGIN (Passwordless — for Clients)
-    // =============================================
-
-    /**
-     * Step 1: Request OTP code to be sent to email via Resend
-     */
-    async sendOtp(email: string, firstName?: string, lastName?: string) {
-      this.isLoading = true
-      this.error = null
-
-      try {
-        const response: any = await $fetch(`${this._getApiUrl()}/auth/send-otp`, {
-          method: 'POST',
-          headers: this._getHeaders(),
-          body: { email, first_name: firstName, last_name: lastName },
-        })
-
-        return {
-          success: true,
-          message: response.message,
-        }
-      } catch (error: any) {
-        const msg = error.data?.message || error.data?.errors?.email?.[0] || 'Erreur lors de l\'envoi du code'
-        this.error = msg
-        return { success: false, error: msg }
-      } finally {
-        this.isLoading = false
-      }
-    },
-
-    /**
-     * Step 2: Verify the OTP code and get authenticated
-     */
-    async verifyOtp(email: string, code: string, firstName?: string, lastName?: string, phone?: string) {
-      this.isLoading = true
-      this.error = null
-
-      try {
-        const response: any = await $fetch(`${this._getApiUrl()}/auth/verify-otp`, {
-          method: 'POST',
-          headers: this._getHeaders(),
-          body: { email, code, first_name: firstName, last_name: lastName, phone },
-        })
-
-        if (response.token && response.user) {
-          this._persistToken(response.token)
-          this.user = this._parseUser(response.user)
-          this.isAuthenticated = true
-          return { success: true, role: this.userRole }
-        }
-
-        this.error = 'Réponse inattendue du serveur'
-        return { success: false, error: this.error }
-      } catch (error: any) {
-        const msg = error.data?.message || error.data?.errors?.code?.[0] || 'Code invalide ou expiré'
-        this.error = msg
-        return { success: false, error: msg }
-      } finally {
-        this.isLoading = false
-      }
-    },
-
-    // =============================================
-    // PASSWORD LOGIN (for Admin / Livreur)
-    // =============================================
-    async login(email: string, password: string) {
-      this.isLoading = true
-      this.error = null
-
-      try {
-        const response: any = await $fetch(`${this._getApiUrl()}/auth/login`, {
-          method: 'POST',
-          headers: this._getHeaders(),
-          body: { email, password },
-        })
-
-        if (response.token && response.user) {
-          this._persistToken(response.token)
-          this.user = this._parseUser(response.user)
-          this.isAuthenticated = true
-          return { success: true, role: this.userRole }
-        }
-
-        this.error = 'Réponse inattendue du serveur'
-        return { success: false, error: this.error }
-      } catch (error: any) {
-        const msg = error.data?.message || error.data?.errors?.email?.[0] || 'Erreur de connexion'
-        this.error = msg
-        return { success: false, error: msg }
-      } finally {
-        this.isLoading = false
-      }
-    },
-
-    // =============================================
-    // LOGOUT
-    // =============================================
-    async logout() {
-      try {
-        if (this.token) {
-          await $fetch(`${this._getApiUrl()}/auth/logout`, {
-            method: 'POST',
-            headers: this._getHeaders(),
-          }).catch(() => {})
-        }
-      } finally {
-        this._clearSession()
-
-        const cartStore = useCartStore()
-        if (cartStore && typeof cartStore.clearCart === 'function') {
-          cartStore.clearCart()
-        }
-
-        navigateTo('/')
-      }
-    },
-
-    // =============================================
-    // PROFILE UPDATE
-    // =============================================
-    async updateProfile(updates: Partial<{ firstName: string; lastName: string; phone: string }>) {
-      if (!this.user || !this.token) return { success: false, error: 'Non connecté' }
-
-      try {
-        const payload = {
-          first_name: updates.firstName ?? this.user.firstName,
-          last_name: updates.lastName ?? this.user.lastName,
-          phone: updates.phone ?? this.user.phone,
-        }
-
-        const response: any = await $fetch(`${this._getApiUrl()}/user`, {
-          method: 'PATCH',
-          headers: this._getHeaders(),
-          body: payload,
-        })
-
-        if (response.user) {
-          this.user = this._parseUser(response.user)
-          return { success: true }
-        }
-
-        return { success: false, error: 'Réponse inattendue' }
-      } catch (error: any) {
-        return { success: false, error: error.data?.message || 'Erreur lors de la mise à jour' }
-      }
-    },
-
-    // =============================================
-    // ADDRESSES
-    // =============================================
-    async addAddress(address: Partial<Address>) {
-      if (!this.user || !this.token) return { success: false }
-      
-      const newAddress = {
-        ...address,
-        id: Math.random().toString(36).substring(2, 9),
-      }
-      
-      let newAddresses = [...(this.user.addresses || [])]
-      
-      if (address.isDefault || newAddresses.length === 0) {
-        newAddresses = newAddresses.map(a => ({ ...a, isDefault: false }))
-        newAddress.isDefault = true
-      }
-      
-      newAddresses.push(newAddress as Address)
-      return this._saveAddresses(newAddresses)
-    },
-
-    async updateAddress(addressId: string, updates: Partial<Address>) {
-      if (!this.user || !this.token) return { success: false }
-      
-      let newAddresses = [...(this.user.addresses || [])]
-      
-      if (updates.isDefault) {
-        newAddresses = newAddresses.map(a => ({ ...a, isDefault: false }))
-      }
-      
-      const index = newAddresses.findIndex(a => a.id === addressId)
-      if (index !== -1) {
-        newAddresses[index] = { ...newAddresses[index], ...updates }
-        return this._saveAddresses(newAddresses)
-      }
-      
+  saveAddresses: async (addresses) => {
+    const { token } = get()
+    if (!token) return { success: false }
+    try {
+      const res = await saveAddrReq(token, addresses)
+      if (res.user) set({ user: parseUser(res.user) })
+      return { success: true }
+    } catch {
       return { success: false }
-    },
-
-    async deleteAddress(addressId: string) {
-      if (!this.user || !this.token) return { success: false }
-      
-      const newAddresses = (this.user.addresses || []).filter(a => a.id !== addressId)
-      
-      // If we deleted the default, set the first remaining as default
-      if (newAddresses.length > 0 && !newAddresses.some(a => a.isDefault)) {
-        newAddresses[0].isDefault = true
-      }
-      
-      return this._saveAddresses(newAddresses)
-    },
-
-    async _saveAddresses(addresses: Address[]) {
-      try {
-        const response: any = await $fetch(`${this._getApiUrl()}/user`, {
-          method: 'PATCH',
-          headers: this._getHeaders(),
-          body: { addresses },
-        })
-
-        if (response.user) {
-          this.user = this._parseUser(response.user)
-          return { success: true }
-        }
-        return { success: false }
-      } catch (error) {
-        return { success: false }
-      }
-    },
-
-    // =============================================
-    // HELPERS
-    // =============================================
-    clearError() {
-      this.error = null
-    },
-
-    getRedirectPath(): string {
-      if (!this.user) return '/'
-
-      switch (this.userRole) {
-        case 'super_admin':
-        case 'admin':
-          return '/admin'
-        case 'livreur':
-          return '/livreur'
-        default:
-          return '/compte'
-      }
-    },
+    }
   },
-})
+}))

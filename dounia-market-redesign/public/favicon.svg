@@ -1,7 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" fill="none" stroke="#C9872B" stroke-linecap="round" stroke-width="3">
-  <g transform="rotate(-30 16 16)">
-    <path d="M 6 8 Q 16 16 26 8" />
-    <path d="M 2 16 Q 16 24 30 16" />
-    <path d="M 6 24 Q 16 32 26 24" />
-  </g>
-</svg>
