@@ -16,7 +16,7 @@ export function FeaturedProducts() {
 
   useEffect(() => {
     let active = true
-    getProducts({ limit: 8 })
+    getProducts({ limit: 12 })
       .then((res) => {
         if (!active) return
         setProducts(res.products)
@@ -33,7 +33,7 @@ export function FeaturedProducts() {
   if (status === 'loading') {
     return (
       <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
-        {Array.from({ length: 8 }).map((_, i) => (
+        {Array.from({ length: 12 }).map((_, i) => (
           <ProductCardSkeleton key={i} />
         ))}
       </div>
