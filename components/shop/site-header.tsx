@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { Heart, Menu, Search, ShoppingBag, User } from 'lucide-react'
+import { motion } from 'motion/react'
 import { cn } from '@/lib/utils'
 import { Button } from '@/components/ui/button'
 import { Sheet, SheetContent, SheetTitle, SheetTrigger } from '@/components/ui/sheet'
@@ -26,9 +27,15 @@ function useMounted() {
 function CountBadge({ value }: { value: number }) {
   if (value <= 0) return null
   return (
-    <span className="absolute -right-1 -top-1 flex h-4 min-w-4 items-center justify-center rounded-full bg-accent px-1 text-[10px] font-bold text-accent-foreground">
+    <motion.span
+      key={value}
+      initial={{ scale: 0.5 }}
+      animate={{ scale: 1 }}
+      transition={{ type: 'spring', stiffness: 500, damping: 18 }}
+      className="absolute -right-1 -top-1 flex h-4 min-w-4 items-center justify-center rounded-full bg-accent px-1 text-[10px] font-bold text-accent-foreground"
+    >
       {value}
-    </span>
+    </motion.span>
   )
 }
 

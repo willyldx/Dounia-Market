@@ -12,6 +12,7 @@ import {
 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { FeaturedProducts } from '@/components/home/featured-products'
+import { Reveal } from '@/components/motion/reveal'
 
 export const metadata: Metadata = {
   title: 'Dounia Market Tchad - Offrez le nécessaire à vos proches à N\'Djamena',
@@ -137,6 +138,7 @@ export default function HomePage() {
             </h2>
           </div>
 
+          <Reveal>
           <ol className="mt-10 grid gap-6 md:grid-cols-3">
             {STEPS.map(({ icon: Icon, title, desc }, i) => (
               <li
@@ -154,6 +156,7 @@ export default function HomePage() {
               </li>
             ))}
           </ol>
+          </Reveal>
         </div>
       </section>
 

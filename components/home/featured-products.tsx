@@ -8,6 +8,7 @@ import type { Product } from '@/lib/types'
 import { ProductCard } from '@/components/shop/product-card'
 import { ProductCardSkeleton } from '@/components/shop/product-card-skeleton'
 import { Button } from '@/components/ui/button'
+import { RevealStagger, RevealItem } from '@/components/motion/reveal'
 
 export function FeaturedProducts() {
   const [products, setProducts] = useState<Product[]>([])
@@ -57,10 +58,12 @@ export function FeaturedProducts() {
   }
 
   return (
-    <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
+    <RevealStagger className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
       {products.map((p) => (
-        <ProductCard key={p.id} product={p} />
+        <RevealItem key={p.id} className="h-full">
+          <ProductCard product={p} />
+        </RevealItem>
       ))}
-    </div>
+    </RevealStagger>
   )
 }
