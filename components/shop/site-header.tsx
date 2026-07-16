@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useState, useSyncExternalStore } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { Heart, Menu, Search, ShoppingBag, User } from 'lucide-react'
@@ -9,6 +9,7 @@ import { cn } from '@/lib/utils'
 import { Button } from '@/components/ui/button'
 import { Sheet, SheetContent, SheetTitle, SheetTrigger } from '@/components/ui/sheet'
 import { CurrencySelector } from './currency-selector'
+import { NotificationsCenter } from './notifications-center'
 import { useCart, selectItemCount } from '@/stores/cart'
 import { useFavorites, selectFavCount } from '@/stores/favorites'
 
@@ -18,10 +19,15 @@ const NAV = [
   { href: '/suivi', label: 'Suivi' },
 ]
 
+// Hydration-safe "are we on the client yet?" flag: false during SSR and the
+// initial hydration render, true afterwards — without a setState in an effect.
+const subscribeNoop = () => () => {}
 function useMounted() {
-  const [m, setM] = useState(false)
-  useEffect(() => setM(true), [])
-  return m
+  return useSyncExternalStore(
+    subscribeNoop,
+    () => true,
+    () => false,
+  )
 }
 
 function CountBadge({ value }: { value: number }) {
@@ -94,6 +100,8 @@ export function SiteHeader() {
               <User className="h-5 w-5" strokeWidth={1.75} />
             </Link>
           </Button>
+
+          {mounted && <NotificationsCenter />}
 
           <Button
             variant="ghost"

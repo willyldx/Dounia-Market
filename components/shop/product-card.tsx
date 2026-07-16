@@ -18,7 +18,8 @@ export function ProductCard({ product }: { product: Product }) {
   const href = `/produit/${product.slug || product.id}`
   const image = product.thumbnail || product.images?.[0] || ''
   const hasPrice = typeof product.price === 'number' && Number.isFinite(product.price)
-  const canBuy = product.inStock === true && hasPrice
+  // Products with variants need a choice on the detail page ("Voir" link) before adding.
+  const canBuy = product.inStock === true && hasPrice && !product.variants?.length
 
   function add() {
     if (!canBuy) return

@@ -4,57 +4,42 @@ import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import { ArrowLeft, ChevronRight, Package } from 'lucide-react'
 import { useAuth } from '@/stores/auth'
-import { customerApi } from '@/lib/admin'
+import type { CustomerOrder } from '@/lib/types'
+import { formatOrderDate, getMyOrders } from '@/lib/orders'
 import { useCart } from '@/stores/cart'
+import { OrderStatusBadge } from '@/components/shop/order-status-badge'
 import { Button } from '@/components/ui/button'
 import { Skeleton } from '@/components/ui/skeleton'
-
-function statusLabel(status?: string): string {
-  const s = (status || '').toLowerCase()
-  if (/(deliver|livr|complet|termin)/.test(s)) return 'Livrée'
-  if (/(ship|transit|cours|route|out_for)/.test(s)) return 'En cours de livraison'
-  if (/(prepar|process|en_cours)/.test(s)) return 'En préparation'
-  if (/(cancel|annul)/.test(s)) return 'Annulée'
-  if (/(pending|recu|reçu|paid|pay|confirm)/.test(s)) return 'Commande reçue'
-  return status || 'En traitement'
-}
-
-function formatDate(value?: string): string {
-  if (!value) return ''
-  const d = new Date(value)
-  if (Number.isNaN(d.getTime())) return ''
-  return d.toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' })
-}
 
 export default function CommandesPage() {
   const token = useAuth((s) => s.token)
   const status = useAuth((s) => s.status)
   const format = useCart((s) => s.format)
 
-  const [orders, setOrders] = useState<any[]>([])
-  const [state, setState] = useState<'loading' | 'ready' | 'error'>('loading')
+  const [orders, setOrders] = useState<CustomerOrder[]>([])
+  const [fetchState, setFetchState] = useState<'loading' | 'ready' | 'error'>('loading')
+
+  const authResolved = status !== 'idle' && status !== 'loading'
+  // A resolved-but-unauthenticated session is an error we can derive during
+  // render, so the effect never has to set state synchronously.
+  const state: 'loading' | 'ready' | 'error' = !authResolved ? 'loading' : !token ? 'error' : fetchState
 
   useEffect(() => {
-    if (status === 'idle' || status === 'loading') return
-    if (!token) {
-      setState('error')
-      return
-    }
+    if (!authResolved || !token) return
     let active = true
-    customerApi
-      .myOrders(token)
+    getMyOrders(token)
       .then((res) => {
         if (!active) return
-        setOrders(Array.isArray(res?.data) ? res.data : [])
-        setState('ready')
+        setOrders(res)
+        setFetchState('ready')
       })
       .catch(() => {
-        if (active) setState('error')
+        if (active) setFetchState('error')
       })
     return () => {
       active = false
     }
-  }, [token, status])
+  }, [token, authResolved])
 
   return (
     <div className="container-page py-10 md:py-14">
@@ -95,36 +80,27 @@ export default function CommandesPage() {
           </div>
         ) : (
           <ul className="mt-8 space-y-4">
-            {orders.map((o, idx) => {
-              const reference = o.reference ?? o.id ?? ''
-              const total = typeof o.total === 'number' ? o.total : typeof o.amount === 'number' ? o.amount : null
-              return (
-                <li key={reference || idx}>
-                  <Link
-                    href={`/compte/commandes/${encodeURIComponent(String(reference))}`}
-                    className="group flex items-center justify-between gap-4 rounded-2xl border border-border bg-card p-5 transition-all hover:-translate-y-0.5 hover:shadow-soft"
-                  >
-                    <div className="min-w-0">
-                      <p className="font-display font-semibold">Commande {reference}</p>
-                      <p className="mt-1 text-sm text-muted-foreground">
-                        {formatDate(o.created_at ?? o.date)}
-                      </p>
-                      <span className="mt-2 inline-flex items-center gap-1.5 rounded-full bg-secondary px-2.5 py-0.5 text-xs font-semibold text-secondary-foreground">
-                        <span className="h-1.5 w-1.5 rounded-full bg-accent" />
-                        {statusLabel(o.status ?? o.state)}
-                      </span>
-                    </div>
-                    <div className="flex shrink-0 items-center gap-3">
-                      {total != null && <span className="font-display font-bold">{format(total)}</span>}
-                      <ChevronRight
-                        className="h-5 w-5 text-muted-foreground transition-transform group-hover:translate-x-0.5"
-                        strokeWidth={1.75}
-                      />
-                    </div>
-                  </Link>
-                </li>
-              )
-            })}
+            {orders.map((o, idx) => (
+              <li key={o.reference || idx}>
+                <Link
+                  href={`/compte/commandes/${encodeURIComponent(o.reference)}`}
+                  className="group flex items-center justify-between gap-4 rounded-2xl border border-border bg-card p-5 transition-all hover:-translate-y-0.5 hover:shadow-soft"
+                >
+                  <div className="min-w-0">
+                    <p className="font-display font-semibold">Commande {o.reference}</p>
+                    <p className="mt-1 text-sm text-muted-foreground">{formatOrderDate(o.createdAt)}</p>
+                    <OrderStatusBadge status={o.status} size="sm" className="mt-2" />
+                  </div>
+                  <div className="flex shrink-0 items-center gap-3">
+                    {o.total != null && <span className="font-display font-bold">{format(o.total)}</span>}
+                    <ChevronRight
+                      className="h-5 w-5 text-muted-foreground transition-transform group-hover:translate-x-0.5"
+                      strokeWidth={1.75}
+                    />
+                  </div>
+                </Link>
+              </li>
+            ))}
           </ul>
         )}
       </div>
