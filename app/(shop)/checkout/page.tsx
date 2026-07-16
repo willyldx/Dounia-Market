@@ -87,7 +87,11 @@ export default function CheckoutPage() {
           shipping_address_1: values.shippingAddress1 || null,
           shipping_city: values.shippingCity || "N'Djamena",
           delivery_instructions: values.deliveryInstructions || null,
-          items: items.map((i) => ({ product_id: i.productId, quantity: i.quantity })),
+          items: items.map((i) => ({
+            product_id: i.productId,
+            variant_id: i.variantId ?? null,
+            quantity: i.quantity,
+          })),
         }),
       })
       const data = await res.json().catch(() => null)

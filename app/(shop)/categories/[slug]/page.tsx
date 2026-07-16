@@ -23,12 +23,18 @@ export default function CategoryPage({ params }: { params: Promise<{ slug: strin
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(false)
 
+  // Reset to the loading state during render when navigating between categories.
+  const [prevSlug, setPrevSlug] = useState(slug)
+  if (prevSlug !== slug) {
+    setPrevSlug(slug)
+    setLoading(true)
+    setError(false)
+  }
+
   const title = titleFromSlug(slug)
 
   useEffect(() => {
     let active = true
-    setLoading(true)
-    setError(false)
     getProducts({ category: slug, limit: 100 })
       .then((res) => {
         if (active) setProducts(res.products)

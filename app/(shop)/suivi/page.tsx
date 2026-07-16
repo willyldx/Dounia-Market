@@ -1,53 +1,19 @@
 'use client'
 
 import { useState } from 'react'
-import {
-  AlertCircle,
-  CheckCircle2,
-  Circle,
-  Loader2,
-  MapPin,
-  Package,
-  PackageSearch,
-  Truck,
-} from 'lucide-react'
+import { AlertCircle, Loader2, MapPin } from 'lucide-react'
+import type { CustomerOrder } from '@/lib/types'
+import { trackOrder } from '@/lib/orders'
+import { OrderStatusBadge } from '@/components/shop/order-status-badge'
+import { OrderTimeline } from '@/components/shop/order-timeline'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
-import { cn } from '@/lib/utils'
-
-type OrderStatus = Record<string, any> | null
-
-const STEPS = [
-  { key: 'pending', label: 'Commande reçue', icon: Package },
-  { key: 'preparing', label: 'En préparation', icon: PackageSearch },
-  { key: 'shipping', label: 'En cours de livraison', icon: Truck },
-  { key: 'delivered', label: 'Livrée', icon: CheckCircle2 },
-]
-
-// Map various backend status strings to a step index.
-function statusToIndex(status?: string): number {
-  const s = (status || '').toLowerCase()
-  if (/(deliver|livr|complet|termin)/.test(s)) return 3
-  if (/(ship|transit|cours|route|en_livraison|out_for)/.test(s)) return 2
-  if (/(prepar|process|en_cours|confirm|paid|pay)/.test(s)) return 1
-  return 0
-}
-
-function statusLabel(status?: string): string {
-  const s = (status || '').toLowerCase()
-  if (/(deliver|livr)/.test(s)) return 'Livrée'
-  if (/(ship|transit|cours|route|out_for)/.test(s)) return 'En cours de livraison'
-  if (/(prepar|process)/.test(s)) return 'En préparation'
-  if (/(cancel|annul)/.test(s)) return 'Annulée'
-  if (/(pending|recu|reçu|paid|pay|confirm)/.test(s)) return 'Commande reçue'
-  return status || 'Statut inconnu'
-}
 
 export default function SuiviPage() {
   const [reference, setReference] = useState('')
   const [state, setState] = useState<'idle' | 'loading' | 'found' | 'notfound' | 'error'>('idle')
-  const [order, setOrder] = useState<OrderStatus>(null)
+  const [order, setOrder] = useState<CustomerOrder | null>(null)
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
@@ -56,32 +22,17 @@ export default function SuiviPage() {
     setState('loading')
     setOrder(null)
     try {
-      const res = await fetch(`/api/order-status/${encodeURIComponent(ref)}`)
-      if (res.status === 404) {
+      const found = await trackOrder(ref)
+      if (!found) {
         setState('notfound')
         return
       }
-      if (!res.ok) {
-        setState('error')
-        return
-      }
-      const data = await res.json().catch(() => null)
-      setOrder(data && (data.order ?? data))
+      setOrder(found)
       setState('found')
     } catch {
       setState('error')
     }
   }
-
-  const rawStatus: string | undefined = order?.status ?? order?.state ?? order?.fulfillment_status
-  const currentIndex = statusToIndex(rawStatus)
-  const items: any[] = Array.isArray(order?.items)
-    ? order.items
-    : Array.isArray(order?.line_items)
-      ? order.line_items
-      : []
-  const recipient = order?.recipient ?? order?.recipient_name ?? order?.customer_name
-  const city = order?.city ?? order?.address?.city ?? order?.recipient_city
 
   return (
     <div className="container-page py-10 md:py-14">
@@ -119,7 +70,7 @@ export default function SuiviPage() {
           </div>
         </form>
 
-        <div className="mt-6">
+        <div className="mt-6" aria-live="polite">
           {state === 'notfound' && (
             <div className="flex items-start gap-3 rounded-2xl border border-border bg-card p-5">
               <AlertCircle className="mt-0.5 h-5 w-5 shrink-0 text-destructive" strokeWidth={1.75} />
@@ -153,84 +104,41 @@ export default function SuiviPage() {
                       Référence
                     </p>
                     <p className="font-display text-lg font-semibold">
-                      {order.reference ?? order.id ?? reference.trim()}
+                      {order.reference || reference.trim()}
                     </p>
                   </div>
-                  <span className="inline-flex items-center gap-2 rounded-full bg-secondary px-3 py-1.5 text-sm font-semibold text-secondary-foreground">
-                    <span className="h-2 w-2 rounded-full bg-accent" />
-                    {statusLabel(rawStatus)}
-                  </span>
+                  <OrderStatusBadge status={order.status} />
                 </div>
 
-                {(recipient || city) && (
+                {(order.recipient || order.city) && (
                   <div className="mt-5 flex items-start gap-3 border-t border-border pt-5 text-sm">
                     <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-primary" strokeWidth={1.75} />
                     <p className="text-muted-foreground">
-                      {recipient && <span className="font-medium text-foreground">{recipient}</span>}
-                      {recipient && city && ' - '}
-                      {city}
+                      {order.recipient && <span className="font-medium text-foreground">{order.recipient}</span>}
+                      {order.recipient && order.city && ' - '}
+                      {order.city}
                     </p>
                   </div>
                 )}
 
-                {/* Timeline */}
-                <ol className="mt-6 space-y-0">
-                  {STEPS.map((step, i) => {
-                    const done = i < currentIndex
-                    const active = i === currentIndex
-                    const Icon = step.icon
-                    return (
-                      <li key={step.key} className="relative flex gap-4 pb-6 last:pb-0">
-                        {i < STEPS.length - 1 && (
-                          <span
-                            className={cn(
-                              'absolute left-[15px] top-8 h-[calc(100%-1rem)] w-0.5',
-                              done ? 'bg-primary' : 'bg-border',
-                            )}
-                          />
-                        )}
-                        <span
-                          className={cn(
-                            'relative z-10 flex h-8 w-8 shrink-0 items-center justify-center rounded-full border',
-                            done && 'border-primary bg-primary text-primary-foreground',
-                            active && 'border-accent bg-accent text-accent-foreground',
-                            !done && !active && 'border-border bg-card text-muted-foreground',
-                          )}
-                        >
-                          {done ? (
-                            <CheckCircle2 className="h-4 w-4" strokeWidth={2} />
-                          ) : active ? (
-                            <Icon className="h-4 w-4" strokeWidth={1.75} />
-                          ) : (
-                            <Circle className="h-3 w-3" strokeWidth={1.75} />
-                          )}
-                        </span>
-                        <div className="pt-1">
-                          <p
-                            className={cn(
-                              'text-sm font-medium',
-                              active ? 'text-foreground' : done ? 'text-foreground' : 'text-muted-foreground',
-                            )}
-                          >
-                            {step.label}
-                          </p>
-                        </div>
-                      </li>
-                    )
-                  })}
-                </ol>
+                <div className="mt-6">
+                  <OrderTimeline order={order} />
+                </div>
               </div>
 
-              {items.length > 0 && (
+              {order.items.length > 0 && (
                 <div className="rounded-2xl border border-border bg-card p-6">
                   <h2 className="font-display text-base font-semibold">Articles</h2>
                   <ul className="mt-4 divide-y divide-border">
-                    {items.map((it, idx) => (
+                    {order.items.map((it, idx) => (
                       <li key={idx} className="flex items-center justify-between gap-3 py-3 text-sm">
-                        <span className="font-medium">{it.title ?? it.name ?? it.product_title ?? 'Article'}</span>
-                        {(it.quantity ?? it.qty) != null && (
-                          <span className="shrink-0 text-muted-foreground">x{it.quantity ?? it.qty}</span>
-                        )}
+                        <span className="font-medium">
+                          {it.title}
+                          {it.variantTitle && (
+                            <span className="text-muted-foreground"> — {it.variantTitle}</span>
+                          )}
+                        </span>
+                        <span className="shrink-0 text-muted-foreground">x{it.quantity}</span>
                       </li>
                     ))}
                   </ul>

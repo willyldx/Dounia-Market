@@ -1,10 +1,10 @@
 'use client'
 
-import { useState } from 'react'
+import { useMemo, useState } from 'react'
 import Link from 'next/link'
 import { Heart, Minus, Plus, ShoppingBag, Truck } from 'lucide-react'
 import { toast } from 'sonner'
-import type { Product } from '@/lib/types'
+import type { Product, ProductVariant } from '@/lib/types'
 import { useCart } from '@/stores/cart'
 import { useFavorites } from '@/stores/favorites'
 import { Button } from '@/components/ui/button'
@@ -20,23 +20,36 @@ export function BuyBox({ product }: { product: Product }) {
 
   const [qty, setQty] = useState(1)
 
-  const image = product.thumbnail || product.images?.[0] || ''
-  const hasPrice = typeof product.price === 'number' && Number.isFinite(product.price)
-  const canBuy = product.inStock !== false && hasPrice
+  const variants = useMemo(() => product.variants ?? [], [product.variants])
+  const [selectedId, setSelectedId] = useState<string | null>(() => {
+    if (variants.length === 0) return null
+    const firstAvailable = variants.find((v) => v.inStock !== false)
+    return (firstAvailable ?? variants[0]).id
+  })
+  const selected: ProductVariant | null = variants.find((v) => v.id === selectedId) ?? null
+
+  const image = selected?.thumbnail || product.thumbnail || product.images?.[0] || ''
+  const price = selected?.price ?? product.price
+  const inStock = selected ? (selected.inStock ?? product.inStock) : product.inStock
+  const hasPrice = typeof price === 'number' && Number.isFinite(price)
+  const canBuy = inStock !== false && hasPrice
 
   function add() {
     if (!canBuy) return
     addItem(
       {
         productId: product.id,
-        title: product.title,
-        price: product.price as number,
+        variantId: selected?.id,
+        title: selected ? `${product.title} — ${selected.title}` : product.title,
+        price: price as number,
         thumbnail: image,
         category: product.category,
       },
       qty,
     )
-    toast.success('Ajoute au panier', { description: product.title })
+    toast.success('Ajoute au panier', {
+      description: selected ? `${product.title} — ${selected.title}` : product.title,
+    })
   }
 
   function fav() {
@@ -44,7 +57,7 @@ export function BuyBox({ product }: { product: Product }) {
     toggleFav({
       productId: product.id,
       title: product.title,
-      price: product.price as number,
+      price: price as number,
       thumbnail: image,
       category: product.category,
     })
@@ -71,17 +84,59 @@ export function BuyBox({ product }: { product: Product }) {
         <div className="mt-5 flex items-center gap-3">
           {hasPrice ? (
             <span className="font-display text-3xl font-bold text-accent-foreground">
-              {format(product.price as number)}
+              {format(price as number)}
             </span>
           ) : (
             <span className="text-lg font-medium text-muted-foreground">Prix sur demande</span>
           )}
-          {product.inStock === false ? (
+          {inStock === false ? (
             <Badge variant="secondary">Rupture de stock</Badge>
           ) : (
             <Badge variant="secondary">En stock</Badge>
           )}
         </div>
+
+        {variants.length > 0 && (
+          <fieldset className="mt-6">
+            <legend className="text-sm font-medium">
+              Variante
+              {selected && <span className="ml-1 text-muted-foreground">: {selected.title}</span>}
+            </legend>
+            <div className="mt-3 flex flex-wrap gap-2" role="radiogroup" aria-label="Choisir une variante">
+              {variants.map((v) => {
+                const active = v.id === selectedId
+                const soldOut = v.inStock === false
+                return (
+                  <button
+                    key={v.id}
+                    type="button"
+                    role="radio"
+                    aria-checked={active}
+                    onClick={() => {
+                      setSelectedId(v.id)
+                      setQty(1)
+                    }}
+                    className={cn(
+                      'rounded-full border px-4 py-2 text-sm font-medium transition-colors',
+                      active
+                        ? 'border-primary bg-primary text-primary-foreground'
+                        : 'border-border bg-card text-muted-foreground hover:text-foreground',
+                      soldOut && !active && 'opacity-50',
+                    )}
+                  >
+                    <span className={cn(soldOut && 'line-through')}>{v.title}</span>
+                    {soldOut && <span className="sr-only"> (épuisé)</span>}
+                  </button>
+                )
+              })}
+            </div>
+            {selected?.inStock === false && (
+              <p className="mt-2 text-sm text-muted-foreground">
+                Cette variante est épuisée. Choisissez-en une autre.
+              </p>
+            )}
+          </fieldset>
+        )}
 
         <Separator className="my-6" />
 
@@ -98,7 +153,9 @@ export function BuyBox({ product }: { product: Product }) {
               >
                 <Minus className="h-4 w-4" strokeWidth={1.75} />
               </button>
-              <span className="w-8 text-center text-sm font-semibold tabular-nums">{qty}</span>
+              <span className="w-8 text-center text-sm font-semibold tabular-nums" aria-live="polite">
+                {qty}
+              </span>
               <button
                 type="button"
                 aria-label="Augmenter la quantite"
