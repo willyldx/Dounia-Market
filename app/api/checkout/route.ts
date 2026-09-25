@@ -2,6 +2,8 @@ import { NextResponse } from 'next/server'
 import { cookies } from 'next/headers'
 import { API_URL, AUTH_COOKIE } from '@/lib/api'
 
+const ALLOWED_PAYMENT_METHODS = ['card', 'cash_on_delivery', 'tchad_mobile_money', 'bank_transfer']
+
 export async function POST(req: Request) {
   if (process.env.NEXT_PUBLIC_CHECKOUT_PAYMENT_ENABLED !== 'true') {
     return NextResponse.json({ message: "La validation de commande n'est pas ouverte." }, { status: 503 })
@@ -21,10 +23,13 @@ export async function POST(req: Request) {
       { status: 400 },
     )
   }
-  if (body.payment_method && body.payment_method !== 'card') {
-    return NextResponse.json({ message: "Le mode de paiement demandé n'est pas disponible." }, { status: 422 })
+
+  const paymentMethod = body.payment_method || 'card'
+  if (!ALLOWED_PAYMENT_METHODS.includes(paymentMethod)) {
+    return NextResponse.json({ message: "Le mode de paiement demandé n'est pas supporté." }, { status: 422 })
   }
 
+  const customerPhone = body.customer_phone || body.recipient_phone || '+23500000000'
   const token = (await cookies()).get(AUTH_COOKIE)?.value
 
   try {
@@ -40,18 +45,22 @@ export async function POST(req: Request) {
         email: body.email,
         customer_first_name: body.customer_first_name,
         customer_last_name: body.customer_last_name,
-        customer_phone: body.customer_phone ?? null,
+        customer_phone: customerPhone,
         recipient_name: body.recipient_name,
         recipient_phone: body.recipient_phone ?? null,
         shipping_address_1: body.shipping_address_1 ?? null,
         shipping_address_2: body.shipping_address_2 ?? null,
         shipping_city: body.shipping_city ?? "N'Djamena",
         shipping_country: body.shipping_country ?? 'Tchad',
+        shipping_method_code: body.shipping_method_code ?? null,
+        shipping_method_id: body.shipping_method_id ?? null,
         delivery_instructions: body.delivery_instructions ?? null,
-        payment_method: 'card',
+        payment_method: paymentMethod,
+        currency: body.currency ?? 'XAF',
         items: body.items.map((i: any) => ({
           product_id: i.product_id,
-          variant_id: i.variant_id,
+          variant_id: i.variant_id ?? null,
+          product_variant_id: i.variant_id ?? null,
           quantity: i.quantity,
         })),
       }),

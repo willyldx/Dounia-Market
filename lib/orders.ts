@@ -119,7 +119,12 @@ export function normalizeOrder(raw: any): CustomerOrder {
     items: rawItems.map(normalizeItem),
     subtotal: num(o.subtotal),
     shipping: num(o.shipping) ?? num(o.delivery_fee),
+    customsTotal: num(o.customs_total) ?? num(o.customs_fee),
     total: num(o.total) ?? num(o.amount),
+    currency: o.currency || 'XAF',
+    paymentMethod: str(o.payment_method),
+    shippingMethod: o.shipping_method || null,
+    fulfillments: Array.isArray(o.fulfillments) ? o.fulfillments : o.suborders?.[0]?.fulfillment ? [o.suborders[0].fulfillment] : [],
     recipient: str(o.recipient) ?? str(o.recipient_name) ?? str(o.customer_name),
     phone: str(o.phone) ?? str(o.recipient_phone),
     address:
@@ -131,6 +136,7 @@ export function normalizeOrder(raw: any): CustomerOrder {
     returns: rawReturns.map(normalizeReturn),
   }
 }
+
 
 export function formatOrderDate(value?: string): string {
   if (!value) return ''

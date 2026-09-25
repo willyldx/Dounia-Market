@@ -6,22 +6,24 @@ const COLS = [
     title: 'Boutique',
     links: [
       { href: '/catalogue', label: 'Catalogue' },
-      { href: '/suivi', label: 'Suivre une commande' },
+      { href: '/suivi', label: 'Suivre une expédition' },
+      { href: '/devenir-vendeur', label: 'Vendre sur Dounia' },
       { href: '/favoris', label: 'Favoris' },
       { href: '/compte', label: 'Mon compte' },
     ],
   },
   {
-    title: 'Aide',
+    title: 'Aide & Logistique',
     links: [
       { href: '/comment-ca-marche', label: 'Comment ça marche' },
-      { href: '/faq', label: 'FAQ' },
-      { href: '/contact', label: 'Contact' },
+      { href: '/devenir-vendeur', label: 'Espace Vendeurs Diaspora' },
+      { href: '/faq', label: 'Fret Aérien & FAQ' },
+      { href: '/contact', label: 'Contact & Support' },
       { href: '/a-propos', label: 'À propos' },
     ],
   },
   {
-    title: 'Légal',
+    title: 'Légal & Sécurité',
     links: [
       { href: '/conditions', label: 'Conditions générales' },
       { href: '/confidentialite', label: 'Confidentialité' },
@@ -32,10 +34,11 @@ const COLS = [
 ]
 
 const REASSURANCE = [
-  { icon: ShieldCheck, title: 'Commande en confiance', desc: 'Vos informations restent protégées' },
-  { icon: Truck, title: 'Remis à vos proches', desc: "Livraison à N'Djamena, zones desservies" },
-  { icon: PackageCheck, title: 'Toujours informé', desc: 'Suivez votre commande à chaque étape' },
+  { icon: ShieldCheck, title: 'Paiement multi-devises', desc: 'CB internationale, Mobile Money Tchad et virement' },
+  { icon: Truck, title: 'Fret Aérien & Livraison', desc: "Expédition 5 à 9 jours depuis l'Europe et livraison N'Djamena" },
+  { icon: PackageCheck, title: 'Dédouanement garanti', desc: 'Formalités et transit pris en charge avec suivi temps réel' },
 ]
+
 
 export function SiteFooter() {
   return (

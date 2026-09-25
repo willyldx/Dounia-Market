@@ -15,9 +15,11 @@ import { useFavorites, selectFavCount } from '@/stores/favorites'
 
 const NAV = [
   { href: '/catalogue', label: 'Catalogue' },
+  { href: '/devenir-vendeur', label: 'Vendre sur Dounia' },
   { href: '/comment-ca-marche', label: 'Comment ça marche' },
   { href: '/suivi', label: 'Suivi' },
 ]
+
 
 // Hydration-safe "are we on the client yet?" flag: false during SSR and the
 // initial hydration render, true afterwards — without a setState in an effect.

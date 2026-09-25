@@ -106,13 +106,66 @@ export interface CustomerOrder {
   items: CustomerOrderItem[]
   subtotal?: number
   shipping?: number
+  customsTotal?: number
   total?: number
+  currency?: CurrencyCode
+  paymentMethod?: string
+  shippingMethod?: ShippingMethod | null
+  fulfillments?: OrderFulfillment[]
   recipient?: string
   phone?: string
   address?: string
   city?: string
   deliveryInstructions?: string
   returns: OrderReturn[]
+}
+
+export type ShippingType = 'local' | 'cross_border_air' | 'cross_border_sea'
+
+export interface ShippingMethod {
+  id: number
+  shipping_zone_id: number
+  name: string
+  code: string
+  delivery_fee_minor: number
+  currency: CurrencyCode
+  estimated_min_days: number
+  estimated_max_days: number
+  is_active: boolean
+  shipping_type: ShippingType
+  origin_country?: string | null
+  customs_fee_minor: number
+  tracking_url_template?: string | null
+  zone?: {
+    id: number
+    name: string
+    code: string
+    country_code: string
+  }
+}
+
+export interface PaymentMethodConfig {
+  method: string
+  label: string
+  provider: string
+  currencies: CurrencyCode[]
+  instructions?: string
+  min_amount_minor?: number | null
+  max_amount_minor?: number | null
+}
+
+export interface OrderFulfillment {
+  id: number
+  status: 'pending' | 'dispatched' | 'customs_cleared' | 'delivered' | 'failed'
+  carrier_name?: string | null
+  tracking_reference?: string | null
+  tracking_url_template?: string | null
+  dispatch_country?: string | null
+  destination_country?: string | null
+  shipping_type?: ShippingType
+  dispatched_at?: string | null
+  customs_cleared_at?: string | null
+  delivered_at?: string | null
 }
 
 export type NotificationType = 'order_status' | 'return_status'
@@ -134,3 +187,4 @@ export interface FavoriteItem {
   category?: string
   addedAt: string
 }
+

@@ -1,7 +1,17 @@
 'use client'
 
 import { useState } from 'react'
-import { AlertCircle, Loader2, MapPin } from 'lucide-react'
+import {
+  AlertCircle,
+  Clock,
+  ExternalLink,
+  Loader2,
+  MapPin,
+  Plane,
+  ShieldCheck,
+  Ship,
+  Truck,
+} from 'lucide-react'
 import type { CustomerOrder } from '@/lib/types'
 import { trackOrder } from '@/lib/orders'
 import { OrderStatusBadge } from '@/components/shop/order-status-badge'
@@ -9,6 +19,7 @@ import { OrderTimeline } from '@/components/shop/order-timeline'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
+import { Badge } from '@/components/ui/badge'
 
 export default function SuiviPage() {
   const [reference, setReference] = useState('')
@@ -34,13 +45,16 @@ export default function SuiviPage() {
     }
   }
 
+  const fulfillment = order?.fulfillments?.[0] || null
+  const shippingMethod = order?.shippingMethod || null
+
   return (
     <div className="container-page py-10 md:py-14">
       <div className="mx-auto max-w-2xl">
         <header className="text-center">
-          <h1 className="font-display text-3xl font-bold tracking-tight sm:text-4xl">Suivre une commande</h1>
+          <h1 className="font-display text-3xl font-bold tracking-tight sm:text-4xl">Suivre une expédition</h1>
           <p className="mt-2 text-sm text-muted-foreground">
-            Saisissez votre référence de commande pour connaître son statut en temps réel.
+            Suivi en temps réel de votre commande : du fret international jusqu'à la remise en main propre à N'Djamena.
           </p>
         </header>
 
@@ -53,7 +67,7 @@ export default function SuiviPage() {
               id="reference"
               value={reference}
               onChange={(e) => setReference(e.target.value)}
-              placeholder="Ex : DM-2026-00123"
+              placeholder="Ex : TCB-M1A2B3-XYZ ou DM-2026-001"
               autoComplete="off"
               className="h-11"
             />
@@ -77,7 +91,7 @@ export default function SuiviPage() {
               <div>
                 <p className="font-semibold">Commande introuvable</p>
                 <p className="mt-1 text-sm text-muted-foreground">
-                  Vérifiez la référence saisie. Elle figure dans votre e-mail de confirmation.
+                  Vérifiez la référence saisie. Elle figure dans votre confirmation de commande.
                 </p>
               </div>
             </div>
@@ -97,11 +111,12 @@ export default function SuiviPage() {
 
           {state === 'found' && order && (
             <div className="space-y-5">
+              {/* Carte principale de commande */}
               <div className="rounded-2xl border border-border bg-card p-6 shadow-soft">
                 <div className="flex flex-wrap items-center justify-between gap-2">
                   <div>
                     <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
-                      Référence
+                      Référence de commande
                     </p>
                     <p className="font-display text-lg font-semibold">
                       {order.reference || reference.trim()}
@@ -111,13 +126,69 @@ export default function SuiviPage() {
                 </div>
 
                 {(order.recipient || order.city) && (
-                  <div className="mt-5 flex items-start gap-3 border-t border-border pt-5 text-sm">
+                  <div className="mt-4 flex items-start gap-3 border-t border-border pt-4 text-sm">
                     <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-primary" strokeWidth={1.75} />
                     <p className="text-muted-foreground">
+                      Destinataire :{' '}
                       {order.recipient && <span className="font-medium text-foreground">{order.recipient}</span>}
-                      {order.recipient && order.city && ' - '}
+                      {order.recipient && order.city && ' — '}
                       {order.city}
+                      {order.address && ` (${order.address})`}
                     </p>
+                  </div>
+                )}
+
+                {/* Bloc transporteur & logistique internationale */}
+                {(fulfillment || shippingMethod) && (
+                  <div className="mt-5 rounded-xl border border-primary/20 bg-primary/5 p-4 text-sm">
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center gap-2 font-semibold text-foreground">
+                        {fulfillment?.shipping_type === 'cross_border_air' || shippingMethod?.shipping_type === 'cross_border_air' ? (
+                          <>
+                            <Plane className="h-4 w-4 text-primary" />
+                            Fret Aérien Express (Diaspora France 🇫🇷)
+                          </>
+                        ) : fulfillment?.shipping_type === 'cross_border_sea' || shippingMethod?.shipping_type === 'cross_border_sea' ? (
+                          <>
+                            <Ship className="h-4 w-4 text-amber-600" />
+                            Fret Maritime & Cargo (Europe / Canada 🇪🇺 🇨🇦)
+                          </>
+                        ) : (
+                          <>
+                            <Truck className="h-4 w-4 text-emerald-600" />
+                            Livraison Urbaine N'Djamena 🇹🇩
+                          </>
+                        )}
+                      </div>
+                      <Badge variant="outline" className="border-primary/30 text-xs">
+                        {fulfillment?.status === 'customs_cleared'
+                          ? 'Dédouané'
+                          : fulfillment?.status === 'dispatched'
+                          ? 'En transit international'
+                          : fulfillment?.status === 'delivered'
+                          ? 'Livré'
+                          : 'Pris en charge'}
+                      </Badge>
+                    </div>
+
+                    {fulfillment?.tracking_reference && (
+                      <div className="mt-3 flex items-center justify-between border-t border-border/50 pt-2 text-xs">
+                        <span className="text-muted-foreground">
+                          N° de suivi transporteur : <strong className="font-mono text-foreground">{fulfillment.tracking_reference}</strong>
+                        </span>
+                        {fulfillment.tracking_url_template && (
+                          <a
+                            href={fulfillment.tracking_url_template.replace('{tracking_reference}', fulfillment.tracking_reference)}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="inline-flex items-center gap-1 font-medium text-primary hover:underline"
+                          >
+                            Suivre sur le site transporteur
+                            <ExternalLink className="h-3 w-3" />
+                          </a>
+                        )}
+                      </div>
+                    )}
                   </div>
                 )}
 
@@ -126,9 +197,10 @@ export default function SuiviPage() {
                 </div>
               </div>
 
+              {/* Articles de la commande */}
               {order.items.length > 0 && (
-                <div className="rounded-2xl border border-border bg-card p-6">
-                  <h2 className="font-display text-base font-semibold">Articles</h2>
+                <div className="rounded-2xl border border-border bg-card p-6 shadow-soft">
+                  <h2 className="font-display text-base font-semibold">Articles commandés</h2>
                   <ul className="mt-4 divide-y divide-border">
                     {order.items.map((it, idx) => (
                       <li key={idx} className="flex items-center justify-between gap-3 py-3 text-sm">
