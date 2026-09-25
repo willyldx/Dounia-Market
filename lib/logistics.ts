@@ -101,7 +101,7 @@ export interface ShippingLabelResponse {
 
 export const logisticsApi = {
   lookup: (token: string, barcode: string) =>
-    apiFetch<LogisticsLookupResponse>(`admin/logistics/lookup?barcode=${encodeURIComponent(barcode)}`, { token }),
+    apiFetch<LogisticsLookupResponse>(`admin/logistics/parcels/${encodeURIComponent(barcode)}/lookup`, { token }),
 
   scan: (
     token: string,
@@ -158,7 +158,7 @@ export const logisticsApi = {
     },
   ) =>
     apiFetch<{ success: boolean; item: any; manifest: CargoManifest }>(
-      `admin/logistics/manifests/${manifestId}/items`,
+      `admin/logistics/manifests/${manifestId}/parcels`,
       { method: 'POST', token, body },
     ),
 
@@ -175,5 +175,5 @@ export const logisticsApi = {
     ),
 
   getShippingLabel: (token: string, reference: string) =>
-    apiFetch<ShippingLabelResponse>(`admin/logistics/label/${encodeURIComponent(reference)}`, { token }),
+    apiFetch<ShippingLabelResponse>(`admin/logistics/parcels/${encodeURIComponent(reference)}/label`, { token }),
 }
