@@ -1,4 +1,4 @@
-export type UserRole = 'client' | 'livreur' | 'admin' | 'super_admin'
+export type UserRole = 'client' | 'merchant' | 'livreur' | 'admin' | 'super_admin'
 
 export type CurrencyCode = 'EUR' | 'USD' | 'XAF' | 'GBP' | 'CAD' | 'CHF'
 

@@ -2,7 +2,7 @@
 
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
-import { ChevronRight, LogOut, MapPin, Package, User2 } from 'lucide-react'
+import { ChevronRight, LogOut, MapPin, Package, User2, Store } from 'lucide-react'
 import { toast } from 'sonner'
 import { useAuth } from '@/stores/auth'
 import { Button } from '@/components/ui/button'
@@ -42,6 +42,26 @@ export default function ComptePage() {
 
   const greetingName = user?.firstName || user?.name || ''
 
+  const role = useAuth((s) => s.role)()
+  const isMerchant = ['merchant', 'admin', 'super_admin'].includes(role)
+
+  const allLinks = [
+    ...LINKS,
+    isMerchant
+      ? {
+          href: '/vendeur',
+          icon: Store,
+          title: 'Espace Vendeur',
+          desc: 'Tableau de bord, gestion du stock et versements',
+        }
+      : {
+          href: '/devenir-vendeur',
+          icon: Store,
+          title: 'Devenir Vendeur',
+          desc: 'Vendez vos produits à la diaspora et au Tchad',
+        },
+  ]
+
   return (
     <div className="container-page py-10 md:py-14">
       <header className="flex flex-wrap items-start justify-between gap-4">
@@ -60,7 +80,7 @@ export default function ComptePage() {
       </header>
 
       <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-        {LINKS.map(({ href, icon: Icon, title, desc }) => (
+        {allLinks.map(({ href, icon: Icon, title, desc }) => (
           <Link
             key={href}
             href={href}

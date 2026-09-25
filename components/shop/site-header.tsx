@@ -12,6 +12,7 @@ import { CurrencySelector } from './currency-selector'
 import { NotificationsCenter } from './notifications-center'
 import { useCart, selectItemCount } from '@/stores/cart'
 import { useFavorites, selectFavCount } from '@/stores/favorites'
+import { useAuth } from '@/stores/auth'
 
 const NAV = [
   { href: '/catalogue', label: 'Catalogue' },
@@ -54,6 +55,17 @@ export function SiteHeader() {
   const openCart = useCart((s) => s.open)
   const cartCount = useCart(selectItemCount)
   const favCount = useFavorites(selectFavCount)
+  const role = useAuth((s) => s.role)()
+  const isMerchant = ['merchant', 'admin', 'super_admin'].includes(role)
+
+  const navItems = isMerchant
+    ? [
+        { href: '/catalogue', label: 'Catalogue' },
+        { href: '/vendeur', label: 'Espace Vendeur' },
+        { href: '/comment-ca-marche', label: 'Comment ça marche' },
+        { href: '/suivi', label: 'Suivi' },
+      ]
+    : NAV
 
   return (
     <header className="sticky top-0 z-50 border-b border-border/70 bg-background/85 backdrop-blur-md">
@@ -64,7 +76,7 @@ export function SiteHeader() {
         </Link>
 
         <nav className="hidden items-center gap-1 lg:flex">
-          {NAV.map((item) => {
+          {navItems.map((item) => {
             const active = pathname === item.href || pathname.startsWith(`${item.href}/`)
             return (
               <Link
@@ -72,7 +84,7 @@ export function SiteHeader() {
                 href={item.href}
                 className={cn(
                   'rounded-lg px-3 py-2 text-sm font-medium transition-colors',
-                  active ? 'text-primary' : 'text-muted-foreground hover:text-foreground',
+                  active ? 'text-primary font-semibold' : 'text-muted-foreground hover:text-foreground',
                 )}
               >
                 {item.label}
@@ -125,7 +137,7 @@ export function SiteHeader() {
             <SheetContent side="left" className="w-72">
               <SheetTitle className="font-display text-lg">Menu</SheetTitle>
               <nav className="mt-6 flex flex-col gap-1">
-                {NAV.map((item) => (
+                {navItems.map((item) => (
                   <Link
                     key={item.href}
                     href={item.href}
