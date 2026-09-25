@@ -17,6 +17,7 @@ import {
   Info,
   Loader2,
   Lock,
+  MessageCircle,
   Plane,
   Ship,
   ShoppingBag,
@@ -49,6 +50,7 @@ const schema = z.object({
   shippingCity: z.string().min(2, 'Indiquez la ville de destination.'),
   shippingCountry: z.string().default('Tchad'),
   deliveryInstructions: z.string().optional(),
+  notifyWhatsApp: z.boolean().default(true),
 })
 
 type FormValues = z.infer<typeof schema>
@@ -81,6 +83,7 @@ export default function CheckoutPage() {
     defaultValues: {
       shippingCity: "N'Djamena",
       shippingCountry: 'Tchad',
+      notifyWhatsApp: true,
     },
   })
 
@@ -178,6 +181,8 @@ export default function CheckoutPage() {
           shipping_method_id: selectedShipping?.id || null,
           payment_method: effectivePaymentMethod,
           currency,
+          notify_whatsapp: values.notifyWhatsApp,
+          whatsapp_phone: values.recipientPhone || values.customerPhone,
           items: items.map((i) => ({
             product_id: i.productId,
             variant_id: i.variantId ?? null,
@@ -211,7 +216,7 @@ export default function CheckoutPage() {
       clearCart()
       toast.success('Commande enregistrée avec succès !')
       router.push(
-        `/checkout/confirmation?orderReference=${encodeURIComponent(orderRef || '')}&mode=direct&method=${encodeURIComponent(effectivePaymentMethod)}`,
+        `/checkout/confirmation?orderReference=${encodeURIComponent(orderRef || '')}&mode=direct&method=${encodeURIComponent(effectivePaymentMethod)}&whatsapp=${values.notifyWhatsApp ? '1' : '0'}`,
       )
     } catch {
       toast.error('Une erreur est survenue lors de la validation. Veuillez réessayer.')
@@ -317,6 +322,31 @@ export default function CheckoutPage() {
                   placeholder="Précisions de remise, disponibilité horaire ou indications d'accès."
                 />
               </Field>
+
+              <div className="sm:col-span-2 rounded-xl border border-emerald-600/25 bg-emerald-500/[0.04] p-4 transition-all">
+                <label htmlFor="notifyWhatsApp" className="flex items-start gap-3.5 cursor-pointer">
+                  <input
+                    id="notifyWhatsApp"
+                    type="checkbox"
+                    {...register('notifyWhatsApp')}
+                    className="mt-1 h-4 w-4 rounded border-emerald-600/40 text-emerald-600 accent-emerald-600 focus:ring-emerald-500"
+                  />
+                  <div className="flex-1 space-y-1">
+                    <div className="flex flex-wrap items-center gap-2">
+                      <span className="flex items-center gap-1.5 font-semibold text-foreground text-sm">
+                        <MessageCircle className="h-4 w-4 text-emerald-600" />
+                        Mises à jour et suivi en direct sur WhatsApp & SMS
+                      </span>
+                      <Badge variant="outline" className="border-emerald-500/30 bg-emerald-500/10 text-emerald-700 dark:text-emerald-400 text-[10px] font-medium">
+                        Recommandé Tchad
+                      </Badge>
+                    </div>
+                    <p className="text-xs text-muted-foreground leading-relaxed">
+                      Recevez les confirmations clés sur votre mobile : préparation du colis, fret aérien/maritime, dédouanement et contact du livreur à N'Djamena.
+                    </p>
+                  </div>
+                </label>
+              </div>
             </div>
           </section>
 

@@ -57,6 +57,8 @@ export async function POST(req: Request) {
         delivery_instructions: body.delivery_instructions ?? null,
         payment_method: paymentMethod,
         currency: body.currency ?? 'XAF',
+        notify_whatsapp: body.notify_whatsapp ?? true,
+        whatsapp_phone: body.whatsapp_phone ?? null,
         items: body.items.map((i: any) => ({
           product_id: i.product_id,
           variant_id: i.variant_id ?? null,

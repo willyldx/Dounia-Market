@@ -3,9 +3,10 @@
 import { Suspense, useEffect, useRef, useState } from 'react'
 import Link from 'next/link'
 import { useSearchParams } from 'next/navigation'
-import { CheckCircle2, XCircle, Loader2, Clock, Banknote, Smartphone, Building2 } from 'lucide-react'
+import { CheckCircle2, XCircle, Loader2, Clock, Banknote, Smartphone, Building2, MessageCircle } from 'lucide-react'
 import { useCart } from '@/stores/cart'
 import { Button } from '@/components/ui/button'
+import { getOrderWhatsAppFollowupUrl } from '@/lib/whatsapp'
 
 type Status = 'loading' | 'success' | 'failed' | 'missing'
 
@@ -99,6 +100,46 @@ function ConfirmationContent() {
           <div className="mt-5 rounded-xl border border-border bg-secondary/30 p-4 text-center">
             <span className="text-xs uppercase tracking-wider text-muted-foreground">Référence de commande</span>
             <div className="mt-1 font-mono text-lg font-bold text-foreground">{orderReference}</div>
+          </div>
+        )}
+
+        {orderReference && (
+          <div className="mt-5 w-full rounded-2xl border border-emerald-500/25 bg-emerald-500/[0.04] p-5 text-left">
+            <div className="flex items-center gap-3">
+              <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-emerald-600 text-white shadow-sm">
+                <MessageCircle className="h-5 w-5" />
+              </div>
+              <div className="flex-1">
+                <h3 className="font-semibold text-foreground text-sm">
+                  Notifications de suivi WhatsApp & SMS
+                </h3>
+                <p className="text-xs text-muted-foreground">
+                  Canal d'alerte direct activé pour votre commande
+                </p>
+              </div>
+            </div>
+
+            <p className="mt-3 text-xs leading-relaxed text-muted-foreground">
+              Vous recevrez les avis d'avancement par SMS et WhatsApp. Vous pouvez également ouvrir une conversation directe avec notre cellule logistique pour toute question.
+            </p>
+
+            <div className="mt-4">
+              <Button
+                asChild
+                size="sm"
+                className="w-full sm:w-auto bg-emerald-600 text-white hover:bg-emerald-700 shadow-sm"
+              >
+                <a
+                  href={getOrderWhatsAppFollowupUrl(orderReference)}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center justify-center gap-2"
+                >
+                  <MessageCircle className="h-4 w-4" />
+                  Recevoir mon reçu et contacter sur WhatsApp
+                </a>
+              </Button>
+            </div>
           </div>
         )}
 

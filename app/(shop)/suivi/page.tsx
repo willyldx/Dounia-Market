@@ -1,12 +1,14 @@
 'use client'
 
-import { useState } from 'react'
+import { Suspense, useEffect, useState } from 'react'
+import { useSearchParams } from 'next/navigation'
 import {
   AlertCircle,
   Clock,
   ExternalLink,
   Loader2,
   MapPin,
+  MessageCircle,
   Plane,
   ShieldCheck,
   Ship,
@@ -20,15 +22,24 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Badge } from '@/components/ui/badge'
+import { getOrderWhatsAppFollowupUrl } from '@/lib/whatsapp'
 
-export default function SuiviPage() {
-  const [reference, setReference] = useState('')
+function SuiviContent() {
+  const searchParams = useSearchParams()
+  const initialRef = searchParams.get('reference') || searchParams.get('ref') || ''
+
+  const [reference, setReference] = useState(initialRef)
   const [state, setState] = useState<'idle' | 'loading' | 'found' | 'notfound' | 'error'>('idle')
   const [order, setOrder] = useState<CustomerOrder | null>(null)
 
-  async function handleSubmit(e: React.FormEvent) {
-    e.preventDefault()
-    const ref = reference.trim()
+  useEffect(() => {
+    if (initialRef && initialRef.trim().length > 0) {
+      setReference(initialRef)
+      loadTracking(initialRef.trim())
+    }
+  }, [initialRef])
+
+  async function loadTracking(ref: string) {
     if (!ref) return
     setState('loading')
     setOrder(null)
@@ -43,6 +54,13 @@ export default function SuiviPage() {
     } catch {
       setState('error')
     }
+  }
+
+  async function handleSubmit(e: React.FormEvent) {
+    e.preventDefault()
+    const ref = reference.trim()
+    if (!ref) return
+    await loadTracking(ref)
   }
 
   const fulfillment = order?.fulfillments?.[0] || null
@@ -131,7 +149,7 @@ export default function SuiviPage() {
                     <p className="text-muted-foreground">
                       Destinataire :{' '}
                       {order.recipient && <span className="font-medium text-foreground">{order.recipient}</span>}
-                      {order.recipient && order.city && ' — '}
+                      {order.recipient && order.city && ' - '}
                       {order.city}
                       {order.address && ` (${order.address})`}
                     </p>
@@ -195,6 +213,37 @@ export default function SuiviPage() {
                 <div className="mt-6">
                   <OrderTimeline order={order} />
                 </div>
+
+                {/* Bloc WhatsApp direct pour cette commande */}
+                <div className="mt-6 rounded-xl border border-emerald-500/25 bg-emerald-500/[0.04] p-4">
+                  <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+                    <div className="flex items-center gap-2.5">
+                      <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-emerald-600 text-white">
+                        <MessageCircle className="h-4 w-4" />
+                      </div>
+                      <div>
+                        <p className="text-sm font-semibold text-foreground">
+                          Besoin d'un point en direct sur ce colis ?
+                        </p>
+                        <p className="text-xs text-muted-foreground">
+                          Contactez directement notre cellule logistique WhatsApp à N'Djamena.
+                        </p>
+                      </div>
+                    </div>
+
+                    <Button asChild size="sm" className="bg-emerald-600 text-white hover:bg-emerald-700 shrink-0">
+                      <a
+                        href={getOrderWhatsAppFollowupUrl(order.reference || reference, order.recipient)}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-1.5"
+                      >
+                        <MessageCircle className="h-3.5 w-3.5" />
+                        Écrire sur WhatsApp
+                      </a>
+                    </Button>
+                  </div>
+                </div>
               </div>
 
               {/* Articles de la commande */}
@@ -207,7 +256,7 @@ export default function SuiviPage() {
                         <span className="font-medium">
                           {it.title}
                           {it.variantTitle && (
-                            <span className="text-muted-foreground"> — {it.variantTitle}</span>
+                            <span className="text-muted-foreground"> ({it.variantTitle})</span>
                           )}
                         </span>
                         <span className="shrink-0 text-muted-foreground">x{it.quantity}</span>
@@ -221,5 +270,19 @@ export default function SuiviPage() {
         </div>
       </div>
     </div>
+  )
+}
+
+export default function SuiviPage() {
+  return (
+    <Suspense
+      fallback={
+        <div className="container-page py-16 text-center">
+          <Loader2 className="mx-auto h-8 w-8 animate-spin text-primary" strokeWidth={1.75} />
+        </div>
+      }
+    >
+      <SuiviContent />
+    </Suspense>
   )
 }
