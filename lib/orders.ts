@@ -134,6 +134,8 @@ export function normalizeOrder(raw: any): CustomerOrder {
     city: str(o.city) ?? str(address?.city) ?? str(o.recipient_city) ?? str(o.shipping_city),
     deliveryInstructions: str(o.delivery_instructions),
     returns: rawReturns.map(normalizeReturn),
+    scans: Array.isArray(o.scans) ? o.scans : [],
+    backendTimeline: Array.isArray(o.timeline) ? o.timeline : [],
   }
 }
 

@@ -214,6 +214,38 @@ function SuiviContent() {
                   <OrderTimeline order={order} />
                 </div>
 
+                {/* Historique des checkpoints et scans réels enregistrés */}
+                {order.scans && order.scans.length > 0 && (
+                  <div className="mt-6 border-t border-border pt-5">
+                    <h3 className="text-xs font-bold uppercase tracking-wider text-muted-foreground flex items-center gap-1.5 mb-3">
+                      <MapPin className="h-3.5 w-3.5 text-primary" />
+                      Journal des scans logistiques officiels ({order.scans.length})
+                    </h3>
+                    <div className="space-y-2.5">
+                      {order.scans.map((scan, idx) => (
+                        <div
+                          key={idx}
+                          className="flex items-start justify-between gap-3 p-3 rounded-xl border border-border/70 bg-muted/20 text-xs"
+                        >
+                          <div className="space-y-0.5">
+                            <p className="font-semibold text-foreground flex items-center gap-1.5">
+                              <span className="w-1.5 h-1.5 rounded-full bg-primary shrink-0" />
+                              {scan.stage_label || scan.stage}
+                            </p>
+                            <p className="text-muted-foreground text-[11px]">{scan.location}</p>
+                            {scan.notes && (
+                              <p className="text-neutral-500 text-[10px] italic">Note : {scan.notes}</p>
+                            )}
+                          </div>
+                          <span className="font-mono text-[11px] text-muted-foreground shrink-0">
+                            {scan.scanned_at}
+                          </span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
                 {/* Bloc WhatsApp direct pour cette commande */}
                 <div className="mt-6 rounded-xl border border-emerald-500/25 bg-emerald-500/[0.04] p-4">
                   <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">

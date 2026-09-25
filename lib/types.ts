@@ -118,6 +118,24 @@ export interface CustomerOrder {
   city?: string
   deliveryInstructions?: string
   returns: OrderReturn[]
+  scans?: LogisticsParcelScan[]
+  backendTimeline?: BackendTimelineItem[]
+}
+
+export interface LogisticsParcelScan {
+  stage: string
+  stage_label: string
+  location: string
+  scanned_at: string
+  notes?: string | null
+}
+
+export interface BackendTimelineItem {
+  key: string
+  title: string
+  completed: boolean
+  date?: string | null
+  detail?: string | null
 }
 
 export type ShippingType = 'local' | 'cross_border_air' | 'cross_border_sea'

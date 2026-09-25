@@ -16,6 +16,8 @@ import {
   Menu,
   X,
   Sprout,
+  Barcode,
+  Plane,
 } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { useAuth } from '@/stores/auth'
@@ -23,6 +25,8 @@ import { useAuth } from '@/stores/auth'
 const NAV = [
   { href: '/admin', label: "Vue d'ensemble", icon: LayoutDashboard, exact: true },
   { href: '/admin/commandes', label: 'Commandes', icon: Package },
+  { href: '/admin/logistique/scan', label: 'Terminal Scan', icon: Barcode },
+  { href: '/admin/logistique/manifestes', label: 'Manifestes Fret', icon: Plane },
   { href: '/admin/stocks', label: 'Stocks', icon: Warehouse },
   { href: '/admin/livreurs', label: 'Livreurs', icon: Truck },
   { href: '/admin/clients', label: 'Clients', icon: Users },
